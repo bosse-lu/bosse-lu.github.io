@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+.homelink{display:inline-block;margin:0 auto 8px;font:600 14px/1.4 "Atkinson Hyperlegible",Verdana,sans-serif;color:inherit;opacity:.75;text-decoration:none}
+.homelink:hover{opacity:1;text-decoration:underline}.homebar{max-width:780px;margin:0 auto}</style>
+</head>
+<body>
+<title>Ed Sounds Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Layout: one verb or sentence card at a time, a strip of item chips above, rule card + teacher notes below */
+:root{
+  --paper:#f3f5fb; --card:#ffffff; --ink:#1b2340; --muted:#5b6380; --line:#d9ddea;
+  --accent:#2f4fd8; --accent-soft:#e3e8ff; --mark:#ffd23f; --onmark:#1b2340;
+  --good:#1f8a55; --good-soft:#dff3e8; --bad:#c2412d; --bad-soft:#fbe5df;
+  --snd-t:#2f4fd8; --snd-d:#8a3fc7; --snd-id:#c27a00;
+  --display:"Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", Verdana, system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11152a; --card:#1a1f37; --ink:#e8ebf7; --muted:#9aa1bd; --line:#2d3456;
+  --accent:#8ea2ff; --accent-soft:#262e57; --mark:#f2c418; --onmark:#1b2340;
+  --good:#4cc38a; --good-soft:#173a2b; --bad:#f0785f; --bad-soft:#3d2120;
+  --snd-t:#8ea2ff; --snd-d:#c99af0; --snd-id:#f2c418; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11152a; --card:#1a1f37; --ink:#e8ebf7; --muted:#9aa1bd; --line:#2d3456;
+  --accent:#8ea2ff; --accent-soft:#262e57; --mark:#f2c418; --onmark:#1b2340;
+  --good:#4cc38a; --good-soft:#173a2b; --bad:#f0785f; --bad-soft:#3d2120;
+  --snd-t:#8ea2ff; --snd-d:#c99af0; --snd-id:#f2c418; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,6vw,2.6rem);line-height:1;margin:0;letter-spacing:-.02em}
+h1 span{background:linear-gradient(transparent 55%,var(--mark) 55%)}
+.sub{color:var(--muted);margin:6px 0 0;font-size:.95rem}
+.settings{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.settings label{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+select,button{font:inherit;color:inherit}
+select{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+.score{font-family:var(--mono);font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.legend div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.legend .s{font-family:var(--mono);font-size:1.25rem;font-weight:400}
+.legend .ex{font-size:.82rem;color:var(--muted)}
+.t{color:var(--snd-t)} .d{color:var(--snd-d)} .id{color:var(--snd-id)}
+
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.group-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);align-self:center;padding:0 4px 0 8px;white-space:nowrap}
+.group-label:first-child{padding-left:0}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 11px;font-size:.88rem;cursor:pointer}
+.chip.eval{border-color:var(--accent);color:var(--accent);font-weight:700}
+.evaltext{font-family:var(--display);font-weight:500;font-size:clamp(1.15rem,4.5vw,1.45rem);line-height:1.6;margin:0;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px;text-wrap:pretty}
+.fields{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+.fields label{display:flex;flex-direction:column;gap:4px;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.fields input{font:inherit;font-size:1rem;text-transform:none;letter-spacing:0;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+.fields input:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+.criteria{display:grid;grid-template-columns:1fr auto;gap:4px 16px;font-size:.93rem;background:var(--accent-soft);border-radius:12px;padding:12px 16px}
+.criteria strong{grid-column:1/-1}
+.criteria .pts{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.chip[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip.done-good{border-color:var(--good);box-shadow:inset 0 -3px 0 var(--good)}
+.chip.done-mid{box-shadow:inset 0 -3px 0 var(--mark)}
+.chip.done-bad{border-color:var(--bad);box-shadow:inset 0 -3px 0 var(--bad)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 20px;display:flex;flex-direction:column;gap:22px}
+.meta{display:flex;justify-content:space-between;gap:8px;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.target{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.big{font-family:var(--display);font-weight:500;font-size:clamp(2.2rem,10vw,3.4rem);line-height:1;margin:0}
+.sentence{font-family:var(--display);font-weight:500;font-size:clamp(1.4rem,6vw,2.1rem);line-height:1.3;text-wrap:balance;margin:0}
+.ed{font-weight:800;background:var(--mark);color:var(--onmark);border-radius:6px;padding:0 3px}
+.ipa{font-family:var(--mono);color:var(--muted);font-size:1rem}
+.fr{color:var(--muted);font-size:.95rem;font-style:italic}
+
+.quiz{display:flex;flex-direction:column;gap:10px}
+.prompt{font-weight:700;text-align:center;margin:0}
+.qrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px}
+.qrow .verb{font-family:var(--display);font-weight:800;min-width:90px;text-align:right}
+.opt{border:2px solid var(--line);background:var(--card);border-radius:10px;padding:8px 14px;font-family:var(--mono);font-size:1.05rem;cursor:pointer;min-width:64px}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--good-soft);border-color:var(--good)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad);text-decoration:line-through}
+.hintbtn{align-self:center;background:none;border:none;color:var(--accent);text-decoration:underline;cursor:pointer;font-size:.9rem}
+.feedback{border-radius:10px;padding:10px 14px;font-size:.95rem}
+.feedback.ok{background:var(--good-soft);border-left:4px solid var(--good)}
+.feedback.ko{background:var(--bad-soft);border-left:4px solid var(--bad)}
+.rules{display:flex;flex-direction:column;gap:6px;font-size:.93rem;color:var(--muted)}
+.rules strong{color:var(--ink)}
+.syl{font-family:var(--mono);font-size:.9rem}
+
+.step{display:flex;flex-direction:column;gap:10px;border-top:1px dashed var(--line);padding-top:18px}
+.step h2{margin:0;font-family:var(--display);font-weight:800;font-size:1.05rem;display:flex;align-items:center;gap:10px}
+.step h2 i{font-style:normal;font-family:var(--mono);font-size:.8rem;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:400}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:10px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-weight:700}
+.btn:hover{border-color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.btn.rec{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.rec.on{animation:pulse 1.2s infinite}
+@keyframes pulse{50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.btn.rec.on{animation:none}}
+.btn svg{width:18px;height:18px;flex:none}
+button:focus-visible,select:focus-visible,.upload:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+.hint{font-size:.85rem;color:var(--muted);margin:0}
+.upload{display:inline-flex;align-items:center;gap:8px;border:1px dashed var(--line);border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700}
+.upload input{position:absolute;opacity:0;width:1px;height:1px}
+.heard{font-size:.95rem}
+.heard .w{display:inline-block;padding:1px 6px;margin:2px;border-radius:6px}
+.heard .w.ok{background:var(--good-soft);color:var(--good)}
+.heard .w.ko{background:var(--bad-soft);color:var(--bad);text-decoration:line-through}
+.self{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.self .btn{justify-content:center;font-size:.9rem;padding:10px 8px}
+.self .btn[aria-pressed="true"].g{background:var(--good-soft);border-color:var(--good)}
+.self .btn[aria-pressed="true"].m{background:var(--mark);color:var(--onmark);border-color:var(--mark)}
+.self .btn[aria-pressed="true"].b{background:var(--bad-soft);border-color:var(--bad)}
+.nav{display:flex;justify-content:space-between;gap:8px}
+
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+summary{cursor:pointer;font-weight:700}
+details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.93rem}
+@media (max-width:440px){.fields{grid-template-columns:1fr}.self{grid-template-columns:1fr}.legend{grid-template-columns:1fr}.qrow .verb{min-width:0;width:100%;text-align:center}}
+</style>
+
+<div class="wrap">
+  <div class="homebar"><a class="homelink" href="../">← Toutes les activités</a></div>
+  <header>
+    <div>
+      <h1>Les sons de <span>-ed</span></h1>
+      <p class="sub">Prétérit des verbes réguliers : /t/, /d/ ou /ɪd/ ? Devine, écoute, enregistre-toi.</p>
+    </div>
+    <div class="settings">
+      <label for="accent">Voix</label>
+      <select id="accent"><option value="en-GB">British</option><option value="en-US">American</option></select>
+      <span class="score" id="score"></span>
+    </div>
+  </header>
+
+  <div class="legend" aria-label="Les trois sons">
+    <div><span class="s t">/t/</span><span class="ex">walk<b>ed</b> · 1 syllabe</span></div>
+    <div><span class="s d">/d/</span><span class="ex">play<b>ed</b> · 1 syllabe</span></div>
+    <div><span class="s id">/ɪd/</span><span class="ex">want<b>ed</b> · 2 syllabes</span></div>
+  </div>
+
+  <nav class="chips" id="chips" aria-label="Liste des verbes"></nav>
+
+  <main class="card" id="card"></main>
+
+  <details>
+    <summary>Notes pour le professeur</summary>
+    <ul>
+      <li>18 items (cycle 4, A2) : 15 verbes mélangés (5 en /t/, 5 en /d/, 5 en /ɪd/), puis 3 phrases au prétérit qui en combinent deux.</li>
+      <li>L'erreur visée : prononcer « walk-ÈDE » en deux syllabes. Seuls les verbes terminés par le son /t/ ou /d/ prennent une syllabe de plus.</li>
+      <li>Astuce gorge : main sur la gorge, l'élève dit le dernier son du verbe. Ça vibre (son sonore) → /d/ ; ça ne vibre pas (son sourd) → /t/.</li>
+      <li>La reconnaissance vocale (Chrome ou Edge) dit si le mot a été <i>compris</i>. Elle tolère souvent une terminaison mal prononcée : l'écoute comparée reste essentielle.</li>
+      <li>Si le micro est bloqué, l'élève s'enregistre avec le dictaphone du téléphone puis importe le fichier. Les résultats restent sur l'appareil de l'élève.</li>
+      <li><b>Évaluation finale</b> : l'élève lit un texte de 9 verbes (3 en /t/, 3 en /d/, 3 en /ɪd/), sans modèle audio, s'enregistre puis télécharge un fichier nommé classe_nom_oral-ed. Il le dépose dans le travail à rendre sur Pronote. Le téléchargement fonctionne quand la page est hébergée (ENT, Netlify), pas dans l'aperçu Claude.</li>
+    </ul>
+  </details>
+</div>
+
+<script>
+// a: "t" | "d" | "id" ; stem = part before the -ed spelling ending
+const ITEMS = [
+  {g:"Verbes", w:"walked", stem:"walk", end:"ed", a:"t", ipa:"/wɔːkt/", fr:"marcher", why:"walk finit par le son /k/, un son sourd."},
+  {g:"Verbes", w:"played", stem:"play", end:"ed", a:"d", ipa:"/pleɪd/", fr:"jouer", why:"play finit par une voyelle, un son sonore."},
+  {g:"Verbes", w:"wanted", stem:"want", end:"ed", a:"id", ipa:"/ˈwɒn.tɪd/", fr:"vouloir", why:"want finit par le son /t/."},
+  {g:"Verbes", w:"stopped", stem:"stop", end:"ped", a:"t", ipa:"/stɒpt/", fr:"arrêter", why:"stop finit par le son /p/, un son sourd. On double le p à l'écrit, pas à l'oral."},
+  {g:"Verbes", w:"cleaned", stem:"clean", end:"ed", a:"d", ipa:"/kliːnd/", fr:"nettoyer", why:"clean finit par le son /n/, un son sonore."},
+  {g:"Verbes", w:"needed", stem:"need", end:"ed", a:"id", ipa:"/ˈniː.dɪd/", fr:"avoir besoin", why:"need finit par le son /d/."},
+  {g:"Verbes", w:"watched", stem:"watch", end:"ed", a:"t", ipa:"/wɒtʃt/", fr:"regarder", why:"watch finit par le son /tʃ/ (comme « tch »), un son sourd. Ce n'est pas le son /t/ seul !"},
+  {g:"Verbes", w:"called", stem:"call", end:"ed", a:"d", ipa:"/kɔːld/", fr:"appeler", why:"call finit par le son /l/, un son sonore."},
+  {g:"Verbes", w:"visited", stem:"visit", end:"ed", a:"id", ipa:"/ˈvɪz.ɪ.tɪd/", fr:"visiter", why:"visit finit par le son /t/."},
+  {g:"Verbes", w:"laughed", stem:"laugh", end:"ed", a:"t", ipa:"/lɑːft/", fr:"rire", why:"laugh se prononce /lɑːf/ : il finit par le son /f/, un son sourd. Le « gh » ne s'entend pas comme un g."},
+  {g:"Verbes", w:"lived", stem:"live", end:"d", a:"d", ipa:"/lɪvd/", fr:"habiter, vivre", why:"live finit par le son /v/, un son sonore."},
+  {g:"Verbes", w:"decided", stem:"decide", end:"d", a:"id", ipa:"/dɪˈsaɪ.dɪd/", fr:"décider", why:"decide finit par le son /d/. Le e muet ne compte pas : c'est le son qui décide."},
+  {g:"Verbes", w:"washed", stem:"wash", end:"ed", a:"t", ipa:"/wɒʃt/", fr:"laver", why:"wash finit par le son /ʃ/ (« ch »), un son sourd."},
+  {g:"Verbes", w:"opened", stem:"open", end:"ed", a:"d", ipa:"/ˈəʊ.pənd/", fr:"ouvrir", why:"open finit par le son /n/, un son sonore."},
+  {g:"Verbes", w:"started", stem:"start", end:"ed", a:"id", ipa:"/ˈstɑː.tɪd/", fr:"commencer", why:"start finit par le son /t/."},
+  {g:"Phrases", text:"Yesterday I walked to school and played football.", fr:"Hier, je suis allé à l'école à pied et j'ai joué au foot.", verbs:[{w:"walked",a:"t"},{w:"played",a:"d"}]},
+  {g:"Phrases", text:"We visited London and watched a match.", fr:"Nous avons visité Londres et regardé un match.", verbs:[{w:"visited",a:"id"},{w:"watched",a:"t"}]},
+  {g:"Phrases", text:"She wanted a pizza, so she called her mum.", fr:"Elle voulait une pizza, alors elle a appelé sa mère.", verbs:[{w:"wanted",a:"id"},{w:"called",a:"d"}]}
+];
+ITEMS.forEach(it=>{ if(it.w) it.verbs=[{w:it.w,a:it.a}]; });
+
+const SND={t:"/t/",d:"/d/",id:"/ɪd/"};
+const RULE={
+  t:"<strong class='t'>/t/</strong> après un son <strong>sourd</strong> (p, k, f, s, ch, sh, tch) : pas de syllabe en plus.",
+  d:"<strong class='d'>/d/</strong> après un son <strong>sonore</strong> (voyelle, b, g, v, z, l, m, n, r) : pas de syllabe en plus.",
+  id:"<strong class='id'>/ɪd/</strong> après le son <strong>/t/ ou /d/</strong> : une syllabe en plus."
+};
+const KEY="edlab4e";
+let state={i:0,res:{},guess:{},hint:{}};
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s) state=Object.assign(state,s);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+
+const ico={
+  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l12-7z"/></svg>',
+  slow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>',
+  stop:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
+  ear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9a6 6 0 1 1 12 0c0 4-4 5-4 8a3 3 0 0 1-6 0"/></svg>',
+  file:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 12l3 3 7-7"/></svg>'
+};
+const $=s=>document.querySelector(s);
+const plain=it=>it.w||it.text;
+const guesses=k=>state.guess[k]||{};
+const allGuessed=k=>ITEMS[k].verbs.every(v=>guesses(k)[v.w]);
+
+/* ---------- speech synthesis ---------- */
+let voices=[];
+function loadVoices(){try{voices=speechSynthesis.getVoices()}catch(e){}}
+if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices;}
+function utter(text,rate){
+  const lang=$("#accent").value;
+  const u=new SpeechSynthesisUtterance(text); u.lang=lang; u.rate=rate;
+  const v=voices.find(v=>v.lang.replace("_","-")===lang)||voices.find(v=>v.lang.startsWith("en"));
+  if(v) u.voice=v; return u;
+}
+function speak(text,rate,then){
+  if(!('speechSynthesis' in window)){note("La voix n'est pas disponible sur ce navigateur.");then&&then();return}
+  speechSynthesis.cancel(); const u=utter(text,rate); if(then) u.onend=then; speechSynthesis.speak(u);
+}
+
+/* ---------- recording ---------- */
+let rec=null,chunks=[],myAudioURL=null,myBlob=null,recStream=null;
+const EVAL_I=ITEMS.length;
+const EVAL_TEXT="Last Saturday, I played basketball with my friends. After the match, we walked to the park and watched a film on my phone. Then it started to rain! We wanted pizza, so I called my grandmother. She invited us, we stayed late and we laughed a lot.";
+let ev={name:"",cls:""};
+try{const e=JSON.parse(localStorage.getItem(KEY+"-eval")||"null"); if(e) ev=Object.assign(ev,e);}catch(e){}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+async function toggleRecord(btn){
+  if(rec&&rec.state==="recording"){rec.stop();return}
+  try{recStream=await navigator.mediaDevices.getUserMedia({audio:true})}
+  catch(e){showFallback("Le micro n'est pas accessible ici.");return}
+  chunks=[]; rec=new MediaRecorder(recStream);
+  rec.ondataavailable=e=>chunks.push(e.data);
+  rec.onstop=()=>{recStream.getTracks().forEach(t=>t.stop());
+    const b=new Blob(chunks,{type:rec.mimeType||"audio/webm"}); setMyAudio(URL.createObjectURL(b),b);
+    btn.classList.remove("on"); btn.innerHTML=ico.mic+"Recommencer";};
+  rec.start(); btn.classList.add("on"); btn.innerHTML=ico.stop+"Arrêter";
+}
+function setMyAudio(url,blob){
+  if(myAudioURL) URL.revokeObjectURL(myAudioURL); myAudioURL=url; myBlob=blob||null;
+  ["#playMine","#compare"].forEach(s=>{const b=$(s); if(b) b.disabled=false});
+  updateDl();
+}
+function playMine(){ if(myAudioURL) new Audio(myAudioURL).play(); }
+function showFallback(msg){
+  const f=$("#fallback"); if(!f) return; f.hidden=false;
+  $("#fallbackMsg").textContent=msg+(state.i===EVAL_I
+    ?" Enregistre-toi directement dans Pronote (travail à rendre) en lisant ce texte."
+    :" Enregistre-toi avec le dictaphone de ton téléphone, puis importe le fichier.");
+}
+function safeName(s){return s.trim().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^A-Za-z0-9]+/g,"-").replace(/^-+|-+$/g,"")}
+function fileName(){
+  const t=myBlob?myBlob.type:"";
+  const ext=t.includes("mp4")?"m4a":t.includes("ogg")?"ogg":"webm";
+  return `${safeName(ev.cls)||"classe"}_${safeName(ev.name)}_oral-ed.${ext}`;
+}
+function updateDl(){
+  const b=$("#dl"), h=$("#dlHint"); if(!b) return;
+  const ok=!!myBlob && ev.name.trim().length>1;
+  b.disabled=!ok;
+  if(h) h.textContent=ok?`Ton fichier s'appellera « ${fileName()} ».`:(!ev.name.trim()?"Écris ton prénom et ton nom pour pouvoir télécharger ton fichier.":"Enregistre-toi pour pouvoir télécharger ton fichier.");
+}
+function downloadMine(){
+  if(!myBlob) return;
+  const fn=fileName();
+  const a=document.createElement("a"); a.href=myAudioURL; a.download=fn;
+  document.body.appendChild(a); a.click(); a.remove();
+  $("#dlHint").textContent=`Fichier « ${fn} » téléchargé. Dépose-le maintenant dans le travail à rendre sur Pronote.`;
+}
+function renderEval(){
+  if(myAudioURL){URL.revokeObjectURL(myAudioURL);myAudioURL=null;myBlob=null}
+  $("#card").innerHTML=`
+    <div class="meta"><span>Évaluation finale</span><span>Expression orale</span></div>
+    <p class="prompt">Lis ce texte à voix haute. Fais bien entendre la terminaison -ed de chaque verbe au prétérit.</p>
+    <p class="evaltext" lang="en">${EVAL_TEXT}</p>
+    <div class="criteria">
+      <strong>Ce qui est évalué (sur 10)</strong>
+      <span>Les terminaisons -ed justes : /t/, /d/ ou /ɪd/</span><span class="pts">4 pts</span>
+      <span>Pas de syllabe en trop après les sons /t/ et /d/</span><span class="pts">2 pts</span>
+      <span>Une lecture fluide, sans trop d'hésitations</span><span class="pts">2 pts</span>
+      <span>Une prononciation claire et compréhensible</span><span class="pts">2 pts</span>
+    </div>
+    <section class="step">
+      <h2><i>1</i>Prépare-toi</h2>
+      <p class="hint">Lis le texte deux fois dans ta tête. Repère les 9 verbes au prétérit et demande-toi pour chacun : /t/, /d/ ou /ɪd/ ? Pour l'évaluation, il n'y a pas de modèle à écouter.</p>
+    </section>
+    <section class="step">
+      <h2><i>2</i>Qui es-tu ?</h2>
+      <div class="fields">
+        <label for="evName">Prénom et nom<input id="evName" type="text" autocomplete="name" value="${esc(ev.name)}"></label>
+        <label for="evClass">Classe<input id="evClass" type="text" placeholder="4e B" value="${esc(ev.cls)}"></label>
+      </div>
+    </section>
+    <section class="step">
+      <h2><i>3</i>Enregistre-toi</h2>
+      <div class="row">
+        <button class="btn rec" id="rec">${ico.mic}S'enregistrer</button>
+        <button class="btn" id="playMine" disabled>${ico.play}Me réécouter</button>
+      </div>
+      <p class="hint">Tu peux recommencer autant de fois que tu veux. Garde l'enregistrement dont tu es le plus fier.</p>
+      <div id="fallback" hidden><p class="hint" id="fallbackMsg"></p></div>
+    </section>
+    <section class="step">
+      <h2><i>4</i>Rends ton travail</h2>
+      <div class="row"><button class="btn primary" id="dl" disabled>${ico.file}Télécharger mon enregistrement</button></div>
+      <p class="hint" id="dlHint"></p>
+      <p class="hint">Ensuite, dépose ce fichier dans le travail à rendre sur Pronote.</p>
+    </section>
+    <div class="nav">
+      <button class="btn" id="prev">← Précédent</button>
+    </div>`;
+  updateDl();
+  if(!navigator.mediaDevices||!window.MediaRecorder) showFallback("L'enregistrement n'est pas possible sur ce navigateur.");
+}
+
+/* ---------- speech recognition ---------- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+function norm(s){return s.toLowerCase().replace(/[^a-z' ]/g," ").split(/\s+/).filter(Boolean)}
+function note(m){const h=$("#heard"); if(h) h.textContent=m}
+function listen(btn){
+  const out=$("#heard");
+  if(!SR){out.innerHTML="La vérification automatique marche dans <b>Chrome</b> ou <b>Edge</b>. Ici, compare ton enregistrement avec le modèle.";return}
+  const r=new SR(); r.lang=$("#accent").value; r.maxAlternatives=3; r.interimResults=false;
+  btn.disabled=true; btn.innerHTML=ico.ear+"Je t'écoute… parle !";
+  r.onresult=e=>{
+    const it=ITEMS[state.i];
+    const alts=[...e.results[0]].map(a=>a.transcript);
+    const pool=new Set(alts.flatMap(norm));
+    const target=norm(plain(it));
+    const verbs=it.verbs.map(v=>v.w);
+    const html=target.map(w=>`<span class="w ${pool.has(w)?"ok":"ko"}">${w}</span>`).join(" ");
+    const missedVerb=verbs.filter(v=>!pool.has(v));
+    let msg;
+    if(missedVerb.length===0) msg="Le verbe au prétérit a été reconnu. Vérifie à l'oreille que tu n'as pas ajouté de syllabe.";
+    else {
+      const stems=missedVerb.map(v=>v.replace(/(ed|d)$/,"").replace(/pp$/,"p"));
+      const heardStem=stems.some(s=>pool.has(s)||pool.has(s+"e"));
+      msg=heardStem?"L'ordinateur a entendu le verbe <b>sans terminaison</b> : on n'entend pas ton -ed. Réécoute le modèle.":"Le verbe barré n'a pas été reconnu : réécoute le modèle et réessaie.";
+    }
+    out.innerHTML=`<div>L'ordinateur a entendu : <b>« ${alts[0].replace(/</g,"")} »</b></div><div style="margin-top:6px">${html}</div><p class="hint" style="margin-top:6px">${msg}</p>`;
+  };
+  r.onerror=e=>{
+    if(e.error==="not-allowed"||e.error==="service-not-allowed") out.textContent="Le micro est bloqué ici. Ouvre la page dans Chrome ou Edge pour la vérification automatique.";
+    else if(e.error==="no-speech") out.textContent="Je n'ai rien entendu. Rapproche-toi du micro et réessaie.";
+    else out.textContent="La reconnaissance a échoué ("+e.error+"). Réessaie.";
+  };
+  r.onend=()=>{btn.disabled=false;btn.innerHTML=ico.ear+"Vérifier ma prononciation"};
+  try{r.start()}catch(e){r.onend()}
+}
+
+/* ---------- render ---------- */
+function renderChips(){
+  let html="",last="";
+  ITEMS.forEach((it,k)=>{
+    if(it.g!==last){html+=`<span class="group-label">${it.g}</span>`;last=it.g}
+    const r=state.res[k];
+    html+=`<button class="chip${r?" done-"+r:""}" data-k="${k}" aria-current="${k===state.i}">${it.w||"Phrase "+(k-14)}</button>`;
+  });
+  html+=`<span class="group-label">Évaluation</span><button class="chip eval" data-k="${EVAL_I}" aria-current="${state.i===EVAL_I}">Évaluation finale</button>`;
+  $("#chips").innerHTML=html;
+  $("#score").textContent=`${Object.keys(state.res).length} / ${ITEMS.length} faits`;
+  const cur=$("#chips .chip[aria-current=true]"); if(cur) cur.scrollIntoView({block:"nearest",inline:"center"});
+}
+function markText(it){
+  if(it.w) return `${it.stem}<span class="ed">${it.end}</span>`;
+  let t=it.text;
+  it.verbs.forEach(v=>{const m=v.w.match(/^(.*?)(e?d)$/); t=t.replace(v.w,`${m[1]}<span class="ed">${m[2]}</span>`)});
+  return t;
+}
+function renderCard(){
+  if(state.i===EVAL_I){renderEval();return}
+  const k=state.i,it=ITEMS[k],g=guesses(k),done=allGuessed(k);
+  if(myAudioURL){URL.revokeObjectURL(myAudioURL);myAudioURL=null}
+  const rows=it.verbs.map(v=>{
+    const pick=g[v.w];
+    const opts=["t","d","id"].map(a=>{
+      let c="opt"; if(pick){ if(a===v.a) c+=" right"; else if(a===pick) c+=" wrong"; }
+      return `<button class="${c}" data-verb="${v.w}" data-a="${a}" ${pick?"disabled":""}>${SND[a]}</button>`}).join("");
+    return `<div class="qrow">${it.verbs.length>1?`<span class="verb">${v.w}</span>`:""}${opts}</div>`}).join("");
+  const nRight=it.verbs.filter(v=>g[v.w]===v.a).length;
+  let fb="";
+  if(done){
+    fb = nRight===it.verbs.length
+      ? `<div class="feedback ok">Bravo ! ${it.verbs.map(v=>`<b>${v.w}</b> → <span class="${v.a}">${SND[v.a]}</span>`).join(", ")}.</div>`
+      : `<div class="feedback ko">Attention : ${it.verbs.map(v=>`<b>${v.w}</b> → <span class="${v.a}">${SND[v.a]}</span>`).join(", ")}.</div>`;
+    const sounds=[...new Set(it.verbs.map(v=>v.a))];
+    fb+=`<div class="rules">${it.why?`<div>${it.why}</div>`:""}${sounds.map(a=>`<div>${RULE[a]}</div>`).join("")}</div>`;
+  }
+  const hint=state.hint[k];
+  const top=`<div class="target">
+      ${it.w?`<p class="big">${markText(it)}</p>`:`<p class="sentence">${markText(it)}</p>`}
+      ${done&&it.w?`<div class="ipa">${it.ipa} · <span class="syl">${it.a==="id"?"une syllabe de plus":"pas de syllabe en plus"}</span></div>`:""}
+      <div class="fr">${it.fr}</div></div>
+    <div class="quiz">
+      ${done?"":`<p class="prompt">${it.verbs.length>1?"Comment se prononce -ed dans chaque verbe ?":"Comment se prononce -ed ?"}</p>`}
+      ${rows}
+      ${done?"":(hint?`<p class="hint" style="text-align:center">Main sur la gorge : dis le dernier son du verbe <b>sans -ed</b>. C'est /t/ ou /d/ ? → /ɪd/. Ça vibre ? → /d/. Ça ne vibre pas ? → /t/.</p>`:`<button class="hintbtn" id="hint">Coup de pouce</button>`)}
+      ${fb}
+    </div>`;
+  const locked=!done, self=state.res[k];
+  $("#card").innerHTML=`
+    <div class="meta"><span>${it.g}</span><span>${k+1} / ${ITEMS.length}</span></div>
+    ${top}
+    <section class="step" ${locked?"hidden":""}>
+      <h2><i>1</i>Écoute le modèle</h2>
+      <div class="row"><button class="btn primary" id="play">${ico.play}Écouter</button><button class="btn" id="slow">${ico.slow}Lentement</button></div>
+    </section>
+    <section class="step" ${locked?"hidden":""}>
+      <h2><i>2</i>Enregistre-toi</h2>
+      <div class="row">
+        <button class="btn rec" id="rec">${ico.mic}S'enregistrer</button>
+        <button class="btn" id="playMine" disabled>${ico.play}Me réécouter</button>
+        <button class="btn" id="compare" disabled>Modèle puis moi</button>
+      </div>
+      <div id="fallback" hidden>
+        <p class="hint" id="fallbackMsg"></p>
+        <label class="upload">${ico.file}Importer mon enregistrement<input type="file" id="upload" accept="audio/*"></label>
+      </div>
+    </section>
+    <section class="step" ${locked?"hidden":""}>
+      <h2><i>3</i>Vérification automatique</h2>
+      <div class="row"><button class="btn" id="listen">${ico.ear}Vérifier ma prononciation</button></div>
+      <div class="heard" id="heard"><p class="hint">L'ordinateur te dit quels mots il a compris. Pour la terminaison, fais confiance à ton oreille.</p></div>
+    </section>
+    <section class="step" ${locked?"hidden":""}>
+      <h2><i>4</i>Ma terminaison -ed était…</h2>
+      <div class="self">
+        <button class="btn g" data-r="good" aria-pressed="${self==="good"}">${ico.check}Juste</button>
+        <button class="btn m" data-r="mid" aria-pressed="${self==="mid"}">Presque</button>
+        <button class="btn b" data-r="bad" aria-pressed="${self==="bad"}">À retravailler</button>
+      </div>
+    </section>
+    <div class="nav">
+      <button class="btn" id="prev" ${k===0?"disabled":""}>← Précédent</button>
+      <button class="btn" id="next">${k===ITEMS.length-1?"Évaluation finale →":"Suivant →"}</button>
+    </div>`;
+  if(!navigator.mediaDevices||!window.MediaRecorder) showFallback("L'enregistrement direct n'est pas possible sur ce navigateur.");
+}
+function render(){renderChips();renderCard()}
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button"); if(!t) return;
+  const it=ITEMS[state.i];
+  if(t.classList.contains("chip")){state.i=+t.dataset.k;save();render();return}
+  if(t.classList.contains("opt")){const g=state.guess[state.i]||(state.guess[state.i]={}); if(!g[t.dataset.verb]){g[t.dataset.verb]=t.dataset.a;save();renderCard();} return}
+  if(t.dataset.r){state.res[state.i]=t.dataset.r;save();render();return}
+  switch(t.id){
+    case "hint": state.hint[state.i]=1;save();renderCard();break;
+    case "play": speak(plain(it),0.9);break;
+    case "slow": speak(plain(it),0.55);break;
+    case "rec": toggleRecord(t);break;
+    case "playMine": playMine();break;
+    case "compare": speak(plain(it),0.9,()=>setTimeout(playMine,400));break;
+    case "listen": listen(t);break;
+    case "dl": downloadMine();break;
+    case "prev": state.i--;save();render();break;
+    case "next": state.i++;save();render();break;
+  }
+});
+document.addEventListener("input",e=>{
+  if(e.target.id==="evName"||e.target.id==="evClass"){
+    ev.name=$("#evName").value; ev.cls=$("#evClass").value;
+    try{localStorage.setItem(KEY+"-eval",JSON.stringify(ev))}catch(_){}
+    updateDl();
+  }
+});
+document.addEventListener("change",e=>{
+  if(e.target.id==="upload"&&e.target.files[0]) setMyAudio(URL.createObjectURL(e.target.files[0]),e.target.files[0]);
+  if(e.target.id==="accent"){try{localStorage.setItem(KEY+"-accent",e.target.value)}catch(_){}}
+});
+try{const a=localStorage.getItem(KEY+"-accent"); if(a) $("#accent").value=a;}catch(e){}
+if(!(state.i>=0&&state.i<=EVAL_I)) state.i=0;
+render();
+</script>
+
+</body>
+</html>

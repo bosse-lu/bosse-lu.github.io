@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+.homelink{display:inline-block;margin:0 auto 8px;font:600 14px/1.4 "Atkinson Hyperlegible",Verdana,sans-serif;color:inherit;opacity:.75;text-decoration:none}
+.homelink:hover{opacity:1;text-decoration:underline}.homebar{max-width:780px;margin:0 auto}</style>
+</head>
+<body>
+<title>Stress Lab 4e</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Layout: one word card at a time, a strip of word chips above, teacher notes below */
+:root{
+  --paper:#f3f5fb; --card:#ffffff; --ink:#1b2340; --muted:#5b6380; --line:#d9ddea;
+  --accent:#2f4fd8; --accent-soft:#e3e8ff; --mark:#ffd23f; --onmark:#1b2340;
+  --good:#1f8a55; --good-soft:#dff3e8; --bad:#c2412d; --bad-soft:#fbe5df;
+  --display:"Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", Verdana, system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11152a; --card:#1a1f37; --ink:#e8ebf7; --muted:#9aa1bd; --line:#2d3456;
+  --accent:#8ea2ff; --accent-soft:#262e57; --mark:#f2c418; --onmark:#1b2340;
+  --good:#4cc38a; --good-soft:#173a2b; --bad:#f0785f; --bad-soft:#3d2120; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11152a; --card:#1a1f37; --ink:#e8ebf7; --muted:#9aa1bd; --line:#2d3456;
+  --accent:#8ea2ff; --accent-soft:#262e57; --mark:#f2c418; --onmark:#1b2340;
+  --good:#4cc38a; --good-soft:#173a2b; --bad:#f0785f; --bad-soft:#3d2120; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,6vw,2.6rem);line-height:1;margin:0;letter-spacing:-.02em}
+h1 span{background:linear-gradient(transparent 55%,var(--mark) 55%);color:inherit}
+.sub{color:var(--muted);margin:6px 0 0;font-size:.95rem}
+.settings{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.settings label{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+select,button{font:inherit;color:inherit}
+select{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+.score{font-family:var(--mono);font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.group-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);align-self:center;padding:0 4px 0 8px;white-space:nowrap}
+.group-label:first-child{padding-left:0}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 11px;font-size:.88rem;cursor:pointer}
+.chip[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip.done-good{border-color:var(--good);box-shadow:inset 0 -3px 0 var(--good)}
+.chip.done-mid{box-shadow:inset 0 -3px 0 var(--mark)}
+.chip.done-bad{border-color:var(--bad);box-shadow:inset 0 -3px 0 var(--bad)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 20px;display:flex;flex-direction:column;gap:22px}
+.meta{display:flex;justify-content:space-between;gap:8px;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.target{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.syls{display:flex;flex-wrap:wrap;justify-content:center;gap:4px}
+.syl{display:flex;flex-direction:column;align-items:center;gap:6px;border:none;background:transparent;cursor:pointer;padding:6px 6px 8px;border-radius:10px;min-width:44px}
+.syl:hover{background:var(--accent-soft)}
+.syl .dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--line);transition:all .2s}
+.syl .t{font-family:var(--display);font-weight:500;font-size:clamp(1.9rem,8vw,3rem);line-height:1}
+.syl.stress .dot{width:22px;height:22px;background:var(--ink);border-color:var(--ink)}
+.syl.stress .t{font-weight:800;background:var(--mark);color:var(--onmark);border-radius:6px;padding:0 4px}
+.syl.wrong{background:var(--bad-soft)}
+.revealed .syl{cursor:default}
+.revealed .syl:hover{background:transparent}
+.revealed .syl.wrong{background:var(--bad-soft)}
+.sentence{font-family:var(--display);font-weight:500;font-size:clamp(1.5rem,6vw,2.2rem);line-height:1.25;text-wrap:balance;margin:0}
+.sentence b{font-weight:800;background:var(--mark);color:var(--onmark);border-radius:5px;padding:0 3px}
+.ipa{font-family:var(--mono);color:var(--muted);font-size:1rem}
+.fr{color:var(--muted);font-size:.95rem;font-style:italic}
+.pattern{font-family:var(--mono);letter-spacing:.15em;font-size:.95rem}
+
+.prompt{font-weight:700;text-align:center;margin:0}
+.feedback{border-radius:10px;padding:10px 14px;font-size:.95rem}
+.feedback.ok{background:var(--good-soft);color:var(--ink);border-left:4px solid var(--good)}
+.feedback.ko{background:var(--bad-soft);color:var(--ink);border-left:4px solid var(--bad)}
+.rule{font-size:.92rem;color:var(--muted)}
+.rule strong{color:var(--ink)}
+
+.step{display:flex;flex-direction:column;gap:10px;border-top:1px dashed var(--line);padding-top:18px}
+.step h2{margin:0;font-family:var(--display);font-weight:800;font-size:1.05rem;display:flex;align-items:center;gap:10px}
+.step h2 i{font-style:normal;font-family:var(--mono);font-size:.8rem;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:400}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:10px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-weight:700}
+.btn:hover{border-color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.btn.rec{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.rec.on{animation:pulse 1.2s infinite}
+@keyframes pulse{50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.btn.rec.on{animation:none}.syl .dot{transition:none}}
+.btn svg{width:18px;height:18px;flex:none}
+button:focus-visible,select:focus-visible,.upload:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+.hint{font-size:.85rem;color:var(--muted);margin:0}
+.upload{display:inline-flex;align-items:center;gap:8px;border:1px dashed var(--line);border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700}
+.upload input{position:absolute;opacity:0;width:1px;height:1px}
+.heard{font-size:.95rem}
+.heard .w{display:inline-block;padding:1px 6px;margin:2px;border-radius:6px}
+.heard .w.ok{background:var(--good-soft);color:var(--good)}
+.heard .w.ko{background:var(--bad-soft);color:var(--bad);text-decoration:line-through}
+.self{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.self .btn{justify-content:center;font-size:.9rem;padding:10px 8px}
+.self .btn[aria-pressed="true"].g{background:var(--good-soft);border-color:var(--good)}
+.self .btn[aria-pressed="true"].m{background:var(--mark);color:var(--onmark);border-color:var(--mark)}
+.self .btn[aria-pressed="true"].b{background:var(--bad-soft);border-color:var(--bad)}
+.nav{display:flex;justify-content:space-between;gap:8px}
+
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+summary{cursor:pointer;font-weight:700}
+details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.93rem}
+@media (max-width:440px){.self{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap">
+  <div class="homebar"><a class="homelink" href="../">← Toutes les activités</a></div>
+  <header>
+    <div>
+      <h1>Stress <span>Lab</span></h1>
+      <p class="sub">Trouve la syllabe accentuée, écoute, enregistre-toi, compare.</p>
+    </div>
+    <div class="settings">
+      <label for="accent">Voix</label>
+      <select id="accent"><option value="en-GB">British</option><option value="en-US">American</option></select>
+      <span class="score" id="score">0 / 16</span>
+    </div>
+  </header>
+
+  <nav class="chips" id="chips" aria-label="Liste des mots"></nav>
+
+  <main class="card" id="card"></main>
+
+  <details>
+    <summary>Notes pour le professeur</summary>
+    <ul>
+      <li>Série de 16 items (niveau A2, cycle 4) : familles <b>-graph / -graphy</b>, mots en <b>-tion</b>, mots en <b>-ic</b>, puis trois phrases.</li>
+      <li>La reconnaissance vocale fonctionne dans Chrome ou Edge. Elle dit si le mot a été <i>compris</i>, pas si l'accent tonique est juste : l'accentuation se travaille par l'écoute comparée et l'auto-évaluation.</li>
+      <li>Si le micro est bloqué, l'élève s'enregistre avec l'appli dictaphone du téléphone puis importe le fichier.</li>
+      <li>Les résultats restent sur l'appareil de l'élève. Demandez une capture d'écran de la liste de mots (pastilles vertes, jaunes, rouges) pour le suivi.</li>
+    </ul>
+  </details>
+</div>
+
+<script>
+const ITEMS = [
+  {g:"-graph", w:"photograph", syl:["pho","to","graph"], s:0, ipa:"/ˈfəʊ.tə.ɡrɑːf/", fr:"une photo", rule:"<strong>photograph</strong> : accent au début. Mais attention, il bouge quand le mot s'allonge !"},
+  {g:"-graph", w:"photographer", syl:["pho","to","gra","pher"], s:1, ipa:"/fəˈtɒɡ.rə.fə/", fr:"un photographe", rule:"Avec <strong>-grapher</strong> et <strong>-graphy</strong>, l'accent tombe sur la syllabe <strong>juste avant</strong>."},
+  {g:"-graph", w:"photographic", syl:["pho","to","gra","phic"], s:2, ipa:"/ˌfəʊ.təˈɡræf.ɪk/", fr:"photographique", rule:"Avec <strong>-ic</strong>, l'accent tombe sur la syllabe <strong>juste avant</strong> : pho-to-<strong>GRA</strong>-phic."},
+  {g:"-graph", w:"geography", syl:["ge","o","gra","phy"], s:1, ipa:"/dʒiˈɒɡ.rə.fi/", fr:"la géographie", rule:"<strong>-graphy</strong> : accent sur la syllabe juste avant, ge-<strong>O</strong>-gra-phy."},
+  {g:"-graph", w:"biography", syl:["bi","o","gra","phy"], s:1, ipa:"/baɪˈɒɡ.rə.fi/", fr:"une biographie", rule:"Même règle que geography : bi-<strong>O</strong>-gra-phy."},
+  {g:"-tion", w:"information", syl:["in","for","ma","tion"], s:2, ipa:"/ˌɪn.fəˈmeɪ.ʃən/", fr:"des informations", rule:"<strong>-tion</strong> : l'accent tombe toujours sur la syllabe <strong>juste avant</strong>."},
+  {g:"-tion", w:"education", syl:["e","du","ca","tion"], s:2, ipa:"/ˌedʒ.uˈkeɪ.ʃən/", fr:"l'éducation", rule:"<strong>-tion</strong> : e-du-<strong>CA</strong>-tion. En français, on accentue la fin ; en anglais, non."},
+  {g:"-tion", w:"competition", syl:["com","pe","ti","tion"], s:2, ipa:"/ˌkɒm.pəˈtɪʃ.ən/", fr:"une compétition", rule:"<strong>-tion</strong> : com-pe-<strong>TI</strong>-tion."},
+  {g:"-tion", w:"pronunciation", syl:["pro","nun","ci","a","tion"], s:3, ipa:"/prəˌnʌn.siˈeɪ.ʃən/", fr:"la prononciation", rule:"<strong>-tion</strong> : pro-nun-ci-<strong>A</strong>-tion. Et on dit « nun », pas « noun » !"},
+  {g:"-ic", w:"fantastic", syl:["fan","tas","tic"], s:1, ipa:"/fænˈtæs.tɪk/", fr:"fantastique", rule:"<strong>-ic</strong> : l'accent tombe sur la syllabe <strong>juste avant</strong>."},
+  {g:"-ic", w:"electric", syl:["e","lec","tric"], s:1, ipa:"/ɪˈlek.trɪk/", fr:"électrique", rule:"<strong>-ic</strong> : e-<strong>LEC</strong>-tric."},
+  {g:"-ic", w:"scientific", syl:["sci","en","ti","fic"], s:2, ipa:"/ˌsaɪ.ənˈtɪf.ɪk/", fr:"scientifique", rule:"<strong>-ic</strong> : sci-en-<strong>TI</strong>-fic."},
+  {g:"-ic", w:"economic", syl:["e","co","no","mic"], s:2, ipa:"/ˌiː.kəˈnɒm.ɪk/", fr:"économique", rule:"<strong>-ic</strong> : e-co-<strong>NO</strong>-mic."},
+  {g:"Phrases", sentence:"My <b>pho</b>tographer is fan<b>tas</b>tic!", fr:"Mon photographe est génial !", rule:"Mets de l'énergie sur les syllabes surlignées et passe vite sur les autres."},
+  {g:"Phrases", sentence:"I need some infor<b>ma</b>tion about ge<b>o</b>graphy.", fr:"J'ai besoin d'informations sur la géographie.", rule:"<strong>some</strong> et <strong>about</strong> sont faibles : on les dit vite."},
+  {g:"Phrases", sentence:"The compe<b>ti</b>tion was scien<b>ti</b>fic and e<b>lec</b>tric!", fr:"La compétition était scientifique et électrisante !", rule:"Trois mots, trois accents à placer. Attention : sci-en-<strong>TI</strong>-fic."}
+];
+
+const KEY="stresslab4e";
+let state={i:0,res:{},guess:{}};
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s) state=Object.assign(state,s);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+
+const ico={
+  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l12-7z"/></svg>',
+  slow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>',
+  stop:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
+  ear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9a6 6 0 1 1 12 0c0 4-4 5-4 8a3 3 0 0 1-6 0"/></svg>',
+  file:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 12l3 3 7-7"/></svg>'
+};
+const $=s=>document.querySelector(s);
+const plain=it=>it.w || it.sentence.replace(/<[^>]+>/g,"").replace("…","");
+
+/* ---------- speech synthesis ---------- */
+let voices=[];
+function loadVoices(){try{voices=speechSynthesis.getVoices()}catch(e){}}
+if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices;}
+function speak(text,rate){
+  if(!('speechSynthesis' in window)){toast("La voix n'est pas disponible sur ce navigateur.");return}
+  speechSynthesis.cancel();
+  const lang=$("#accent").value;
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang=lang; u.rate=rate;
+  const v=voices.find(v=>v.lang.replace("_","-")===lang) || voices.find(v=>v.lang.startsWith("en"));
+  if(v) u.voice=v;
+  speechSynthesis.speak(u);
+}
+
+/* ---------- recording ---------- */
+let rec=null, chunks=[], myAudioURL=null, recStream=null;
+async function toggleRecord(btn){
+  if(rec && rec.state==="recording"){rec.stop();return}
+  try{
+    recStream=await navigator.mediaDevices.getUserMedia({audio:true});
+  }catch(e){showFallback("Le micro n'est pas accessible ici.");return}
+  chunks=[]; rec=new MediaRecorder(recStream);
+  rec.ondataavailable=e=>chunks.push(e.data);
+  rec.onstop=()=>{
+    recStream.getTracks().forEach(t=>t.stop());
+    setMyAudio(URL.createObjectURL(new Blob(chunks,{type:rec.mimeType||"audio/webm"})));
+    btn.classList.remove("on"); btn.innerHTML=ico.mic+"Recommencer";
+  };
+  rec.start(); btn.classList.add("on"); btn.innerHTML=ico.stop+"Arrêter";
+}
+function setMyAudio(url){
+  if(myAudioURL) URL.revokeObjectURL(myAudioURL);
+  myAudioURL=url;
+  const b=$("#playMine"); if(b) b.disabled=false;
+  const c=$("#compare"); if(c) c.disabled=false;
+}
+function playMine(then){
+  if(!myAudioURL) return;
+  const a=new Audio(myAudioURL); a.onended=()=>then&&then(); a.play();
+}
+function showFallback(msg){
+  const f=$("#fallback"); if(!f) return;
+  f.hidden=false; $("#fallbackMsg").textContent=msg+" Enregistre-toi avec le dictaphone de ton téléphone, puis importe le fichier.";
+}
+
+/* ---------- speech recognition ---------- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+function norm(s){return s.toLowerCase().replace(/[^a-z' ]/g," ").split(/\s+/).filter(Boolean)}
+function listen(btn){
+  const out=$("#heard");
+  if(!SR){out.innerHTML="La vérification automatique marche dans <b>Chrome</b> ou <b>Edge</b>. Ici, compare ton enregistrement avec le modèle.";return}
+  const r=new SR(); r.lang=$("#accent").value; r.maxAlternatives=3; r.interimResults=false;
+  btn.disabled=true; btn.innerHTML=ico.ear+"Je t'écoute… parle !";
+  r.onresult=e=>{
+    const alts=[...e.results[0]].map(a=>a.transcript);
+    const target=norm(plain(ITEMS[state.i]));
+    const heardWords=norm(alts[0]);
+    const pool=new Set(alts.flatMap(norm));
+    const html=target.map(w=>`<span class="w ${pool.has(w)?"ok":"ko"}">${w}</span>`).join(" ");
+    const okCount=target.filter(w=>pool.has(w)).length;
+    out.innerHTML=`<div>L'ordinateur a entendu : <b>« ${alts[0]} »</b></div><div style="margin-top:6px">${html}</div>`+
+      `<p class="hint" style="margin-top:6px">${okCount===target.length?"Tous les mots ont été compris. Vérifie maintenant ton accentuation à l'oreille.":"Les mots barrés n'ont pas été reconnus : réécoute le modèle et réessaie."}</p>`;
+  };
+  r.onerror=e=>{
+    if(e.error==="not-allowed"||e.error==="service-not-allowed"){out.textContent="Le micro est bloqué ici. Ouvre la page dans Chrome ou Edge pour la vérification automatique."}
+    else if(e.error==="no-speech"){out.textContent="Je n'ai rien entendu. Rapproche-toi du micro et réessaie."}
+    else out.textContent="La reconnaissance a échoué ("+e.error+"). Réessaie.";
+  };
+  r.onend=()=>{btn.disabled=false;btn.innerHTML=ico.ear+"Vérifier ma prononciation"};
+  try{r.start()}catch(e){r.onend()}
+}
+
+/* ---------- render ---------- */
+function renderChips(){
+  let html="",last="";
+  ITEMS.forEach((it,k)=>{
+    if(it.g!==last){html+=`<span class="group-label">${it.g}</span>`;last=it.g}
+    const r=state.res[k]; const cls=r?" done-"+r:"";
+    html+=`<button class="chip${cls}" data-k="${k}" aria-current="${k===state.i}">${it.w||"Phrase "+(k-12)}</button>`;
+  });
+  $("#chips").innerHTML=html;
+  const n=Object.keys(state.res).length;
+  $("#score").textContent=`${n} / ${ITEMS.length} faits`;
+  const cur=$("#chips .chip[aria-current=true]"); if(cur) cur.scrollIntoView({block:"nearest",inline:"center"});
+}
+function pattern(it){return it.syl.map((_,k)=>k===it.s?"O":"o").join(" ")}
+function renderCard(){
+  const it=ITEMS[state.i], k=state.i;
+  const guessed=state.guess[k]!==undefined;
+  if(myAudioURL){URL.revokeObjectURL(myAudioURL);myAudioURL=null}
+  let top;
+  if(it.w){
+    const syls=it.syl.map((s,j)=>{
+      let c="syl"; if(guessed&&j===it.s)c+=" stress"; if(guessed&&j===state.guess[k]&&j!==it.s)c+=" wrong";
+      return `<button class="${c}" data-j="${j}" ${guessed?'tabindex="-1"':''} aria-label="syllabe ${s}"><span class="dot"></span><span class="t">${s}</span></button>`}).join("");
+    const fb=!guessed?`<p class="prompt">Touche la syllabe qui porte l'accent.</p>`:
+      (state.guess[k]===it.s?`<div class="feedback ok">Bravo, c'est bien <b>${it.syl[it.s].toUpperCase()}</b>.</div>`:`<div class="feedback ko">Pas tout à fait : l'accent est sur <b>${it.syl[it.s].toUpperCase()}</b>.</div>`);
+    top=`<div class="target ${guessed?"revealed":""}"><div class="syls" id="syls">${syls}</div>
+      ${guessed?`<div class="pattern" title="Schéma accentuel">${pattern(it)}</div><div class="ipa">${it.ipa}</div>`:""}
+      <div class="fr">${it.fr}</div></div>${fb}${guessed?`<p class="rule">${it.rule}</p>`:""}`;
+  } else {
+    top=`<div class="target"><p class="sentence">${it.sentence}</p><div class="fr">${it.fr}</div></div><p class="rule">${it.rule}</p>`;
+  }
+  const locked=it.w&&!guessed;
+  const self=state.res[k];
+  $("#card").innerHTML=`
+    <div class="meta"><span>${it.g}</span><span>${k+1} / ${ITEMS.length}</span></div>
+    ${top}
+    <section class="step" ${locked?'hidden':''}>
+      <h2><i>1</i>Écoute le modèle</h2>
+      <div class="row">
+        <button class="btn primary" id="play">${ico.play}Écouter</button>
+        <button class="btn" id="slow">${ico.slow}Lentement</button>
+      </div>
+    </section>
+    <section class="step" ${locked?'hidden':''}>
+      <h2><i>2</i>Enregistre-toi</h2>
+      <div class="row">
+        <button class="btn rec" id="rec">${ico.mic}S'enregistrer</button>
+        <button class="btn" id="playMine" disabled>${ico.play}Me réécouter</button>
+        <button class="btn" id="compare" disabled>Modèle puis moi</button>
+      </div>
+      <div id="fallback" hidden>
+        <p class="hint" id="fallbackMsg"></p>
+        <label class="upload">${ico.file}Importer mon enregistrement<input type="file" id="upload" accept="audio/*"></label>
+      </div>
+    </section>
+    <section class="step" ${locked?'hidden':''}>
+      <h2><i>3</i>Vérification automatique</h2>
+      <div class="row"><button class="btn" id="listen">${ico.ear}Vérifier ma prononciation</button></div>
+      <div class="heard" id="heard"><p class="hint">L'ordinateur te dit quels mots il a compris. Il ne juge pas l'accent tonique : ça, c'est ton oreille.</p></div>
+    </section>
+    <section class="step" ${locked?'hidden':''}>
+      <h2><i>4</i>Mon accent tonique était…</h2>
+      <div class="self">
+        <button class="btn g" data-r="good" aria-pressed="${self==="good"}">${ico.check}Bien placé</button>
+        <button class="btn m" data-r="mid" aria-pressed="${self==="mid"}">Presque</button>
+        <button class="btn b" data-r="bad" aria-pressed="${self==="bad"}">À retravailler</button>
+      </div>
+    </section>
+    <div class="nav">
+      <button class="btn" id="prev" ${k===0?"disabled":""}>← Précédent</button>
+      <button class="btn" id="next" ${k===ITEMS.length-1?"disabled":""}>Suivant →</button>
+    </div>`;
+  if(!navigator.mediaDevices||!window.MediaRecorder) showFallback("L'enregistrement direct n'est pas possible sur ce navigateur.");
+}
+function render(){renderChips();renderCard()}
+function toast(m){const h=$("#heard"); if(h) h.textContent=m}
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button"); if(!t) return;
+  const it=ITEMS[state.i];
+  if(t.classList.contains("chip")){state.i=+t.dataset.k;save();render();return}
+  if(t.classList.contains("syl")&&state.guess[state.i]===undefined){state.guess[state.i]=+t.dataset.j;save();renderCard();return}
+  switch(t.id){
+    case "play": speak(plain(it),0.9);break;
+    case "slow": speak(plain(it),0.55);break;
+    case "rec": toggleRecord(t);break;
+    case "playMine": playMine();break;
+    case "compare":{
+      if(!('speechSynthesis' in window)){playMine();break}
+      speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance(plain(it)); u.lang=$("#accent").value; u.rate=0.9;
+      const v=voices.find(v=>v.lang.replace("_","-")===u.lang); if(v) u.voice=v;
+      u.onend=()=>setTimeout(()=>playMine(),400); speechSynthesis.speak(u);break}
+    case "listen": listen(t);break;
+    case "prev": state.i--;save();render();break;
+    case "next": state.i++;save();render();break;
+  }
+  if(t.dataset.r){state.res[state.i]=t.dataset.r;save();render();}
+});
+document.addEventListener("change",e=>{
+  if(e.target.id==="upload"&&e.target.files[0]) setMyAudio(URL.createObjectURL(e.target.files[0]));
+  if(e.target.id==="accent"){try{localStorage.setItem(KEY+"-accent",e.target.value)}catch(_){}}
+});
+try{const a=localStorage.getItem(KEY+"-accent"); if(a) $("#accent").value=a;}catch(e){}
+if(state.i>=ITEMS.length) state.i=0;
+render();
+</script>
+
+</body>
+</html>
