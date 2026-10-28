@@ -1,6 +1,6 @@
 # English with M. Bosse
 
-Bienvenue ! Ce site regroupe des outils en ligne pour travailler la **prononciation de l'anglais** au collège.
+Bienvenue ! Ce site regroupe des outils en ligne pour travailler la **prononciation de l'anglais** en classe de **5e** au **collège Réeberg Néron**.
 
 Site : https://bosse-lu.github.io
 
@@ -14,4 +14,4 @@ Site : https://bosse-lu.github.io
 
 Ouvre l'activité dans **Chrome** ou **Edge** et autorise le micro. Tu peux écouter, t'enregistrer, te réécouter et vérifier ta prononciation. Tes enregistrements restent sur ton appareil : rien n'est envoyé ni conservé en ligne.
 
-*Site créé par M. Bosse, professeur d'anglais, pour ses élèves.*
+*Site créé par M. Bosse, professeur d'anglais au collège Réeberg Néron, pour ses élèves de 5e.*

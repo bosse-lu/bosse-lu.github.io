@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
-.homelink{display:inline-block;margin:0 auto 8px;font:600 14px/1.4 "Atkinson Hyperlegible",Verdana,sans-serif;color:inherit;opacity:.75;text-decoration:none}
+.homelink{display:inline-block;margin:0 auto 4px;font:600 14px/1.4 "Atkinson Hyperlegible",Verdana,sans-serif;color:inherit;opacity:.75;text-decoration:none}
 .homelink:hover{opacity:1;text-decoration:underline}.homebar{max-width:780px;margin:0 auto}</style>
 </head>
 <body>
@@ -129,10 +129,17 @@ details{background:var(--card);border:1px solid var(--line);border-radius:12px;p
 summary{cursor:pointer;font-weight:700}
 details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.93rem}
 @media (max-width:440px){.fields{grid-template-columns:1fr}.self{grid-template-columns:1fr}.legend{grid-template-columns:1fr}.qrow .verb{min-width:0;width:100%;text-align:center}}
+.bunting{position:relative;display:flex;justify-content:center;gap:clamp(4px,1.6vw,12px);overflow:hidden;padding:10px 0 4px;margin:0 0 4px}
+.bunting::before{content:"";position:absolute;left:0;right:0;top:9px;border-top:2px dashed var(--line)}
+.pennant{flex:none;position:relative;transform:rotate(var(--r));transform-origin:50% 0}
+.pennant .flag{display:block;width:clamp(28px,8vw,44px);height:clamp(19px,5.3vw,29px);border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.28)}
+@media (prefers-reduced-motion:no-preference){.pennant{animation:sway 4s ease-in-out infinite alternate}.pennant:nth-child(2n){animation-delay:-2s}}
+@keyframes sway{to{transform:rotate(calc(var(--r) * -1))}}
 </style>
 
 <div class="wrap">
-  <div class="homebar"><a class="homelink" href="../">← Toutes les activités</a></div>
+  <div class="homebar"><a class="homelink" href="../">← Toutes les activités · Collège Réeberg Néron</a></div>
+  <div data-bunting></div>
   <header>
     <div>
       <h1>Les sons de <span>-ed</span></h1>
@@ -158,7 +165,7 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
   <details>
     <summary>Notes pour le professeur</summary>
     <ul>
-      <li>18 items (cycle 4, A2) : 15 verbes mélangés (5 en /t/, 5 en /d/, 5 en /ɪd/), puis 3 phrases au prétérit qui en combinent deux.</li>
+      <li>Classe de 5e : le programme 2025 cite explicitement la prononciation de -ed (<i>played, wanted, watched</i>). 18 items : 15 verbes mélangés (5 en /t/, 5 en /d/, 5 en /ɪd/), puis 3 phrases au prétérit qui en combinent deux.</li>
       <li>L'erreur visée : prononcer « walk-ÈDE » en deux syllabes. Seuls les verbes terminés par le son /t/ ou /d/ prennent une syllabe de plus.</li>
       <li>Astuce gorge : main sur la gorge, l'élève dit le dernier son du verbe. Ça vibre (son sonore) → /d/ ; ça ne vibre pas (son sourd) → /t/.</li>
       <li>La reconnaissance vocale (Chrome ou Edge) dit si le mot a été <i>compris</i>. Elle tolère souvent une terminaison mal prononcée : l'écoute comparée reste essentielle.</li>
@@ -168,6 +175,70 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
   </details>
 </div>
 
+<script>/* Flags of English-speaking countries, drawn in SVG (no external files) */
+(function () {
+  let uid = 0;
+  const star = (cx, cy, r, n, inner, fill, stroke) => {
+    let pts = [];
+    for (let i = 0; i < n * 2; i++) {
+      const a = -Math.PI / 2 + (i * Math.PI) / n, rr = i % 2 ? r * inner : r;
+      pts.push((cx + rr * Math.cos(a)).toFixed(1) + "," + (cy + rr * Math.sin(a)).toFixed(1));
+    }
+    return `<polygon points="${pts.join(" ")}" fill="${fill}"${stroke ? ` stroke="${stroke}" stroke-width="${(r * 0.18).toFixed(1)}"` : ""}/>`;
+  };
+  // Union Jack in a w x h box (60x30 base)
+  const uj = (w, h) => {
+    const id = "uj" + (++uid);
+    return `<svg x="0" y="0" width="${w}" height="${h}" viewBox="0 0 60 30" preserveAspectRatio="none">
+      <clipPath id="${id}s"><path d="M0,0v30h60V0z"/></clipPath>
+      <clipPath id="${id}t"><path d="M30,15h30v15zv15H0zH0V0zV0h30z"/></clipPath>
+      <g clip-path="url(#${id}s)">
+        <path d="M0,0v30h60V0z" fill="#012169"/>
+        <path d="M0,0L60,30M60,0L0,30" stroke="#fff" stroke-width="6"/>
+        <path d="M0,0L60,30M60,0L0,30" clip-path="url(#${id}t)" stroke="#C8102E" stroke-width="4"/>
+        <path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/>
+        <path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/>
+      </g></svg>`;
+  };
+  const F = {
+    uk: { name: "United Kingdom", vb: "0 0 60 30", svg: () => uj(60, 30) },
+    england: { name: "England", vb: "0 0 50 30", svg: () => `<rect width="50" height="30" fill="#fff"/><rect x="21" width="8" height="30" fill="#CE1124"/><rect y="11" width="50" height="8" fill="#CE1124"/>` },
+    scotland: { name: "Scotland", vb: "0 0 50 30", svg: () => `<rect width="50" height="30" fill="#0065BD"/><path d="M0,0L50,30M50,0L0,30" stroke="#fff" stroke-width="6"/>` },
+    ireland: { name: "Ireland", vb: "0 0 60 30", svg: () => `<rect width="20" height="30" fill="#169B62"/><rect x="20" width="20" height="30" fill="#fff"/><rect x="40" width="20" height="30" fill="#FF883E"/>` },
+    usa: { name: "USA", vb: "0 0 7410 3900", svg: () => {
+      let s = `<rect width="7410" height="3900" fill="#B22234"/>`;
+      for (let i = 1; i < 13; i += 2) s += `<rect y="${i * 300}" width="7410" height="300" fill="#fff"/>`;
+      s += `<rect width="2964" height="2100" fill="#3C3B6E"/>`;
+      for (let r = 0; r < 9; r++) { const n = r % 2 ? 5 : 6; for (let c = 0; c < n; c++) {
+        const x = 247 + c * 494 + (r % 2 ? 247 : 0), y = 210 + r * 210; s += star(x, y, 120, 5, 0.38, "#fff"); } }
+      return s; } },
+    australia: { name: "Australia", vb: "0 0 1000 500", svg: () => `<rect width="1000" height="500" fill="#012169"/>${uj(500, 250)}`
+      + star(250, 375, 75, 7, 0.45, "#fff") + star(750, 425, 37, 7, 0.45, "#fff") + star(625, 210, 37, 7, 0.45, "#fff")
+      + star(750, 80, 37, 7, 0.45, "#fff") + star(865, 180, 37, 7, 0.45, "#fff") + star(805, 290, 20, 5, 0.45, "#fff") },
+    newzealand: { name: "New Zealand", vb: "0 0 1000 500", svg: () => `<rect width="1000" height="500" fill="#012169"/>${uj(500, 250)}`
+      + star(750, 405, 40, 5, 0.4, "#C8102E", "#fff") + star(650, 210, 34, 5, 0.4, "#C8102E", "#fff")
+      + star(750, 90, 34, 5, 0.4, "#C8102E", "#fff") + star(850, 190, 30, 5, 0.4, "#C8102E", "#fff") },
+    jamaica: { name: "Jamaica", vb: "0 0 60 30", svg: () => `<rect width="60" height="30" fill="#009B3A"/><path d="M0,0L30,15L0,30zM60,0L30,15L60,30z" fill="#000"/><path d="M0,0L60,30M60,0L0,30" stroke="#FED100" stroke-width="4"/>` },
+    guyana: { name: "Guyana", vb: "0 0 500 300", svg: () => `<rect width="500" height="300" fill="#009E49"/><path d="M0,0L500,150L0,300z" fill="#fff"/><path d="M0,12L470,150L0,288z" fill="#FCD116"/><path d="M0,0L250,150L0,300z" fill="#000"/><path d="M0,14L227,150L0,286z" fill="#CE1126"/>` },
+  };
+  function flag(code, cls) {
+    const f = F[code];
+    return `<svg class="${cls || "flag"}" viewBox="${f.vb}" role="img" aria-label="${f.name}" preserveAspectRatio="none"><title>${f.name}</title>${f.svg()}</svg>`;
+  }
+  const ORDER = ["uk", "usa", "ireland", "australia", "guyana", "england", "jamaica", "newzealand", "scotland"];
+  window.EnglishFlags = { flag, ORDER, names: Object.fromEntries(Object.entries(F).map(([k, v]) => [k, v.name])) };
+  // Bunting: <div data-bunting></div>
+  document.querySelectorAll("[data-bunting]").forEach((el) => {
+    el.classList.add("bunting");
+    el.innerHTML = ORDER.concat(ORDER.slice(0, +el.dataset.bunting || 0)).map((c, i) =>
+      `<span class="pennant" style="--r:${(i % 2 ? 4 : -4)}deg">${flag(c)}</span>`).join("");
+  });
+  // Flag grid: <div data-flaggrid></div>
+  document.querySelectorAll("[data-flaggrid]").forEach((el) => {
+    el.innerHTML = ORDER.map((c) => `<figure class="fl">${flag(c)}<figcaption>${F[c].name}${c === "guyana" ? " <em>· notre voisin</em>" : ""}</figcaption></figure>`).join("");
+  });
+})();
+</script>
 <script>
 // a: "t" | "d" | "id" ; stem = part before the -ed spelling ending
 const ITEMS = [
@@ -302,7 +373,7 @@ function renderEval(){
       <h2><i>2</i>Qui es-tu ?</h2>
       <div class="fields">
         <label for="evName">Prénom et nom<input id="evName" type="text" autocomplete="name" value="${esc(ev.name)}"></label>
-        <label for="evClass">Classe<input id="evClass" type="text" placeholder="4e B" value="${esc(ev.cls)}"></label>
+        <label for="evClass">Classe<input id="evClass" type="text" placeholder="5e B" value="${esc(ev.cls)}"></label>
       </div>
     </section>
     <section class="step">
