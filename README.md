@@ -7,6 +7,7 @@ Site : https://bosse-lu.github.io
 ## Les activités
 
 - **[Excuse Lab](https://bosse-lu.github.io/excuse-lab/)** : les vraies voix du dialogue *What's your excuse today?* Écoute, répète et joue la scène.
+- **[Blame the bus!](https://bosse-lu.github.io/late-bus/)** : un article de *The Independent* adapté pour la 5e. Lis, écoute, et entraîne-toi sur les verbes en -ed du texte.
 - **[Les sons de -ed](https://bosse-lu.github.io/ed-sounds/)** : /t/, /d/ ou /ɪd/ ? Apprends à prononcer le prétérit.
 - **[Stress Lab](https://bosse-lu.github.io/stress-lab/)** : trouve la syllabe accentuée et entraîne-toi à la dire.
 

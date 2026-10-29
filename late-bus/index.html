@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Late for school? Blame the bus! – 5e</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400&display=swap">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+.homelink{display:inline-block;margin:0 auto 4px;font:600 14px/1.4 "Atkinson Hyperlegible",Verdana,sans-serif;color:inherit;opacity:.75;text-decoration:none}
+.homelink:hover{opacity:1;text-decoration:underline}.homebar{max-width:780px;margin:0 auto}</style>
+<style>
+/* Layout: one verb or sentence card at a time, a strip of item chips above, rule card + teacher notes below */
+:root{
+  --paper:#f3f5fb; --card:#ffffff; --ink:#1b2340; --muted:#5b6380; --line:#d9ddea;
+  --accent:#2f4fd8; --accent-soft:#e3e8ff; --mark:#ffd23f; --onmark:#1b2340;
+  --good:#1f8a55; --good-soft:#dff3e8; --bad:#c2412d; --bad-soft:#fbe5df;
+  --snd-t:#2f4fd8; --snd-d:#8a3fc7; --snd-id:#c27a00;
+  --display:"Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", Verdana, system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11152a; --card:#1a1f37; --ink:#e8ebf7; --muted:#9aa1bd; --line:#2d3456;
+  --accent:#8ea2ff; --accent-soft:#262e57; --mark:#f2c418; --onmark:#1b2340;
+  --good:#4cc38a; --good-soft:#173a2b; --bad:#f0785f; --bad-soft:#3d2120;
+  --snd-t:#8ea2ff; --snd-d:#c99af0; --snd-id:#f2c418; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11152a; --card:#1a1f37; --ink:#e8ebf7; --muted:#9aa1bd; --line:#2d3456;
+  --accent:#8ea2ff; --accent-soft:#262e57; --mark:#f2c418; --onmark:#1b2340;
+  --good:#4cc38a; --good-soft:#173a2b; --bad:#f0785f; --bad-soft:#3d2120;
+  --snd-t:#8ea2ff; --snd-d:#c99af0; --snd-id:#f2c418; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,6vw,2.6rem);line-height:1;margin:0;letter-spacing:-.02em}
+h1 span{background:linear-gradient(transparent 55%,var(--mark) 55%)}
+.sub{color:var(--muted);margin:6px 0 0;font-size:.95rem}
+.settings{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.settings label{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+select,button{font:inherit;color:inherit}
+select{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+.score{font-family:var(--mono);font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.legend div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.legend .s{font-family:var(--mono);font-size:1.25rem;font-weight:400}
+.legend .ex{font-size:.82rem;color:var(--muted)}
+.t{color:var(--snd-t)} .d{color:var(--snd-d)} .id{color:var(--snd-id)}
+
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.group-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);align-self:center;padding:0 4px 0 8px;white-space:nowrap}
+.group-label:first-child{padding-left:0}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 11px;font-size:.88rem;cursor:pointer}
+.chip.eval{border-color:var(--accent);color:var(--accent);font-weight:700}
+.evaltext{font-family:var(--display);font-weight:500;font-size:clamp(1.15rem,4.5vw,1.45rem);line-height:1.6;margin:0;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px;text-wrap:pretty}
+.fields{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+.fields label{display:flex;flex-direction:column;gap:4px;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.fields input{font:inherit;font-size:1rem;text-transform:none;letter-spacing:0;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+.fields input:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+.criteria{display:grid;grid-template-columns:1fr auto;gap:4px 16px;font-size:.93rem;background:var(--accent-soft);border-radius:12px;padding:12px 16px}
+.criteria strong{grid-column:1/-1}
+.criteria .pts{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.chip[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip.done-good{border-color:var(--good);box-shadow:inset 0 -3px 0 var(--good)}
+.chip.done-mid{box-shadow:inset 0 -3px 0 var(--mark)}
+.chip.done-bad{border-color:var(--bad);box-shadow:inset 0 -3px 0 var(--bad)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 20px;display:flex;flex-direction:column;gap:22px}
+.meta{display:flex;justify-content:space-between;gap:8px;font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.target{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.big{font-family:var(--display);font-weight:500;font-size:clamp(2.2rem,10vw,3.4rem);line-height:1;margin:0}
+.sentence{font-family:var(--display);font-weight:500;font-size:clamp(1.4rem,6vw,2.1rem);line-height:1.3;text-wrap:balance;margin:0}
+.ed{font-weight:800;background:var(--mark);color:var(--onmark);border-radius:6px;padding:0 3px}
+.ipa{font-family:var(--mono);color:var(--muted);font-size:1rem}
+.fr{color:var(--muted);font-size:.95rem;font-style:italic}
+
+.quiz{display:flex;flex-direction:column;gap:10px}
+.prompt{font-weight:700;text-align:center;margin:0}
+.qrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px}
+.qrow .verb{font-family:var(--display);font-weight:800;min-width:90px;text-align:right}
+.opt{border:2px solid var(--line);background:var(--card);border-radius:10px;padding:8px 14px;font-family:var(--mono);font-size:1.05rem;cursor:pointer;min-width:64px}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--good-soft);border-color:var(--good)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad);text-decoration:line-through}
+.hintbtn{align-self:center;background:none;border:none;color:var(--accent);text-decoration:underline;cursor:pointer;font-size:.9rem}
+.feedback{border-radius:10px;padding:10px 14px;font-size:.95rem}
+.feedback.ok{background:var(--good-soft);border-left:4px solid var(--good)}
+.feedback.ko{background:var(--bad-soft);border-left:4px solid var(--bad)}
+.rules{display:flex;flex-direction:column;gap:6px;font-size:.93rem;color:var(--muted)}
+.rules strong{color:var(--ink)}
+.syl{font-family:var(--mono);font-size:.9rem}
+
+.step{display:flex;flex-direction:column;gap:10px;border-top:1px dashed var(--line);padding-top:18px}
+.step h2{margin:0;font-family:var(--display);font-weight:800;font-size:1.05rem;display:flex;align-items:center;gap:10px}
+.step h2 i{font-style:normal;font-family:var(--mono);font-size:.8rem;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:400}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:10px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-weight:700}
+.btn:hover{border-color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.btn.rec{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.rec.on{animation:pulse 1.2s infinite}
+@keyframes pulse{50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){.btn.rec.on{animation:none}}
+.btn svg{width:18px;height:18px;flex:none}
+button:focus-visible,select:focus-visible,.upload:focus-within{outline:3px solid var(--accent);outline-offset:2px}
+.hint{font-size:.85rem;color:var(--muted);margin:0}
+.upload{display:inline-flex;align-items:center;gap:8px;border:1px dashed var(--line);border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700}
+.upload input{position:absolute;opacity:0;width:1px;height:1px}
+.heard{font-size:.95rem}
+.heard .w{display:inline-block;padding:1px 6px;margin:2px;border-radius:6px}
+.heard .w.ok{background:var(--good-soft);color:var(--good)}
+.heard .w.ko{background:var(--bad-soft);color:var(--bad);text-decoration:line-through}
+.self{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.self .btn{justify-content:center;font-size:.9rem;padding:10px 8px}
+.self .btn[aria-pressed="true"].g{background:var(--good-soft);border-color:var(--good)}
+.self .btn[aria-pressed="true"].m{background:var(--mark);color:var(--onmark);border-color:var(--mark)}
+.self .btn[aria-pressed="true"].b{background:var(--bad-soft);border-color:var(--bad)}
+.nav{display:flex;justify-content:space-between;gap:8px}
+
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+summary{cursor:pointer;font-weight:700}
+details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.93rem}
+@media (max-width:440px){.fields{grid-template-columns:1fr}.self{grid-template-columns:1fr}.legend{grid-template-columns:1fr}.qrow .verb{min-width:0;width:100%;text-align:center}}
+.bunting{position:relative;display:flex;justify-content:center;gap:clamp(4px,1.6vw,12px);overflow:hidden;padding:10px 0 4px;margin:0 0 4px}
+.bunting::before{content:"";position:absolute;left:0;right:0;top:9px;border-top:2px dashed var(--line)}
+.pennant{flex:none;position:relative;transform:rotate(var(--r));transform-origin:50% 0}
+.pennant .flag{display:block;width:clamp(28px,8vw,44px);height:clamp(19px,5.3vw,29px);border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.28)}
+@media (prefers-reduced-motion:no-preference){.pennant{animation:sway 4s ease-in-out infinite alternate}.pennant:nth-child(2n){animation-delay:-2s}}
+@keyframes sway{to{transform:rotate(calc(var(--r) * -1))}}
+
+/* Page additions: tabs, source card, the article itself, paragraph picker */
+.panel{display:flex;flex-direction:column;gap:16px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:5px}
+.tab{border:none;background:none;border-radius:10px;padding:11px 8px;font-weight:700;cursor:pointer;color:var(--muted)}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.tab:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.src{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.src .bus{width:72px;height:auto;flex:none}
+.src p{margin:0;font-size:.92rem;color:var(--muted)}
+.src b{color:var(--ink)}
+.src a{color:var(--accent);font-weight:700}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.sel{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.sel select{text-transform:none;letter-spacing:0;font-size:.95rem;color:var(--ink)}
+.toggle{display:inline-flex;align-items:center;gap:8px;font-size:.92rem;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+.toggle input{accent-color:var(--accent);width:16px;height:16px;margin:0}
+.paper{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 20px 10px}
+.paper h2{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,5.5vw,2rem);line-height:1.1;margin:0;letter-spacing:-.01em}
+.byline{color:var(--muted);font-style:italic;margin:6px 0 16px;font-size:.9rem}
+.para{display:flex;gap:10px;margin:0 0 14px;font-size:clamp(1.05rem,3.8vw,1.2rem);line-height:1.7;border-radius:10px;transition:box-shadow .15s}
+.para.picked{box-shadow:0 0 0 2px var(--accent);padding:4px 6px;margin-inline:-6px}
+.num{flex:none;font-family:var(--mono);font-size:.78rem;color:var(--accent);background:var(--accent-soft);border-radius:6px;height:1.7em;min-width:2.4em;display:grid;place-items:center;margin-top:.25em}
+.s{cursor:pointer;border-radius:4px;transition:background .15s}
+.s:hover{background:var(--accent-soft)}
+.s:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.s.now{background:var(--mark);color:var(--onmark)}
+.gl{border-bottom:2px dotted var(--accent);cursor:help}
+.gloss-off .gl{border-bottom-color:transparent}
+.show-ed .edv{font-weight:800;text-decoration:underline 3px;text-underline-offset:4px}
+.show-ed .edv.t{text-decoration-color:var(--snd-t)} .show-ed .edv.d{text-decoration-color:var(--snd-d)} .show-ed .edv.id{text-decoration-color:var(--snd-id)}
+.show-ed .edv::after{content:attr(data-s);font-family:var(--mono);font-weight:400;font-size:.6em;vertical-align:super;margin-left:2px}
+.show-ed .s.now .edv::after{color:var(--onmark)}
+.glossbar{margin:0;min-height:2.6em;font-size:.95rem;background:var(--accent-soft);border-radius:10px;padding:9px 14px}
+.glossbar b{font-family:var(--display)}
+.step.first{border-top:none;padding-top:0}
+.glosslist{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px 18px!important;list-style:none;padding-left:0!important}
+.glosslist b{font-family:var(--display)}
+.labhead{display:flex;justify-content:flex-end;margin-bottom:-8px}
+.s3{font-family:var(--mono);font-size:1.25rem}
+.srcpara{font-family:var(--mono);font-size:.8rem;color:var(--accent)}
+@media (prefers-reduced-motion:reduce){.s,.para{transition:none}}
+@media (max-width:440px){.src{flex-direction:column;align-items:flex-start}.controls .btn{flex:1 1 100%;justify-content:center}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="homebar"><a class="homelink" href="../">← Toutes les activités · Collège Réeberg Néron</a></div>
+  <div data-bunting></div>
+  <header>
+    <div>
+      <h1>Late for school? <span>Blame the bus!</span></h1>
+      <p class="sub">Un article de presse britannique adapté pour la 5e. Lis-le, écoute-le, puis entraîne-toi sur les verbes en&nbsp;‑ed.</p>
+    </div>
+    <div class="settings">
+      <label for="accent">Voix</label>
+      <select id="accent"><option value="en-GB">British</option><option value="en-US">American</option></select>
+    </div>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Parties de l'activité">
+    <button class="tab" role="tab" id="tab-read" aria-controls="read" aria-selected="true">1 · Lecture</button>
+    <button class="tab" role="tab" id="tab-lab" aria-controls="lab" aria-selected="false">2 · Lab -ed</button>
+  </div>
+
+  <!-- ============ READING ============ -->
+  <section id="read" role="tabpanel" aria-labelledby="tab-read" class="panel">
+    <div class="src">
+      <svg class="bus" viewBox="0 0 120 84" aria-hidden="true">
+        <rect x="6" y="6" width="108" height="64" rx="10" fill="#d4202c"/>
+        <rect x="6" y="38" width="108" height="5" fill="#a5131d"/>
+        <g fill="#cfe3f5"><rect x="14" y="13" width="20" height="17" rx="3"/><rect x="38" y="13" width="20" height="17" rx="3"/><rect x="62" y="13" width="20" height="17" rx="3"/><rect x="86" y="13" width="20" height="17" rx="3"/>
+        <rect x="14" y="47" width="20" height="15" rx="3"/><rect x="38" y="47" width="20" height="15" rx="3"/><rect x="62" y="47" width="20" height="15" rx="3"/></g>
+        <rect x="88" y="46" width="18" height="24" rx="2" fill="#2b2f3a"/>
+        <circle cx="30" cy="72" r="9" fill="#2b2f3a"/><circle cx="30" cy="72" r="3.5" fill="#9aa1bd"/>
+        <circle cx="92" cy="72" r="9" fill="#2b2f3a"/><circle cx="92" cy="72" r="3.5" fill="#9aa1bd"/>
+      </svg>
+      <p><b>Texte adapté de <i>The Independent</i></b>, journal britannique, 4 avril 2025.<br>
+      <a href="https://www.yahoo.com/news/london-school-pupils-handed-detentions-105326916.html" target="_blank" rel="noopener">Voir l'article original ↗</a></p>
+    </div>
+
+    <div class="controls">
+      <button class="btn primary" id="readAll"></button>
+      <label class="sel">Vitesse
+        <select id="rate"><option value="0.9">Normale</option><option value="0.7">Lente</option><option value="0.5">Très lente</option></select>
+      </label>
+    </div>
+    <div class="controls">
+      <label class="toggle"><input type="checkbox" id="showEd"> Voir les verbes en -ed</label>
+      <label class="toggle"><input type="checkbox" id="showGloss" checked> Mots difficiles soulignés</label>
+    </div>
+
+    <article class="paper" lang="en" id="paper">
+      <h2>Late for school? Blame the bus!</h2>
+      <p class="byline">Adapted from The Independent, 4 April 2025</p>
+      <div id="text"></div>
+    </article>
+    <p class="glossbar" id="glossbar" aria-live="polite">Touche une phrase pour l'écouter. Touche un mot souligné pour voir sa traduction.</p>
+
+    <div class="card">
+      <section class="step first">
+        <h2><i>★</i>Lis à ton tour</h2>
+        <p class="hint">Choisis un paragraphe, écoute le modèle, puis enregistre-toi en le lisant. Compare ensuite les deux.</p>
+        <nav class="chips" id="pchips" aria-label="Choisir un paragraphe"></nav>
+        <div class="row">
+          <button class="btn primary" id="rModel"></button>
+          <button class="btn rec" id="rec2"></button>
+          <button class="btn" id="rMine" data-mine disabled><span class="ico-play"></span>Me réécouter</button>
+          <button class="btn" id="rCompare" data-mine disabled>Modèle puis moi</button>
+        </div>
+        <div class="fallback" hidden>
+          <p class="hint fallbackMsg"></p>
+          <label class="upload"><span class="ico-file"></span>Importer mon enregistrement<input type="file" class="uploadIn" accept="audio/*"></label>
+        </div>
+      </section>
+    </div>
+
+    <details>
+      <summary>Glossary · les mots difficiles</summary>
+      <ul class="glosslist" id="glosslist"></ul>
+    </details>
+  </section>
+
+  <!-- ============ LAB ============ -->
+  <section id="lab" role="tabpanel" aria-labelledby="tab-lab" class="panel" hidden>
+    <div class="legend" aria-label="Les trois sons">
+      <div><span class="s3 t">/t/</span><span class="ex">ask<b>ed</b> · 1 syllabe</span></div>
+      <div><span class="s3 d">/d/</span><span class="ex">chang<b>ed</b>, arriv<b>ed</b> · 1 syllabe</span></div>
+      <div><span class="s3 id">/ɪd/</span><span class="ex">wait<b>ed</b> · 2 syllabes</span></div>
+    </div>
+    <div class="labhead"><span class="score" id="score"></span></div>
+    <nav class="chips" id="chips" aria-label="Liste des verbes et des phrases"></nav>
+    <main class="card" id="card"></main>
+  </section>
+
+  <details>
+    <summary>Notes pour le professeur</summary>
+    <ul>
+      <li>Page liée à la séance <i>Late for school? Blame the bus!</i> de la séquence <i>Late and absent</i> (axe 4 École et loisirs, axe 6 Le Royaume-Uni). Le texte est celui de la fiche élève : une adaptation A2 de l'article de <i>The Independent</i> du 4 avril 2025, avec la source citée et un lien vers l'original.</li>
+      <li><b>Lecture</b> : l'élève écoute tout le texte ou une seule phrase (en la touchant), à trois vitesses. La phrase lue est surlignée. Les mots du glossaire sont soulignés et traduits au toucher. L'option « Voir les verbes en -ed » colore les quatre verbes réguliers et affiche leur son.</li>
+      <li><b>Lis à ton tour</b> : l'élève choisit un paragraphe, écoute le modèle, s'enregistre et compare. C'est une bonne activité d'autonomie en salle informatique avant le mini-débat <i>Is it fair?</i></li>
+      <li><b>Lab -ed</b> : uniquement les verbes réguliers du texte : <i>changed</i> et <i>arrived</i> (/d/), <i>asked</i> (/t/), <i>waited</i> (/ɪd/). Puis les 4 phrases du texte où ils apparaissent, et 4 phrases nouvelles qui les combinent. Pour chaque item : deviner le son, écouter, s'enregistrer, vérification automatique, auto-évaluation.</li>
+      <li>La voix est la synthèse vocale du navigateur, pas un locuteur natif enregistré : sa qualité dépend de l'ordinateur. Dans Chrome ou Edge, choisir « British ». Pour une voix native, l'Excuse Lab reste la référence.</li>
+      <li>La vérification automatique dit si les mots ont été <i>compris</i>. Elle tolère souvent une terminaison mal prononcée : l'écoute comparée reste essentielle. Les enregistrements et les résultats restent sur l'appareil de l'élève.</li>
+    </ul>
+  </details>
+</div>
+
+<script>/* Flags of English-speaking countries, drawn in SVG (no external files) */
+(function () {
+  let uid = 0;
+  const star = (cx, cy, r, n, inner, fill, stroke) => {
+    let pts = [];
+    for (let i = 0; i < n * 2; i++) {
+      const a = -Math.PI / 2 + (i * Math.PI) / n, rr = i % 2 ? r * inner : r;
+      pts.push((cx + rr * Math.cos(a)).toFixed(1) + "," + (cy + rr * Math.sin(a)).toFixed(1));
+    }
+    return `<polygon points="${pts.join(" ")}" fill="${fill}"${stroke ? ` stroke="${stroke}" stroke-width="${(r * 0.18).toFixed(1)}"` : ""}/>`;
+  };
+  // Union Jack in a w x h box (60x30 base)
+  const uj = (w, h) => {
+    const id = "uj" + (++uid);
+    return `<svg x="0" y="0" width="${w}" height="${h}" viewBox="0 0 60 30" preserveAspectRatio="none">
+      <clipPath id="${id}s"><path d="M0,0v30h60V0z"/></clipPath>
+      <clipPath id="${id}t"><path d="M30,15h30v15zv15H0zH0V0zV0h30z"/></clipPath>
+      <g clip-path="url(#${id}s)">
+        <path d="M0,0v30h60V0z" fill="#012169"/>
+        <path d="M0,0L60,30M60,0L0,30" stroke="#fff" stroke-width="6"/>
+        <path d="M0,0L60,30M60,0L0,30" clip-path="url(#${id}t)" stroke="#C8102E" stroke-width="4"/>
+        <path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/>
+        <path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/>
+      </g></svg>`;
+  };
+  const F = {
+    uk: { name: "United Kingdom", vb: "0 0 60 30", svg: () => uj(60, 30) },
+    england: { name: "England", vb: "0 0 50 30", svg: () => `<rect width="50" height="30" fill="#fff"/><rect x="21" width="8" height="30" fill="#CE1124"/><rect y="11" width="50" height="8" fill="#CE1124"/>` },
+    scotland: { name: "Scotland", vb: "0 0 50 30", svg: () => `<rect width="50" height="30" fill="#0065BD"/><path d="M0,0L50,30M50,0L0,30" stroke="#fff" stroke-width="6"/>` },
+    ireland: { name: "Ireland", vb: "0 0 60 30", svg: () => `<rect width="20" height="30" fill="#169B62"/><rect x="20" width="20" height="30" fill="#fff"/><rect x="40" width="20" height="30" fill="#FF883E"/>` },
+    usa: { name: "USA", vb: "0 0 7410 3900", svg: () => {
+      let s = `<rect width="7410" height="3900" fill="#B22234"/>`;
+      for (let i = 1; i < 13; i += 2) s += `<rect y="${i * 300}" width="7410" height="300" fill="#fff"/>`;
+      s += `<rect width="2964" height="2100" fill="#3C3B6E"/>`;
+      for (let r = 0; r < 9; r++) { const n = r % 2 ? 5 : 6; for (let c = 0; c < n; c++) {
+        const x = 247 + c * 494 + (r % 2 ? 247 : 0), y = 210 + r * 210; s += star(x, y, 120, 5, 0.38, "#fff"); } }
+      return s; } },
+    australia: { name: "Australia", vb: "0 0 1000 500", svg: () => `<rect width="1000" height="500" fill="#012169"/>${uj(500, 250)}`
+      + star(250, 375, 75, 7, 0.45, "#fff") + star(750, 425, 37, 7, 0.45, "#fff") + star(625, 210, 37, 7, 0.45, "#fff")
+      + star(750, 80, 37, 7, 0.45, "#fff") + star(865, 180, 37, 7, 0.45, "#fff") + star(805, 290, 20, 5, 0.45, "#fff") },
+    newzealand: { name: "New Zealand", vb: "0 0 1000 500", svg: () => `<rect width="1000" height="500" fill="#012169"/>${uj(500, 250)}`
+      + star(750, 405, 40, 5, 0.4, "#C8102E", "#fff") + star(650, 210, 34, 5, 0.4, "#C8102E", "#fff")
+      + star(750, 90, 34, 5, 0.4, "#C8102E", "#fff") + star(850, 190, 30, 5, 0.4, "#C8102E", "#fff") },
+    jamaica: { name: "Jamaica", vb: "0 0 60 30", svg: () => `<rect width="60" height="30" fill="#009B3A"/><path d="M0,0L30,15L0,30zM60,0L30,15L60,30z" fill="#000"/><path d="M0,0L60,30M60,0L0,30" stroke="#FED100" stroke-width="4"/>` },
+    guyana: { name: "Guyana", vb: "0 0 500 300", svg: () => `<rect width="500" height="300" fill="#009E49"/><path d="M0,0L500,150L0,300z" fill="#fff"/><path d="M0,12L470,150L0,288z" fill="#FCD116"/><path d="M0,0L250,150L0,300z" fill="#000"/><path d="M0,14L227,150L0,286z" fill="#CE1126"/>` },
+  };
+  function flag(code, cls) {
+    const f = F[code];
+    return `<svg class="${cls || "flag"}" viewBox="${f.vb}" role="img" aria-label="${f.name}" preserveAspectRatio="none"><title>${f.name}</title>${f.svg()}</svg>`;
+  }
+  const ORDER = ["uk", "usa", "ireland", "australia", "guyana", "england", "jamaica", "newzealand", "scotland"];
+  window.EnglishFlags = { flag, ORDER, names: Object.fromEntries(Object.entries(F).map(([k, v]) => [k, v.name])) };
+  // Bunting: <div data-bunting></div>
+  document.querySelectorAll("[data-bunting]").forEach((el) => {
+    el.classList.add("bunting");
+    el.innerHTML = ORDER.concat(ORDER.slice(0, +el.dataset.bunting || 0)).map((c, i) =>
+      `<span class="pennant" style="--r:${(i % 2 ? 4 : -4)}deg">${flag(c)}</span>`).join("");
+  });
+  // Flag grid: <div data-flaggrid></div>
+  document.querySelectorAll("[data-flaggrid]").forEach((el) => {
+    el.innerHTML = ORDER.map((c) => `<figure class="fl">${flag(c)}<figcaption>${F[c].name}${c === "guyana" ? " <em>· notre voisin</em>" : ""}</figcaption></figure>`).join("");
+  });
+})();
+</script>
+<script>
+/* ---------- data ---------- */
+// [words|traduction] = glossary word. Regular -ed verbs are found automatically.
+const TEXT = [
+  ["Woodbridge High School is a big [secondary school|un collège] in Woodford Green, in north-east London.", "There are 2,000 students."],
+  ["A lot of students go to school by bus.", "But last year, Transport for London (TfL) changed two [bus lines|des lignes de bus], the W12 and the W14.", "Before, there were three W14 buses [an hour|par heure].", "Now there is only one!"],
+  ["So the buses are often [late|en retard].", "Sometimes they are [full|pleins] and they don't stop.", "30 to 50 students waited at the [bus stop|l'arrêt de bus] for a long time.", "They arrived late at school, so they got a [detention|une retenue, une colle]."],
+  ["The students were [angry|en colère].", "They said: “It's not [fair|juste]! It's not our [fault|faute], it's the bus!”"],
+  ["Mr Jeremy Clifton, the [deputy headteacher|le principal adjoint], wrote an [open letter|une lettre ouverte] to TfL.", "He asked for a special bus for the students after school."],
+  ["Now the school doesn't give detentions for bus [lateness|les retards], because it isn't the students' fault."],
+  ["But TfL says the new bus lines are good for other people [in the area|dans le quartier], for example to go to the hospital."]
+];
+const ED = {changed:"d", waited:"id", arrived:"d", asked:"t"};
+const SND = {t:"/t/", d:"/d/", id:"/ɪd/"};
+const RULE = {
+  t:"<strong class='t'>/t/</strong> après un son <strong>sourd</strong> (p, k, f, s, ch, sh, tch) : pas de syllabe en plus.",
+  d:"<strong class='d'>/d/</strong> après un son <strong>sonore</strong> (voyelle, b, g, v, z, l, m, n, r, dj) : pas de syllabe en plus.",
+  id:"<strong class='id'>/ɪd/</strong> après le son <strong>/t/ ou /d/</strong> : une syllabe en plus."
+};
+const ITEMS = [
+  {g:"Verbes du texte", w:"changed", stem:"change", end:"d", a:"d", ipa:"/tʃeɪndʒd/", fr:"changer", src:2, why:"change finit par le son /dʒ/ (« dj »), un son sonore. Le e muet ne compte pas : pas de syllabe en plus."},
+  {g:"Verbes du texte", w:"waited", stem:"wait", end:"ed", a:"id", ipa:"/ˈweɪ.tɪd/", fr:"attendre", src:3, why:"wait finit par le son /t/ : on ajoute une syllabe, wai-tid."},
+  {g:"Verbes du texte", w:"arrived", stem:"arrive", end:"d", a:"d", ipa:"/əˈraɪvd/", fr:"arriver", src:3, why:"arrive finit par le son /v/, un son sonore. Le e muet ne compte pas."},
+  {g:"Verbes du texte", w:"asked", stem:"ask", end:"ed", a:"t", ipa:"/ɑːskt/", fr:"demander", src:5, why:"ask finit par le son /k/, un son sourd. Une seule syllabe : /ɑːskt/, pas « as-kède »."},
+  {g:"Phrases du texte", label:"Texte 1", src:2, text:"But last year, Transport for London changed two bus lines.", fr:"Mais l'an dernier, Transport for London a changé deux lignes de bus.", verbs:[{w:"changed",a:"d"}]},
+  {g:"Phrases du texte", label:"Texte 2", src:3, text:"30 to 50 students waited at the bus stop for a long time.", fr:"30 à 50 élèves ont attendu longtemps à l'arrêt de bus.", verbs:[{w:"waited",a:"id"}]},
+  {g:"Phrases du texte", label:"Texte 3", src:3, text:"They arrived late at school, so they got a detention.", fr:"Ils sont arrivés en retard au collège, alors ils ont eu une retenue.", verbs:[{w:"arrived",a:"d"}]},
+  {g:"Phrases du texte", label:"Texte 4", src:5, text:"He asked for a special bus for the students after school.", fr:"Il a demandé un bus spécial pour les élèves après les cours.", verbs:[{w:"asked",a:"t"}]},
+  {g:"À toi !", label:"Phrase 1", text:"I waited for the bus, but it arrived late.", fr:"J'ai attendu le bus, mais il est arrivé en retard.", verbs:[{w:"waited",a:"id"},{w:"arrived",a:"d"}]},
+  {g:"À toi !", label:"Phrase 2", text:"My teacher asked me: “Why are you late?”", fr:"Mon professeur m'a demandé : « Pourquoi es-tu en retard ? »", verbs:[{w:"asked",a:"t"}]},
+  {g:"À toi !", label:"Phrase 3", text:"They changed the bus lines, so we waited a long time.", fr:"Ils ont changé les lignes de bus, alors nous avons attendu longtemps.", verbs:[{w:"changed",a:"d"},{w:"waited",a:"id"}]},
+  {g:"À toi !", label:"Phrase 4", text:"We asked for a new bus and the school changed the rules.", fr:"Nous avons demandé un nouveau bus et le collège a changé les règles.", verbs:[{w:"asked",a:"t"},{w:"changed",a:"d"}]}
+];
+ITEMS.forEach(it => { if (it.w) it.verbs = [{w:it.w, a:it.a}]; });
+
+/* ---------- state ---------- */
+const KEY = "latebus5e";
+let state = {tab:"read", i:0, res:{}, guess:{}, hint:{}, rp:0};
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s) state = Object.assign(state, s); } catch (e) {}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+const ico = {
+  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l12-7z"/></svg>',
+  slow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>',
+  stop:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
+  ear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9a6 6 0 1 1 12 0c0 4-4 5-4 8a3 3 0 0 1-6 0"/></svg>',
+  file:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 12l3 3 7-7"/></svg>'
+};
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const plainS = s => s.replace(/\[([^|\]]+)\|[^\]]+\]/g, "$1");
+const sayS = s => plainS(s).replace(/\bTfL\b/g, "T F L");
+
+/* ---------- speech synthesis ---------- */
+let voices = [];
+function loadVoices() { try { voices = speechSynthesis.getVoices(); } catch (e) {} }
+if ("speechSynthesis" in window) { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+function utter(text, rate) {
+  const lang = $("#accent").value;
+  const u = new SpeechSynthesisUtterance(text); u.lang = lang; u.rate = rate;
+  const v = voices.find(v => v.lang.replace("_", "-") === lang) || voices.find(v => v.lang.startsWith("en"));
+  if (v) u.voice = v; return u;
+}
+let rtoken = 0, keepAlive = [];
+function stopSpeech() {
+  rtoken++; try { speechSynthesis.cancel(); } catch (e) {}
+  $$(".s.now").forEach(e => e.classList.remove("now")); setReadBtns(false);
+}
+function speak(text, rate, then) {
+  if (!("speechSynthesis" in window)) { note("La voix n'est pas disponible sur ce navigateur."); then && then(); return; }
+  stopSpeech(); const u = utter(text, rate); keepAlive = [u]; if (then) u.onend = then; speechSynthesis.speak(u);
+}
+// Read a list of sentence elements one by one, highlighting each.
+function readList(els, which, then) {
+  if (!("speechSynthesis" in window)) { gloss("La voix n'est pas disponible sur ce navigateur."); return; }
+  stopSpeech(); const tok = ++rtoken; let i = 0; setReadBtns(which);
+  const rate = +$("#rate").value;
+  const next = () => {
+    if (tok !== rtoken) return;
+    $$(".s.now").forEach(e => e.classList.remove("now"));
+    if (i >= els.length) { setReadBtns(false); then && then(); return; }
+    const el = els[i++]; el.classList.add("now"); el.scrollIntoView({block:"nearest"});
+    const u = utter(sayS(TEXT[el.dataset.p][el.dataset.si]), rate); keepAlive = [u];
+    u.onend = () => setTimeout(next, 250);
+    u.onerror = () => { if (tok === rtoken) setTimeout(next, 250); };
+    speechSynthesis.speak(u);
+  };
+  next();
+}
+let readingWhich = false;
+function setReadBtns(which) {
+  readingWhich = which;
+  const a = $("#readAll"), m = $("#rModel");
+  if (a) a.innerHTML = which === "all" ? ico.stop + "Arrêter la lecture" : ico.play + "Écouter tout le texte";
+  if (m) m.innerHTML = which === "para" ? ico.stop + "Arrêter" : ico.play + "Écouter le modèle";
+}
+
+/* ---------- recording (shared by both tabs) ---------- */
+let rec = null, chunks = [], myAudioURL = null, recStream = null;
+async function toggleRecord(btn) {
+  if (rec && rec.state === "recording") { rec.stop(); return; }
+  stopSpeech();
+  try { recStream = await navigator.mediaDevices.getUserMedia({audio:true}); }
+  catch (e) { showFallback("Le micro n'est pas accessible ici."); return; }
+  chunks = []; rec = new MediaRecorder(recStream);
+  rec.ondataavailable = e => chunks.push(e.data);
+  rec.onstop = () => {
+    recStream.getTracks().forEach(t => t.stop());
+    setMyAudio(URL.createObjectURL(new Blob(chunks, {type: rec.mimeType || "audio/webm"})));
+    btn.classList.remove("on"); btn.innerHTML = ico.mic + "Recommencer";
+  };
+  rec.start(); btn.classList.add("on"); btn.innerHTML = ico.stop + "Arrêter";
+}
+function abortRec() {
+  if (rec && rec.state === "recording") { rec.onstop = () => recStream.getTracks().forEach(t => t.stop()); rec.stop(); }
+}
+function setMyAudio(url) {
+  if (myAudioURL) URL.revokeObjectURL(myAudioURL); myAudioURL = url;
+  $$("[data-mine]").forEach(b => b.disabled = false);
+}
+function resetAudio() {
+  abortRec();
+  if (myAudioURL) { URL.revokeObjectURL(myAudioURL); myAudioURL = null; }
+  $$("[data-mine]").forEach(b => b.disabled = true);
+  const r2 = $("#rec2"); if (r2) { r2.classList.remove("on"); r2.innerHTML = ico.mic + "M'enregistrer"; }
+}
+function playMine() { if (myAudioURL) new Audio(myAudioURL).play(); }
+function showFallback(msg) {
+  const f = $(`#${state.tab} .fallback`); if (!f) return; f.hidden = false;
+  f.querySelector(".fallbackMsg").textContent = msg + " Enregistre-toi avec le dictaphone de ton téléphone, puis importe le fichier.";
+}
+
+/* ---------- reading tab ---------- */
+function htmlS(s) {
+  let h = esc(s).replace(/\[([^|\]]+)\|([^\]]+)\]/g, (m, en, fr) => `<span class="gl" data-en="${en}" data-fr="${fr}">${en}</span>`);
+  return h.replace(/\b(changed|waited|arrived|asked)\b/g, w => `<span class="edv ${ED[w]}" data-s="${SND[ED[w]]}">${w}</span>`);
+}
+function renderText() {
+  $("#text").innerHTML = TEXT.map((p, pi) =>
+    `<p class="para" data-para="${pi}"><span class="num">[${pi + 1}]</span><span>${p.map((s, si) =>
+      `<span class="s" tabindex="0" data-p="${pi}" data-si="${si}">${htmlS(s)}</span>`).join(" ")}</span></p>`).join("");
+  const seen = new Set(), list = [];
+  TEXT.flat().forEach(s => s.replace(/\[([^|\]]+)\|([^\]]+)\]/g, (m, en, fr) => { if (!seen.has(en)) { seen.add(en); list.push([en, fr]); } }));
+  $("#glosslist").innerHTML = list.map(([en, fr]) => `<li lang="en"><b>${en}</b> <span lang="fr">= ${fr}</span></li>`).join("");
+}
+function gloss(html) { $("#glossbar").innerHTML = html; }
+function renderPChips() {
+  const opts = TEXT.map((_, i) => i).concat(["all"]);
+  $("#pchips").innerHTML = opts.map(o => `<button class="chip pchip" data-rp="${o}" aria-current="${String(state.rp) === String(o)}">${o === "all" ? "Tout le texte" : "Paragraphe " + (o + 1)}</button>`).join("");
+  $$(".para").forEach(p => p.classList.toggle("picked", String(state.rp) === p.dataset.para));
+}
+function paraEls() { return state.rp === "all" ? $$(".s") : $$(`.s[data-p="${state.rp}"]`); }
+function applyToggles() {
+  $("#paper").classList.toggle("show-ed", $("#showEd").checked);
+  $("#paper").classList.toggle("gloss-off", !$("#showGloss").checked);
+}
+
+/* ---------- lab tab (same mechanics as « Les sons de -ed ») ---------- */
+const plain = it => it.w || it.text;
+const guesses = k => state.guess[k] || {};
+const allGuessed = k => ITEMS[k].verbs.every(v => guesses(k)[v.w]);
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+function norm(s) { return s.toLowerCase().replace(/[^a-z' ]/g, " ").split(/\s+/).filter(Boolean); }
+function note(m) { const h = $("#heard"); if (h) h.textContent = m; }
+function listen(btn) {
+  const out = $("#heard");
+  if (!SR) { out.innerHTML = "La vérification automatique marche dans <b>Chrome</b> ou <b>Edge</b>. Ici, compare ton enregistrement avec le modèle."; return; }
+  stopSpeech();
+  const r = new SR(); r.lang = $("#accent").value; r.maxAlternatives = 3; r.interimResults = false;
+  btn.disabled = true; btn.innerHTML = ico.ear + "Je t'écoute… parle !";
+  r.onresult = e => {
+    const it = ITEMS[state.i];
+    const alts = [...e.results[0]].map(a => a.transcript);
+    const pool = new Set(alts.flatMap(norm));
+    const target = norm(plain(it));
+    const verbs = it.verbs.map(v => v.w);
+    const html = target.map(w => `<span class="w ${pool.has(w) ? "ok" : "ko"}">${w}</span>`).join(" ");
+    const missed = verbs.filter(v => !pool.has(v));
+    let msg;
+    if (missed.length === 0) msg = verbs.length > 1 ? "Les verbes au prétérit ont été reconnus. Vérifie à l'oreille que tu n'as pas ajouté de syllabe." : "Le verbe au prétérit a été reconnu. Vérifie à l'oreille que tu n'as pas ajouté de syllabe.";
+    else {
+      const stems = missed.map(v => v.replace(/(ed|d)$/, ""));
+      const heardStem = stems.some(s => pool.has(s) || pool.has(s + "e"));
+      msg = heardStem ? "L'ordinateur a entendu le verbe <b>sans terminaison</b> : on n'entend pas ton -ed. Réécoute le modèle." : "Le mot barré n'a pas été reconnu : réécoute le modèle et réessaie.";
+    }
+    out.innerHTML = `<div>L'ordinateur a entendu : <b>« ${esc(alts[0])} »</b></div><div style="margin-top:6px">${html}</div><p class="hint" style="margin-top:6px">${msg}</p>`;
+  };
+  r.onerror = e => {
+    if (e.error === "not-allowed" || e.error === "service-not-allowed") out.textContent = "Le micro est bloqué ici. Ouvre la page dans Chrome ou Edge pour la vérification automatique.";
+    else if (e.error === "no-speech") out.textContent = "Je n'ai rien entendu. Rapproche-toi du micro et réessaie.";
+    else out.textContent = "La reconnaissance a échoué (" + e.error + "). Réessaie.";
+  };
+  r.onend = () => { btn.disabled = false; btn.innerHTML = ico.ear + "Vérifier ma prononciation"; };
+  try { r.start(); } catch (e) { r.onend(); }
+}
+function renderChips() {
+  let html = "", last = "";
+  ITEMS.forEach((it, k) => {
+    if (it.g !== last) { html += `<span class="group-label">${it.g}</span>`; last = it.g; }
+    const r = state.res[k];
+    html += `<button class="chip lchip${r ? " done-" + r : ""}" data-k="${k}" aria-current="${k === state.i}">${it.w || it.label}</button>`;
+  });
+  $("#chips").innerHTML = html;
+  $("#score").textContent = `${Object.keys(state.res).length} / ${ITEMS.length} faits`;
+  const cur = $("#chips .chip[aria-current=true]"); if (cur && state.tab === "lab") cur.scrollIntoView({block:"nearest", inline:"center"});
+}
+function markText(it) {
+  if (it.w) return `${it.stem}<span class="ed">${it.end}</span>`;
+  let t = esc(it.text);
+  it.verbs.forEach(v => { const m = v.w.match(/^(.*?)(e?d)$/); t = t.replace(v.w, `${m[1]}<span class="ed">${m[2]}</span>`); });
+  return t;
+}
+function renderCard() {
+  const k = state.i, it = ITEMS[k], g = guesses(k), done = allGuessed(k);
+  resetAudio();
+  const rows = it.verbs.map(v => {
+    const pick = g[v.w];
+    const opts = ["t", "d", "id"].map(a => {
+      let c = "opt"; if (pick) { if (a === v.a) c += " right"; else if (a === pick) c += " wrong"; }
+      return `<button class="${c}" data-verb="${v.w}" data-a="${a}" ${pick ? "disabled" : ""}>${SND[a]}</button>`;
+    }).join("");
+    return `<div class="qrow">${it.verbs.length > 1 ? `<span class="verb">${v.w}</span>` : ""}${opts}</div>`;
+  }).join("");
+  const nRight = it.verbs.filter(v => g[v.w] === v.a).length;
+  let fb = "";
+  if (done) {
+    const list = it.verbs.map(v => `<b>${v.w}</b> → <span class="${v.a}">${SND[v.a]}</span>`).join(", ");
+    fb = nRight === it.verbs.length ? `<div class="feedback ok">Bravo ! ${list}.</div>` : `<div class="feedback ko">Attention : ${list}.</div>`;
+    const sounds = [...new Set(it.verbs.map(v => v.a))];
+    fb += `<div class="rules">${it.why ? `<div>${it.why}</div>` : ""}${sounds.map(a => `<div>${RULE[a]}</div>`).join("")}</div>`;
+  }
+  const hint = state.hint[k], self = state.res[k], locked = !done;
+  $("#card").innerHTML = `
+    <div class="meta"><span>${it.g}${it.src ? ` · <span class="srcpara">paragraphe [${it.src}]</span>` : ""}</span><span>${k + 1} / ${ITEMS.length}</span></div>
+    <div class="target" lang="en">
+      ${it.w ? `<p class="big">${markText(it)}</p>` : `<p class="sentence">${markText(it)}</p>`}
+      ${done && it.w ? `<div class="ipa">${it.ipa} · <span class="syl">${it.a === "id" ? "une syllabe de plus" : "pas de syllabe en plus"}</span></div>` : ""}
+      <div class="fr" lang="fr">${it.fr}</div>
+    </div>
+    <div class="quiz">
+      ${done ? "" : `<p class="prompt">${it.verbs.length > 1 ? "Comment se prononce -ed dans chaque verbe ?" : "Comment se prononce -ed ?"}</p>`}
+      ${rows}
+      ${done ? "" : (hint ? `<p class="hint" style="text-align:center">Main sur la gorge : dis le dernier son du verbe <b>sans -ed</b>. C'est /t/ ou /d/ ? → /ɪd/. Ça vibre ? → /d/. Ça ne vibre pas ? → /t/.</p>` : `<button class="hintbtn" id="hint">Coup de pouce</button>`)}
+      ${fb}
+    </div>
+    <section class="step" ${locked ? "hidden" : ""}>
+      <h2><i>1</i>Écoute le modèle</h2>
+      <div class="row"><button class="btn primary" id="play">${ico.play}Écouter</button><button class="btn" id="slow">${ico.slow}Lentement</button></div>
+    </section>
+    <section class="step" ${locked ? "hidden" : ""}>
+      <h2><i>2</i>Enregistre-toi</h2>
+      <div class="row">
+        <button class="btn rec" id="rec">${ico.mic}S'enregistrer</button>
+        <button class="btn" id="playMine" data-mine disabled>${ico.play}Me réécouter</button>
+        <button class="btn" id="compare" data-mine disabled>Modèle puis moi</button>
+      </div>
+      <div class="fallback" hidden>
+        <p class="hint fallbackMsg"></p>
+        <label class="upload">${ico.file}Importer mon enregistrement<input type="file" class="uploadIn" accept="audio/*"></label>
+      </div>
+    </section>
+    <section class="step" ${locked ? "hidden" : ""}>
+      <h2><i>3</i>Vérification automatique</h2>
+      <div class="row"><button class="btn" id="listen">${ico.ear}Vérifier ma prononciation</button></div>
+      <div class="heard" id="heard"><p class="hint">L'ordinateur te dit quels mots il a compris. Pour la terminaison, fais confiance à ton oreille.</p></div>
+    </section>
+    <section class="step" ${locked ? "hidden" : ""}>
+      <h2><i>4</i>Ma terminaison -ed était…</h2>
+      <div class="self">
+        <button class="btn g" data-r="good" aria-pressed="${self === "good"}">${ico.check}Juste</button>
+        <button class="btn m" data-r="mid" aria-pressed="${self === "mid"}">Presque</button>
+        <button class="btn b" data-r="bad" aria-pressed="${self === "bad"}">À retravailler</button>
+      </div>
+    </section>
+    <div class="nav">
+      <button class="btn" id="prev" ${k === 0 ? "disabled" : ""}>← Précédent</button>
+      <button class="btn" id="next" ${k === ITEMS.length - 1 ? "disabled" : ""}>Suivant →</button>
+    </div>`;
+  if (!done) return;
+  if (!navigator.mediaDevices || !window.MediaRecorder) showFallback("L'enregistrement direct n'est pas possible sur ce navigateur.");
+}
+function renderLab() { renderChips(); renderCard(); }
+
+/* ---------- tabs ---------- */
+function showTab(t) {
+  stopSpeech(); resetAudio();
+  state.tab = t; save();
+  ["read", "lab"].forEach(x => {
+    $("#" + x).hidden = x !== t;
+    $("#tab-" + x).setAttribute("aria-selected", String(x === t));
+  });
+  if (t === "lab") renderLab();
+  else if (!navigator.mediaDevices || !window.MediaRecorder) showFallback("L'enregistrement direct n'est pas possible sur ce navigateur.");
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click", e => {
+  const glw = e.target.closest(".gl");
+  if (glw) {
+    gloss(`<b lang="en">${glw.dataset.en}</b> = ${glw.dataset.fr}`);
+    speak(glw.dataset.en, +$("#rate").value);
+    return;
+  }
+  const sent = e.target.closest(".s");
+  if (sent) { readList([sent], "one"); return; }
+  const t = e.target.closest("button"); if (!t) return;
+  if (t.classList.contains("tab")) { showTab(t.id.replace("tab-", "")); return; }
+  if (t.classList.contains("pchip")) {
+    const v = t.dataset.rp; state.rp = v === "all" ? "all" : +v; save();
+    stopSpeech(); resetAudio(); renderPChips(); return;
+  }
+  if (t.classList.contains("lchip")) { state.i = +t.dataset.k; save(); stopSpeech(); renderLab(); return; }
+  const it = ITEMS[state.i];
+  if (t.classList.contains("opt")) {
+    const g = state.guess[state.i] || (state.guess[state.i] = {});
+    if (!g[t.dataset.verb]) { g[t.dataset.verb] = t.dataset.a; save(); renderCard(); }
+    return;
+  }
+  if (t.dataset.r) { state.res[state.i] = t.dataset.r; save(); renderLab(); return; }
+  switch (t.id) {
+    case "readAll": if (readingWhich === "all") stopSpeech(); else readList($$(".s"), "all"); break;
+    case "rModel": if (readingWhich === "para") stopSpeech(); else readList(paraEls(), "para"); break;
+    case "rec2": toggleRecord(t); break;
+    case "rMine": playMine(); break;
+    case "rCompare": readList(paraEls(), "para", () => setTimeout(playMine, 400)); break;
+    case "hint": state.hint[state.i] = 1; save(); renderCard(); break;
+    case "play": speak(sayS(plain(it)), 0.9); break;
+    case "slow": speak(sayS(plain(it)), 0.55); break;
+    case "rec": toggleRecord(t); break;
+    case "playMine": playMine(); break;
+    case "compare": speak(sayS(plain(it)), 0.9, () => setTimeout(playMine, 400)); break;
+    case "listen": listen(t); break;
+    case "prev": state.i--; save(); stopSpeech(); renderLab(); break;
+    case "next": state.i++; save(); stopSpeech(); renderLab(); break;
+  }
+});
+document.addEventListener("keydown", e => {
+  const s = e.target.closest && e.target.closest(".s");
+  if (s && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); readList([s], "one"); }
+});
+document.addEventListener("change", e => {
+  if (e.target.classList.contains("uploadIn") && e.target.files[0]) setMyAudio(URL.createObjectURL(e.target.files[0]));
+  if (e.target.id === "accent") { try { localStorage.setItem(KEY + "-accent", e.target.value); } catch (_) {} }
+  if (e.target.id === "showEd" || e.target.id === "showGloss") applyToggles();
+  if (e.target.id === "rate") stopSpeech();
+});
+
+/* ---------- start ---------- */
+try { const a = localStorage.getItem(KEY + "-accent"); if (a) $("#accent").value = a; } catch (e) {}
+if (!(state.i >= 0 && state.i < ITEMS.length)) state.i = 0;
+if (!(state.rp === "all" || (state.rp >= 0 && state.rp < TEXT.length))) state.rp = 0;
+$$(".ico-file").forEach(s => s.outerHTML = ico.file);
+$$(".ico-play").forEach(s => s.outerHTML = ico.play);
+renderText(); renderPChips(); applyToggles(); setReadBtns(false); resetAudio();
+showTab(state.tab === "lab" ? "lab" : "read");
+</script>
+</body>
+</html>
