@@ -16,7 +16,9 @@ On ne publie jamais dans `articles.json` sans accord explicite. Un article refus
 ## Rythme
 
 - **Spécial footeux** : chaque lundi, 2 ou 3 articles sur l'actualité du week-end et des jours précédents. Le brouillon est préparé le dimanche soir.
-- **English News** : vérification chaque semaine, mais 1 à 3 articles **seulement si l'actualité en vaut la peine**. S'il n'y a rien de pertinent, ne rien préparer et le dire.
+- **English News** : 3 articles par semaine, **un par soir** : le dimanche, le mardi et le jeudi. Chaque article passe par le circuit de validation avant d'être publié. On alterne les niveaux sur la semaine : en principe « 5e » le dimanche, « 4e » le mardi et « 5e · 4e » le jeudi. S'il n'y a vraiment rien de pertinent un soir, on ne prépare rien et on le dit.
+  - **File d'attente** (`news/queue.json`) : des articles déjà rédigés, mais pas encore proposés. À chaque soir, s'il reste un article dans la file, on prend le premier au lieu d'en écrire un nouveau. On met sa `date` et le début de son `id` à la date du jour, puis on le retire de la file et on le place dans `drafts.json`. Cette page n'est jamais affichée sur le site.
+  - Si un brouillon d'un soir précédent attend encore la validation, on le **garde** dans `drafts.json` et on le mentionne dans le message. Un brouillon proposé il y a plus de 7 jours est périmé : on le retire et on le signale.
 
 ## Choix des sujets
 
