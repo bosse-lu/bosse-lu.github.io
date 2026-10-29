@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
 .homelink{display:inline-block;margin:0 auto 4px;font:600 14px/1.4 "Atkinson Hyperlegible",Verdana,sans-serif;color:inherit;opacity:.75;text-decoration:none}
-.homelink:hover{opacity:1;text-decoration:underline}.homebar{max-width:780px;margin:0 auto}</style>
+.homelink:hover{opacity:1;text-decoration:underline}.homebar{max-width:780px;margin:0 auto}
+.hero-art{flex:none;width:clamp(76px,20vw,124px);aspect-ratio:1}.hero-art svg{display:block;width:100%;height:100%}header{align-items:center!important}.hero-art + div{flex:1 1 200px}
+</style>
 </head>
 <body>
 <title>Excuse Lab</title>
@@ -122,6 +124,7 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
   <div class="homebar"><a class="homelink" href="../">← Toutes les activités · Collège Réeberg Néron</a></div>
   <div data-bunting></div>
   <header>
+    <div class="hero-art" data-art="excuse" aria-hidden="true"></div>
     <div>
       <h1>Excuse <span>Lab</span></h1>
       <p class="sub">Les vraies voix du dialogue <i>What's your excuse today?</i> Écoute, répète, joue la scène.</p>
@@ -507,5 +510,6 @@ if(!["verbs","lines","play"].includes(state.tab)) state.tab="lines";
 render();
 </script>
 
+<script src="../assets/art.js"></script>
 </body>
 </html>

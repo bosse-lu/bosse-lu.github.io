@@ -50,49 +50,60 @@ footer{font-size:.85rem;color:var(--muted)}
 .fl{margin:0;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-size:.85rem;font-weight:700}
 .fl .flag{width:72px;height:46px;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.25)}
 .fl em{font-style:normal;color:var(--accent);font-weight:700}
+
+.hero-art{float:right;width:clamp(92px,26vw,170px);aspect-ratio:1;margin:0 0 8px 14px}.hero-art svg{display:block;width:100%;height:100%}
+header::after{content:"";display:block;clear:both}
+.card-art{display:block;width:72px;height:72px;margin:-4px 0 -2px -6px}.card-art svg{display:block;width:100%;height:100%}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div data-bunting="3"></div>
   <header>
-    <p class="kicker">Collège Réeberg Néron · Anglais 5e</p>
+    <div class="hero-art" data-art="home" aria-hidden="true"></div>
+    <p class="kicker">Collège Réeberg Néron · Anglais 5e · 4e</p>
     <h1>English with <span>M. Bosse</span></h1>
     <p class="lead">Des activités pour travailler ta prononciation en anglais : écoute, répète, enregistre-toi et compare.</p>
   </header>
 
   <section class="grid" aria-label="Activités">
     <a class="tool" href="excuse-lab/">
+      <span class="card-art" data-art="excuse" aria-hidden="true"></span>
       <span class="tag">5e · Late and absent</span>
       <h2>Excuse Lab</h2>
       <p>Les vraies voix du dialogue <i>What's your excuse today?</i> Les verbes au prétérit, les phrases et le jeu de rôle.</p>
       <span class="go">Commencer →</span>
     </a>
     <a class="tool" href="news/">
+      <span class="card-art" data-art="news" aria-hidden="true"></span>
       <span class="tag">5e · 4e · Chaque semaine</span>
       <h2>English News</h2>
       <p>Des nouvelles du monde anglophone en anglais simplifié : sciences, nature, école… Avec les mots-clés et un quiz.</p>
       <span class="go">Lire les news →</span>
     </a>
     <a class="tool" href="foot/">
+      <span class="card-art" data-art="foot" aria-hidden="true"></span>
       <span class="tag">4e section foot · Dim, mar, jeu</span>
-      <h2>Spécial footeux ⚽</h2>
+      <h2>Spécial footeux</h2>
       <p>L'actu du football anglophone du week-end, en anglais : Premier League, coupes, football féminin.</p>
       <span class="go">Lire l'actu foot →</span>
     </a>
     <a class="tool" href="late-bus/">
+      <span class="card-art" data-art="bus" aria-hidden="true"></span>
       <span class="tag">5e · Late and absent · Royaume-Uni</span>
       <h2>Blame the bus!</h2>
       <p>Un article de presse britannique sur les retards à Londres. Lis-le, écoute-le, puis entraîne-toi sur ses verbes en -ed.</p>
       <span class="go">Commencer →</span>
     </a>
     <a class="tool" href="ed-sounds/">
+      <span class="card-art" data-art="ed" aria-hidden="true"></span>
       <span class="tag">5e · Prétérit et -ed</span>
       <h2>Les sons de -ed</h2>
       <p>/t/, /d/ ou /ɪd/ ? Entraîne-toi puis passe l'évaluation finale à rendre sur Pronote.</p>
       <span class="go">Commencer →</span>
     </a>
     <a class="tool" href="stress-lab/">
+      <span class="card-art" data-art="stress" aria-hidden="true"></span>
       <span class="tag">5e · Accent tonique</span>
       <h2>Stress Lab</h2>
       <p>Trouve la syllabe accentuée (‑tion, ‑ic, ‑graphy, favourite, beautiful…) et dis-la avec le bon rythme.</p>
@@ -116,7 +127,7 @@ footer{font-size:.85rem;color:var(--muted)}
     <div class="flaggrid" data-flaggrid></div>
   </section>
 
-  <footer>Site créé par M. Bosse, professeur d'anglais au collège Réeberg Néron, pour ses élèves de 5e.</footer>
+  <footer>Site créé par M. Bosse, professeur d'anglais au collège Réeberg Néron, pour ses élèves de 5e et de 4e.</footer>
 </div>
 <script>/* Flags of English-speaking countries, drawn in SVG (no external files) */
 (function () {
@@ -182,5 +193,6 @@ footer{font-size:.85rem;color:var(--muted)}
   });
 })();
 </script>
+<script src="assets/art.js"></script>
 </body>
 </html>
