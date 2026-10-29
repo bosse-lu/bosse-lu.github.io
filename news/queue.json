@@ -1,40 +1,5 @@
 [
   {
-    "id": "2026-10-29-perseverance-record",
-    "date": "2026-10-29",
-    "level": "5e",
-    "topic": "Space",
-    "country": "USA",
-    "flag": "usa",
-    "emoji": "🚀",
-    "title": "A new record on Mars!",
-    "lead": "NASA's Perseverance rover is now the vehicle that has driven the farthest on another world.",
-    "body": [
-      "Perseverance is a robot car, called a rover. It is on Mars, in a place called Jezero Crater. It arrived there in 2021.",
-      "On 11 October 2026, Perseverance broke a record. It has now travelled 45.22 kilometres on Mars. No other vehicle has driven so far on another planet or on the Moon!",
-      "The old record belonged to another NASA rover, Opportunity. It drove 45.16 kilometres on Mars and stopped working in 2018. Perseverance did it in about half the time.",
-      "How does it drive? Perseverance can think while it drives. It looks at the pictures from its cameras and chooses a safe way around the rocks. It can travel up to 412 metres in one Martian day."
-    ],
-    "keywords": [
-      ["rover", "robot explorateur"],
-      ["record", "record"],
-      ["broke a record", "a battu un record"],
-      ["crater", "cratère"],
-      ["drove", "a roulé (drive = conduire, rouler)"],
-      ["safe", "sûr, sans danger"],
-      ["Martian day", "jour martien"]
-    ],
-    "questions": [
-      {"q": "Where is Perseverance?", "options": ["On the Moon", "On Mars", "In the USA"], "answer": 1},
-      {"q": "How far has it travelled?", "options": ["4.5 km", "45.22 km", "412 km"], "answer": 1},
-      {"q": "Which rover had the old record?", "options": ["Opportunity", "Curiosity", "Apollo"], "answer": 0}
-    ],
-    "turn": "Would you like to drive a rover on Mars? Why? Why not? → I would like to… because… / I wouldn't like to… because…",
-    "sources": [
-      {"name": "The Weather Network (Canada)", "date": "14 October 2026", "url": "https://www.theweathernetwork.com/en/news/science/space/nasa-mars-perseverance-rover-sets-new-record-for-farthest-off-world-driving-distance"}
-    ]
-  },
-  {
     "id": "2026-10-29-honey-bee-bullies",
     "date": "2026-10-29",
     "level": "4e",
@@ -51,23 +16,75 @@
       "The scientists don't say: \"Stop keeping bees!\" But there are more and more beekeepers in the UK: 19,000 in 2010 and 47,000 today. We need to protect wild pollinators too."
     ],
     "keywords": [
-      ["honey bee", "abeille domestique, abeille à miel"],
-      ["bumblebees", "bourdons"],
-      ["bullies", "brutes, harceleurs"],
-      ["hive", "ruche"],
-      ["chased", "ont chassé, poursuivi"],
-      ["wild", "sauvage"],
-      ["beekeepers", "apiculteurs"],
-      ["global warming", "réchauffement climatique"]
+      [
+        "honey bee",
+        "abeille domestique, abeille à miel"
+      ],
+      [
+        "bumblebees",
+        "bourdons"
+      ],
+      [
+        "bullies",
+        "brutes, harceleurs"
+      ],
+      [
+        "hive",
+        "ruche"
+      ],
+      [
+        "chased",
+        "ont chassé, poursuivi"
+      ],
+      [
+        "wild",
+        "sauvage"
+      ],
+      [
+        "beekeepers",
+        "apiculteurs"
+      ],
+      [
+        "global warming",
+        "réchauffement climatique"
+      ]
     ],
     "questions": [
-      {"q": "Where did the scientists do their study?", "options": ["Around Cambridge, in England", "In London", "In Australia"], "answer": 0},
-      {"q": "What did honey bees often do?", "options": ["They helped other insects", "They pushed other insects away", "They slept on the flowers"], "answer": 1},
-      {"q": "When was the competition stronger?", "options": ["When it was cold", "When it rained", "When it was hot"], "answer": 2}
+      {
+        "q": "Where did the scientists do their study?",
+        "options": [
+          "Around Cambridge, in England",
+          "In London",
+          "In Australia"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "What did honey bees often do?",
+        "options": [
+          "They helped other insects",
+          "They pushed other insects away",
+          "They slept on the flowers"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "When was the competition stronger?",
+        "options": [
+          "When it was cold",
+          "When it rained",
+          "When it was hot"
+        ],
+        "answer": 2
+      }
     ],
     "turn": "Is it a good idea to have bee hives in cities? Give your opinion: I think it is a good / bad idea because…",
     "sources": [
-      {"name": "ScienceDaily, from Anglia Ruskin University (UK)", "date": "22 October 2026", "url": "https://www.sciencedaily.com/releases/2026/10/261021231227.htm"}
+      {
+        "name": "ScienceDaily, from Anglia Ruskin University (UK)",
+        "date": "22 October 2026",
+        "url": "https://www.sciencedaily.com/releases/2026/10/261021231227.htm"
+      }
     ]
   },
   {
@@ -87,22 +104,71 @@
       "Why? The idea is to have fewer distractions in class, to help pupils concentrate, and to encourage them to talk to each other."
     ],
     "keywords": [
-      ["mobile phones", "téléphones portables"],
-      ["pupils", "élèves"],
-      ["break", "récréation"],
-      ["locker", "casier"],
-      ["pouch", "pochette"],
-      ["distractions", "distractions"],
-      ["concentrate", "se concentrer"]
+      [
+        "mobile phones",
+        "téléphones portables"
+      ],
+      [
+        "pupils",
+        "élèves"
+      ],
+      [
+        "break",
+        "récréation"
+      ],
+      [
+        "locker",
+        "casier"
+      ],
+      [
+        "pouch",
+        "pochette"
+      ],
+      [
+        "distractions",
+        "distractions"
+      ],
+      [
+        "concentrate",
+        "se concentrer"
+      ]
     ],
     "questions": [
-      {"q": "When can't pupils use their phones?", "options": ["Only during lessons", "All day at school", "Only at lunch"], "answer": 1},
-      {"q": "What is a pouch?", "options": ["A small bag that stays closed", "A new phone", "A school bus"], "answer": 0},
-      {"q": "Why are schools phone-free?", "options": ["To sell more phones", "To help pupils concentrate", "To make lessons longer"], "answer": 1}
+      {
+        "q": "When can't pupils use their phones?",
+        "options": [
+          "Only during lessons",
+          "All day at school",
+          "Only at lunch"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "What is a pouch?",
+        "options": [
+          "A small bag that stays closed",
+          "A new phone",
+          "A school bus"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Why are schools phone-free?",
+        "options": [
+          "To sell more phones",
+          "To help pupils concentrate",
+          "To make lessons longer"
+        ],
+        "answer": 1
+      }
     ],
     "turn": "Compare with your school: In England, pupils… In my school, we… I think it's a good / bad idea because…",
     "sources": [
-      {"name": "Lynn News (England)", "date": "14 October 2026", "url": "https://www.lynnnews.co.uk/news/schools-reveal-how-new-mobile-phone-rules-are-being-enforced-9486814/"}
+      {
+        "name": "Lynn News (England)",
+        "date": "14 October 2026",
+        "url": "https://www.lynnnews.co.uk/news/schools-reveal-how-new-mobile-phone-rules-are-being-enforced-9486814/"
+      }
     ]
   }
 ]
