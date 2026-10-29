@@ -1,1 +1,91 @@
-[]
+[
+  {
+    "id": "2026-10-29-villa-end-city-run",
+    "date": "2026-10-29",
+    "level": "4e",
+    "topic": "Premier League",
+    "country": "England",
+    "flag": "england",
+    "emoji": "⚽",
+    "title": "Aston Villa end Manchester City's perfect start",
+    "lead": "Manchester City won their first seven league games, but then Aston Villa beat them 2-1.",
+    "body": [
+      "On Saturday 24 October 2026, Aston Villa played Manchester City at Villa Park, in Birmingham. City had won all their seven Premier League games this season, and they wanted to make it eight.",
+      "But Villa's striker Nicolas Jackson scored in the 6th minute. After half-time, Erling Haaland equalised for City with a header. Then, in the 60th minute, Jackson scored again: his shot went under the City goalkeeper, Gianluigi Donnarumma. Final score: Villa 2-1 City.",
+      "It was the end of City's perfect start and their first defeat in the league this season. Their manager, Enzo Maresca, was not happy. He said: \"I don't think we deserved to lose today.\"",
+      "The same day, Arsenal beat Everton 2-0, with goals from Ezri Konsa and Gabriel. So after 8 games, Arsenal and City both had 21 points, and City stayed first because their goal difference was better."
+    ],
+    "keywords": [
+      [
+        "perfect start",
+        "début parfait"
+      ],
+      [
+        "striker",
+        "attaquant"
+      ],
+      [
+        "header",
+        "tête"
+      ],
+      [
+        "shot",
+        "tir"
+      ],
+      [
+        "defeat",
+        "défaite"
+      ],
+      [
+        "manager",
+        "entraîneur"
+      ],
+      [
+        "deserved",
+        "méritions"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "How many league games had City won before this match?",
+        "options": [
+          "5",
+          "7",
+          "8"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Who scored two goals for Aston Villa?",
+        "options": [
+          "Erling Haaland",
+          "Ezri Konsa",
+          "Nicolas Jackson"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "How many points did Arsenal and City have after 8 games?",
+        "options": [
+          "16",
+          "19",
+          "21"
+        ],
+        "answer": 2
+      }
+    ],
+    "turn": "Who will win the Premier League this season? Give your opinion: I think… will win because…",
+    "sources": [
+      {
+        "name": "Associated Press, via Click2Houston (USA)",
+        "date": "24 October 2026",
+        "url": "https://www.click2houston.com/sports/2026/10/24/man-citys-perfect-start-to-premier-league-season-ends-with-a-2-1-loss-at-aston-villa/"
+      },
+      {
+        "name": "AFP, via Kuwait Times",
+        "date": "24 October 2026",
+        "url": "https://kuwaittimes.com/article/52321/sports/arsenal-join-man-city-at-top-after-villa-end-leaders-perfect-start/"
+      }
+    ]
+  }
+]
