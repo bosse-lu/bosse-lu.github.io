@@ -1,0 +1,193 @@
+[
+  {
+    "id": "2026-11-02-chelsea-top-wsl",
+    "date": "2026-11-02",
+    "level": "4e",
+    "topic": "Women's football",
+    "country": "England",
+    "flag": "england",
+    "emoji": "🌟",
+    "title": "Chelsea come back and go top of the WSL",
+    "lead": "Chelsea won at Crystal Palace, and Manchester City dropped their first points of the season.",
+    "body": [
+      "On Sunday 25 October 2026, there were two big games in the Women's Super League (WSL), the top division of women's football in England.",
+      "First, Crystal Palace played against Chelsea. Molly Bartrip scored for Palace in the 20th minute. It was Palace's first goal ever against Chelsea! But Chelsea came back in the second half. Melvine Malard, a French striker from La Réunion, scored twice. Then Sandy Baltimore, a substitute, scored a penalty in the 90th minute. Final score: Palace 1-3 Chelsea.",
+      "Later, Manchester City played Manchester United in the Manchester derby. City had won their first six games of the season. Bunny Shaw scored for City in the second half, but Elisabeth Terland equalised for United in the 89th minute. The two teams drew 1-1.",
+      "After these games, Chelsea and City both had 19 points. Chelsea were first because their goal difference was better."
+    ],
+    "keywords": [
+      [
+        "top division",
+        "première division"
+      ],
+      [
+        "came back",
+        "sont revenues (au score)"
+      ],
+      [
+        "striker",
+        "attaquante"
+      ],
+      [
+        "scored twice",
+        "a marqué deux fois"
+      ],
+      [
+        "substitute",
+        "remplaçante"
+      ],
+      [
+        "derby",
+        "derby (match entre deux équipes de la même ville)"
+      ],
+      [
+        "drew",
+        "ont fait match nul (draw)"
+      ],
+      [
+        "goal difference",
+        "différence de buts"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "Who scored for Crystal Palace?",
+        "options": [
+          "Melvine Malard",
+          "Molly Bartrip",
+          "Bunny Shaw"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "How many goals did Melvine Malard score?",
+        "options": [
+          "1",
+          "2",
+          "3"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "What was the score in the Manchester derby?",
+        "options": [
+          "1-1",
+          "1-3",
+          "2-1"
+        ],
+        "answer": 0
+      }
+    ],
+    "turn": "Choose a player from this article and present her: Her name is… She plays for… On Sunday, she…",
+    "sources": [
+      {
+        "name": "Sky Sports (UK)",
+        "date": "25 October 2026",
+        "url": "https://www.skysports.com/football/crystal-palace-women-vs-chelsea-women/report/575799"
+      },
+      {
+        "name": "Chelsea FC (UK)",
+        "date": "25 October 2026",
+        "url": "https://www.chelseafc.com/en/news/article/match-report-crystal-palace-1-3-chelsea-women"
+      },
+      {
+        "name": "ABC News (Australia)",
+        "date": "26 October 2026",
+        "url": "https://www.abc.net.au/news/2026-10-26/mary-fowler-manchester-city-held-to-end-wsl-winning-start/107308170"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-02-fleetwood-arsenal",
+    "date": "2026-11-02",
+    "level": "4e",
+    "topic": "Carabao Cup",
+    "country": "England",
+    "flag": "england",
+    "emoji": "🏆",
+    "title": "Giant-killers! Fleetwood knock out Arsenal",
+    "lead": "A small club from the fourth division has beaten the Premier League champions in the Carabao Cup.",
+    "body": [
+      "On Tuesday 27 October 2026, Fleetwood Town played against Arsenal in the fourth round of the Carabao Cup, also called the League Cup. Fleetwood are in League Two, the fourth division of English football, and they are only 18th in the table. Arsenal are the Premier League champions.",
+      "The match had a strange start: a drone flew over the pitch, so the referee stopped the game for 7 minutes! Then, in the 21st minute, Aaron Loupalo-Bi scored for Fleetwood. Viktor Gyökeres equalised for Arsenal in the 50th minute.",
+      "It was 1-1 after 90 minutes, so there was a penalty shoot-out. Fleetwood's goalkeeper, Jay Lynch, saved a penalty from Bruno Guimarães. Then a teenage defender, Conor Haughey, scored the winning penalty: 5-3! The fans ran onto the pitch to celebrate.",
+      "It is the first time that the Premier League champions have lost to a fourth-division team in this cup. And Fleetwood have reached the quarter-finals for the first time in their history."
+    ],
+    "keywords": [
+      [
+        "fourth division",
+        "quatrième division"
+      ],
+      [
+        "drone",
+        "drone"
+      ],
+      [
+        "pitch",
+        "terrain"
+      ],
+      [
+        "equalised",
+        "a égalisé"
+      ],
+      [
+        "penalty shoot-out",
+        "séance de tirs au but"
+      ],
+      [
+        "saved",
+        "a arrêté (un tir)"
+      ],
+      [
+        "teenage",
+        "adolescent"
+      ],
+      [
+        "quarter-finals",
+        "quarts de finale"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "Why did the referee stop the game at the start?",
+        "options": [
+          "Because it was raining",
+          "Because a drone flew over the pitch",
+          "Because a player was injured"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Who saved a penalty?",
+        "options": [
+          "Jay Lynch",
+          "Viktor Gyökeres",
+          "Conor Haughey"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "What was the score in the penalty shoot-out?",
+        "options": [
+          "1-1",
+          "5-3",
+          "4-2"
+        ],
+        "answer": 1
+      }
+    ],
+    "turn": "Imagine you were a Fleetwood fan at the match. Tell a friend what happened: I was at the stadium when… Then… At the end…",
+    "sources": [
+      {
+        "name": "Sky Sports (UK)",
+        "date": "28 October 2026",
+        "url": "https://www.skysports.com/football/news/13604003/fleetwood-1-1-arsenal-5-3-pens-premier-league-champions-dumped-out-of-carabao-cup-by-league-two-side"
+      },
+      {
+        "name": "ESPN (USA)",
+        "date": "27 October 2026",
+        "url": "https://www.espn.com/soccer/story/_/id/50301787/arsenal-fleetwood-town-carabao-cup-4th-round-dowman-drone"
+      }
+    ]
+  }
+]
