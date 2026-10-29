@@ -8,6 +8,8 @@
   try { store = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} };
   store.answers = store.answers || {};
+  store.seen = store.seen || {};
+  const NEW_DAYS = 14; // an unread article stays "NEW" for two weeks
 
   const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   async function load(file) {
@@ -31,7 +33,8 @@
 
   const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
   const fmt = d => { const [y, m, dd] = (d || "").split("-").map(Number); return y ? `${dd} ${MONTHS[m - 1]} ${y}` : ""; };
-  const isNew = d => { const t = Date.parse(d); return t && (Date.now() - t) < 8 * 864e5; };
+  const recent = d => { const t = Date.parse(d); return t && (Date.now() - t) < NEW_DAYS * 864e5; };
+  const unread = a => !a.draft && recent(a.date) && !store.seen[a.id];
   const flag = code => (window.EnglishFlags && code && EnglishFlags.flag) ? (() => { try { return EnglishFlags.flag(code); } catch (e) { return ""; } })() : "";
 
   function markKeywords(paras, kws) {
@@ -72,12 +75,12 @@
   function card(a) {
     const open = store.open === a.id;
     const tags = [
-      a.draft ? `<span class="tag dr">Brouillon</span>` : (isNew(a.date) ? `<span class="tag new">New</span>` : ""),
+      a.draft ? `<span class="tag dr">Brouillon</span>` : (unread(a) ? `<span class="tag hot">NEW</span>` : ""),
       a.level ? `<span class="tag lvl">${esc(a.level)}</span>` : "",
       a.topic ? `<span class="tag">${esc(a.topic)}</span>` : ""
     ].join("");
     const srcs = (a.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>${s.date ? `, ${esc(s.date)}` : ""}`).join(" · ");
-    return `<article class="art${a.draft ? " draft" : ""}" id="a-${esc(a.id)}">
+    return `<article class="art${a.draft ? " draft" : ""}${unread(a) ? " unread" : ""}" id="a-${esc(a.id)}">
       <div class="art-top">${flag(a.flag)}<span>${esc(a.country || "")} · ${fmt(a.date)}</span>${tags}</div>
       <h2 lang="en">${a.emoji ? `<span class="emo" aria-hidden="true">${esc(a.emoji)}</span>` : ""}${esc(a.title)}</h2>
       <p class="lead" lang="en">${esc(a.lead || "")}</p>
@@ -108,16 +111,46 @@
     const shown = all.filter(a => (fl === "all" || (a.level || "").includes(fl)) && (ft === "all" || a.topic === ft));
     list.innerHTML = shown.length ? shown.map(card).join("") : `<div class="empty">${all.length ? "Aucun article pour ce choix." : root.dataset.empty}</div>`;
   }
-  renderFilters(); render();
-  if (location.hash.startsWith("#a-")) { store.open = location.hash.slice(3); render(); const el = document.querySelector(location.hash); if (el) el.scrollIntoView(); }
+  // NEW corner badge, notification banner and tab title for unread articles
+  const baseTitle = document.title;
+  const corner = document.createElement("button");
+  corner.className = "corner-new"; corner.type = "button"; corner.hidden = true;
+  document.body.appendChild(corner);
+  const banner = document.getElementById("notif");
+  function updateUnread(first) {
+    const n = all.filter(unread).length;
+    corner.hidden = !n;
+    corner.innerHTML = `<span class="cn-label">NEW</span><span class="cn-count">${n}</span>`;
+    corner.setAttribute("aria-label", n + (n > 1 ? " nouveaux articles à lire" : " nouvel article à lire"));
+    document.title = n ? `(${n}) ${baseTitle}` : baseTitle;
+    if (banner) {
+      if (n && first) {
+        banner.hidden = false;
+        banner.innerHTML = `<span class="bell" aria-hidden="true">🔔</span><span><b>${n === 1 ? "Un nouvel article" : n + " nouveaux articles"}</b> ${n === 1 ? "t'attend" : "t'attendent"} ! Ouvre ${n === 1 ? "celui" : "ceux"} marqué${n === 1 ? "" : "s"} <b class="red">NEW</b>.</span><button class="x" type="button" aria-label="Fermer">×</button>`;
+      } else if (!n) banner.hidden = true;
+    }
+  }
+  corner.addEventListener("click", () => {
+    const a = all.find(unread); if (!a) return;
+    if (fl !== "all" || ft !== "all") { fl = "all"; ft = "all"; store.level = fl; store.topic = ft; renderFilters(); }
+    store.open = a.id; markSeen(a.id); render();
+    const el = document.getElementById("a-" + a.id); if (el) el.scrollIntoView({block: "start"});
+  });
+  function markSeen(id) { const a = all.find(x => x.id === id); if (a && !a.draft) { store.seen[id] = 1; save(); updateUnread(false); } }
+
+  renderFilters(); render(); updateUnread(true);
+  if (location.hash.startsWith("#a-")) { store.open = location.hash.slice(3); markSeen(store.open); render(); const el = document.querySelector(location.hash); if (el) el.scrollIntoView(); }
 
   document.addEventListener("click", e => {
     const k = e.target.closest(".kwd"); if (k) { k.classList.toggle("show"); return; }
     const t = e.target.closest("button"); if (!t) return;
+    if (t.classList.contains("x") && t.closest("#notif")) { document.getElementById("notif").hidden = true; return; }
     if (t.dataset.fl) { fl = t.dataset.fl; store.level = fl; save(); renderFilters(); render(); return; }
     if (t.dataset.ft) { ft = t.dataset.ft; store.topic = ft; save(); renderFilters(); render(); return; }
     if (t.dataset.open) {
-      store.open = store.open === t.dataset.open ? null : t.dataset.open; save(); render();
+      store.open = store.open === t.dataset.open ? null : t.dataset.open; save();
+      if (store.open) markSeen(store.open);
+      render();
       const el = document.getElementById("a-" + t.dataset.open); if (el && store.open) el.scrollIntoView({block: "start"});
       return;
     }

@@ -10,7 +10,7 @@
 </style>
 </head>
 <body>
-<title>Stress Lab 5e</title>
+<title>Stress Lab – Late and absent</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400&display=swap">
@@ -129,7 +129,7 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
     <div class="hero-art" data-art="stress" aria-hidden="true"></div>
     <div>
       <h1>Stress <span>Lab</span></h1>
-      <p class="sub">Trouve la syllabe accentuée, écoute, enregistre-toi, compare.</p>
+      <p class="sub">Les mots et les phrases de la séquence <i>Late and absent</i>. Trouve la syllabe accentuée, écoute, enregistre-toi, compare.</p>
     </div>
     <div class="settings">
       <label for="accent">Voix</label>
@@ -145,11 +145,12 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
   <details>
     <summary>Notes pour le professeur</summary>
     <ul>
-      <li>Classe de 5e (programme 2025, en vigueur à la rentrée 2026 : A2 attendu en fin de 5e en LVA). 16 items : familles <b>-graph / -graphy</b>, mots en <b>-tion</b>, mots en <b>-ic</b>, trois phrases, puis 5 mots du programme de 5e.</li>
-      <li>Le programme de 5e cite l'accentuation des mots polysyllabiques (<i>intelligent, beautiful, favourite</i>) : ces mots sont dans la série « Programme 5e ».</li>
+      <li>Contenu de la séquence <i>Late and absent</i> (5e, axe 4 École et loisirs). 23 items : 13 mots des dialogues (<i>absent, excuse, overslept, appointment, Wednesday…</i>), 3 mots des excuses (<i>toothache, sore throat, temperature</i>), puis 7 phrases des dialogues pour travailler l'accent de phrase et le rythme.</li>
+      <li>Points de vigilance pour des francophones : <i>ABsent</i>, <i>DENtist</i> et <i>TOIlet</i> (accent au début, au contraire du français), <i>exCUSE</i>, <i>forGOT</i> et <i>apPOINTment</i> (première syllabe faible), <i>Wednesday</i> en deux syllabes.</li>
+      <li>Dans les phrases, les syllabes en gras portent l'accent. Les mots grammaticaux (<i>can, were, and, my, at the</i>) sont faibles : c'est ce qui donne le rythme de l'anglais. Les flèches ↘ ↗ rappellent l'intonation des questions, comme dans l'Excuse Lab.</li>
+      <li>La voix est la synthèse vocale du navigateur. Pour les vraies voix du dialogue, utiliser l'Excuse Lab.</li>
       <li>La reconnaissance vocale fonctionne dans Chrome ou Edge. Elle dit si le mot a été <i>compris</i>, pas si l'accent tonique est juste : l'accentuation se travaille par l'écoute comparée et l'auto-évaluation.</li>
-      <li>Si le micro est bloqué, l'élève s'enregistre avec l'appli dictaphone du téléphone puis importe le fichier.</li>
-      <li>Les résultats restent sur l'appareil de l'élève. Demandez une capture d'écran de la liste de mots (pastilles vertes, jaunes, rouges) pour le suivi.</li>
+      <li>Si le micro est bloqué, l'élève s'enregistre avec l'appli dictaphone du téléphone puis importe le fichier. Les résultats restent sur l'appareil de l'élève : demandez une capture d'écran de la liste (pastilles vertes, jaunes, rouges) pour le suivi.</li>
     </ul>
   </details>
 </div>
@@ -220,32 +221,31 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
 </script>
 <script>
 const ITEMS = [
-  {g:"-graph", w:"photograph", syl:["pho","to","graph"], s:0, ipa:"/ˈfəʊ.tə.ɡrɑːf/", fr:"une photo", rule:"<strong>photograph</strong> : accent au début. Mais attention, il bouge quand le mot s'allonge !"},
-  {g:"-graph", w:"photographer", syl:["pho","to","gra","pher"], s:1, ipa:"/fəˈtɒɡ.rə.fə/", fr:"un photographe", rule:"Avec <strong>-grapher</strong> et <strong>-graphy</strong>, l'accent tombe sur la syllabe <strong>juste avant</strong>."},
-  {g:"-graph", w:"photographic", syl:["pho","to","gra","phic"], s:2, ipa:"/ˌfəʊ.təˈɡræf.ɪk/", fr:"photographique", rule:"Avec <strong>-ic</strong>, l'accent tombe sur la syllabe <strong>juste avant</strong> : pho-to-<strong>GRA</strong>-phic."},
-  {g:"-graph", w:"geography", syl:["ge","o","gra","phy"], s:1, ipa:"/dʒiˈɒɡ.rə.fi/", fr:"la géographie", rule:"<strong>-graphy</strong> : accent sur la syllabe juste avant, ge-<strong>O</strong>-gra-phy."},
-  {g:"-graph", w:"biography", syl:["bi","o","gra","phy"], s:1, ipa:"/baɪˈɒɡ.rə.fi/", fr:"une biographie", rule:"Même règle que geography : bi-<strong>O</strong>-gra-phy."},
-  {g:"-tion", w:"information", syl:["in","for","ma","tion"], s:2, ipa:"/ˌɪn.fəˈmeɪ.ʃən/", fr:"des informations", rule:"<strong>-tion</strong> : l'accent tombe toujours sur la syllabe <strong>juste avant</strong>."},
-  {g:"-tion", w:"education", syl:["e","du","ca","tion"], s:2, ipa:"/ˌedʒ.uˈkeɪ.ʃən/", fr:"l'éducation", rule:"<strong>-tion</strong> : e-du-<strong>CA</strong>-tion. En français, on accentue la fin ; en anglais, non."},
-  {g:"-tion", w:"competition", syl:["com","pe","ti","tion"], s:2, ipa:"/ˌkɒm.pəˈtɪʃ.ən/", fr:"une compétition", rule:"<strong>-tion</strong> : com-pe-<strong>TI</strong>-tion."},
-  {g:"-tion", w:"pronunciation", syl:["pro","nun","ci","a","tion"], s:3, ipa:"/prəˌnʌn.siˈeɪ.ʃən/", fr:"la prononciation", rule:"<strong>-tion</strong> : pro-nun-ci-<strong>A</strong>-tion. Et on dit « nun », pas « noun » !"},
-  {g:"-ic", w:"fantastic", syl:["fan","tas","tic"], s:1, ipa:"/fænˈtæs.tɪk/", fr:"fantastique", rule:"<strong>-ic</strong> : l'accent tombe sur la syllabe <strong>juste avant</strong>."},
-  {g:"-ic", w:"electric", syl:["e","lec","tric"], s:1, ipa:"/ɪˈlek.trɪk/", fr:"électrique", rule:"<strong>-ic</strong> : e-<strong>LEC</strong>-tric."},
-  {g:"-ic", w:"scientific", syl:["sci","en","ti","fic"], s:2, ipa:"/ˌsaɪ.ənˈtɪf.ɪk/", fr:"scientifique", rule:"<strong>-ic</strong> : sci-en-<strong>TI</strong>-fic."},
-  {g:"-ic", w:"economic", syl:["e","co","no","mic"], s:2, ipa:"/ˌiː.kəˈnɒm.ɪk/", fr:"économique", rule:"<strong>-ic</strong> : e-co-<strong>NO</strong>-mic."},
-  {g:"Phrases", sentence:"My <b>pho</b>tographer is fan<b>tas</b>tic!", fr:"Mon photographe est génial !", rule:"Mets de l'énergie sur les syllabes surlignées et passe vite sur les autres."},
-  {g:"Phrases", sentence:"I need some infor<b>ma</b>tion about ge<b>o</b>graphy.", fr:"J'ai besoin d'informations sur la géographie.", rule:"<strong>some</strong> et <strong>about</strong> sont faibles : on les dit vite."},
-  {g:"Phrases", sentence:"The compe<b>ti</b>tion was scien<b>ti</b>fic and e<b>lec</b>tric!", fr:"La compétition était scientifique et électrisante !", rule:"Trois mots, trois accents à placer. Attention : sci-en-<strong>TI</strong>-fic."}
+  {g:"Mots du dialogue", w:"absent", syl:["ab","sent"], s:0, ipa:"/ˈæb.sənt/", fr:"absent", rule:"<strong>AB</strong>-sent : accent au début. En français on dit ab-SENT, en anglais c'est l'inverse !"},
+  {g:"Mots du dialogue", w:"absence", syl:["ab","sence"], s:0, ipa:"/ˈæb.səns/", fr:"une absence (an absence note = un mot d'absence)", rule:"<strong>AB</strong>-sence, comme absent. La 2e syllabe est faible : /səns/."},
+  {g:"Mots du dialogue", w:"excuse", syl:["ex","cuse"], s:1, ipa:"/ɪkˈskjuːs/", fr:"une excuse", rule:"ex-<strong>CUSE</strong> : accent sur la 2e syllabe. Le « ex » est très court : /ɪk/."},
+  {g:"Mots du dialogue", w:"sorry", syl:["sor","ry"], s:0, ipa:"/ˈsɒr.i/", fr:"désolé", rule:"<strong>SOR</strong>-ry : accent au début, la fin est légère."},
+  {g:"Mots du dialogue", w:"teacher", syl:["tea","cher"], s:0, ipa:"/ˈtiː.tʃə/", fr:"le professeur", rule:"<strong>TEA</strong>-cher : accent au début. -er est faible : /tʃə/."},
+  {g:"Mots du dialogue", w:"overslept", syl:["o","ver","slept"], s:2, ipa:"/ˌəʊ.vəˈslept/", fr:"je ne me suis pas réveillé (oversleep)", rule:"o-ver-<strong>SLEPT</strong> : over- est léger, l'accent tombe sur le verbe sleep."},
+  {g:"Mots du dialogue", w:"forgot", syl:["for","got"], s:1, ipa:"/fəˈɡɒt/", fr:"j'ai oublié (forget)", rule:"for-<strong>GOT</strong> : for- est faible, /fə/. On appuie sur got."},
+  {g:"Mots du dialogue", w:"headache", syl:["head","ache"], s:0, ipa:"/ˈhed.eɪk/", fr:"un mal de tête", rule:"<strong>HEAD</strong>-ache : mot composé, accent sur le premier mot. ache se dit /eɪk/."},
+  {g:"Mots du dialogue", w:"toilet", syl:["toi","let"], s:0, ipa:"/ˈtɔɪ.lət/", fr:"les toilettes", rule:"<strong>TOI</strong>-let : accent au début, pas « toi-LETTE » comme en français."},
+  {g:"Mots du dialogue", w:"Wednesday", syl:["Wednes","day"], s:0, ipa:"/ˈwenz.deɪ/", fr:"mercredi", rule:"<strong>WEDNES</strong>-day : deux syllabes seulement, /ˈwenz.deɪ/. Le premier d ne se prononce pas !"},
+  {g:"Mots du dialogue", w:"afternoon", syl:["af","ter","noon"], s:2, ipa:"/ˌɑːf.təˈnuːn/", fr:"l'après-midi", rule:"af-ter-<strong>NOON</strong> : accent à la fin, sur noon."},
+  {g:"Mots du dialogue", w:"appointment", syl:["ap","point","ment"], s:1, ipa:"/əˈpɔɪnt.mənt/", fr:"un rendez-vous", rule:"ap-<strong>POINT</strong>-ment : ap- et -ment sont faibles, on appuie au milieu."},
+  {g:"Mots du dialogue", w:"dentist", syl:["den","tist"], s:0, ipa:"/ˈden.tɪst/", fr:"le dentiste", rule:"<strong>DEN</strong>-tist : accent au début (en français, den-TISTE)."},
+  {g:"Les excuses", w:"toothache", syl:["tooth","ache"], s:0, ipa:"/ˈtuːθ.eɪk/", fr:"un mal de dents", rule:"<strong>TOOTH</strong>-ache : comme headache, accent sur le premier mot."},
+  {g:"Les excuses", w:"sore throat", syl:["sore","throat"], s:1, ipa:"/ˌsɔː ˈθrəʊt/", fr:"un mal de gorge", rule:"sore <strong>THROAT</strong> : deux mots, l'accent tombe sur le nom, throat."},
+  {g:"Les excuses", w:"temperature", syl:["tem","pe","ra","ture"], s:0, ipa:"/ˈtem.prə.tʃə/", fr:"la fièvre (I've got a temperature)", rule:"<strong>TEM</strong>-pe-ra-ture : accent au début, et on avale presque le « pe » : /ˈtem.prə.tʃə/."},
+  {g:"Phrases", sentence:"<b>Sor</b>ry, I'm <b>late</b>.", fr:"Désolé, je suis en retard.", rule:"Deux temps forts : <strong>SOR</strong>-ry et <strong>LATE</strong>. I'm est tout petit."},
+  {g:"Phrases", sentence:"What's your ex<b>cuse</b> to<b>day</b>?", fr:"Quelle est ton excuse aujourd'hui ?", rule:"ex-<strong>CUSE</strong> et to-<strong>DAY</strong>. What's your se dit vite. Question en Wh- : la voix descend ↘ à la fin."},
+  {g:"Phrases", sentence:"I over<b>slept</b> and <b>missed</b> my <b>bus</b>.", fr:"Je ne me suis pas réveillé et j'ai raté mon bus.", rule:"On appuie sur les mots importants (slept, missed, bus). and et my sont faibles."},
+  {g:"Phrases", sentence:"<b>Where</b> were you?", fr:"Où étais-tu ?", rule:"Accent fort sur <strong>where</strong>. were est faible : /wə/. La voix descend ↘."},
+  {g:"Phrases", sentence:"I've got a <b>head</b>ache.", fr:"J'ai mal à la tête.", rule:"Le temps fort de la phrase est <strong>HEAD</strong>-ache. I've got a se dit d'un seul souffle."},
+  {g:"Phrases", sentence:"Can I <b>go</b> to the <b>nurse</b>, please?", fr:"Est-ce que je peux aller à l'infirmerie, s'il vous plaît ?", rule:"Can est faible (/kən/), to the aussi. On appuie sur <strong>go</strong> et <strong>nurse</strong>. Question en oui/non : la voix monte ↗."},
+  {g:"Phrases", sentence:"I had an ap<b>point</b>ment at the <b>den</b>tist's.", fr:"J'avais rendez-vous chez le dentiste.", rule:"ap-<strong>POINT</strong>-ment et <strong>DEN</strong>-tist's. an et at the sont faibles."}
 ];
-
-ITEMS.push(
-  {g:"Programme 5e", w:"favourite", syl:["fa","vou","rite"], s:0, ipa:"/ˈfeɪ.vər.ɪt/", fr:"préféré", rule:"<strong>FA</strong>-vou-rite : accent au début. Le « ou » est faible, presque muet."},
-  {g:"Programme 5e", w:"beautiful", syl:["beau","ti","ful"], s:0, ipa:"/ˈbjuː.tɪ.fəl/", fr:"beau, belle", rule:"<strong>BEAU</strong>-ti-ful : accent au début, et -ful est faible."},
-  {g:"Programme 5e", w:"intelligent", syl:["in","tel","li","gent"], s:1, ipa:"/ɪnˈtel.ɪ.dʒənt/", fr:"intelligent", rule:"in-<strong>TEL</strong>-li-gent : pas comme en français, l'accent est sur la 2e syllabe."},
-  {g:"Programme 5e", w:"timetable", syl:["time","ta","ble"], s:0, ipa:"/ˈtaɪmˌteɪ.bəl/", fr:"emploi du temps", rule:"<strong>TIME</strong>-ta-ble : mot composé, accent sur le premier mot."},
-  {g:"Programme 5e", w:"holiday", syl:["ho","li","day"], s:0, ipa:"/ˈhɒl.ə.deɪ/", fr:"vacances", rule:"<strong>HO</strong>-li-day : accent au début."}
-);
-const KEY="stresslab4e";
+const KEY="stresslab5e-late";
 let state={i:0,res:{},guess:{}};
 try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s) state=Object.assign(state,s);}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
@@ -341,7 +341,7 @@ function renderChips(){
   ITEMS.forEach((it,k)=>{
     if(it.g!==last){html+=`<span class="group-label">${it.g}</span>`;last=it.g}
     const r=state.res[k]; const cls=r?" done-"+r:"";
-    html+=`<button class="chip${cls}" data-k="${k}" aria-current="${k===state.i}">${it.w||"Phrase "+(k-12)}</button>`;
+    html+=`<button class="chip${cls}" data-k="${k}" aria-current="${k===state.i}">${it.w||"Phrase "+(k-ITEMS.findIndex(x=>!x.w)+1)}</button>`;
   });
   $("#chips").innerHTML=html;
   const n=Object.keys(state.res).length;
@@ -445,5 +445,6 @@ render();
 </script>
 
 <script src="../assets/art.js"></script>
+<script src="../assets/newbadge.js"></script>
 </body>
 </html>

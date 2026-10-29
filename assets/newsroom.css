@@ -86,3 +86,19 @@ details.notes ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:c
 
 .hero-art{float:right;width:clamp(92px,26vw,150px);aspect-ratio:1;margin:0 0 8px 14px}.hero-art svg{display:block;width:100%;height:100%}
 header::after{content:"";display:block;clear:both}
+
+/* Unread articles: big red NEW in the page corner, a banner, a red tag on each unread card */
+:root{--hot:#e0242f;--hot-ink:#ffffff}
+.tag.hot{background:var(--hot);color:var(--hot-ink);font-size:.85rem;letter-spacing:.06em;padding:3px 11px}
+.art.unread{border-color:var(--hot);box-shadow:inset 5px 0 0 var(--hot)}
+.corner-new{position:fixed;top:max(12px,env(safe-area-inset-top,0px));right:max(12px,env(safe-area-inset-right,0px));z-index:50;
+  display:flex;align-items:center;gap:6px;background:var(--hot);color:var(--hot-ink);border:3px solid #fff;border-radius:16px;
+  padding:8px 12px 8px 14px;font:800 1.35rem/1 var(--display);letter-spacing:.04em;cursor:pointer;box-shadow:0 6px 18px rgba(224,36,47,.45);transform:rotate(4deg)}
+.corner-new .cn-count{display:grid;place-items:center;min-width:1.5em;height:1.5em;border-radius:999px;background:#fff;color:var(--hot);font-size:.8em}
+.corner-new:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+@media (prefers-reduced-motion:no-preference){.corner-new{animation:cn-pop 1.6s ease-in-out infinite}}
+@keyframes cn-pop{0%,100%{transform:rotate(4deg) scale(1)}50%{transform:rotate(-3deg) scale(1.08)}}
+.notif{display:flex;align-items:center;gap:12px;background:var(--card);border:2px solid var(--hot);border-radius:14px;padding:12px 14px;font-size:1rem}
+.notif .bell{font-size:1.5rem}
+.notif .red{color:var(--hot)}
+.notif .x{margin-left:auto;border:none;background:none;font-size:1.6rem;line-height:1;color:var(--muted);cursor:pointer;padding:0 4px}
