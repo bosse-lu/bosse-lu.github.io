@@ -89,6 +89,7 @@ select{background:var(--card);border:1px solid var(--line);border-radius:8px;pad
 .opt{border:2px solid var(--line);background:var(--card);border-radius:10px;padding:8px 14px;font-family:var(--mono);font-size:1.05rem;cursor:pointer;min-width:64px}
 .opt:hover:not(:disabled){border-color:var(--accent)}
 .opt:disabled{cursor:default}
+.sopt{font-family:var(--display);font-size:1.05rem;text-align:left;padding:10px 14px}
 .opt.right{background:var(--good-soft);border-color:var(--good)}
 .opt.wrong{background:var(--bad-soft);border-color:var(--bad);text-decoration:line-through}
 .hintbtn{align-self:center;background:none;border:none;color:var(--accent);text-decoration:underline;cursor:pointer;font-size:.9rem}
@@ -146,17 +147,15 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
     <div class="hero-art" data-art="ed" aria-hidden="true"></div>
     <div>
       <h1>Les sons de <span>-ed</span></h1>
-      <p class="sub">Prétérit des verbes réguliers : /t/, /d/ ou /ɪd/ ? Devine, écoute, enregistre-toi.</p>
+      <p class="sub">Prétérit des verbes réguliers : /t/, /d/ ou /ɪd/ ? Puis la négation (<i>didn't</i>) et les questions (<i>Did…?</i>). Avec de vraies voix anglaises.</p>
     </div>
     <div class="settings">
-      <label for="accent">Voix</label>
-      <select id="accent"><option value="en-GB">British</option><option value="en-US">American</option></select>
       <span class="score" id="score"></span>
     </div>
   </header>
 
   <div class="legend" aria-label="Les trois sons">
-    <div><span class="s t">/t/</span><span class="ex">walk<b>ed</b> · 1 syllabe</span></div>
+    <div><span class="s t">/t/</span><span class="ex">lik<b>ed</b> · 1 syllabe</span></div>
     <div><span class="s d">/d/</span><span class="ex">play<b>ed</b> · 1 syllabe</span></div>
     <div><span class="s id">/ɪd/</span><span class="ex">want<b>ed</b> · 2 syllabes</span></div>
   </div>
@@ -168,13 +167,15 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
   <details>
     <summary>Notes pour le professeur</summary>
     <ul>
-      <li>Classe de 5e : le programme 2025 cite explicitement la prononciation de -ed (<i>played, wanted, watched</i>). 18 items : 15 verbes mélangés (5 en /t/, 5 en /d/, 5 en /ɪd/), puis 3 phrases au prétérit qui en combinent deux.</li>
+      <li>Classe de 5e : le programme 2025 cite explicitement la prononciation de -ed (<i>played, wanted, watched</i>). 19 items : 8 verbes (3 en /t/, 3 en /d/, 2 en /ɪd/) écoutés seuls, en paire base → prétérit et dans une phrase ; 3 phrases ; 4 négations (<i>didn't</i> + base verbale) ; 4 questions (<i>Did…?</i> et <i>What did…?</i>).</li>
+      <li><b>Uniquement des voix réelles</b>, plus de synthèse vocale : extraits de vidéos pédagogiques anglophones (chaînes YouTube <i>Mind Snack Media</i> « Regular Verbs and Past Simple », <i>Maci – English for Kids</i> « Simple Past Tense », <i>Tiny Teaching Tube</i>). Le bouton « Lentement » ralentit la vraie voix sans la déformer.</li>
+      <li>Négation et question : l'enjeu phonologique est double. Après <i>did / didn't</i>, plus de -ed à prononcer (erreur fréquente : *<i>didn't played</i>). <i>didn't</i> est accentué ; <i>did</i> est faible dans la question, avec intonation montante ↗ (yes/no) ou descendante ↘ (Wh-).</li>
       <li>L'erreur visée : prononcer « walk-ÈDE » en deux syllabes. Seuls les verbes terminés par le son /t/ ou /d/ prennent une syllabe de plus.</li>
       <li>Astuce gorge : main sur la gorge, l'élève dit le dernier son du verbe. Ça vibre (son sonore) → /d/ ; ça ne vibre pas (son sourd) → /t/.</li>
       <li>La reconnaissance vocale (Chrome ou Edge) dit si le mot a été <i>compris</i>. Elle tolère souvent une terminaison mal prononcée : l'écoute comparée reste essentielle.</li>
       <li>Si le micro est bloqué, l'élève s'enregistre avec le dictaphone du téléphone puis importe le fichier. Les résultats restent sur l'appareil de l'élève.</li>
       <li><b>Verrouillage</b> : l'évaluation finale reste fermée tant que vous ne l'avez pas débloquée pour la classe de l'élève (code de classe). L'entraînement reste toujours libre.</li>
-      <li><b>Évaluation finale</b> : l'élève lit un texte de 9 verbes (3 en /t/, 3 en /d/, 3 en /ɪd/), sans modèle audio, s'enregistre puis télécharge un fichier nommé classe_nom_oral-ed. Il le dépose dans le travail à rendre sur Pronote. Le téléchargement fonctionne quand la page est hébergée (ENT, Netlify), pas dans l'aperçu Claude.</li>
+      <li><b>Évaluation finale</b> : l'élève lit un texte de 9 verbes en -ed (3 en /t/, 3 en /d/, 3 en /ɪd/), deux négations et deux questions, sans modèle audio, s'enregistre puis télécharge un fichier nommé classe_nom_oral-ed. Il le dépose dans le travail à rendre sur Pronote. Le téléchargement fonctionne quand la page est hébergée (ENT, Netlify), pas dans l'aperçu Claude.</li>
     </ul>
   </details>
 </div>
@@ -246,26 +247,29 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
 <script>
 // a: "t" | "d" | "id" ; stem = part before the -ed spelling ending
 const ITEMS = [
-  {g:"Verbes", w:"walked", stem:"walk", end:"ed", a:"t", ipa:"/wɔːkt/", fr:"marcher", why:"walk finit par le son /k/, un son sourd."},
-  {g:"Verbes", w:"played", stem:"play", end:"ed", a:"d", ipa:"/pleɪd/", fr:"jouer", why:"play finit par une voyelle, un son sonore."},
-  {g:"Verbes", w:"wanted", stem:"want", end:"ed", a:"id", ipa:"/ˈwɒn.tɪd/", fr:"vouloir", why:"want finit par le son /t/."},
-  {g:"Verbes", w:"stopped", stem:"stop", end:"ped", a:"t", ipa:"/stɒpt/", fr:"arrêter", why:"stop finit par le son /p/, un son sourd. On double le p à l'écrit, pas à l'oral."},
-  {g:"Verbes", w:"cleaned", stem:"clean", end:"ed", a:"d", ipa:"/kliːnd/", fr:"nettoyer", why:"clean finit par le son /n/, un son sonore."},
-  {g:"Verbes", w:"needed", stem:"need", end:"ed", a:"id", ipa:"/ˈniː.dɪd/", fr:"avoir besoin", why:"need finit par le son /d/."},
-  {g:"Verbes", w:"watched", stem:"watch", end:"ed", a:"t", ipa:"/wɒtʃt/", fr:"regarder", why:"watch finit par le son /tʃ/ (comme « tch »), un son sourd. Ce n'est pas le son /t/ seul !"},
-  {g:"Verbes", w:"called", stem:"call", end:"ed", a:"d", ipa:"/kɔːld/", fr:"appeler", why:"call finit par le son /l/, un son sonore."},
-  {g:"Verbes", w:"visited", stem:"visit", end:"ed", a:"id", ipa:"/ˈvɪz.ɪ.tɪd/", fr:"visiter", why:"visit finit par le son /t/."},
-  {g:"Verbes", w:"laughed", stem:"laugh", end:"ed", a:"t", ipa:"/lɑːft/", fr:"rire", why:"laugh se prononce /lɑːf/ : il finit par le son /f/, un son sourd. Le « gh » ne s'entend pas comme un g."},
-  {g:"Verbes", w:"lived", stem:"live", end:"d", a:"d", ipa:"/lɪvd/", fr:"habiter, vivre", why:"live finit par le son /v/, un son sonore."},
-  {g:"Verbes", w:"decided", stem:"decide", end:"d", a:"id", ipa:"/dɪˈsaɪ.dɪd/", fr:"décider", why:"decide finit par le son /d/. Le e muet ne compte pas : c'est le son qui décide."},
-  {g:"Verbes", w:"washed", stem:"wash", end:"ed", a:"t", ipa:"/wɒʃt/", fr:"laver", why:"wash finit par le son /ʃ/ (« ch »), un son sourd."},
-  {g:"Verbes", w:"opened", stem:"open", end:"ed", a:"d", ipa:"/ˈəʊ.pənd/", fr:"ouvrir", why:"open finit par le son /n/, un son sonore."},
-  {g:"Verbes", w:"started", stem:"start", end:"ed", a:"id", ipa:"/ˈstɑː.tɪd/", fr:"commencer", why:"start finit par le son /t/."},
-  {g:"Phrases", text:"Yesterday I walked to school and played football.", fr:"Hier, je suis allé à l'école à pied et j'ai joué au foot.", verbs:[{w:"walked",a:"t"},{w:"played",a:"d"}]},
-  {g:"Phrases", text:"We visited London and watched a match.", fr:"Nous avons visité Londres et regardé un match.", verbs:[{w:"visited",a:"id"},{w:"watched",a:"t"}]},
-  {g:"Phrases", text:"She wanted a pizza, so she called her mum.", fr:"Elle voulait une pizza, alors elle a appelé sa mère.", verbs:[{w:"wanted",a:"id"},{w:"called",a:"d"}]}
+  {g:"Verbes", w:"liked", stem:"lik", end:"ed", a:"t", base:"like", ctx:"s-liked", ctxT:"He liked his house.", ipa:"/laɪkt/", fr:"aimer", why:"like finit par le son /k/, un son sourd. Le e muet ne compte pas : c'est le son qui décide."},
+  {g:"Verbes", w:"played", stem:"play", end:"ed", a:"d", base:"play", ctx:"s-played", ctxT:"He played the music.", ipa:"/pleɪd/", fr:"jouer", why:"play finit par une voyelle, un son sonore."},
+  {g:"Verbes", w:"wanted", stem:"want", end:"ed", a:"id", base:"want", ctx:"s-wanted", ctxT:"He wanted a new car.", ipa:"/ˈwɒn.tɪd/", fr:"vouloir", why:"want finit par le son /t/."},
+  {g:"Verbes", w:"stopped", stem:"stop", end:"ped", a:"t", base:"stop", ctx:"s-stopped", ctxT:"The clock stopped.", ipa:"/stɒpt/", fr:"s'arrêter", why:"stop finit par le son /p/, un son sourd. On double le p à l'écrit, pas à l'oral."},
+  {g:"Verbes", w:"tried", stem:"tri", end:"ed", a:"d", base:"try", ctx:"s-tried", ctxT:"He tried to relax.", ipa:"/traɪd/", fr:"essayer", why:"try finit par le son /aɪ/, une voyelle, donc un son sonore. À l'écrit, le y devient i."},
+  {g:"Verbes", w:"admitted", stem:"admit", end:"ted", a:"id", base:"admit", ctx:"s-admitted", ctxT:"He admitted they were scared a little.", ipa:"/ədˈmɪt.ɪd/", fr:"admettre, avouer", why:"admit finit par le son /t/. On double le t parce que l'accent est sur la dernière syllabe : ad-MIT."},
+  {g:"Verbes", w:"panicked", stem:"panic", end:"ked", a:"t", base:"panic", ctx:"s-panicked", ctxT:"They panicked for a moment.", ipa:"/ˈpæn.ɪkt/", fr:"paniquer", why:"panic finit par le son /k/, un son sourd. À l'écrit, on ajoute un k : panicked."},
+  {g:"Verbes", w:"travelled", stem:"travel", end:"led", a:"d", base:"travel", ctx:"s-travelled", ctxT:"They travelled by plane.", ipa:"/ˈtræv.əld/", fr:"voyager", why:"travel finit par le son /l/, un son sonore. En anglais britannique on double le l ; en américain : traveled."},
+  {g:"Phrases", text:"I played football yesterday.", clip:"s-playedfootball", fr:"J'ai joué au foot hier.", verbs:[{w:"played",a:"d"}]},
+  {g:"Phrases", text:"They watched a movie last night.", clip:"s-watched", fr:"Ils ont regardé un film hier soir.", verbs:[{w:"watched",a:"t"}]},
+  {g:"Phrases", text:"She visited her grandma.", clip:"s-visited", fr:"Elle a rendu visite à sa grand-mère.", verbs:[{w:"visited",a:"id"}]},
+  {g:"Négation", kind:"neg", from:"They played tennis.", fromClip:"s-playedtennis", text:"They didn't play tennis.", clip:"n-didntplaytennis", opts:["They didn't play tennis.","They didn't played tennis."], ok:0, fr:"Ils n'ont pas joué au tennis."},
+  {g:"Négation", kind:"neg", from:"She played football.", text:"She didn't play football.", clip:"n-didntplayfootball", opts:["She didn't played football.","She didn't play football."], ok:1, fr:"Elle n'a pas joué au foot."},
+  {g:"Négation", kind:"neg", from:"I saw a cat.", text:"I didn't see a cat.", clip:"n-didntsee", opts:["I didn't saw a cat.","I didn't see a cat."], ok:1, fr:"Je n'ai pas vu de chat."},
+  {g:"Négation", kind:"neg", from:"She ate breakfast this morning.", text:"She didn't eat breakfast this morning.", clip:"n-didnteat", opts:["She didn't eat breakfast this morning.","She didn't ate breakfast this morning."], ok:0, fr:"Elle n'a pas pris de petit-déjeuner ce matin."},
+  {g:"Questions", kind:"q", from:"She visited her grandma.", fromClip:"s-visited", text:"Did she visit her grandma?", clip:"q-didshevisit", opts:["Did she visited her grandma?","Did she visit her grandma?"], ok:1, into:"yn", fr:"Est-ce qu'elle a rendu visite à sa grand-mère ?"},
+  {g:"Questions", kind:"q", from:"You went to school yesterday.", text:"Did you go to school yesterday?", clip:"q-didyougo", opts:["Did you go to school yesterday?","Did you went to school yesterday?"], ok:0, into:"yn", fr:"Est-ce que tu es allé à l'école hier ?"},
+  {g:"Questions", kind:"q", from:"They went to school.", text:"Did they go to school?", clip:"q-didtheygo", opts:["Did they went to school?","Did they go to school?"], ok:1, into:"yn", fr:"Est-ce qu'ils sont allés à l'école ?"},
+  {g:"Questions", kind:"q", from:"She drew pictures with her sister.", fromClip:"s-drew", text:"What did she do last night?", clip:"q-whatdid", opts:["What did she do last night?","What did she did last night?"], ok:0, into:"wh", fr:"Qu'est-ce qu'elle a fait hier soir ?"}
 ];
-ITEMS.forEach(it=>{ if(it.w) it.verbs=[{w:it.w,a:it.a}]; });
+const AUDIO="../assets/audio/";
+ITEMS.forEach(it=>{ if(it.w){ it.verbs=[{w:it.w,a:it.a}]; it.clip=it.w; } });
+const isT=it=>!!it.kind;
 
 const SND={t:"/t/",d:"/d/",id:"/ɪd/"};
 const RULE={
@@ -273,7 +277,7 @@ const RULE={
   d:"<strong class='d'>/d/</strong> après un son <strong>sonore</strong> (voyelle, b, g, v, z, l, m, n, r) : pas de syllabe en plus.",
   id:"<strong class='id'>/ɪd/</strong> après le son <strong>/t/ ou /d/</strong> : une syllabe en plus."
 };
-const KEY="edlab4e";
+const KEY="edlab5e-real";
 let state={i:0,res:{},guess:{},hint:{}};
 try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s) state=Object.assign(state,s);}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
@@ -290,27 +294,24 @@ const ico={
 const $=s=>document.querySelector(s);
 const plain=it=>it.w||it.text;
 const guesses=k=>state.guess[k]||{};
-const allGuessed=k=>ITEMS[k].verbs.every(v=>guesses(k)[v.w]);
+const allGuessed=k=>ITEMS[k].kind?(state.guess[k]||{}).c!==undefined:ITEMS[k].verbs.every(v=>guesses(k)[v.w]);
 
-/* ---------- speech synthesis ---------- */
-let voices=[];
-function loadVoices(){try{voices=speechSynthesis.getVoices()}catch(e){}}
-if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices;}
-function utter(text,rate){
-  const lang=$("#accent").value;
-  const u=new SpeechSynthesisUtterance(text); u.lang=lang; u.rate=rate;
-  const v=voices.find(v=>v.lang.replace("_","-")===lang)||voices.find(v=>v.lang.startsWith("en"));
-  if(v) u.voice=v; return u;
+/* ---------- real voices (no speech synthesis) ---------- */
+let cur=null;
+function stopAudio(){ if(cur){cur.pause();cur=null} }
+function playClip(id,rate,then){
+  stopAudio();
+  const a=new Audio(AUDIO+id+".mp3"); a.playbackRate=rate||1;
+  a.preservesPitch=true; a.mozPreservesPitch=true; a.webkitPreservesPitch=true;
+  cur=a; a.onended=()=>{cur=null; then&&then()};
+  a.onerror=()=>{note("Le son n'a pas pu être chargé. Vérifie ta connexion."); then&&then()};
+  a.play().catch(()=>{});
 }
-function speak(text,rate,then){
-  if(!('speechSynthesis' in window)){note("La voix n'est pas disponible sur ce navigateur.");then&&then();return}
-  speechSynthesis.cancel(); const u=utter(text,rate); if(then) u.onend=then; speechSynthesis.speak(u);
-}
-
+function playSeq(ids,rate,then){ if(!ids.length){then&&then();return} playClip(ids[0],rate,()=>setTimeout(()=>playSeq(ids.slice(1),rate,then),350)); }
 /* ---------- recording ---------- */
 let rec=null,chunks=[],myAudioURL=null,myBlob=null,recStream=null;
 const EVAL_I=ITEMS.length;
-const EVAL_TEXT="Last Saturday, I played basketball with my friends. After the match, we walked to the park and watched a film on my phone. Then it started to rain! We wanted pizza, so I called my grandmother. She invited us, we stayed late and we laughed a lot.";
+const EVAL_TEXT="Last Saturday, I played basketball with my friends. After the match, we walked to the park and watched a film on my phone. Then it started to rain! We wanted pizza, so I called my grandmother. She invited us, we stayed late and we laughed a lot. We didn't watch TV and we didn't go home early. And you? Did you play basketball last weekend? What did you do?";
 let ev={name:"",cls:""};
 try{const e=JSON.parse(localStorage.getItem(KEY+"-eval")||"null"); if(e) ev=Object.assign(ev,e);}catch(e){}
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -375,18 +376,19 @@ function renderEval(){
   if(!ev.cls.trim()&&Classes.klass()){ev.cls=Classes.klass().label;try{localStorage.setItem(KEY+"-eval",JSON.stringify(ev))}catch(_){}}
   $("#card").innerHTML=`
     <div class="meta"><span>Évaluation finale</span><span>Expression orale</span></div>
-    <p class="prompt">Lis ce texte à voix haute. Fais bien entendre la terminaison -ed de chaque verbe au prétérit.</p>
+    <p class="prompt">Lis ce texte à voix haute. Fais bien entendre la terminaison -ed des verbes au prétérit, et fais monter ou descendre ta voix dans les questions.</p>
     <p class="evaltext" lang="en">${EVAL_TEXT}</p>
     <div class="criteria">
       <strong>Ce qui est évalué (sur 10)</strong>
-      <span>Les terminaisons -ed justes : /t/, /d/ ou /ɪd/</span><span class="pts">4 pts</span>
+      <span>Les terminaisons -ed justes : /t/, /d/ ou /ɪd/</span><span class="pts">3 pts</span>
       <span>Pas de syllabe en trop après les sons /t/ et /d/</span><span class="pts">2 pts</span>
-      <span>Une lecture fluide, sans trop d'hésitations</span><span class="pts">2 pts</span>
-      <span>Une prononciation claire et compréhensible</span><span class="pts">2 pts</span>
+      <span>Négation et questions : <i>didn't watch</i>, <i>did you play</i>, sans -ed après did</span><span class="pts">2 pts</span>
+      <span>Intonation des questions : ↗ pour <i>Did you…?</i>, ↘ pour <i>What…?</i></span><span class="pts">1 pt</span>
+      <span>Une lecture fluide, claire et compréhensible</span><span class="pts">2 pts</span>
     </div>
     <section class="step">
       <h2><i>1</i>Prépare-toi</h2>
-      <p class="hint">Lis le texte deux fois dans ta tête. Repère les 9 verbes au prétérit et demande-toi pour chacun : /t/, /d/ ou /ɪd/ ? Pour l'évaluation, il n'y a pas de modèle à écouter.</p>
+      <p class="hint">Lis le texte deux fois dans ta tête. Repère les 9 verbes en -ed et demande-toi pour chacun : /t/, /d/ ou /ɪd/ ? Repère aussi les deux négations et les deux questions : après <i>didn't</i> et <i>did</i>, le verbe ne prend pas -ed. Pour l'évaluation, il n'y a pas de modèle à écouter.</p>
     </section>
     <section class="step">
       <h2><i>2</i>Qui es-tu ?</h2>
@@ -424,18 +426,19 @@ function note(m){const h=$("#heard"); if(h) h.textContent=m}
 function listen(btn){
   const out=$("#heard");
   if(!SR){out.innerHTML="La vérification automatique marche dans <b>Chrome</b> ou <b>Edge</b>. Ici, compare ton enregistrement avec le modèle.";return}
-  const r=new SR(); r.lang=$("#accent").value; r.maxAlternatives=3; r.interimResults=false;
+  const r=new SR(); r.lang="en-US"; r.maxAlternatives=3; r.interimResults=false;
   btn.disabled=true; btn.innerHTML=ico.ear+"Je t'écoute… parle !";
   r.onresult=e=>{
     const it=ITEMS[state.i];
     const alts=[...e.results[0]].map(a=>a.transcript);
     const pool=new Set(alts.flatMap(norm));
     const target=norm(plain(it));
-    const verbs=it.verbs.map(v=>v.w);
+    const verbs=(it.verbs||[]).map(v=>v.w);
     const html=target.map(w=>`<span class="w ${pool.has(w)?"ok":"ko"}">${w}</span>`).join(" ");
     const missedVerb=verbs.filter(v=>!pool.has(v));
     let msg;
-    if(missedVerb.length===0) msg="Le verbe au prétérit a été reconnu. Vérifie à l'oreille que tu n'as pas ajouté de syllabe.";
+    if(it.kind){ const miss=target.filter(w=>!pool.has(w)); msg=miss.length?"Les mots barrés n'ont pas été reconnus : réécoute le modèle et réessaie.":"Tous les mots ont été compris. Vérifie à l'oreille ta mélodie et le verbe sans -ed."; }
+    else if(missedVerb.length===0) msg="Le verbe au prétérit a été reconnu. Vérifie à l'oreille que tu n'as pas ajouté de syllabe.";
     else {
       const stems=missedVerb.map(v=>v.replace(/(ed|d)$/,"").replace(/pp$/,"p"));
       const heardStem=stems.some(s=>pool.has(s)||pool.has(s+"e"));
@@ -458,13 +461,14 @@ function renderChips(){
   ITEMS.forEach((it,k)=>{
     if(it.g!==last){html+=`<span class="group-label">${it.g}</span>`;last=it.g}
     const r=state.res[k];
-    html+=`<button class="chip${r?" done-"+r:""}" data-k="${k}" aria-current="${k===state.i}">${it.w||"Phrase "+(k-14)}</button>`;
+    html+=`<button class="chip${r?" done-"+r:""}" data-k="${k}" aria-current="${k===state.i}">${chipLabel(it,k)}</button>`;
   });
   html+=`<span class="group-label">Évaluation</span><button class="chip eval" data-k="${EVAL_I}" aria-current="${state.i===EVAL_I}">${evalUnlocked()?"Évaluation finale":"🔒 Évaluation finale"}</button>`;
   $("#chips").innerHTML=html;
   $("#score").textContent=`${Object.keys(state.res).length} / ${ITEMS.length} faits`;
   const cur=$("#chips .chip[aria-current=true]"); if(cur) {const c=cur.parentElement,r=cur.getBoundingClientRect(),cr=c.getBoundingClientRect();c.scrollLeft+=r.left-cr.left-(cr.width-r.width)/2;};
 }
+function chipLabel(it,k){ if(it.w) return it.w; const n=ITEMS.slice(0,k+1).filter(x=>x.g===it.g).length; return ({Phrases:"Phrase ",Négation:"Négation ",Questions:"Question "})[it.g]+n; }
 function markText(it){
   if(it.w) return `${it.stem}<span class="ed">${it.end}</span>`;
   let t=it.text;
@@ -473,6 +477,7 @@ function markText(it){
 }
 function renderCard(){
   if(state.i===EVAL_I){renderEval();return}
+  if(isT(ITEMS[state.i])){renderTransform();return}
   const k=state.i,it=ITEMS[k],g=guesses(k),done=allGuessed(k);
   if(myAudioURL){URL.revokeObjectURL(myAudioURL);myAudioURL=null}
   const rows=it.verbs.map(v=>{
@@ -507,7 +512,9 @@ function renderCard(){
     ${top}
     <section class="step" ${locked?"hidden":""}>
       <h2><i>1</i>Écoute le modèle</h2>
-      <div class="row"><button class="btn primary" id="play">${ico.play}Écouter</button><button class="btn" id="slow">${ico.slow}Lentement</button></div>
+      <div class="row"><button class="btn primary" id="play">${ico.play}Écouter</button><button class="btn" id="slow">${ico.slow}Lentement</button>${it.base?`<button class="btn" id="pair">${ico.play}${it.base} → ${it.w}</button>`:""}${it.ctx?`<button class="btn" id="ctx">${ico.play}Dans une phrase</button>`:""}</div>
+      ${it.ctx?`<p class="hint" lang="en">« ${it.ctxT} »</p>`:""}
+      <p class="hint">Vraie voix, extraite d'une vidéo pédagogique en anglais.</p>
     </section>
     <section class="step" ${locked?"hidden":""}>
       <h2><i>2</i>Enregistre-toi</h2>
@@ -540,6 +547,69 @@ function renderCard(){
     </div>`;
   if(!navigator.mediaDevices||!window.MediaRecorder) showFallback("L'enregistrement direct n'est pas possible sur ce navigateur.");
 }
+const STEPS=(lbl)=>`
+    <section class="step">
+      <h2><i>1</i>Écoute le modèle</h2>
+      <div class="row"><button class="btn primary" id="play">${ico.play}Écouter</button><button class="btn" id="slow">${ico.slow}Lentement</button></div>
+      <p class="hint">Vraie voix, extraite d'une vidéo pédagogique en anglais.</p>
+    </section>
+    <section class="step">
+      <h2><i>2</i>Enregistre-toi</h2>
+      <div class="row">
+        <button class="btn rec" id="rec">${ico.mic}S'enregistrer</button>
+        <button class="btn" id="playMine" disabled>${ico.play}Me réécouter</button>
+        <button class="btn" id="compare" disabled>Modèle puis moi</button>
+      </div>
+      <div id="fallback" hidden>
+        <p class="hint" id="fallbackMsg"></p>
+        <label class="upload">${ico.file}Importer mon enregistrement<input type="file" id="upload" accept="audio/*"></label>
+      </div>
+    </section>
+    <section class="step">
+      <h2><i>3</i>Vérification automatique</h2>
+      <div class="row"><button class="btn" id="listen">${ico.ear}Vérifier ma prononciation</button></div>
+      <div class="heard" id="heard"><p class="hint">L'ordinateur te dit quels mots il a compris. Pour la mélodie et le rythme, fais confiance à ton oreille.</p></div>
+    </section>
+    <section class="step">
+      <h2><i>4</i>${lbl}</h2>
+      <div class="self">
+        <button class="btn g" data-r="good" aria-pressed="${state.res[state.i]==="good"}">${ico.check}Juste</button>
+        <button class="btn m" data-r="mid" aria-pressed="${state.res[state.i]==="mid"}">Presque</button>
+        <button class="btn b" data-r="bad" aria-pressed="${state.res[state.i]==="bad"}">À retravailler</button>
+      </div>
+    </section>`;
+function renderTransform(){
+  const k=state.i,it=ITEMS[k],pick=(state.guess[k]||{}).c,done=pick!==undefined;
+  if(myAudioURL){URL.revokeObjectURL(myAudioURL);myAudioURL=null}
+  const neg=it.kind==="neg";
+  const task=neg?"Mets cette phrase à la forme négative :":(it.into==="wh"?"Voici la réponse. Quelle est la bonne question ?":"Transforme cette phrase en question :");
+  const opts=it.opts.map((o,j)=>{let c="opt"; if(done){ if(j===it.ok) c+=" right"; else if(j===pick) c+=" wrong"; }
+    return `<button class="${c} sopt" data-c="${j}" ${done?"disabled":""} lang="en">${o}</button>`}).join("");
+  const rule=neg
+    ? `<div><b>didn't</b> porte déjà le passé : le verbe reste à la base, <b>sans -ed</b>. On n'entend donc ni /t/, ni /d/, ni /ɪd/ !</div><div><b>didn't</b> se dit /ˈdɪd.ənt/ et c'est un mot <b>fort</b> : on appuie dessus, c'est lui qui dit « non ».</div>`
+    : `<div><b>Did</b> porte déjà le passé : le verbe reste à la base, <b>sans -ed</b> (<i>visit</i>, pas <i>visited</i> ; <i>go</i>, pas <i>went</i>).</div>`+
+      (it.into==="wh"?`<div>Question en <b>Wh-</b> (<i>what, where…</i>) : <b>did</b> est faible et la voix <b>descend ↘</b> à la fin.</div>`:`<div>Question fermée (réponse <i>yes / no</i>) : <b>did</b> est faible, /dɪd/, et la voix <b>monte ↗</b> à la fin.</div>`);
+  const fb=!done?"":(pick===it.ok?`<div class="feedback ok">Bravo ! <b lang="en">${it.text}</b></div>`:`<div class="feedback ko">Attention : on dit <b lang="en">${it.text}</b></div>`)+`<div class="rules">${rule}</div>`;
+  $("#card").innerHTML=`
+    <div class="meta"><span>${it.g}</span><span>${k+1} / ${ITEMS.length}</span></div>
+    <div class="target">
+      <p class="prompt" style="margin:0">${task}</p>
+      <p class="sentence" lang="en" style="font-size:clamp(1.2rem,5vw,1.7rem)">${it.from}</p>
+      ${it.fromClip?`<button class="btn" id="from">${ico.play}Écouter cette phrase</button>`:""}
+    </div>
+    <div class="quiz">
+      ${done?"":`<p class="prompt">Choisis la bonne phrase :</p>`}
+      <div class="qrow" style="flex-direction:column;align-items:stretch">${opts}</div>
+      ${done?`<div class="fr" style="text-align:center">${it.fr}</div>`:""}
+      ${fb}
+    </div>
+    ${done?STEPS(neg?"Ma phrase négative était…":"Ma question était…"):""}
+    <div class="nav">
+      <button class="btn" id="prev" ${k===0?"disabled":""}>← Précédent</button>
+      <button class="btn" id="next">${k===ITEMS.length-1?"Évaluation finale →":"Suivant →"}</button>
+    </div>`;
+  if(done&&(!navigator.mediaDevices||!window.MediaRecorder)) showFallback("L'enregistrement direct n'est pas possible sur ce navigateur.");
+}
 function render(){renderChips();renderCard()}
 
 /* ---------- events ---------- */
@@ -547,19 +617,23 @@ document.addEventListener("click",e=>{
   const t=e.target.closest("button"); if(!t) return;
   const it=ITEMS[state.i];
   if(t.classList.contains("chip")){state.i=+t.dataset.k;save();render();return}
+  if(t.classList.contains("sopt")){ if(!state.guess[state.i]||state.guess[state.i].c===undefined){state.guess[state.i]={c:+t.dataset.c};save();renderCard();} return}
   if(t.classList.contains("opt")){const g=state.guess[state.i]||(state.guess[state.i]={}); if(!g[t.dataset.verb]){g[t.dataset.verb]=t.dataset.a;save();renderCard();} return}
   if(t.dataset.r){state.res[state.i]=t.dataset.r;save();render();return}
   switch(t.id){
     case "hint": state.hint[state.i]=1;save();renderCard();break;
-    case "play": speak(plain(it),0.9);break;
-    case "slow": speak(plain(it),0.55);break;
+    case "play": playClip(it.clip,1);break;
+    case "slow": playClip(it.clip,0.7);break;
+    case "pair": playSeq([it.base,it.w],1);break;
+    case "ctx": playClip(it.ctx,1);break;
+    case "from": playClip(it.fromClip,1);break;
     case "rec": toggleRecord(t);break;
     case "playMine": playMine();break;
-    case "compare": speak(plain(it),0.9,()=>setTimeout(playMine,400));break;
+    case "compare": playClip(it.clip,1,()=>setTimeout(playMine,400));break;
     case "listen": listen(t);break;
     case "dl": downloadMine();break;
-    case "prev": state.i--;save();render();break;
-    case "next": state.i++;save();render();break;
+    case "prev": stopAudio();state.i--;save();render();break;
+    case "next": stopAudio();state.i++;save();render();break;
   }
 });
 document.addEventListener("input",e=>{
@@ -571,9 +645,7 @@ document.addEventListener("input",e=>{
 });
 document.addEventListener("change",e=>{
   if(e.target.id==="upload"&&e.target.files[0]) setMyAudio(URL.createObjectURL(e.target.files[0]),e.target.files[0]);
-  if(e.target.id==="accent"){try{localStorage.setItem(KEY+"-accent",e.target.value)}catch(_){}}
 });
-try{const a=localStorage.getItem(KEY+"-accent"); if(a) $("#accent").value=a;}catch(e){}
 if(!(state.i>=0&&state.i<=EVAL_I)) state.i=0;
 if(location.hash==="#eval") state.i=EVAL_I;
 ["classes:ready","classes:change"].forEach(n=>document.addEventListener(n,()=>{renderChips(); if(state.i===EVAL_I) renderCard();}));

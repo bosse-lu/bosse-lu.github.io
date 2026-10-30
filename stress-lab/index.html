@@ -129,11 +129,9 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
     <div class="hero-art" data-art="stress" aria-hidden="true"></div>
     <div>
       <h1>Stress <span>Lab</span></h1>
-      <p class="sub">Les mots et les phrases de la séquence <i>Late and absent</i>. Trouve la syllabe accentuée, écoute, enregistre-toi, compare.</p>
+      <p class="sub">Les mots et les phrases de la séquence <i>Late and absent</i>. Trouve la syllabe accentuée, écoute de vraies voix, enregistre-toi, compare. Nouveau : le rythme des questions et de la négation.</p>
     </div>
     <div class="settings">
-      <label for="accent">Voix</label>
-      <select id="accent"><option value="en-GB">British</option><option value="en-US">American</option></select>
       <span class="score" id="score">0 / 16</span>
     </div>
   </header>
@@ -145,10 +143,11 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
   <details>
     <summary>Notes pour le professeur</summary>
     <ul>
-      <li>Contenu de la séquence <i>Late and absent</i> (5e, axe 4 École et loisirs). 23 items : 13 mots des dialogues (<i>absent, excuse, overslept, appointment, Wednesday…</i>), 3 mots des excuses (<i>toothache, sore throat, temperature</i>), puis 7 phrases des dialogues pour travailler l'accent de phrase et le rythme.</li>
-      <li>Points de vigilance pour des francophones : <i>ABsent</i>, <i>DENtist</i> et <i>TOIlet</i> (accent au début, au contraire du français), <i>exCUSE</i>, <i>forGOT</i> et <i>apPOINTment</i> (première syllabe faible), <i>Wednesday</i> en deux syllabes.</li>
-      <li>Dans les phrases, les syllabes en gras portent l'accent. Les mots grammaticaux (<i>can, were, and, my, at the</i>) sont faibles : c'est ce qui donne le rythme de l'anglais. Les flèches ↘ ↗ rappellent l'intonation des questions, comme dans l'Excuse Lab.</li>
-      <li>La voix est la synthèse vocale du navigateur. Pour les vraies voix du dialogue, utiliser l'Excuse Lab.</li>
+      <li>Contenu de la séquence <i>Late and absent</i> (5e, axe 4 École et loisirs). 28 items : 5 mots entendus seuls, 10 mots entendus en contexte, 7 répliques du dialogue, puis 6 phrases « Questions et négation » au prétérit (<i>Did you go…? What did she do…? She didn't eat…</i>).</li>
+      <li><b>Uniquement des voix réelles</b> : les répliques du dialogue de la séquence (les mêmes que dans l'Excuse Lab) et des extraits de vidéos pédagogiques anglophones (chaînes YouTube <i>Mind Snack Media</i>, <i>Maci – English for Kids</i>, <i>Tiny Teaching Tube</i>). Les mots « en contexte » s'écoutent dans la phrase où ils apparaissent : l'élève repère l'accent dans un énoncé naturel.</li>
+      <li>Points de vigilance pour des francophones : <i>ABsence</i>, <i>TOIlet</i>, <i>YESterday</i>, <i>VIsited</i> (accent au début, au contraire du français), <i>exCUSE</i>, <i>forGOT</i>, <i>adMIT</i>, <i>reLAX</i> (première syllabe faible). La terminaison -ed ne porte jamais l'accent.</li>
+      <li>Questions et négation : <i>did</i> est faible dans la question (intonation ↗ en yes/no, ↘ en Wh-), <i>didn't</i> est fort dans la négation. Après <i>did / didn't</i>, le verbe ne prend pas -ed. Le bouton « Comparer » fait entendre la phrase affirmative puis la question ou la négation.</li>
+      <li>Dans les phrases, les syllabes en gras portent l'accent. Les mots grammaticaux (<i>can, were, and, my, did, to the</i>) sont faibles : c'est ce qui donne le rythme de l'anglais.</li>
       <li>La reconnaissance vocale fonctionne dans Chrome ou Edge. Elle dit si le mot a été <i>compris</i>, pas si l'accent tonique est juste : l'accentuation se travaille par l'écoute comparée et l'auto-évaluation.</li>
       <li>Si le micro est bloqué, l'élève s'enregistre avec l'appli dictaphone du téléphone puis importe le fichier. Les résultats restent sur l'appareil de l'élève : demandez une capture d'écran de la liste (pastilles vertes, jaunes, rouges) pour le suivi.</li>
     </ul>
@@ -221,31 +220,37 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
 </script>
 <script>
 const ITEMS = [
-  {g:"Mots du dialogue", w:"absent", syl:["ab","sent"], s:0, ipa:"/ˈæb.sənt/", fr:"absent", rule:"<strong>AB</strong>-sent : accent au début. En français on dit ab-SENT, en anglais c'est l'inverse !"},
-  {g:"Mots du dialogue", w:"absence", syl:["ab","sence"], s:0, ipa:"/ˈæb.səns/", fr:"une absence (an absence note = un mot d'absence)", rule:"<strong>AB</strong>-sence, comme absent. La 2e syllabe est faible : /səns/."},
-  {g:"Mots du dialogue", w:"excuse", syl:["ex","cuse"], s:1, ipa:"/ɪkˈskjuːs/", fr:"une excuse", rule:"ex-<strong>CUSE</strong> : accent sur la 2e syllabe. Le « ex » est très court : /ɪk/."},
-  {g:"Mots du dialogue", w:"sorry", syl:["sor","ry"], s:0, ipa:"/ˈsɒr.i/", fr:"désolé", rule:"<strong>SOR</strong>-ry : accent au début, la fin est légère."},
-  {g:"Mots du dialogue", w:"teacher", syl:["tea","cher"], s:0, ipa:"/ˈtiː.tʃə/", fr:"le professeur", rule:"<strong>TEA</strong>-cher : accent au début. -er est faible : /tʃə/."},
-  {g:"Mots du dialogue", w:"overslept", syl:["o","ver","slept"], s:2, ipa:"/ˌəʊ.vəˈslept/", fr:"je ne me suis pas réveillé (oversleep)", rule:"o-ver-<strong>SLEPT</strong> : over- est léger, l'accent tombe sur le verbe sleep."},
-  {g:"Mots du dialogue", w:"forgot", syl:["for","got"], s:1, ipa:"/fəˈɡɒt/", fr:"j'ai oublié (forget)", rule:"for-<strong>GOT</strong> : for- est faible, /fə/. On appuie sur got."},
-  {g:"Mots du dialogue", w:"headache", syl:["head","ache"], s:0, ipa:"/ˈhed.eɪk/", fr:"un mal de tête", rule:"<strong>HEAD</strong>-ache : mot composé, accent sur le premier mot. ache se dit /eɪk/."},
-  {g:"Mots du dialogue", w:"toilet", syl:["toi","let"], s:0, ipa:"/ˈtɔɪ.lət/", fr:"les toilettes", rule:"<strong>TOI</strong>-let : accent au début, pas « toi-LETTE » comme en français."},
-  {g:"Mots du dialogue", w:"Wednesday", syl:["Wednes","day"], s:0, ipa:"/ˈwenz.deɪ/", fr:"mercredi", rule:"<strong>WEDNES</strong>-day : deux syllabes seulement, /ˈwenz.deɪ/. Le premier d ne se prononce pas !"},
-  {g:"Mots du dialogue", w:"afternoon", syl:["af","ter","noon"], s:2, ipa:"/ˌɑːf.təˈnuːn/", fr:"l'après-midi", rule:"af-ter-<strong>NOON</strong> : accent à la fin, sur noon."},
-  {g:"Mots du dialogue", w:"appointment", syl:["ap","point","ment"], s:1, ipa:"/əˈpɔɪnt.mənt/", fr:"un rendez-vous", rule:"ap-<strong>POINT</strong>-ment : ap- et -ment sont faibles, on appuie au milieu."},
-  {g:"Mots du dialogue", w:"dentist", syl:["den","tist"], s:0, ipa:"/ˈden.tɪst/", fr:"le dentiste", rule:"<strong>DEN</strong>-tist : accent au début (en français, den-TISTE)."},
-  {g:"Les excuses", w:"toothache", syl:["tooth","ache"], s:0, ipa:"/ˈtuːθ.eɪk/", fr:"un mal de dents", rule:"<strong>TOOTH</strong>-ache : comme headache, accent sur le premier mot."},
-  {g:"Les excuses", w:"sore throat", syl:["sore","throat"], s:1, ipa:"/ˌsɔː ˈθrəʊt/", fr:"un mal de gorge", rule:"sore <strong>THROAT</strong> : deux mots, l'accent tombe sur le nom, throat."},
-  {g:"Les excuses", w:"temperature", syl:["tem","pe","ra","ture"], s:0, ipa:"/ˈtem.prə.tʃə/", fr:"la fièvre (I've got a temperature)", rule:"<strong>TEM</strong>-pe-ra-ture : accent au début, et on avale presque le « pe » : /ˈtem.prə.tʃə/."},
-  {g:"Phrases", sentence:"<b>Sor</b>ry, I'm <b>late</b>.", fr:"Désolé, je suis en retard.", rule:"Deux temps forts : <strong>SOR</strong>-ry et <strong>LATE</strong>. I'm est tout petit."},
-  {g:"Phrases", sentence:"What's your ex<b>cuse</b> to<b>day</b>?", fr:"Quelle est ton excuse aujourd'hui ?", rule:"ex-<strong>CUSE</strong> et to-<strong>DAY</strong>. What's your se dit vite. Question en Wh- : la voix descend ↘ à la fin."},
-  {g:"Phrases", sentence:"I over<b>slept</b> and <b>missed</b> my <b>bus</b>.", fr:"Je ne me suis pas réveillé et j'ai raté mon bus.", rule:"On appuie sur les mots importants (slept, missed, bus). and et my sont faibles."},
-  {g:"Phrases", sentence:"<b>Where</b> were you?", fr:"Où étais-tu ?", rule:"Accent fort sur <strong>where</strong>. were est faible : /wə/. La voix descend ↘."},
-  {g:"Phrases", sentence:"I've got a <b>head</b>ache.", fr:"J'ai mal à la tête.", rule:"Le temps fort de la phrase est <strong>HEAD</strong>-ache. I've got a se dit d'un seul souffle."},
-  {g:"Phrases", sentence:"Can I <b>go</b> to the <b>nurse</b>, please?", fr:"Est-ce que je peux aller à l'infirmerie, s'il vous plaît ?", rule:"Can est faible (/kən/), to the aussi. On appuie sur <strong>go</strong> et <strong>nurse</strong>. Question en oui/non : la voix monte ↗."},
-  {g:"Phrases", sentence:"I had an ap<b>point</b>ment at the <b>den</b>tist's.", fr:"J'avais rendez-vous chez le dentiste.", rule:"ap-<strong>POINT</strong>-ment et <strong>DEN</strong>-tist's. an et at the sont faibles."}
+  {g:"Mots seuls", w:"panic", syl:["pan","ic"], s:0, clip:"panic", ipa:"/ˈpæn.ɪk/", fr:"paniquer", rule:"<strong>PAN</strong>-ic : avec -ic, l'accent tombe juste avant -ic."},
+  {g:"Mots seuls", w:"travel", syl:["tra","vel"], s:0, clip:"travel", ipa:"/ˈtræv.əl/", fr:"voyager", rule:"<strong>TRA</strong>-vel : accent au début. -vel est faible : /vəl/."},
+  {g:"Mots seuls", w:"travelled", syl:["tra","velled"], s:0, clip:"travelled", ipa:"/ˈtræv.əld/", fr:"a voyagé", rule:"<strong>TRA</strong>-velled : -ed (/d/) n'ajoute pas de syllabe et l'accent ne bouge pas."},
+  {g:"Mots seuls", w:"admit", syl:["ad","mit"], s:1, clip:"admit", ipa:"/ədˈmɪt/", fr:"admettre", rule:"ad-<strong>MIT</strong> : ad- est très court, /əd/. On appuie sur mit."},
+  {g:"Mots seuls", w:"admitted", syl:["ad","mit","ted"], s:1, clip:"admitted", ipa:"/ədˈmɪt.ɪd/", fr:"a admis", rule:"ad-<strong>MIT</strong>-ted : -ed ajoute une syllabe (/ɪd/), mais elle ne prend jamais l'accent."},
+  {g:"Mots en contexte", w:"sorry", syl:["sor","ry"], s:0, clip:"dlg-d2-1", ctx:"Sorry, I'm late.", ipa:"/ˈsɒr.i/", fr:"désolé", rule:"<strong>SOR</strong>-ry : accent au début, la fin est légère."},
+  {g:"Mots en contexte", w:"excuse", syl:["ex","cuse"], s:1, clip:"dlg-d2-2", ctx:"What's your excuse today, Francis?", ipa:"/ɪkˈskjuːs/", fr:"une excuse", rule:"ex-<strong>CUSE</strong> : accent sur la 2e syllabe. Le « ex » est très court : /ɪk/."},
+  {g:"Mots en contexte", w:"overslept", syl:["o","ver","slept"], s:2, clip:"dlg-d2-3", ctx:"I overslept and missed my bus.", ipa:"/ˌəʊ.vəˈslept/", fr:"je ne me suis pas réveillé (oversleep)", rule:"o-ver-<strong>SLEPT</strong> : over- est léger, l'accent tombe sur le verbe sleep."},
+  {g:"Mots en contexte", w:"forgot", syl:["for","got"], s:1, clip:"dlg-d2-5", ctx:"Oh, um, I forgot to get one.", ipa:"/fəˈɡɒt/", fr:"j'ai oublié (forget)", rule:"for-<strong>GOT</strong> : for- est faible, /fə/. On appuie sur got."},
+  {g:"Mots en contexte", w:"absence", syl:["ab","sence"], s:0, clip:"dlg-d1-5", ctx:"Have you got your absence note?", ipa:"/ˈæb.səns/", fr:"une absence (an absence note = un mot d'absence)", rule:"<strong>AB</strong>-sence : accent au début. En français on dit ab-SENCE, en anglais c'est l'inverse !"},
+  {g:"Mots en contexte", w:"toilet", syl:["toi","let"], s:0, clip:"dlg-d3-2", ctx:"Oh, I feel sick. Can I go to the toilet, please?", ipa:"/ˈtɔɪ.lət/", fr:"les toilettes", rule:"<strong>TOI</strong>-let : accent au début, pas « toi-LETTE » comme en français."},
+  {g:"Mots en contexte", w:"yesterday", syl:["yes","ter","day"], s:0, clip:"q-didyougo", ctx:"Did you go to school yesterday?", ipa:"/ˈjes.tə.deɪ/", fr:"hier", rule:"<strong>YES</strong>-ter-day : accent au début, -ter- est presque avalé : /tə/."},
+  {g:"Mots en contexte", w:"breakfast", syl:["break","fast"], s:0, clip:"n-didnteat", ctx:"She didn't eat breakfast this morning.", ipa:"/ˈbrek.fəst/", fr:"le petit-déjeuner", rule:"<strong>BREAK</strong>-fast : accent au début. break se dit /brek/ et -fast est faible : /fəst/."},
+  {g:"Mots en contexte", w:"visited", syl:["vi","si","ted"], s:0, clip:"s-visited", ctx:"She visited her grandma.", ipa:"/ˈvɪz.ɪ.tɪd/", fr:"a rendu visite", rule:"<strong>VI</strong>-si-ted : accent au début, comme dans visit. -ed (/ɪd/) ne prend jamais l'accent."},
+  {g:"Mots en contexte", w:"relax", syl:["re","lax"], s:1, clip:"s-tried", ctx:"He tried to relax.", ipa:"/rɪˈlæks/", fr:"se détendre", rule:"re-<strong>LAX</strong> : re- est faible, /rɪ/. On appuie sur lax."},
+  {g:"Phrases du dialogue", sentence:"<b>Sor</b>ry, I'm <b>late</b>.", clip:"dlg-d2-1", fr:"Désolé, je suis en retard.", rule:"Deux temps forts : <strong>SOR</strong>-ry et <strong>LATE</strong>. I'm est tout petit."},
+  {g:"Phrases du dialogue", sentence:"What's your ex<b>cuse</b> to<b>day</b>, <b>Fran</b>cis?", clip:"dlg-d2-2", fr:"Quelle est ton excuse aujourd'hui, Francis ?", rule:"ex-<strong>CUSE</strong> et to-<strong>DAY</strong>. What's your se dit vite. Question en Wh- : la voix descend ↘."},
+  {g:"Phrases du dialogue", sentence:"I over<b>slept</b> and <b>missed</b> my <b>bus</b>.", clip:"dlg-d2-3", fr:"Je ne me suis pas réveillé et j'ai raté mon bus.", rule:"On appuie sur les mots importants (slept, missed, bus). and et my sont faibles. missed se termine par /t/ : une seule syllabe."},
+  {g:"Phrases du dialogue", sentence:"Good to see you <b>back</b>, <b>He</b>len. <b>Where</b> were you?", clip:"dlg-d1-1", fr:"Content de te revoir, Helen. Où étais-tu ?", rule:"Accent fort sur <strong>where</strong>. were est faible : /wə/. La voix descend ↘."},
+  {g:"Phrases du dialogue", sentence:"Are you feeling <b>bet</b>ter <b>now</b>?", clip:"dlg-d1-3", fr:"Tu te sens mieux maintenant ?", rule:"Are you se dit vite. <strong>BET</strong>-ter et <strong>NOW</strong> sont forts. Question fermée : la voix monte ↗. (La réplique commence par « I'm sorry to hear that. »)"},
+  {g:"Phrases du dialogue", sentence:"Have you got your <b>ab</b>sence <b>note</b>?", clip:"dlg-d1-5", fr:"Tu as ton mot d'absence ?", rule:"<strong>AB</strong>-sence et <strong>NOTE</strong> portent l'accent. Have you got your est léger. Question fermée : la voix monte ↗."},
+  {g:"Phrases du dialogue", sentence:"Can I <b>go</b> to the <b>toi</b>let, <b>please</b>?", clip:"dlg-d3-2", fr:"Est-ce que je peux aller aux toilettes, s'il vous plaît ?", rule:"Can est faible (/kən/), to the aussi. On appuie sur <strong>go</strong>, <strong>TOI</strong>-let et <strong>please</strong>. Question fermée : la voix monte ↗."},
+  {g:"Questions et négation", sentence:"Did you <b>go</b> to <b>school</b> <b>yes</b>terday? ↗", clip:"q-didyougo", fr:"Est-ce que tu es allé à l'école hier ?", rule:"<strong>Did</strong> est faible, /dɪd/ : on appuie sur go, school et YES-terday. Question fermée (yes / no) : la voix monte ↗."},
+  {g:"Questions et négation", sentence:"Did she <b>vi</b>sit her <b>grand</b>ma? ↗", clip:"q-didshevisit", pair:"s-visited", pairLabel:"She visited her grandma.", fr:"Est-ce qu'elle a rendu visite à sa grand-mère ?", rule:"Après did, le verbe perd -ed : <i>visit</i>, pas <i>visited</i>. Did she se dit vite, on appuie sur <strong>VI</strong>-sit et <strong>GRAND</strong>-ma. La voix monte ↗."},
+  {g:"Questions et négation", sentence:"<b>What</b> did she <b>do</b> last <b>night</b>? ↘", clip:"q-whatdid", pair:"s-drew", pairLabel:"She drew pictures with her sister.", fr:"Qu'est-ce qu'elle a fait hier soir ?", rule:"Question en Wh- : on appuie sur <strong>what</strong>, <strong>do</strong> et <strong>night</strong>. did she est faible. La voix descend ↘."},
+  {g:"Questions et négation", sentence:"She <b>did</b>n't <b>eat</b> <b>break</b>fast this <b>mor</b>ning.", clip:"n-didnteat", fr:"Elle n'a pas pris de petit-déjeuner ce matin.", rule:"Dans la négation, <strong>DID</strong>n't est fort : c'est lui qui dit « non ». Le verbe reste à la base (eat, pas ate)."},
+  {g:"Questions et négation", sentence:"They <b>did</b>n't <b>play</b> <b>ten</b>nis.", clip:"n-didntplaytennis", pair:"s-playedtennis", pairLabel:"They played tennis.", fr:"Ils n'ont pas joué au tennis.", rule:"Compare avec la phrase affirmative : played /d/ devient <strong>DID</strong>n't play, sans -ed. didn't et play sont forts."},
+  {g:"Questions et négation", sentence:"I <b>did</b>n't <b>see</b> a <b>cat</b>.", clip:"n-didntsee", fr:"Je n'ai pas vu de chat.", rule:"Trois temps forts : <strong>DID</strong>n't, <strong>see</strong>, <strong>cat</strong>. I et a sont tout petits."}
 ];
-const KEY="stresslab5e-late";
+const AUDIO="../assets/audio/";
+const KEY="stresslab5e-real";
 let state={i:0,res:{},guess:{}};
 try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s) state=Object.assign(state,s);}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
@@ -262,21 +267,17 @@ const ico={
 const $=s=>document.querySelector(s);
 const plain=it=>it.w || it.sentence.replace(/<[^>]+>/g,"").replace("…","");
 
-/* ---------- speech synthesis ---------- */
-let voices=[];
-function loadVoices(){try{voices=speechSynthesis.getVoices()}catch(e){}}
-if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices;}
-function speak(text,rate){
-  if(!('speechSynthesis' in window)){toast("La voix n'est pas disponible sur ce navigateur.");return}
-  speechSynthesis.cancel();
-  const lang=$("#accent").value;
-  const u=new SpeechSynthesisUtterance(text);
-  u.lang=lang; u.rate=rate;
-  const v=voices.find(v=>v.lang.replace("_","-")===lang) || voices.find(v=>v.lang.startsWith("en"));
-  if(v) u.voice=v;
-  speechSynthesis.speak(u);
+/* ---------- real voices (no speech synthesis) ---------- */
+let cur=null;
+function stopAudio(){ if(cur){cur.pause();cur=null} }
+function playClip(id,rate,then){
+  stopAudio();
+  const a=new Audio(AUDIO+id+".mp3"); a.playbackRate=rate||1;
+  a.preservesPitch=true; a.mozPreservesPitch=true; a.webkitPreservesPitch=true;
+  cur=a; a.onended=()=>{cur=null; then&&then()};
+  a.onerror=()=>{toast("Le son n'a pas pu être chargé. Vérifie ta connexion."); then&&then()};
+  a.play().catch(()=>{});
 }
-
 /* ---------- recording ---------- */
 let rec=null, chunks=[], myAudioURL=null, recStream=null;
 async function toggleRecord(btn){
@@ -314,7 +315,7 @@ function norm(s){return s.toLowerCase().replace(/[^a-z' ]/g," ").split(/\s+/).fi
 function listen(btn){
   const out=$("#heard");
   if(!SR){out.innerHTML="La vérification automatique marche dans <b>Chrome</b> ou <b>Edge</b>. Ici, compare ton enregistrement avec le modèle.";return}
-  const r=new SR(); r.lang=$("#accent").value; r.maxAlternatives=3; r.interimResults=false;
+  const r=new SR(); r.lang="en-US"; r.maxAlternatives=3; r.interimResults=false;
   btn.disabled=true; btn.innerHTML=ico.ear+"Je t'écoute… parle !";
   r.onresult=e=>{
     const alts=[...e.results[0]].map(a=>a.transcript);
@@ -341,7 +342,7 @@ function renderChips(){
   ITEMS.forEach((it,k)=>{
     if(it.g!==last){html+=`<span class="group-label">${it.g}</span>`;last=it.g}
     const r=state.res[k]; const cls=r?" done-"+r:"";
-    html+=`<button class="chip${cls}" data-k="${k}" aria-current="${k===state.i}">${it.w||"Phrase "+(k-ITEMS.findIndex(x=>!x.w)+1)}</button>`;
+    html+=`<button class="chip${cls}" data-k="${k}" aria-current="${k===state.i}">${it.w||({"Phrases du dialogue":"Phrase ","Questions et négation":(/did<\/b>n't|didn't/.test(it.sentence)?"Négation ":"Question ")})[it.g]+(ITEMS.slice(0,k+1).filter(x=>x.g===it.g&&(it.g!=="Questions et négation"||/n't/.test(x.sentence)===/n't/.test(it.sentence))).length)}</button>`;
   });
   $("#chips").innerHTML=html;
   const n=Object.keys(state.res).length;
@@ -376,7 +377,10 @@ function renderCard(){
       <div class="row">
         <button class="btn primary" id="play">${ico.play}Écouter</button>
         <button class="btn" id="slow">${ico.slow}Lentement</button>
+        ${it.pair?`<button class="btn" id="pair">${ico.play}Comparer : ${it.pairLabel}</button>`:""}
       </div>
+      ${it.ctx?`<p class="hint">Écoute le mot <b>${it.w}</b> dans la phrase : <span lang="en">« ${it.ctx} »</span></p>`:""}
+      <p class="hint">Vraie voix${it.clip.startsWith("dlg")?" du dialogue de la séquence":", extraite d'une vidéo pédagogique en anglais"}.</p>
     </section>
     <section class="step" ${locked?'hidden':''}>
       <h2><i>2</i>Enregistre-toi</h2>
@@ -419,27 +423,21 @@ document.addEventListener("click",e=>{
   if(t.classList.contains("chip")){state.i=+t.dataset.k;save();render();return}
   if(t.classList.contains("syl")&&state.guess[state.i]===undefined){state.guess[state.i]=+t.dataset.j;save();renderCard();return}
   switch(t.id){
-    case "play": speak(plain(it),0.9);break;
-    case "slow": speak(plain(it),0.55);break;
+    case "play": playClip(it.clip,1);break;
+    case "slow": playClip(it.clip,0.7);break;
+    case "pair": playClip(it.pair,1,()=>setTimeout(()=>playClip(it.clip,1),400));break;
     case "rec": toggleRecord(t);break;
     case "playMine": playMine();break;
-    case "compare":{
-      if(!('speechSynthesis' in window)){playMine();break}
-      speechSynthesis.cancel();
-      const u=new SpeechSynthesisUtterance(plain(it)); u.lang=$("#accent").value; u.rate=0.9;
-      const v=voices.find(v=>v.lang.replace("_","-")===u.lang); if(v) u.voice=v;
-      u.onend=()=>setTimeout(()=>playMine(),400); speechSynthesis.speak(u);break}
+    case "compare": playClip(it.clip,1,()=>setTimeout(()=>playMine(),400));break;
     case "listen": listen(t);break;
-    case "prev": state.i--;save();render();break;
-    case "next": state.i++;save();render();break;
+    case "prev": stopAudio();state.i--;save();render();break;
+    case "next": stopAudio();state.i++;save();render();break;
   }
   if(t.dataset.r){state.res[state.i]=t.dataset.r;save();render();}
 });
 document.addEventListener("change",e=>{
   if(e.target.id==="upload"&&e.target.files[0]) setMyAudio(URL.createObjectURL(e.target.files[0]));
-  if(e.target.id==="accent"){try{localStorage.setItem(KEY+"-accent",e.target.value)}catch(_){}}
 });
-try{const a=localStorage.getItem(KEY+"-accent"); if(a) $("#accent").value=a;}catch(e){}
 if(state.i>=ITEMS.length) state.i=0;
 render();
 </script>

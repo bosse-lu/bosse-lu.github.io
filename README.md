@@ -8,8 +8,8 @@ Site : https://bosse-lu.github.io
 
 - **[Séquence Late and absent](https://bosse-lu.github.io/late-and-absent/)** : le parcours de la séquence en 4 étapes, avec la progression de l'élève. Les étapes :
   - **[Excuse Lab](https://bosse-lu.github.io/excuse-lab/)** : les vraies voix du dialogue *What's your excuse today?* Écoute, répète et joue la scène.
-  - **[Les sons de -ed](https://bosse-lu.github.io/ed-sounds/)** : /t/, /d/ ou /ɪd/ ? Apprends à prononcer le prétérit.
-  - **[Stress Lab](https://bosse-lu.github.io/stress-lab/)** : l'accent tonique des mots et des phrases de la séquence *Late and absent* (absent, excuse, headache…).
+  - **[Les sons de -ed](https://bosse-lu.github.io/ed-sounds/)** : /t/, /d/ ou /ɪd/ ? Le prétérit, la négation (*didn't*) et les questions (*Did…?*), avec de vraies voix anglaises.
+  - **[Stress Lab](https://bosse-lu.github.io/stress-lab/)** : l'accent tonique des mots et des phrases de la séquence *Late and absent*, avec de vraies voix, et le rythme des questions et de la négation.
   - **[Blame the bus!](https://bosse-lu.github.io/late-bus/)** : un article de *The Independent* adapté pour la 5e. Lis, écoute, et entraîne-toi sur les verbes en -ed du texte.
 - **[English News](https://bosse-lu.github.io/news/)** : l'actualité du monde anglophone en anglais simplifié, avec mots-clés et quiz (5e et 4e).
 - **[Spécial footeux](https://bosse-lu.github.io/foot/)** : l'actu du football anglophone trois fois par semaine : dimanche, mardi, jeudi (4e section foot).
