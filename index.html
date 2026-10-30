@@ -54,6 +54,22 @@ footer{font-size:.85rem;color:var(--muted)}
 .hero-art{float:right;width:clamp(92px,26vw,170px);aspect-ratio:1;margin:0 0 8px 14px}.hero-art svg{display:block;width:100%;height:100%}
 header::after{content:"";display:block;clear:both}
 .card-art{display:block;width:72px;height:72px;margin:-4px 0 -2px -6px}.card-art svg{display:block;width:100%;height:100%}
+
+.tool.feature{grid-column:1/-1;border:2px solid var(--accent);gap:14px}
+.feat-top{display:flex;gap:16px;align-items:center}
+.card-art.big{width:96px;height:96px;flex:none;margin:0}
+.feat-txt{display:flex;flex-direction:column;gap:6px}
+.feature h2{font-size:clamp(1.7rem,6vw,2.2rem)}
+.mini{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.ms{display:flex;align-items:center;gap:6px;background:var(--paper);border-radius:12px;padding:6px 8px;font-size:.85rem;font-weight:700;min-width:0}
+.ms.ok{background:#dff3e8;color:#1f6b45}
+.ms-art{width:34px;height:34px;flex:none}.ms-art svg{display:block;width:100%;height:100%}
+.ms-t{min-width:0;overflow-wrap:anywhere}
+.feat-prog{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.feat-prog .bar{flex:1 1 200px;display:block;height:10px;border-radius:999px;background:var(--accent-soft);overflow:hidden}
+.feat-prog .bar span{display:block;height:100%;width:0;background:var(--accent);border-radius:999px}
+.feat-prog .pc{font-size:.9rem;color:var(--muted);font-weight:700}
+@media (max-width:620px){.mini{grid-template-columns:repeat(2,1fr)}.feat-top{align-items:flex-start}.card-art.big{width:72px;height:72px}}
 </style>
 </head>
 <body>
@@ -67,12 +83,18 @@ header::after{content:"";display:block;clear:both}
   </header>
 
   <section class="grid" aria-label="Activités">
-    <a class="tool" href="excuse-lab/">
-      <span class="card-art" data-art="excuse" aria-hidden="true"></span>
-      <span class="tag">5e · Late and absent</span>
-      <h2>Excuse Lab</h2>
-      <p>Les vraies voix du dialogue <i>What's your excuse today?</i> Les verbes au prétérit, les phrases et le jeu de rôle.</p>
-      <span class="go">Commencer →</span>
+    <a class="tool feature" id="seq-feature" href="late-and-absent/">
+      <span class="feat-top">
+        <span class="card-art big" data-art="excuse" aria-hidden="true"></span>
+        <div class="feat-txt">
+          <span class="tag">Séquence en cours · 5e</span>
+          <h2>Late and absent</h2>
+          <p>Retards, absences et excuses en anglais : les dialogues, le prétérit, l'accent et un vrai article de presse britannique. Quatre étapes, dans l'ordre.</p>
+        </div>
+      </span>
+      <span class="mini"></span>
+      <span class="feat-prog"><span class="bar" aria-hidden="true"><span></span></span><span class="pc"></span></span>
+      <span class="go">Ouvrir la séquence →</span>
     </a>
     <a class="tool" href="news/">
       <span class="card-art" data-art="news" aria-hidden="true"></span>
@@ -87,27 +109,6 @@ header::after{content:"";display:block;clear:both}
       <h2>Spécial footeux</h2>
       <p>L'actu du football anglophone trois fois par semaine, en anglais : Premier League, coupes, football féminin.</p>
       <span class="go">Lire l'actu foot →</span>
-    </a>
-    <a class="tool" href="late-bus/">
-      <span class="card-art" data-art="bus" aria-hidden="true"></span>
-      <span class="tag">5e · Late and absent · Royaume-Uni</span>
-      <h2>Blame the bus!</h2>
-      <p>Un article de presse britannique sur les retards à Londres. Lis-le, écoute-le, puis entraîne-toi sur ses verbes en -ed.</p>
-      <span class="go">Commencer →</span>
-    </a>
-    <a class="tool" href="ed-sounds/">
-      <span class="card-art" data-art="ed" aria-hidden="true"></span>
-      <span class="tag">5e · Prétérit et -ed</span>
-      <h2>Les sons de -ed</h2>
-      <p>/t/, /d/ ou /ɪd/ ? Entraîne-toi puis passe l'évaluation finale à rendre sur Pronote.</p>
-      <span class="go">Commencer →</span>
-    </a>
-    <a class="tool" href="stress-lab/">
-      <span class="card-art" data-art="stress" aria-hidden="true"></span>
-      <span class="tag">5e · Late and absent · Accent</span>
-      <h2>Stress Lab</h2>
-      <p>Les mots et les phrases de la séquence : <i>ABsent, exCUSE, HEADache, SORry I'm LATE…</i> Trouve l'accent et dis-le avec le bon rythme.</p>
-      <span class="go">Commencer →</span>
     </a>
   </section>
 
@@ -194,6 +195,7 @@ header::after{content:"";display:block;clear:both}
 })();
 </script>
 <script src="assets/art.js"></script>
+<script src="assets/sequence.js"></script>
 <script src="assets/newbadge.js"></script>
 <script src="assets/flagtips.js"></script>
 </body>

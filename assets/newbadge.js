@@ -26,7 +26,8 @@
   .nb-toast .x{margin-left:auto;border:none;background:none;font-size:1.6rem;line-height:1;color:#5b6380;cursor:pointer;padding:0 4px}
   .nb-ribbon{position:absolute;top:-10px;right:-8px;z-index:2;background:var(--hot);color:#fff;border:3px solid #fff;border-radius:12px;padding:6px 10px;
     font:800 1.15rem/1 "Bricolage Grotesque","Trebuchet MS",sans-serif;letter-spacing:.05em;transform:rotate(6deg);box-shadow:0 4px 12px rgba(224,36,47,.4)}
-  a.tool{position:relative}`;
+  a.tool{position:relative}
+  @media (max-width:560px){body.nb-has{padding-top:max(70px,calc(env(safe-area-inset-top,0px) + 62px))!important}.nb-corner{font-size:1.15rem;padding:6px 10px 6px 12px}}`;
 
   const seenOf = kind => { try { return (JSON.parse(localStorage.getItem("newsroom-" + kind) || "{}").seen) || {}; } catch (e) { return {}; } };
   const recent = d => { const t = Date.parse(d); return t && (Date.now() - t) < NEW_DAYS * 864e5; };
@@ -51,7 +52,7 @@
     c.className = "nb-corner"; c.href = top.href;
     c.innerHTML = `NEW <b>${total}</b>`;
     c.setAttribute("aria-label", `${total} ${total > 1 ? "nouveaux articles" : "nouvel article"} à lire`);
-    document.body.appendChild(c);
+    document.body.appendChild(c); document.body.classList.add("nb-has");
 
     // Ribbons on the home page cards
     hits.forEach(f => {

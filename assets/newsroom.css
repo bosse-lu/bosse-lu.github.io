@@ -102,3 +102,4 @@ header::after{content:"";display:block;clear:both}
 .notif .bell{font-size:1.5rem}
 .notif .red{color:var(--hot)}
 .notif .x{margin-left:auto;border:none;background:none;font-size:1.6rem;line-height:1;color:var(--muted);cursor:pointer;padding:0 4px}
+@media (max-width:560px){body.nb-has{padding-top:max(70px,calc(env(safe-area-inset-top,0px) + 62px))}.corner-new{font-size:1.15rem;padding:6px 10px 6px 12px}}

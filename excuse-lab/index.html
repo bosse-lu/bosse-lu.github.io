@@ -359,7 +359,7 @@ function renderChips(){
   $("#chips").innerHTML=html;
   const n=Object.keys(state.res).filter(k=>!k.startsWith("play")).length;
   $("#score").textContent=`${n} / ${VERBS.length+LINES.length} faits`;
-  const cur=$("#chips .chip[aria-current=true]"); if(cur) cur.scrollIntoView({block:"nearest",inline:"center"});
+  const cur=$("#chips .chip[aria-current=true]"); if(cur) {const c=cur.parentElement,r=cur.getBoundingClientRect(),cr=c.getBoundingClientRect();c.scrollLeft+=r.left-cr.left-(cr.width-r.width)/2;};
 }
 function practiceBlock(target, hasClip){
   const self=state.res[resKey(state[idx()])];
@@ -513,5 +513,6 @@ render();
 <script src="../assets/art.js"></script>
 <script src="../assets/newbadge.js"></script>
 <script src="../assets/flagtips.js"></script>
+<script src="../assets/sequence.js" data-step="excuse"></script>
 </body>
 </html>

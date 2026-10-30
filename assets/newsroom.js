@@ -120,6 +120,7 @@
   function updateUnread(first) {
     const n = all.filter(unread).length;
     corner.hidden = !n;
+    document.body.classList.toggle("nb-has", !!n);
     corner.innerHTML = `<span class="cn-label">NEW</span><span class="cn-count">${n}</span>`;
     corner.setAttribute("aria-label", n + (n > 1 ? " nouveaux articles à lire" : " nouvel article à lire"));
     document.title = n ? `(${n}) ${baseTitle}` : baseTitle;

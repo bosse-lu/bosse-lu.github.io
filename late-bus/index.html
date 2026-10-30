@@ -548,7 +548,7 @@ function renderChips() {
   });
   $("#chips").innerHTML = html;
   $("#score").textContent = `${Object.keys(state.res).length} / ${ITEMS.length} faits`;
-  const cur = $("#chips .chip[aria-current=true]"); if (cur && state.tab === "lab") cur.scrollIntoView({block:"nearest", inline:"center"});
+  const cur = $("#chips .chip[aria-current=true]"); if (cur && state.tab === "lab") {const c=cur.parentElement,r=cur.getBoundingClientRect(),cr=c.getBoundingClientRect();c.scrollLeft+=r.left-cr.left-(cr.width-r.width)/2;};
 }
 function markText(it) {
   if (it.w) return `${it.stem}<span class="ed">${it.end}</span>`;
@@ -703,5 +703,6 @@ showTab(state.tab === "lab" ? "lab" : "read");
 <script src="../assets/art.js"></script>
 <script src="../assets/newbadge.js"></script>
 <script src="../assets/flagtips.js"></script>
+<script src="../assets/sequence.js" data-step="bus"></script>
 </body>
 </html>

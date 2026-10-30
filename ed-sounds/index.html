@@ -447,7 +447,7 @@ function renderChips(){
   html+=`<span class="group-label">Évaluation</span><button class="chip eval" data-k="${EVAL_I}" aria-current="${state.i===EVAL_I}">Évaluation finale</button>`;
   $("#chips").innerHTML=html;
   $("#score").textContent=`${Object.keys(state.res).length} / ${ITEMS.length} faits`;
-  const cur=$("#chips .chip[aria-current=true]"); if(cur) cur.scrollIntoView({block:"nearest",inline:"center"});
+  const cur=$("#chips .chip[aria-current=true]"); if(cur) {const c=cur.parentElement,r=cur.getBoundingClientRect(),cr=c.getBoundingClientRect();c.scrollLeft+=r.left-cr.left-(cr.width-r.width)/2;};
 }
 function markText(it){
   if(it.w) return `${it.stem}<span class="ed">${it.end}</span>`;
@@ -565,5 +565,6 @@ render();
 <script src="../assets/art.js"></script>
 <script src="../assets/newbadge.js"></script>
 <script src="../assets/flagtips.js"></script>
+<script src="../assets/sequence.js" data-step="ed"></script>
 </body>
 </html>
