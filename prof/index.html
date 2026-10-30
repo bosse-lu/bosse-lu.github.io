@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Espace prof – Collège Réeberg Néron</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Teacher page: one table with each class, the open steps and the unlocked evaluations (read from classes.json) */
+:root{--paper:#f3f5fb;--card:#fff;--ink:#1b2340;--muted:#5b6380;--line:#d9ddea;--accent:#2f4fd8;--accent-soft:#e3e8ff;--good:#1f8a55;--good-soft:#dff3e8;--bad:#c2412d;--bad-soft:#fbe5df;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;--body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#11152a;--card:#1a1f37;--ink:#e8ebf7;--muted:#9aa1bd;--line:#2d3456;--accent:#8ea2ff;--accent-soft:#262e57;--good:#4cc38a;--good-soft:#173a2b;--bad:#f0785f;--bad-soft:#3d2120;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#11152a;--card:#1a1f37;--ink:#e8ebf7;--muted:#9aa1bd;--line:#2d3456;--accent:#8ea2ff;--accent-soft:#262e57;--good:#4cc38a;--good-soft:#173a2b;--bad:#f0785f;--bad-soft:#3d2120;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.5;padding:24px max(16px,env(safe-area-inset-left,0px)) 56px}
+.wrap{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+a{color:var(--accent)}
+.homelink{font-weight:600;font-size:14px;color:inherit;opacity:.75;text-decoration:none;align-self:center}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,7vw,2.8rem);line-height:1;margin:0}
+.lead{color:var(--muted);margin:8px 0 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;overflow-x:auto}
+.card h2{font-family:var(--display);font-size:1.25rem;margin:0 0 10px}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+td b{font-family:var(--display);font-size:1.05rem}
+.pill{display:inline-block;font-size:.8rem;font-weight:700;padding:2px 9px;border-radius:999px;margin:1px 2px 1px 0}
+.on{background:var(--good-soft);color:var(--good)} .off{background:var(--bad-soft);color:var(--bad)} .na{background:var(--line);color:var(--muted)}
+ol,ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{background:var(--accent-soft);padding:1px 6px;border-radius:5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="homelink" href="../">← Accueil du site</a>
+  <header>
+    <h1>Espace prof</h1>
+    <p class="lead">L'état de chaque classe : étapes ouvertes et évaluations débloquées. Cette page ne fait que lire les réglages du site ; les codes des classes n'y figurent pas.</p>
+  </header>
+  <section class="card">
+    <h2>Séquence Late and absent (5e)</h2>
+    <table>
+      <thead><tr><th>Classe</th><th>Étapes ouvertes</th><th>Évaluations</th></tr></thead>
+      <tbody id="rows"><tr><td colspan="3">Chargement…</td></tr></tbody>
+    </table>
+  </section>
+  <section class="card">
+    <h2>Débloquer une évaluation ou ouvrir une étape</h2>
+    <ol>
+      <li><b>Le plus simple</b> : demandez-le à Claude, par exemple « débloque l'évaluation orale du prétérit pour la 5e C » ou « n'ouvre que les deux premières étapes pour la 5e F ». La mise à jour est en ligne une à deux minutes plus tard.</li>
+      <li><b>Vous-même, sur GitHub</b> : ouvrez le fichier <code>classes.json</code> du dépôt, cliquez sur le crayon, puis modifiez la classe voulue :
+        <ul>
+          <li><code>"steps": 4</code> = nombre d'étapes ouvertes, dans l'ordre (1 à 4) ;</li>
+          <li><code>"evals": ["ed-final"]</code> = évaluation orale du prétérit débloquée ; <code>"evals": []</code> = tout verrouillé.</li>
+        </ul>
+        Enregistrez avec « Commit changes ».</li>
+    </ol>
+  </section>
+  <section class="card">
+    <h2>Bon à savoir</h2>
+    <ul>
+      <li>L'élève entre le code de sa classe une seule fois par appareil, sur la page de la séquence ou devant l'évaluation. S'il change d'appareil, il le retape.</li>
+      <li>L'entraînement reste toujours libre ; seules les évaluations sont verrouillées. Les quiz des articles News et foot restent libres aussi.</li>
+      <li>Il n'y a pas de comptes élèves : la progression reste sur l'appareil. C'est un verrou pédagogique, pas une protection forte.</li>
+    </ul>
+  </section>
+</div>
+<script>
+(async function () {
+  const EVALS = {"ed-final": "Évaluation orale : le prétérit"};
+  const STEPS = ["Excuse Lab", "Les sons de -ed", "Stress Lab", "Blame the bus!"];
+  const rows = document.getElementById("rows");
+  try {
+    const cfg = await (await fetch("../classes.json?v=" + Date.now(), {cache: "no-store"})).json();
+    rows.innerHTML = cfg.classes.map(c => {
+      const s = c.sequences && c.sequences["late-and-absent"];
+      if (!s) return `<tr><td><b>${c.label}</b></td><td colspan="2"><span class="pill na">Pas de séquence en ligne pour la ${c.level}</span></td></tr>`;
+      const n = typeof s.steps === "number" ? s.steps : STEPS.length;
+      const steps = STEPS.map((t, i) => `<span class="pill ${i < n ? "on" : "off"}">${i + 1}. ${t}</span>`).join("");
+      const ev = Object.entries(EVALS).map(([id, t]) => `<span class="pill ${(s.evals || []).includes(id) ? "on" : "off"}">${(s.evals || []).includes(id) ? "Débloquée" : "🔒 Verrouillée"} · ${t}</span>`).join("");
+      return `<tr><td><b>${c.label}</b></td><td>${steps}</td><td>${ev}</td></tr>`;
+    }).join("");
+  } catch (e) { rows.innerHTML = `<tr><td colspan="3">Impossible de lire classes.json.</td></tr>`; }
+})();
+</script>
+</body>
+</html>

@@ -14,6 +14,12 @@ Site : https://bosse-lu.github.io
 - **[English News](https://bosse-lu.github.io/news/)** : l'actualité du monde anglophone en anglais simplifié, avec mots-clés et quiz (5e et 4e).
 - **[Spécial footeux](https://bosse-lu.github.io/foot/)** : l'actu du football anglophone trois fois par semaine : dimanche, mardi, jeudi (4e section foot).
 
+## Classes et évaluations
+
+- Chaque classe (5e C, 5e D, 5e F, 4e D, 4e E, 4e F) a un code que l'élève entre une fois sur son appareil.
+- **Règle générale : les évaluations des séquences sont verrouillées** jusqu'à ce que M. Bosse les débloque pour une classe. L'entraînement reste libre, ainsi que les quiz des articles News et foot.
+- Les réglages sont dans `classes.json` (étapes ouvertes et évaluations débloquées par classe). L'état des classes se lit sur l'[espace prof](https://bosse-lu.github.io/prof/).
+
 ## Comment ça marche
 
 Ouvre l'activité dans **Chrome** ou **Edge** et autorise le micro. Tu peux écouter, t'enregistrer, te réécouter et vérifier ta prononciation. Tes enregistrements restent sur ton appareil : rien n'est envoyé ni conservé en ligne.

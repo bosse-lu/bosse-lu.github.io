@@ -63,6 +63,12 @@ header::after{content:"";display:block;clear:both}
 .go{margin-left:auto;font-weight:700;color:var(--accent)}
 .step-card .bar{height:8px}
 .is-done .bar span{background:var(--good)}
+.sec{font-family:var(--display);font-weight:800;font-size:1.4rem;margin:6px 0 -6px}
+.step-card.locked{opacity:.75;background:repeating-linear-gradient(-45deg,var(--card),var(--card) 12px,var(--paper) 12px,var(--paper) 24px);cursor:not-allowed}
+.step-card.locked:hover{transform:none;border-color:var(--line)}
+.step-card.locked .num{background:var(--line);font-size:1rem}
+.eval-card.open{border:2px solid var(--good)}
+.eval-card.open .num{background:var(--good)}
 .box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 20px}
 .box h2{margin:0 0 8px;font-family:var(--display);font-size:1.2rem}
 .box ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
@@ -91,12 +97,17 @@ code{font-size:.9em;background:var(--accent-soft);padding:1px 5px;border-radius:
     <p class="lead">Arriver en retard, être absent, s'excuser et demander la permission… en anglais ! Suis le parcours dans l'ordre : une étape après l'autre.</p>
   </header>
 
+  <div id="class-box" class="cl-box" aria-live="polite"></div>
+
   <div class="overall" id="seq-overall">
     <b>Ta progression dans la séquence</b><span class="pc">0 %</span>
     <span class="bar" aria-hidden="true"><span></span></span>
   </div>
 
   <ol class="steps" id="seq-steps" aria-label="Les étapes de la séquence"></ol>
+
+  <h2 class="sec">L'évaluation</h2>
+  <ol class="steps" id="seq-evals" aria-label="Évaluation de la séquence"></ol>
 
   <section class="box">
     <h2>À la fin de la séquence, je sais…</h2>
@@ -115,12 +126,14 @@ code{font-size:.9em;background:var(--accent-soft);padding:1px 5px;border-radius:
       <li>Lien à donner aux élèves (Pronote, ENT) : <code>https://bosse-lu.github.io/late-and-absent/</code></li>
       <li>Les étapes suivent l'ordre de la séquence : dialogues (Excuse Lab), prétérit et -ed, accent tonique, puis le document authentique. Les élèves peuvent toujours ouvrir une étape dans un autre ordre.</li>
       <li>La progression affichée est celle que chaque outil enregistre sur l'appareil de l'élève (items auto-évalués). Rien n'est envoyé en ligne : en salle informatique, elle dépend du poste et de la session utilisés.</li>
+      <li><b>Classes et évaluations</b> : l'élève entre une fois le code de sa classe. Les évaluations restent verrouillées jusqu'à ce que vous demandiez leur déblocage pour une classe. Vous pouvez aussi n'ouvrir les étapes qu'une à une, au rythme de chaque classe. L'état de chaque classe est visible dans l'espace prof.</li>
       <li>Chaque outil garde son adresse : les liens déjà donnés continuent de fonctionner. Dans chaque outil, un fil d'Ariane ramène à cette page et des boutons mènent à l'étape précédente ou suivante.</li>
     </ul>
   </details>
 </div>
 <script src="../assets/flags.js"></script>
 <script src="../assets/art.js"></script>
+<script src="../assets/classes.js"></script>
 <script src="../assets/sequence.js"></script>
 <script src="../assets/flagtips.js"></script>
 <script src="../assets/newbadge.js"></script>

@@ -173,6 +173,7 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
       <li>Astuce gorge : main sur la gorge, l'élève dit le dernier son du verbe. Ça vibre (son sonore) → /d/ ; ça ne vibre pas (son sourd) → /t/.</li>
       <li>La reconnaissance vocale (Chrome ou Edge) dit si le mot a été <i>compris</i>. Elle tolère souvent une terminaison mal prononcée : l'écoute comparée reste essentielle.</li>
       <li>Si le micro est bloqué, l'élève s'enregistre avec le dictaphone du téléphone puis importe le fichier. Les résultats restent sur l'appareil de l'élève.</li>
+      <li><b>Verrouillage</b> : l'évaluation finale reste fermée tant que vous ne l'avez pas débloquée pour la classe de l'élève (code de classe). L'entraînement reste toujours libre.</li>
       <li><b>Évaluation finale</b> : l'élève lit un texte de 9 verbes (3 en /t/, 3 en /d/, 3 en /ɪd/), sans modèle audio, s'enregistre puis télécharge un fichier nommé classe_nom_oral-ed. Il le dépose dans le travail à rendre sur Pronote. Le téléchargement fonctionne quand la page est hébergée (ENT, Netlify), pas dans l'aperçu Claude.</li>
     </ul>
   </details>
@@ -355,8 +356,23 @@ function downloadMine(){
   document.body.appendChild(a); a.click(); a.remove();
   $("#dlHint").textContent=`Fichier « ${fn} » téléchargé. Dépose-le maintenant dans le travail à rendre sur Pronote.`;
 }
+const SEQ_ID="late-and-absent", EVAL_ID="ed-final";
+function evalUnlocked(){return !!(window.Classes&&Classes.klass()&&Classes.evalOpen(SEQ_ID,EVAL_ID))}
+function renderLockedEval(){
+  const loading=!window.Classes||!Classes.isReady();
+  $("#card").innerHTML=`
+    <div class="meta"><span>Évaluation finale</span><span>Verrouillée</span></div>
+    <div class="target"><p class="big" aria-hidden="true">🔒</p></div>
+    <p class="prompt">${loading?"Chargement…":"L'évaluation n'est pas encore ouverte pour ta classe."}</p>
+    <p class="hint" style="text-align:center">Ton professeur la débloquera quand ta classe sera prête. En attendant, entraîne-toi sur les ${ITEMS.length} verbes et phrases : plus tu manipules, plus tu progresses !</p>
+    <div id="evalClass"></div>
+    <div class="nav"><button class="btn" id="prev">← Retour à l'entraînement</button></div>`;
+  if(window.Classes&&Classes.isReady()) Classes.mountPicker($("#evalClass"),{title:"Entre le code de ta classe"});
+}
 function renderEval(){
+  if(!evalUnlocked()){renderLockedEval();return}
   if(myAudioURL){URL.revokeObjectURL(myAudioURL);myAudioURL=null;myBlob=null}
+  if(!ev.cls.trim()&&Classes.klass()){ev.cls=Classes.klass().label;try{localStorage.setItem(KEY+"-eval",JSON.stringify(ev))}catch(_){}}
   $("#card").innerHTML=`
     <div class="meta"><span>Évaluation finale</span><span>Expression orale</span></div>
     <p class="prompt">Lis ce texte à voix haute. Fais bien entendre la terminaison -ed de chaque verbe au prétérit.</p>
@@ -444,7 +460,7 @@ function renderChips(){
     const r=state.res[k];
     html+=`<button class="chip${r?" done-"+r:""}" data-k="${k}" aria-current="${k===state.i}">${it.w||"Phrase "+(k-14)}</button>`;
   });
-  html+=`<span class="group-label">Évaluation</span><button class="chip eval" data-k="${EVAL_I}" aria-current="${state.i===EVAL_I}">Évaluation finale</button>`;
+  html+=`<span class="group-label">Évaluation</span><button class="chip eval" data-k="${EVAL_I}" aria-current="${state.i===EVAL_I}">${evalUnlocked()?"Évaluation finale":"🔒 Évaluation finale"}</button>`;
   $("#chips").innerHTML=html;
   $("#score").textContent=`${Object.keys(state.res).length} / ${ITEMS.length} faits`;
   const cur=$("#chips .chip[aria-current=true]"); if(cur) {const c=cur.parentElement,r=cur.getBoundingClientRect(),cr=c.getBoundingClientRect();c.scrollLeft+=r.left-cr.left-(cr.width-r.width)/2;};
@@ -559,12 +575,15 @@ document.addEventListener("change",e=>{
 });
 try{const a=localStorage.getItem(KEY+"-accent"); if(a) $("#accent").value=a;}catch(e){}
 if(!(state.i>=0&&state.i<=EVAL_I)) state.i=0;
+if(location.hash==="#eval") state.i=EVAL_I;
+["classes:ready","classes:change"].forEach(n=>document.addEventListener(n,()=>{renderChips(); if(state.i===EVAL_I) renderCard();}));
 render();
 </script>
 
 <script src="../assets/art.js"></script>
 <script src="../assets/newbadge.js"></script>
 <script src="../assets/flagtips.js"></script>
+<script src="../assets/classes.js"></script>
 <script src="../assets/sequence.js" data-step="ed"></script>
 </body>
 </html>

@@ -7,7 +7,12 @@
   const url = p => new URL(p, base).href;
 
   const SEQ = {
-    title: "Late and absent", level: "5e", axis: "Axe 4 · École et loisirs", href: "late-and-absent/",
+    id: "late-and-absent", title: "Late and absent", level: "5e", axis: "Axe 4 · École et loisirs", href: "late-and-absent/",
+    // Evaluations stay locked until the teacher unlocks them for a class (classes.json → evals)
+    evals: [
+      {id: "ed-final", href: "ed-sounds/#eval", art: "ed", title: "Évaluation orale : le prétérit",
+        what: "Lis un court texte au prétérit à voix haute, enregistre-toi, puis rends le fichier sur Pronote."}
+    ],
     steps: [
       {id: "excuse", href: "excuse-lab/", art: "excuse", title: "Excuse Lab",
         what: "Écoute les vraies voix des dialogues, répète les phrases et joue la scène.",
@@ -37,10 +42,17 @@
   const css = t => { const st = document.createElement("style"); st.textContent = t; document.head.appendChild(st); };
 
   /* ---------- 1. Sequence page ---------- */
+  const C = () => window.Classes;
+  const openCount = () => (C() && C().stepsOpen) ? C().stepsOpen(SEQ.id, SEQ.steps.length) : SEQ.steps.length;
   const list = document.getElementById("seq-steps");
-  if (list) {
-    const steps = all(), nextI = steps.findIndex(s => !s.p.done);
+  function renderHub() {
+    const steps = all(), open = openCount(), nextI = steps.findIndex((s, i) => i < open && !s.p.done);
     list.innerHTML = steps.map((s, i) => {
+      if (i >= open) return `<li><div class="step-card locked" aria-disabled="true">
+        <span class="num" aria-hidden="true">🔒</span>
+        <span class="step-art" data-art="${s.art}" aria-hidden="true"></span>
+        <span class="step-body"><span class="step-k">Étape ${i + 1}</span><span class="step-t">${s.title}</span>
+        <span class="step-w">Cette étape s'ouvrira bientôt pour ta classe. Termine d'abord les étapes précédentes !</span></span></div></li>`;
       const status = s.p.done ? `<span class="st done">Terminé ✓</span>` : s.p.started ? `<span class="st doing">En cours</span>` : `<span class="st todo">À faire</span>`;
       const cta = s.p.done ? "Revoir" : s.p.started ? "Continuer" : "Commencer";
       return `<li><a class="step-card${i === nextI ? " next" : ""}${s.p.done ? " is-done" : ""}" href="${url(s.href)}">
@@ -58,7 +70,34 @@
     }).join("");
     const o = document.getElementById("seq-overall");
     if (o) { const pc = overall(steps); o.querySelector(".bar span").style.width = pc + "%"; o.querySelector(".pc").textContent = pc + " %"; }
+    // Evaluations
+    const ev = document.getElementById("seq-evals");
+    if (ev) {
+      const k = C() && C().klass ? C().klass() : null;
+      ev.innerHTML = SEQ.evals.map(e => {
+        const ok = k && C().evalOpen(SEQ.id, e.id);
+        const why = !k ? "Entre d'abord le code de ta classe, en haut de la page."
+          : "Ton professeur débloquera l'évaluation quand ta classe sera prête. En attendant, entraîne-toi : c'est comme ça que tu progresses !";
+        return ok
+          ? `<li><a class="step-card eval-card open" href="${url(e.href)}"><span class="num" aria-hidden="true">✎</span><span class="step-art" data-art="${e.art}" aria-hidden="true"></span>
+              <span class="step-body"><span class="step-k">Évaluation · débloquée pour ta classe</span><span class="step-t">${e.title}</span><span class="step-w">${e.what}</span>
+              <span class="step-foot"><span class="st done">Ouverte</span><span class="go">Passer l'évaluation →</span></span></span></a></li>`
+          : `<li><div class="step-card eval-card locked" aria-disabled="true"><span class="num" aria-hidden="true">🔒</span><span class="step-art" data-art="${e.art}" aria-hidden="true"></span>
+              <span class="step-body"><span class="step-k">Évaluation · verrouillée</span><span class="step-t">${e.title}</span><span class="step-w">${why}</span></span></div></li>`;
+      }).join("");
+      drawArt(ev);
+    }
+    const cl = document.getElementById("class-box");
+    if (cl && C() && !cl.dataset.mounted) {
+      cl.dataset.mounted = "1";
+      C().mountPicker(cl, {note: c => c.level !== SEQ.level ? `Ta classe est en ${c.level} : cette séquence est celle des ${SEQ.level}. Tu peux la regarder, mais ta propre séquence arrivera bientôt.` : ""});
+    }
     drawArt(list);
+  }
+  if (list) {
+    renderHub();
+    document.addEventListener("classes:ready", renderHub);
+    document.addEventListener("classes:change", renderHub);
   }
 
   /* ---------- 2. Home page card ---------- */
@@ -96,6 +135,20 @@
     const nav = document.createElement("nav"); nav.className = "seqnav"; nav.setAttribute("aria-label", "Étapes de la séquence");
     nav.innerHTML = (prev ? `<a href="${url(prev.href)}"><small>← Étape ${i}</small><b>${prev.title}</b></a>` : `<a href="${url(SEQ.href)}"><small>←</small><b>Le parcours de la séquence</b></a>`)
       + (next ? `<a class="nx" href="${url(next.href)}"><small>Étape suivante ${i + 2} →</small><b>${next.title}</b></a>` : `<a class="nx" href="${url(SEQ.href)}"><small>Dernière étape terminée ? →</small><b>Retour au parcours</b></a>`);
+    function lockIfClosed() {
+      const old = document.getElementById("seq-lock"); if (old) old.remove();
+      if (i < openCount()) return;
+      css(`#seq-lock{position:fixed;inset:0;z-index:80;background:rgba(17,21,42,.72);display:grid;place-items:center;padding:16px}
+        #seq-lock>div{max-width:440px;background:var(--card,#fff);color:var(--ink,#1b2340);border-radius:18px;padding:24px;text-align:center;font:400 1rem/1.5 "Atkinson Hyperlegible",Verdana,sans-serif}
+        #seq-lock b{display:block;font:800 1.4rem/1.2 "Bricolage Grotesque","Trebuchet MS",sans-serif;margin:8px 0}
+        #seq-lock a{display:inline-block;margin-top:14px;font-weight:700;color:#fff;background:var(--accent,#2f4fd8);border-radius:10px;padding:10px 16px;text-decoration:none}`);
+      const d = document.createElement("div"); d.id = "seq-lock"; d.setAttribute("role", "dialog"); d.setAttribute("aria-modal", "true");
+      d.innerHTML = `<div><span style="font-size:2.4rem" aria-hidden="true">🔒</span><b>Pas encore ouvert</b>Cette étape n'est pas encore ouverte pour ta classe. Ton professeur l'ouvrira bientôt : termine d'abord les étapes précédentes.<br><a href="${url(SEQ.href)}">← Retour au parcours</a></div>`;
+      document.body.appendChild(d);
+    }
+    lockIfClosed();
+    document.addEventListener("classes:ready", lockIfClosed);
+    document.addEventListener("classes:change", lockIfClosed);
     const wrap = document.querySelector(".wrap");
     if (wrap) { const notes = [...wrap.children].reverse().find(el => el.tagName === "DETAILS"); notes ? wrap.insertBefore(nav, notes) : wrap.appendChild(nav); }
   }
