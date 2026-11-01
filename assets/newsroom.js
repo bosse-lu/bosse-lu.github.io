@@ -76,7 +76,7 @@
     const open = store.open === a.id;
     const tags = [
       a.draft ? `<span class="tag dr">Brouillon</span>` : (unread(a) ? `<span class="tag hot">NEW</span>` : ""),
-      a.level ? `<span class="tag lvl">${esc(a.level)}</span>` : "",
+      a.level ? `<span class="tag lvl" title="Niveau conseillé. Lecture libre pour tous les élèves du cycle 4.">Niveau ${esc(a.level)}</span>` : "",
       a.topic ? `<span class="tag">${esc(a.topic)}</span>` : ""
     ].join("");
     const srcs = (a.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>${s.date ? `, ${esc(s.date)}` : ""}`).join(" · ");
@@ -104,7 +104,7 @@
     const levels = ["5e", "4e"].filter(l => all.some(a => (a.level || "").includes(l)));
     const lv = (levels.length > 1 ? ["all"].concat(levels) : []).map(v => `<button class="fchip" data-fl="${v}" aria-pressed="${fl === v}">${v === "all" ? "Tous" : v}</button>`).join("");
     const tp = topics.length > 1 ? `<span class="sep"></span><span class="lbl">Thème</span>` + ["all"].concat(topics).map(v => `<button class="fchip" data-ft="${esc(v)}" aria-pressed="${ft === v}">${v === "all" ? "Tous" : esc(v)}</button>`).join("") : "";
-    f.innerHTML = (lv ? `<span class="lbl">Niveau</span>${lv}` : "") + (lv ? tp : tp.replace(`<span class="sep"></span>`, ""));
+    f.innerHTML = (lv ? `<span class="lbl">Niveau conseillé</span>${lv}` : "") + (lv ? tp : tp.replace(`<span class="sep"></span>`, ""));
     f.hidden = !f.innerHTML;
   }
   function render() {

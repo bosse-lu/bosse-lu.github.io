@@ -39,6 +39,8 @@ On ne publie jamais dans `articles.json` sans accord explicite. Un article refus
 
 ## Niveau de langue
 
+- Le champ `level` s'affiche sur chaque article comme **niveau conseillé** (« Niveau 5e », « Niveau 4e » ou « Niveau 5e · 4e »). La lecture reste libre : tous les élèves du cycle 4 peuvent lire tous les articles.
+
 - **5e = A2** : phrases courtes, présent et prétérit simple, vocabulaire courant, 110 à 150 mots.
 - **4e = A2+** : on peut ajouter le present perfect, des connecteurs (because, so, but, when), quelques mots plus rares expliqués dans les key words, 130 à 170 mots.
 - Les articles foot sont de niveau 4e (classe de 4e section foot).
