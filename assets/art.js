@@ -121,6 +121,44 @@
       <path d="M8 128h22M4 120h14" stroke="${C.navy}" stroke-width="3" stroke-linecap="round" opacity=".5"/>`,
 
     // Speech bubbles for the home page
+    // An open book for My short stories
+    book: () => `${bg}
+      <path d="M80 46c-14-8-34-12-54-10v86c20-2 40 2 54 10z" fill="${C.white}" stroke="${C.navy}" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M80 46c14-8 34-12 54-10v86c-20-2-40 2-54 10z" fill="${C.white}" stroke="${C.navy}" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M36 56c12-1 24 1 34 5M36 68c12-1 24 1 34 5M36 80c12-1 24 1 34 5M36 92c12-1 24 1 34 5" stroke="${C.grey}" stroke-width="3" stroke-linecap="round"/>
+      <path d="M90 61c10-4 22-6 34-5M90 73c10-4 22-6 34-5M90 85c10-4 22-6 34-5" stroke="${C.grey}" stroke-width="3" stroke-linecap="round"/>
+      <path d="M80 46v86" stroke="${C.navy}" stroke-width="3"/>
+      <path d="M112 102l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="${C.yellow}"/>
+      <path d="M26 30l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="${C.red}"/>`,
+
+    // A lion and a little mouse (The Lion and the Mouse)
+    lion: () => `${bg}
+      <circle cx="74" cy="78" r="44" fill="#c97a2b"/>
+      <circle cx="74" cy="80" r="31" fill="#e8b04b"/>
+      <circle cx="52" cy="54" r="9" fill="#c97a2b"/><circle cx="96" cy="54" r="9" fill="#c97a2b"/>
+      <circle cx="63" cy="76" r="4" fill="${C.navy}"/><circle cx="85" cy="76" r="4" fill="${C.navy}"/>
+      <path d="M68 88h12l-6 7z" fill="#7a4b1e"/>
+      <path d="M66 100q8 6 16 0" fill="none" stroke="#7a4b1e" stroke-width="2.5" stroke-linecap="round"/>
+      <ellipse cx="124" cy="122" rx="16" ry="11" fill="#9b9b9b"/>
+      <circle cx="112" cy="112" r="6" fill="#b5b5b5"/><circle cx="122" cy="108" r="6" fill="#b5b5b5"/>
+      <circle cx="110" cy="121" r="2" fill="${C.navy}"/>
+      <path d="M140 124q12 2 14-8" fill="none" stroke="#9b9b9b" stroke-width="3" stroke-linecap="round"/>
+      <path d="M22 132h116" stroke="${C.green}" stroke-width="4" stroke-linecap="round" opacity=".5"/>`,
+
+    // A wolf, a sheep and a hill at sunset (The Boy Who Cried Wolf)
+    wolf: () => `${bg}
+      <circle cx="118" cy="52" r="16" fill="#e8843c"/>
+      <path d="M14 118q66-34 132-6v26H14z" fill="#9fbf7c"/>
+      <path d="M40 104l10-14 4 6 8-2 22 2 18 12-2 18H44z" fill="#6b6b70"/>
+      <path d="M40 104l-10-4 8-10 6 2 6-18 4 16z" fill="#6b6b70"/>
+      <circle cx="40" cy="96" r="2.5" fill="${C.yellow}"/>
+      <path d="M102 112l20-10" stroke="#6b6b70" stroke-width="6" stroke-linecap="round"/>
+      <path d="M48 124v12M60 124v12M84 124v12M96 124v12" stroke="#4b4b50" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="128" cy="124" rx="16" ry="11" fill="#f5f5f0" stroke="${C.navy}" stroke-width="1.5"/>
+      <circle cx="113" cy="121" r="6" fill="#4a4a4a"/>
+      <path d="M122 133v6M134 133v6" stroke="#4a4a4a" stroke-width="3" stroke-linecap="round"/>
+      <text x="40" y="44" font-family="'Bricolage Grotesque','Trebuchet MS',sans-serif" font-weight="800" font-size="20" fill="${C.red}">Wolf!</text>`,
+
     home: () => `${bg}
       <path d="M22 40a14 14 0 0 1 14-14h70a14 14 0 0 1 14 14v34a14 14 0 0 1-14 14H58l-18 16 4-16h-8a14 14 0 0 1-14-14z" fill="${C.blue}"/>
       <text x="71" y="66" text-anchor="middle" font-family="'Bricolage Grotesque','Trebuchet MS',sans-serif" font-weight="800" font-size="24" fill="${C.white}">Hello!</text>
