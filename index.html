@@ -60,7 +60,10 @@ header::after{content:"";display:block;clear:both}
 .card-art.big{width:96px;height:96px;flex:none;margin:0}
 .feat-txt{display:flex;flex-direction:column;gap:6px}
 .feature h2{font-size:clamp(1.7rem,6vw,2.2rem)}
-.mini{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mini{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.explore{display:flex;flex-direction:column;gap:14px;border:2px dashed var(--line);border-radius:20px;padding:18px}
+.explore-h h2{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,5.5vw,1.9rem);margin:6px 0 4px;line-height:1.1}
+.explore-h p{margin:0;color:var(--muted);max-width:40em}
 .ms{display:flex;align-items:center;gap:6px;background:var(--paper);border-radius:12px;padding:6px 8px;font-size:.85rem;font-weight:700;min-width:0}
 .ms.ok{background:#dff3e8;color:#1f6b45}
 .ms-art{width:34px;height:34px;flex:none}.ms-art svg{display:block;width:100%;height:100%}
@@ -69,7 +72,7 @@ header::after{content:"";display:block;clear:both}
 .feat-prog .bar{flex:1 1 200px;display:block;height:10px;border-radius:999px;background:var(--accent-soft);overflow:hidden}
 .feat-prog .bar span{display:block;height:100%;width:0;background:var(--accent);border-radius:999px}
 .feat-prog .pc{font-size:.9rem;color:var(--muted);font-weight:700}
-@media (max-width:620px){.mini{grid-template-columns:repeat(2,1fr)}.feat-top{align-items:flex-start}.card-art.big{width:72px;height:72px}}
+@media (max-width:620px){.mini{grid-template-columns:repeat(2,1fr)}.explore{padding:14px}.feat-top{align-items:flex-start}.card-art.big{width:72px;height:72px}}
 </style>
 </head>
 <body>
@@ -103,6 +106,15 @@ header::after{content:"";display:block;clear:both}
       <p>Une nouvelle en anglais pour chaque niveau : <i>The Lion and the Mouse</i> (5e) et <i>The Boy Who Cried Wolf</i> (4e). Lis-la et écoute-la.</p>
       <span class="go">Lire →</span>
     </a>
+  </section>
+
+  <section class="explore" aria-labelledby="x-title">
+    <div class="explore-h">
+      <span class="tag">Espace découverte · en autonomie</span>
+      <h2 id="x-title">Pour aller plus loin…</h2>
+      <p>Pour les curieux qui veulent en savoir plus sur les pays anglophones : leur culture, leur actualité, leur sport. Rien n'est obligatoire : choisis ce qui te plaît, lis à ton rythme et teste-toi avec les quiz.</p>
+    </div>
+    <div class="grid">
     <a class="tool" href="news/">
       <span class="card-art" data-art="news" aria-hidden="true"></span>
       <span class="tag">5e · 4e · Dim, mar, jeu</span>
@@ -117,6 +129,7 @@ header::after{content:"";display:block;clear:both}
       <p>L'actu du football anglophone trois fois par semaine, en anglais : Premier League, coupes, football féminin.</p>
       <span class="go">Lire l'actu foot →</span>
     </a>
+    </div>
   </section>
 
   <section class="note">

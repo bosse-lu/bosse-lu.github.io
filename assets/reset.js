@@ -5,8 +5,8 @@
   if (window.SiteReset) return;
   const st = document.createElement("style");
   st.textContent = `
-  .reset-btn{font:inherit;font-size:.88rem;font-weight:700;border:1px dashed var(--line,#d9ddea);background:none;color:var(--muted,#5b6380);border-radius:10px;padding:6px 12px;cursor:pointer}
-  .reset-btn:hover{border-style:solid;color:var(--ink,#1b2340)}
+  .reset-btn,.cl-box .reset-btn{font:inherit;font-size:.88rem;font-weight:700;border:1px dashed var(--line,#d9ddea);background:none;color:var(--muted,#5b6380);border-radius:10px;padding:6px 12px;cursor:pointer}
+  .reset-btn:hover,.cl-box .reset-btn:hover{border-style:solid;color:var(--ink,#1b2340)}
   .reset-btn:focus-visible,.reset-ask button:focus-visible{outline:3px solid var(--accent,#2f4fd8);outline-offset:2px}
   .reset-ask{display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px;background:var(--card,#fff);color:var(--ink,#1b2340);border:2px solid #c2412d;border-radius:12px;padding:10px 12px;font-size:.9rem;text-align:left;max-width:100%}
   .reset-ask p{margin:0;flex:1 1 220px}

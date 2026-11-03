@@ -40,7 +40,12 @@ code{background:var(--accent-soft);padding:1px 6px;border-radius:5px}
     <p class="lead">L'état de chaque classe : étapes ouvertes et évaluations débloquées. Cette page ne fait que lire les réglages du site ; les codes des classes n'y figurent pas.</p>
   </header>
   <section class="card">
-    <h2>Séquence Late and absent (5e)</h2>
+    <h2>Mode professeur</h2>
+    <p style="margin:0 0 10px">Entrez votre code professeur : sur cet appareil, toutes les étapes et toutes les évaluations s'ouvrent, quels que soient les réglages des classes. Vous voyez le site tel qu'il sera une fois tout débloqué. Le bouton « Quitter le mode professeur » ou « Je suis un autre élève » le referme.</p>
+    <div id="class-box" class="cl-box" aria-live="polite"></div>
+  </section>
+  <section class="card">
+    <h2>Séquence Late and absent (5e, et Fill in the note en 4e)</h2>
     <table>
       <thead><tr><th>Classe</th><th>Étapes ouvertes</th><th>Évaluations</th></tr></thead>
       <tbody id="rows"><tr><td colspan="3">Chargement…</td></tr></tbody>
@@ -49,10 +54,11 @@ code{background:var(--accent-soft);padding:1px 6px;border-radius:5px}
   <section class="card">
     <h2>Débloquer une évaluation ou ouvrir une étape</h2>
     <ol>
-      <li><b>Le plus simple</b> : demandez-le à Claude, par exemple « débloque l'évaluation orale du prétérit pour la 5e C » ou « n'ouvre que les deux premières étapes pour la 5e F ». La mise à jour est en ligne une à deux minutes plus tard.</li>
+      <li><b>Le plus simple</b> : demandez-le à Claude, par exemple « débloque l'évaluation orale du prétérit pour la 5e C », « ouvre Fill in the note pour la 5e F » ou « ouvre le dialogue 2 pour la 4e E ». La mise à jour est en ligne une à deux minutes plus tard.</li>
       <li><b>Vous-même, sur GitHub</b> : ouvrez le fichier <code>classes.json</code> du dépôt, cliquez sur le crayon, puis modifiez la classe voulue :
         <ul>
-          <li><code>"steps": 5</code> = nombre d'étapes ouvertes, dans l'ordre (1 à 5) ;</li>
+          <li><code>"open": ["note", "ed"]</code> = étapes ouvertes (<code>note</code> Fill in the note, <code>ed</code> Les sons de -ed, <code>stress</code> Stress Lab, <code>bus</code> Blame the bus!, <code>excuse</code> Recap: Excuse Lab) ; <code>"open": []</code> = tout verrouillé ;</li>
+          <li><code>"parts": {"note": {"dialogues": [1]}}</code> = dans Fill in the note, seul le dialogue 1 est ouvert (sans cette ligne, toute l'étape est ouverte) ;</li>
           <li><code>"evals": ["ed-final"]</code> = évaluation orale du prétérit débloquée ; <code>"evals": []</code> = tout verrouillé.</li>
         </ul>
         Enregistrez avec « Commit changes ».</li>
@@ -62,7 +68,7 @@ code{background:var(--accent-soft);padding:1px 6px;border-radius:5px}
     <h2>Bon à savoir</h2>
     <ul>
       <li>L'élève entre le code de sa classe une seule fois par appareil, sur la page de la séquence ou devant l'évaluation. S'il change d'appareil, il le retape.</li>
-      <li>L'entraînement reste toujours libre ; seules les évaluations sont verrouillées. Les quiz des articles News et foot restent libres aussi.</li>
+      <li>Les étapes et les évaluations sont verrouillées par défaut, y compris pour un élève sans code de classe : il ne voit que ce que vous avez ouvert pour sa classe. L'espace « Pour aller plus loin… » (News, foot) reste toujours libre.</li>
       <li>Il n'y a pas de comptes élèves : la progression reste sur l'appareil. C'est un verrou pédagogique, pas une protection forte.</li>
     </ul>
   </section>
@@ -70,20 +76,27 @@ code{background:var(--accent-soft);padding:1px 6px;border-radius:5px}
 <script>
 (async function () {
   const EVALS = {"ed-final": "Évaluation orale : le prétérit"};
-  const STEPS = ["Excuse Lab", "Fill in the note", "Les sons de -ed", "Stress Lab", "Blame the bus!"];
+  const STEPS = [["note", "Fill in the note"], ["ed", "Les sons de -ed"], ["stress", "Stress Lab"], ["bus", "Blame the bus!"], ["excuse", "Recap: Excuse Lab"]];
   const rows = document.getElementById("rows");
   try {
     const cfg = await (await fetch("../classes.json?v=" + Date.now(), {cache: "no-store"})).json();
     rows.innerHTML = cfg.classes.map(c => {
       const s = c.sequences && c.sequences["late-and-absent"];
       if (!s) return `<tr><td><b>${c.label}</b></td><td colspan="2"><span class="pill na">Pas de séquence en ligne pour la ${c.level}</span></td></tr>`;
-      const n = typeof s.steps === "number" ? s.steps : STEPS.length;
-      const steps = STEPS.map((t, i) => `<span class="pill ${i < n ? "on" : "off"}">${i + 1}. ${t}</span>`).join("");
+      const isOn = (id, i) => Array.isArray(s.open) ? s.open.includes(id) : (typeof s.steps === "number" && i < s.steps);
+      const steps = STEPS.map(([id, t], i) => {
+        const on = isOn(id, i), p = s.parts && s.parts[id];
+        const extra = on && p && p.dialogues ? ` (dialogue${p.dialogues.length > 1 ? "s" : ""} ${p.dialogues.join(", ")} seulement)` : "";
+        return `<span class="pill ${on ? "on" : "off"}">${on ? "" : "🔒 "}${i + 1}. ${t}${extra}</span>`;
+      }).join("");
       const ev = Object.entries(EVALS).map(([id, t]) => `<span class="pill ${(s.evals || []).includes(id) ? "on" : "off"}">${(s.evals || []).includes(id) ? "Débloquée" : "🔒 Verrouillée"} · ${t}</span>`).join("");
       return `<tr><td><b>${c.label}</b></td><td>${steps}</td><td>${ev}</td></tr>`;
     }).join("");
   } catch (e) { rows.innerHTML = `<tr><td colspan="3">Impossible de lire classes.json.</td></tr>`; }
 })();
 </script>
+<script src="../assets/reset.js"></script>
+<script src="../assets/classes.js"></script>
+<script>if (window.Classes) Classes.mountPicker(document.getElementById("class-box"), {title: "Code professeur", hint: "Votre code reste sur cet appareil jusqu'à ce que vous quittiez le mode professeur."});</script>
 </body>
 </html>

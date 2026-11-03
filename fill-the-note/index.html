@@ -65,6 +65,7 @@ header::after{content:"";display:block;clear:both}
 .consigne{margin:-4px 0 0;color:var(--muted)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
 .card.ok{border-color:var(--good);box-shadow:inset 4px 0 0 var(--good)}
+.card.locked{background:repeating-linear-gradient(-45deg,var(--card),var(--card) 12px,var(--paper) 12px,var(--paper) 24px);opacity:.85}
 .dlg>.card-h h3{font-size:1.45rem}
 .dlg>.player{position:sticky;top:8px;z-index:5;box-shadow:0 4px 14px rgba(27,35,64,.12)}
 body.nb-has .dlg>.player{top:70px}
@@ -276,6 +277,15 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     return S.lvl === "4e" ? "4e" : "5e";
   }
   const nDlg = () => level() === "4e" ? 6 : 3;
+  // The teacher can open only some dialogues for a class (classes.json → parts.note.dialogues). null = all.
+  const allowed = () => { const p = C() && C().part ? C().part("late-and-absent", "note") : null; return p && Array.isArray(p.dialogues) ? p.dialogues : null; };
+  const dlgOpen = n => { const a = allowed(); return !a || a.includes(n); };
+  const allOpen = () => D.slice(0, nDlg()).every(d => dlgOpen(d.n));
+  function lockedCard(title, msg) {
+    const c = document.createElement("div"); c.className = "card locked";
+    c.innerHTML = `<div class="card-h"><h3>🔒 ${title}</h3></div><p class="consigne" style="margin:0">${msg}</p>`;
+    return c;
+  }
   const ids = () => { const n = nDlg(), out = ["n1", "n2", "n3"]; for (let i = 1; i <= n; i++) out.push("l" + i, "q" + i, "w" + i); out.push("bilan"); return out; };
   function done(id, extra) { S.res[id] = Object.assign({ok: true}, extra || {}); S.lvl = level(); save(); progress(); }
   function progress() {
@@ -481,6 +491,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   function renderDialogues() {
     const box = $("#a2"); box.innerHTML = "";
     D.slice(0, nDlg()).forEach(d => {
+      if (!dlgOpen(d.n)) { box.appendChild(lockedCard(`Dialogue ${d.n}`, "Ce dialogue n'est pas encore ouvert. Ton professeur l'ouvrira en classe, au bon moment.")); return; }
       const c = card(`Dialogue ${d.n}`, "dlg" + d.n); c.classList.add("dlg"); c.dataset.n = d.n;
       c.append(player(d.n), partL(d), partQ(d), partW(d));
       box.appendChild(c);
@@ -492,6 +503,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   /* ---------- 5. Bilan ---------- */
   function renderA5() {
     const box = $("#a5"); box.innerHTML = "";
+    if (!allOpen()) { box.appendChild(lockedCard("Retard ou absence ?", "Le bilan s'ouvrira quand tous les dialogues seront ouverts : il compare les questions de tous les dialogues.")); return; }
     const id = "bilan", c = card("Retard ou absence ?", id);
     const rows = SORT.map(s => {
       const r = document.createElement("div"); r.className = "sortrow";
@@ -524,15 +536,16 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   function renderLevel() {
     const k = C() && C().klass ? C().klass() : null, lv = level();
     const box = $("#lvl-box");
-    $$("[data-lvl]", box).forEach(b => { b.setAttribute("aria-pressed", b.dataset.lvl === lv); b.disabled = !!k; });
-    $("#lvl-msg").textContent = k ? `Ta classe est en ${k.level} : ${k.level === "4e" ? "tu écoutes les 6 dialogues." : "tu écoutes les dialogues 1 à 3."}` : "Pas de code de classe ? Choisis ton niveau.";
+    $$("[data-lvl]", box).forEach(b => { b.setAttribute("aria-pressed", b.dataset.lvl === lv); b.disabled = !!(k && !k.admin); });
+    $("#lvl-msg").textContent = k && k.admin ? "Mode professeur : choisis le niveau à afficher. Tout est ouvert."
+      : k ? `Ta classe est en ${k.level} : ${k.level === "4e" ? "tu écoutes les 6 dialogues." : "tu écoutes les dialogues 1 à 3."}` : "Pas de code de classe ? Choisis ton niveau.";
   }
-  let lastLvl = null;
+  let lastSig = null;
   function renderAll(force) {
     renderLevel();
-    const lv = level();
-    if (!force && lv === lastLvl) return;
-    lastLvl = lv; S.lvl = lv; save();
+    const lv = level(), sig = lv + "|" + JSON.stringify(allowed());
+    if (!force && sig === lastSig) return;
+    lastSig = sig; S.lvl = lv; save();
     Object.values(audios).forEach(a => a.pause());
     renderA1(); renderDialogues(); renderA5(); progress();
   }

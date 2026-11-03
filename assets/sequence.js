@@ -13,11 +13,8 @@
       {id: "ed-final", href: "ed-sounds/#eval", art: "ed", title: "Évaluation orale : le prétérit",
         what: "Lis un court texte au prétérit à voix haute, enregistre-toi, puis rends le fichier sur Pronote."}
     ],
+    // Steps in order. Each one stays locked until the teacher opens it for a class (classes.json → open).
     steps: [
-      {id: "excuse", href: "excuse-lab/", art: "excuse", title: "Excuse Lab",
-        what: "Les excuses et les vraies voix des dialogues : écoute, répète les phrases et joue la scène.",
-        skills: ["Écouter", "Répéter", "Jouer la scène"], key: "excuselab4e", total: 27,
-        count: s => Object.keys(s.res || {}).filter(k => !k.startsWith("play")).length},
       {id: "note", href: "fill-the-note/", art: "note", title: "Fill in the note",
         what: "Écoute les dialogues du collège en autonomie et remplis les billets : late slip, absence note ou permission note. 5e : dialogues 1 à 3 · 4e : les 6 dialogues.",
         skills: ["Compréhension orale", "Intonation", "because"], key: "fillnote",
@@ -26,13 +23,17 @@
         count: s => Object.keys(s.res || {}).filter(k => s.lvl === "4e" || !/^[lqw][456]$/.test(k)).length},
       {id: "ed", href: "ed-sounds/", art: "ed", title: "Les sons de -ed",
         what: "Le prétérit : /t/, /d/ ou /ɪd/ ? Puis la négation (didn't) et les questions (Did…?), avec de vraies voix. Entraîne-toi, puis passe l'évaluation finale.",
-        skills: ["Prétérit", "Prononciation"], key: "edlab4e", total: 18},
+        skills: ["Prétérit", "Prononciation"], key: "edlab5e-real", total: 19},
       {id: "stress", href: "stress-lab/", art: "stress", title: "Stress Lab",
         what: "L'accent des mots et des phrases de la séquence avec de vraies voix : ABsence, exCUSE, SORry I'm LATE… et le rythme de Did you GO…? / She DIDn't…",
-        skills: ["Accent tonique", "Rythme"], key: "stresslab5e-late", total: 23},
+        skills: ["Accent tonique", "Rythme"], key: "stresslab5e-real", total: 28},
       {id: "bus", href: "late-bus/", art: "bus", title: "Blame the bus!",
         what: "Un vrai article de presse britannique sur les retards à Londres. Lis-le, écoute-le, puis entraîne-toi sur ses verbes en -ed.",
-        skills: ["Lecture", "Document authentique", "Royaume-Uni"], key: "latebus5e", total: 12}
+        skills: ["Lecture", "Document authentique", "Royaume-Uni"], key: "latebus5e", total: 12},
+      {id: "excuse", href: "excuse-lab/", art: "excuse", title: "Recap: Excuse Lab",
+        what: "Pour finir la séquence : reprends toutes les excuses et les vraies voix des dialogues. Écoute, répète les phrases et joue la scène.",
+        skills: ["Récapitulatif", "Répéter", "Jouer la scène"], key: "excuselab4e", total: 27,
+        count: s => Object.keys(s.res || {}).filter(k => !k.startsWith("play")).length}
     ]
   };
 
@@ -50,16 +51,19 @@
 
   /* ---------- 1. Sequence page ---------- */
   const C = () => window.Classes;
-  const openCount = () => (C() && C().stepsOpen) ? C().stepsOpen(SEQ.id, SEQ.steps.length) : SEQ.steps.length;
+  const ready = () => !!(C() && C().isReady && C().isReady());
+  const isOpen = (st, i) => !!(C() && C().stepOpen && C().stepOpen(SEQ.id, st.id, i));
+  const hasClass = () => !!(C() && C().klass && C().klass());
   const list = document.getElementById("seq-steps");
   function renderHub() {
-    const steps = all(), open = openCount(), nextI = steps.findIndex((s, i) => i < open && !s.p.done);
+    const steps = all(), open = steps.map((s, i) => isOpen(s, i)), nextI = steps.findIndex((s, i) => open[i] && !s.p.done);
     list.innerHTML = steps.map((s, i) => {
-      if (i >= open) return `<li><div class="step-card locked" aria-disabled="true">
+      if (!open[i]) return `<li><div class="step-card locked" aria-disabled="true">
         <span class="num" aria-hidden="true">🔒</span>
         <span class="step-art" data-art="${s.art}" aria-hidden="true"></span>
-        <span class="step-body"><span class="step-k">Étape ${i + 1}</span><span class="step-t">${s.title}</span>
-        <span class="step-w">Cette étape s'ouvrira bientôt pour ta classe. Termine d'abord les étapes précédentes !</span></span></div></li>`;
+        <span class="step-body"><span class="step-k">Étape ${i + 1} · verrouillée</span><span class="step-t">${s.title}</span>
+        <span class="step-w">${!ready() ? "Chargement…" : hasClass() ? "Ton professeur ouvrira cette étape en classe, au bon moment." : "Entre d'abord le code de ta classe, en haut de la page."}</span></span></div></li>`;
+      const partial = C() && C().part ? C().part(SEQ.id, s.id) : null;
       const status = s.p.done ? `<span class="st done">Terminé ✓</span>` : s.p.started ? `<span class="st doing">En cours</span>` : `<span class="st todo">À faire</span>`;
       const cta = s.p.done ? "Revoir" : s.p.started ? "Continuer" : "Commencer";
       return `<li><a class="step-card${i === nextI ? " next" : ""}${s.p.done ? " is-done" : ""}" href="${url(s.href)}">
@@ -67,7 +71,7 @@
         <span class="num" aria-hidden="true">${s.p.done ? "✓" : i + 1}</span>
         <span class="step-art" data-art="${s.art}" aria-hidden="true"></span>
         <span class="step-body">
-          <span class="step-k">Étape ${i + 1}</span>
+          <span class="step-k">Étape ${i + 1}${partial && partial.dialogues ? ` · ouverte en partie (dialogue${partial.dialogues.length > 1 ? "s" : ""} ${partial.dialogues.join(", ")})` : ""}</span>
           <span class="step-t">${s.title}</span>
           <span class="step-w">${s.what}</span>
           <span class="skills">${s.skills.map(k => `<span>${k}</span>`).join("")}</span>
@@ -87,7 +91,7 @@
           : "Ton professeur débloquera l'évaluation quand ta classe sera prête. En attendant, entraîne-toi : c'est comme ça que tu progresses !";
         return ok
           ? `<li><a class="step-card eval-card open" href="${url(e.href)}"><span class="num" aria-hidden="true">✎</span><span class="step-art" data-art="${e.art}" aria-hidden="true"></span>
-              <span class="step-body"><span class="step-k">Évaluation · débloquée pour ta classe</span><span class="step-t">${e.title}</span><span class="step-w">${e.what}</span>
+              <span class="step-body"><span class="step-k">Évaluation · ${k.admin ? "ouverte (mode professeur)" : "débloquée pour ta classe"}</span><span class="step-t">${e.title}</span><span class="step-w">${e.what}</span>
               <span class="step-foot"><span class="st done">Ouverte</span><span class="go">Passer l'évaluation →</span></span></span></a></li>`
           : `<li><div class="step-card eval-card locked" aria-disabled="true"><span class="num" aria-hidden="true">🔒</span><span class="step-art" data-art="${e.art}" aria-hidden="true"></span>
               <span class="step-body"><span class="step-k">Évaluation · verrouillée</span><span class="step-t">${e.title}</span><span class="step-w">${why}</span></span></div></li>`;
@@ -97,7 +101,7 @@
     const cl = document.getElementById("class-box");
     if (cl && C() && !cl.dataset.mounted) {
       cl.dataset.mounted = "1";
-      C().mountPicker(cl, {note: c => c.level !== SEQ.level ? `Ta classe est en ${c.level} : cette séquence est celle des ${SEQ.level}.${c.level === "4e" ? " L'étape 2, Fill in the note, est aussi pour toi : tu y écoutes les 6 dialogues." : " Tu peux la regarder, mais ta propre séquence arrivera bientôt."}` : ""});
+      C().mountPicker(cl, {note: c => c.admin ? "" : c.level !== SEQ.level ? `Ta classe est en ${c.level} : cette séquence est celle des ${SEQ.level}.${c.level === "4e" ? " L'étape 1, Fill in the note, est aussi pour toi : tu y écoutes les 6 dialogues, quand ton professeur les ouvre." : ""}` : ""});
     }
     drawArt(list);
   }
@@ -144,14 +148,20 @@
       + (next ? `<a class="nx" href="${url(next.href)}"><small>Étape suivante ${i + 2} →</small><b>${next.title}</b></a>` : `<a class="nx" href="${url(SEQ.href)}"><small>Dernière étape terminée ? →</small><b>Retour au parcours</b></a>`);
     function lockIfClosed() {
       const old = document.getElementById("seq-lock"); if (old) old.remove();
-      if (i < openCount()) return;
-      css(`#seq-lock{position:fixed;inset:0;z-index:80;background:rgba(17,21,42,.72);display:grid;place-items:center;padding:16px}
-        #seq-lock>div{max-width:440px;background:var(--card,#fff);color:var(--ink,#1b2340);border-radius:18px;padding:24px;text-align:center;font:400 1rem/1.5 "Atkinson Hyperlegible",Verdana,sans-serif}
-        #seq-lock b{display:block;font:800 1.4rem/1.2 "Bricolage Grotesque","Trebuchet MS",sans-serif;margin:8px 0}
-        #seq-lock a{display:inline-block;margin-top:14px;font-weight:700;color:#fff;background:var(--accent,#2f4fd8);border-radius:10px;padding:10px 16px;text-decoration:none}`);
-      const d = document.createElement("div"); d.id = "seq-lock"; d.setAttribute("role", "dialog"); d.setAttribute("aria-modal", "true");
-      d.innerHTML = `<div><span style="font-size:2.4rem" aria-hidden="true">🔒</span><b>Pas encore ouvert</b>Cette étape n'est pas encore ouverte pour ta classe. Ton professeur l'ouvrira bientôt : termine d'abord les étapes précédentes.<br><a href="${url(SEQ.href)}">← Retour au parcours</a></div>`;
+      if (!ready() || isOpen(SEQ.steps[i], i)) return;
+      css(`#seq-lock{position:fixed;inset:0;z-index:80;background:rgba(17,21,42,.78);display:grid;place-items:center;padding:16px;overflow:auto}
+        #seq-lock>div{max-width:460px;background:var(--card,#fff);color:var(--ink,#1b2340);border-radius:18px;padding:24px;text-align:center;font:400 1rem/1.5 "Atkinson Hyperlegible",Verdana,sans-serif}
+        #seq-lock b.t{display:block;font:800 1.4rem/1.2 "Bricolage Grotesque","Trebuchet MS",sans-serif;margin:8px 0}
+        #seq-lock .cl-box{margin-top:14px;text-align:left}
+        #seq-lock a.back{display:inline-block;margin-top:14px;font-weight:700;color:#fff;background:var(--accent,#2f4fd8);border-radius:10px;padding:10px 16px;text-decoration:none}`);
+      const d = document.createElement("div"); d.id = "seq-lock"; d.setAttribute("role", "dialog"); d.setAttribute("aria-modal", "true"); d.setAttribute("aria-labelledby", "seq-lock-t");
+      const k = hasClass();
+      d.innerHTML = `<div><span style="font-size:2.4rem" aria-hidden="true">🔒</span><b class="t" id="seq-lock-t">Étape verrouillée</b>${k
+        ? "Cette étape n'est pas encore ouverte pour ta classe. Ton professeur l'ouvrira en classe, au bon moment."
+        : "Entre le code de ta classe : seules les étapes ouvertes par ton professeur sont accessibles."}
+        ${k ? "" : `<div id="seq-lock-cl"></div>`}<br><a class="back" href="${url(SEQ.href)}">← Retour au parcours</a></div>`;
       document.body.appendChild(d);
+      const box = document.getElementById("seq-lock-cl"); if (box && C()) C().mountPicker(box, {noReset: true});
     }
     lockIfClosed();
     document.addEventListener("classes:ready", lockIfClosed);

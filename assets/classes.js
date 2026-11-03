@@ -1,6 +1,7 @@
 /* Class codes. The learner types their class code once; it is checked against classes.json (which only holds
-   a fingerprint of each code) and remembered on this device. classes.json also says, per class, how many steps
-   of each sequence are open and which evaluations the teacher has unlocked.
+   a fingerprint of each code) and remembered on this device. classes.json also says, per class, which steps
+   of each sequence are open (everything is locked by default), which parts of a step are open, and which
+   evaluations the teacher has unlocked. A teacher code (classes.json → admins) opens everything on the device.
    Events: "classes:ready" once the settings are loaded, "classes:change" when the learner joins or leaves a class. */
 (function () {
   const me = document.currentScript;
@@ -16,13 +17,19 @@
   const fire = n => document.dispatchEvent(new CustomEvent(n));
   const ready = fetch(new URL("classes.json", base).href + "?v=" + Date.now(), {cache: "no-store"})
     .then(r => r.json()).catch(() => ({classes: []}))
-    .then(j => { cfg = j; if (cur && !cfg.classes.find(c => c.id === cur.id)) cur = null; fire("classes:ready"); return cfg; });
+    .then(j => { cfg = j; cfg.admins = cfg.admins || []; if (cur && !cur.admin && !cfg.classes.find(c => c.id === cur.id)) cur = null; fire("classes:ready"); return cfg; });
 
-  const klass = () => (cur && cfg) ? (cfg.classes.find(c => c.id === cur.id) || null) : null;
+  const ADMIN = {id: "PROF", label: "Professeur", level: null, admin: true, sequences: {}};
+  const klass = () => (cur && cfg) ? (cur.admin ? ADMIN : (cfg.classes.find(c => c.id === cur.id) || null)) : null;
+  const isAdmin = () => !!(klass() && klass().admin);
   async function join(code) {
     if (!cfg) await ready;
     if (!window.crypto || !crypto.subtle) return null;
     const h = await sha("bosse-lu:" + norm(code));
+    if (cfg.admins.find(x => x.hash === h)) {
+      cur = {id: "PROF", admin: true}; try { localStorage.setItem(LS, JSON.stringify(cur)); } catch (e) {}
+      fire("classes:change"); return ADMIN;
+    }
     const c = cfg.classes.find(x => x.hash === h);
     if (!c) return null;
     cur = {id: c.id}; try { localStorage.setItem(LS, JSON.stringify(cur)); } catch (e) {}
@@ -30,8 +37,16 @@
   }
   function leave() { cur = null; try { localStorage.removeItem(LS); } catch (e) {} fire("classes:change"); }
   const seqConf = seq => { const c = klass(); return (c && c.sequences && c.sequences[seq]) || null; };
-  const evalOpen = (seq, id) => { const s = seqConf(seq); return !!(s && (s.evals || []).includes(id)); };
-  const stepsOpen = (seq, total) => { const s = seqConf(seq); return (s && typeof s.steps === "number") ? s.steps : total; };
+  const evalOpen = (seq, id) => { if (isAdmin()) return true; const s = seqConf(seq); return !!(s && (s.evals || []).includes(id)); };
+  // A step is open only if the teacher opened it for the learner's class ("open": [ids]; old format "steps": n = the first n).
+  const stepOpen = (seq, id, index) => {
+    if (isAdmin()) return true;
+    const s = seqConf(seq); if (!s) return false;
+    if (Array.isArray(s.open)) return s.open.includes(id);
+    return typeof s.steps === "number" ? index < s.steps : false;
+  };
+  // Partial opening of a step, e.g. {dialogues: [1]} ; null = the whole step.
+  const part = (seq, id) => { if (isAdmin()) return null; const s = seqConf(seq); return (s && s.parts && s.parts[id]) || null; };
 
   const st = document.createElement("style");
   st.textContent = `
@@ -57,13 +72,15 @@
     function draw(msg, err) {
       const c = klass();
       el.className = "cl-box";
-      if (c) {
-        el.innerHTML = `<span class="cl-ico" aria-hidden="true">🏫</span><span>Ma classe :</span><span class="cl-badge">${c.label}</span><button type="button" class="lite" data-cl="leave">Changer de classe</button>${RESET}${opts.note ? `<p class="cl-msg">${opts.note(c)}</p>` : ""}`;
+      if (c && c.admin) {
+        el.innerHTML = `<span class="cl-ico" aria-hidden="true">🔑</span><span>Mode professeur :</span><span class="cl-badge">accès complet</span><button type="button" class="lite" data-cl="leave">Quitter le mode professeur</button><p class="cl-msg">Sur cet appareil, toutes les étapes et toutes les évaluations sont ouvertes, quels que soient les réglages des classes.</p>`;
+      } else if (c) {
+        el.innerHTML = `<span class="cl-ico" aria-hidden="true">🏫</span><span>Ma classe :</span><span class="cl-badge">${c.label}</span><button type="button" class="lite" data-cl="leave">Changer de classe</button>${opts.noReset ? "" : RESET}${opts.note ? `<p class="cl-msg">${opts.note(c)}</p>` : ""}`;
       } else {
         el.innerHTML = `<span class="cl-ico" aria-hidden="true">🏫</span><b>${opts.title || "Entre le code de ta classe"}</b>
           <form novalidate><label class="sr" for="cl-in-${el.id || "x"}" style="position:absolute;left:-9999px">Code de la classe</label>
           <input id="cl-in-${el.id || "x"}" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ex. ABC-5X"><button type="submit">Valider</button></form>
-          <p class="cl-msg${err ? " err" : ""}">${msg || "Ton professeur te donne ce code. Tu ne le tapes qu'une fois sur cet appareil."}</p>${RESET}`;
+          <p class="cl-msg${err ? " err" : ""}">${msg || opts.hint || "Ton professeur te donne ce code. Tu ne le tapes qu'une fois sur cet appareil."}</p>${opts.noReset ? "" : RESET}`;
         el.querySelector("form").addEventListener("submit", async e => {
           e.preventDefault();
           const v = el.querySelector("input").value;
@@ -79,5 +96,5 @@
     document.addEventListener("classes:change", () => draw());
   }
 
-  window.Classes = {ready, klass, join, leave, evalOpen, stepsOpen, mountPicker, isReady: () => !!cfg};
+  window.Classes = {ready, klass, join, leave, evalOpen, stepOpen, part, isAdmin, mountPicker, isReady: () => !!cfg};
 })();
