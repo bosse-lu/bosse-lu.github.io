@@ -65,6 +65,14 @@ header::after{content:"";display:block;clear:both}
 .consigne{margin:-4px 0 0;color:var(--muted)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
 .card.ok{border-color:var(--good);box-shadow:inset 4px 0 0 var(--good)}
+.dlg>.card-h h3{font-size:1.45rem}
+.dlg>.player{position:sticky;top:8px;z-index:5;box-shadow:0 4px 14px rgba(27,35,64,.12)}
+body.nb-has .dlg>.player{top:70px}
+.sub{display:flex;flex-direction:column;gap:12px;border-top:1px dashed var(--line);padding-top:14px}
+.sub>.card-h h3{font-size:1.05rem;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.sub>.card-h h3 i{font-style:normal;flex:none;width:26px;height:26px;border-radius:50%;display:inline-grid;place-items:center;background:var(--accent-soft);color:var(--accent);font:800 .9rem/1 var(--display)}
+.sub>.card-h h3 small{font-family:var(--body);font-weight:400;font-size:.85rem;color:var(--muted)}
+.sub.ok>.card-h h3 i{background:var(--good);color:#fff}
 .card-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
 .card-h h3{margin:0;font-family:var(--display);font-weight:800;font-size:1.2rem}
 .done-tag{margin-left:auto;font-size:.78rem;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--good);color:#fff}
@@ -154,7 +162,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     <ul class="stars">
       <li><b>★ Je découvre</b> : écoute autant de fois que tu veux, et utilise le ralenti 🐢.</li>
       <li><b>★★ Je maîtrise</b> : 3 écoutes au maximum par dialogue.</li>
-      <li><b>★★★ Je vais plus loin</b> : 2 écoutes au maximum, sans l'aide.</li>
+      <li><b>★★★ Je vais plus loin</b> : 2 écoutes au maximum, sans le ralenti.</li>
     </ul>
   </div>
 
@@ -170,25 +178,13 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   </section>
 
   <section class="act" aria-labelledby="h2a">
-    <div class="act-h"><i>2</i><h2 id="h2a" lang="en">Listen to the dialogues</h2><span class="fiche">Fiche : activité 5</span></div>
-    <p class="consigne">Écoute chaque dialogue, puis remplis le billet : quel billet, le prénom, quand ou quelle permission, et la raison. Touche « Vérifier » : ce qui est faux s'affiche en rouge, réécoute et corrige.</p>
+    <div class="act-h"><i>2</i><h2 id="h2a" lang="en">Listen to the dialogues</h2><span class="fiche">Fiche : activités 5 à 7</span></div>
+    <p class="consigne">Pour chaque dialogue, écoute puis fais les trois activités à la suite : <b>a.</b> je comprends en détail et je remplis le billet ; <b>b.</b> je repère la question du professeur et son intonation ; <b>c.</b> je reformule la situation avec <b lang="en">because</b>. Le lecteur reste en haut du dialogue : tu peux réécouter à tout moment.</p>
     <div id="a2" class="act"></div>
   </section>
 
-  <section class="act" aria-labelledby="h3a">
-    <div class="act-h"><i>3</i><h2 id="h3a" lang="en">Spot the questions</h2><span class="fiche">Fiche : activité 6</span></div>
-    <p class="consigne">Réécoute le dialogue. Quelle question pose le professeur ? Puis écoute sa voix à la fin de la question : elle descend ↘ ou elle monte ↗ ?</p>
-    <div id="a3" class="act"></div>
-  </section>
-
-  <section class="act" aria-labelledby="h4a">
-    <div class="act-h"><i>4</i><h2 id="h4a" lang="en">Time to write</h2><span class="fiche">Fiche : activité 7</span></div>
-    <p class="consigne">Résume chaque situation en une phrase avec <b lang="en">because</b>. Touche les étiquettes dans l'ordre. Attention : une étiquette est en trop !</p>
-    <div id="a4" class="act"></div>
-  </section>
-
   <section class="act" aria-labelledby="h5a">
-    <div class="act-h"><i>5</i><h2 id="h5a">Bilan</h2><span class="fiche">Fiche : activité 8</span></div>
+    <div class="act-h"><i>3</i><h2 id="h5a">Bilan</h2><span class="fiche">Fiche : activité 8</span></div>
     <p class="consigne">Range les questions du professeur : pour un retard ou pour une absence ? Puis trouve la règle.</p>
     <div id="a5" class="act"></div>
   </section>
@@ -201,7 +197,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   <details class="prof">
     <summary>Notes pour le professeur</summary>
     <ul>
-      <li>Les activités reprennent la séance 1 de la fiche élève (activités 4 à 8) : <i lang="en">Which note?</i>, l'écoute des dialogues, <i lang="en">Spot the questions</i>, <i lang="en">Time to write</i> et le bilan.</li>
+      <li>Les activités reprennent la séance 1 de la fiche élève (activités 4 à 8). Après la mise en situation (<i lang="en">Which note?</i>), le travail est organisé <b>par dialogue</b> : pour chacun, compréhension détaillée (le billet), repérage (la question du professeur et son intonation) puis reformulation écrite avec <i lang="en">because</i>, sous un même lecteur audio. L'élève n'a pas à revenir chercher l'audio d'une activité à l'autre. Le bilan (règle présent / prétérit) vient à la fin.</li>
       <li><b>5e : dialogues 1 à 3</b> (Helen, Francis, Jonathan). <b>4e : dialogues 1 à 6</b> (+ Mary, Martin, Abel, et le <i lang="en">question tag</i> <i lang="en">weren't you?</i>). Le niveau vient du code de classe ; sans code, l'élève choisit son niveau.</li>
       <li>Audio : <i lang="en">What's your excuse today?</i>, découpé par dialogue. L'élève peut réécouter, ralentir (vitesse 0,8) et voit son nombre d'écoutes pour respecter la consigne ★★ ou ★★★.</li>
       <li>Le script à trous (aide ★) n'est pas sur le site : il reste sur papier, à donner aux élèves qui en ont besoin.</li>
@@ -287,6 +283,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     $("#pc").textContent = `${n} / ${list.length}`;
     $("#pcbar").style.width = Math.round(100 * n / list.length) + "%";
     $("#end").hidden = n < list.length;
+    markDialogues();
   }
 
   /* ---------- audio ---------- */
@@ -351,7 +348,13 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     c.innerHTML = `<div class="card-h"><h3>${title}</h3>${S.res[id] ? `<span class="done-tag">✓ Fait</span>` : ""}</div>`;
     return c;
   }
-  function setDone(c) { c.classList.add("ok"); if (!$(".done-tag", c)) $(".card-h", c).insertAdjacentHTML("beforeend", `<span class="done-tag">✓ Fait</span>`); }
+  // One part (a, b, c) inside a dialogue card
+  function sub(letter, en, fr, id) {
+    const c = document.createElement("div"); c.className = "sub" + (S.res[id] ? " ok" : "");
+    c.innerHTML = `<div class="card-h"><h3><i>${letter}</i><span lang="en">${en}</span><small>${fr}</small></h3>${S.res[id] ? `<span class="done-tag">✓ Fait</span>` : ""}</div>`;
+    return c;
+  }
+  function setDone(c) { c.classList.add("ok"); if (!$(":scope > .card-h .done-tag", c)) $(":scope > .card-h", c).insertAdjacentHTML("beforeend", `<span class="done-tag">✓ Fait</span>`); }
 
   /* ---------- 1. Which note? ---------- */
   function renderA1() {
@@ -369,12 +372,10 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     });
   }
 
-  /* ---------- 2. Listen and fill in the note ---------- */
-  function renderA2() {
-    const box = $("#a2"); box.innerHTML = "";
-    D.slice(0, nDlg()).forEach(d => {
-      const id = "l" + d.n, c = card(`Dialogue ${d.n}`, id);
-      c.appendChild(player(d.n));
+  /* ---------- 2a. Detailed comprehension: fill in the note ---------- */
+  function partL(d) {
+    {
+      const id = "l" + d.n, c = sub("a", "Fill in the note", "Compréhension détaillée : je remplis le billet", id);
       const rows = [
         {lab: "Billet", sub: "Late slip, absence note ou permission note ?", g: group(noteOpts(), noteCls), a: d.note},
         {lab: "Name", sub: "Le prénom de l'élève", g: group(shuffle(d.names).map(t => ({v: t, t, lang: "en"}))), a: d.name},
@@ -401,16 +402,14 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
           $(".btn", act).hidden = true; done(id); setDone(c);
         } else { fb.className = "fb bad"; fb.textContent = `${ok} / ${rows.length} : réécoute et corrige ce qui est en rouge.`; }
       });
-      box.appendChild(c);
-    });
+      return c;
+    }
   }
 
-  /* ---------- 3. Spot the questions ---------- */
-  function renderA3() {
-    const box = $("#a3"); box.innerHTML = "";
-    D.slice(0, nDlg()).forEach(d => {
-      const id = "q" + d.n, c = card(`Dialogue ${d.n} · ${d.name}`, id);
-      c.appendChild(player(d.n, true));
+  /* ---------- 2b. Spotting: the teacher's question and its intonation ---------- */
+  function partQ(d) {
+    {
+      const id = "q" + d.n, c = sub("b", "Spot the question", "Repérage : la question du professeur et son intonation", id);
       const g1 = group(txtOpts(d.ques.a, d.ques.o));
       const g2 = d.ques.tag
         ? group(shuffle([{v: "ok", t: "« …n'est-ce pas ? »"}, {v: "why", t: "« …pourquoi ? »"}, {v: "where", t: "« …où étais-tu ? »"}]))
@@ -435,15 +434,14 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
         if (ok === 2) { g1.solve(d.ques.a); g2.solve(a2); fb.className = "fb good"; fb.textContent = "Well done!"; rule.hidden = false; $(".btn", act).hidden = true; done(id); setDone(c); }
         else { fb.className = "fb bad"; fb.textContent = "Pas tout à fait : réécoute et corrige ce qui est en rouge."; rule.hidden = false; }
       });
-      box.appendChild(c);
-    });
+      return c;
+    }
   }
 
-  /* ---------- 4. Time to write ---------- */
-  function renderA4() {
-    const box = $("#a4"); box.innerHTML = "";
-    D.slice(0, nDlg()).forEach(d => {
-      const id = "w" + d.n, c = card(`${d.n}. ${d.name}`, id);
+  /* ---------- 2c. Rephrasing: one sentence with because ---------- */
+  function partW(d) {
+    {
+      const id = "w" + d.n, c = sub("c", "Time to write", "Reformulation : je résume la situation avec because (une étiquette est en trop)", id);
       const ans = document.createElement("div"); ans.className = "answer"; ans.setAttribute("lang", "en"); ans.setAttribute("aria-label", "Ta phrase");
       const tiles = document.createElement("div"); tiles.className = "tiles"; tiles.setAttribute("lang", "en");
       const words = shuffle([...d.w.k, d.w.x]);
@@ -475,9 +473,21 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
           fb.textContent = got.includes(d.w.x) ? `Une étiquette est en trop : « ${d.w.x} ». Laquelle ne va pas avec le dialogue ?` : (got.length < d.w.k.length ? "Il manque des étiquettes." : "L'ordre n'est pas bon. Commence par le prénom.");
         }
       });
+      return c;
+    }
+  }
+
+  /* ---------- 2. One card per dialogue: the player, then a, b, c in a row ---------- */
+  function renderDialogues() {
+    const box = $("#a2"); box.innerHTML = "";
+    D.slice(0, nDlg()).forEach(d => {
+      const c = card(`Dialogue ${d.n}`, "dlg" + d.n); c.classList.add("dlg"); c.dataset.n = d.n;
+      c.append(player(d.n), partL(d), partQ(d), partW(d));
       box.appendChild(c);
     });
+    markDialogues();
   }
+  function markDialogues() { $$(".dlg").forEach(el => { if (["l", "q", "w"].every(k => S.res[k + el.dataset.n])) setDone(el); }); }
 
   /* ---------- 5. Bilan ---------- */
   function renderA5() {
@@ -524,7 +534,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     if (!force && lv === lastLvl) return;
     lastLvl = lv; S.lvl = lv; save();
     Object.values(audios).forEach(a => a.pause());
-    renderA1(); renderA2(); renderA3(); renderA4(); renderA5(); progress();
+    renderA1(); renderDialogues(); renderA5(); progress();
   }
   $("#lvl-box").addEventListener("click", e => {
     const b = e.target.closest("[data-lvl]"); if (!b || b.disabled) return;
