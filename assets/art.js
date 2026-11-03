@@ -80,6 +80,28 @@
         <text x="126" y="34" text-anchor="middle" font-family="'Bricolage Grotesque','Trebuchet MS',sans-serif" font-weight="800" font-size="13" fill="${C.navy}">Sorry!</text>`;
     },
 
+    // A school note to fill in, with headphones, for Fill in the note
+    note: () => `${bg}
+      <g transform="rotate(-6 80 88)">
+        <rect x="38" y="40" width="80" height="96" rx="6" fill="${C.white}" stroke="${C.navy}" stroke-width="3"/>
+        <rect x="38" y="40" width="80" height="20" rx="6" fill="${C.yellow}" stroke="${C.navy}" stroke-width="3"/>
+        <text x="78" y="55" text-anchor="middle" font-family="'Bricolage Grotesque','Trebuchet MS',sans-serif" font-weight="800" font-size="11" letter-spacing="1" fill="${C.navy}">LATE SLIP</text>
+        <rect x="48" y="70" width="18" height="4" rx="2" fill="${C.navy}"/><rect x="70" y="70" width="38" height="4" rx="2" fill="${C.grey}"/>
+        <rect x="48" y="84" width="22" height="4" rx="2" fill="${C.navy}"/><rect x="74" y="84" width="34" height="4" rx="2" fill="${C.grey}"/>
+        <rect x="48" y="98" width="16" height="4" rx="2" fill="${C.navy}"/><rect x="68" y="98" width="40" height="4" rx="2" fill="${C.grey}"/>
+        <rect x="48" y="113" width="12" height="12" rx="2" fill="none" stroke="${C.navy}" stroke-width="2.5"/>
+        <path d="M50 119l3 3 6-7" fill="none" stroke="${C.green}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="66" y="117" width="30" height="4" rx="2" fill="${C.grey}"/>
+      </g>
+      <path d="M104 46a26 26 0 0 1 48 6" fill="none" stroke="${C.navy}" stroke-width="5" stroke-linecap="round"/>
+      <rect x="96" y="46" width="14" height="22" rx="6" fill="${C.blue}" stroke="${C.navy}" stroke-width="3"/>
+      <rect x="146" y="52" width="12" height="22" rx="6" fill="${C.blue}" stroke="${C.navy}" stroke-width="3"/>
+      <path d="M120 82q6 5 0 10M128 78q10 9 0 18" fill="none" stroke="${C.navy}" stroke-width="3" stroke-linecap="round"/>
+      <g transform="rotate(38 120 120)">
+        <rect x="104" y="114" width="40" height="9" rx="2" fill="${C.red}" stroke="${C.navy}" stroke-width="2.5"/>
+        <path d="M144 114l9 4.5-9 4.5z" fill="${C.yellow}" stroke="${C.navy}" stroke-width="2.5" stroke-linejoin="round"/>
+      </g>`,
+
     // A lab flask with -ed bubbles for Les sons de -ed
     ed: () => `${bg}
       <circle cx="58" cy="38" r="12" fill="${C.blue}"/><text x="58" y="42" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" fill="${C.white}">/t/</text>

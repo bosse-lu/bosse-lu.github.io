@@ -15,9 +15,15 @@
     ],
     steps: [
       {id: "excuse", href: "excuse-lab/", art: "excuse", title: "Excuse Lab",
-        what: "Écoute les vraies voix des dialogues, répète les phrases et joue la scène.",
+        what: "Les excuses et les vraies voix des dialogues : écoute, répète les phrases et joue la scène.",
         skills: ["Écouter", "Répéter", "Jouer la scène"], key: "excuselab4e", total: 27,
         count: s => Object.keys(s.res || {}).filter(k => !k.startsWith("play")).length},
+      {id: "note", href: "fill-the-note/", art: "note", title: "Fill in the note",
+        what: "Écoute les dialogues du collège en autonomie et remplis les billets : late slip, absence note ou permission note. 5e : dialogues 1 à 3 · 4e : les 6 dialogues.",
+        skills: ["Compréhension orale", "Intonation", "because"], key: "fillnote",
+        // 5e: 3 situations + 3 dialogues x 3 activities + bilan = 13 ; 4e: 3 + 6 x 3 + 1 = 22
+        total: s => s.lvl === "4e" ? 22 : 13,
+        count: s => Object.keys(s.res || {}).filter(k => s.lvl === "4e" || !/^[lqw][456]$/.test(k)).length},
       {id: "ed", href: "ed-sounds/", art: "ed", title: "Les sons de -ed",
         what: "Le prétérit : /t/, /d/ ou /ɪd/ ? Puis la négation (didn't) et les questions (Did…?), avec de vraies voix. Entraîne-toi, puis passe l'évaluation finale.",
         skills: ["Prétérit", "Prononciation"], key: "edlab4e", total: 18},
@@ -33,8 +39,9 @@
   function prog(st) {
     let raw = null, s = {};
     try { raw = localStorage.getItem(st.key); s = JSON.parse(raw || "{}") || {}; } catch (e) {}
-    const n = Math.min(st.total, st.count ? st.count(s) : Object.keys(s.res || {}).length);
-    return {n, total: st.total, pct: Math.round(100 * n / st.total), done: n >= st.total, started: n > 0};
+    const total = typeof st.total === "function" ? st.total(s) : st.total;
+    const n = Math.min(total, st.count ? st.count(s) : Object.keys(s.res || {}).length);
+    return {n, total, pct: Math.round(100 * n / total), done: n >= total, started: n > 0};
   }
   const all = () => SEQ.steps.map(st => Object.assign({p: prog(st)}, st));
   const overall = steps => { const n = steps.reduce((a, s) => a + s.p.n, 0), t = steps.reduce((a, s) => a + s.p.total, 0); return Math.round(100 * n / t); };
@@ -90,7 +97,7 @@
     const cl = document.getElementById("class-box");
     if (cl && C() && !cl.dataset.mounted) {
       cl.dataset.mounted = "1";
-      C().mountPicker(cl, {note: c => c.level !== SEQ.level ? `Ta classe est en ${c.level} : cette séquence est celle des ${SEQ.level}. Tu peux la regarder, mais ta propre séquence arrivera bientôt.` : ""});
+      C().mountPicker(cl, {note: c => c.level !== SEQ.level ? `Ta classe est en ${c.level} : cette séquence est celle des ${SEQ.level}.${c.level === "4e" ? " L'étape 2, Fill in the note, est aussi pour toi : tu y écoutes les 6 dialogues." : " Tu peux la regarder, mais ta propre séquence arrivera bientôt."}` : ""});
     }
     drawArt(list);
   }

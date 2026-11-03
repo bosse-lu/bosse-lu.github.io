@@ -52,7 +52,7 @@ code{background:var(--accent-soft);padding:1px 6px;border-radius:5px}
       <li><b>Le plus simple</b> : demandez-le à Claude, par exemple « débloque l'évaluation orale du prétérit pour la 5e C » ou « n'ouvre que les deux premières étapes pour la 5e F ». La mise à jour est en ligne une à deux minutes plus tard.</li>
       <li><b>Vous-même, sur GitHub</b> : ouvrez le fichier <code>classes.json</code> du dépôt, cliquez sur le crayon, puis modifiez la classe voulue :
         <ul>
-          <li><code>"steps": 4</code> = nombre d'étapes ouvertes, dans l'ordre (1 à 4) ;</li>
+          <li><code>"steps": 5</code> = nombre d'étapes ouvertes, dans l'ordre (1 à 5) ;</li>
           <li><code>"evals": ["ed-final"]</code> = évaluation orale du prétérit débloquée ; <code>"evals": []</code> = tout verrouillé.</li>
         </ul>
         Enregistrez avec « Commit changes ».</li>
@@ -70,7 +70,7 @@ code{background:var(--accent-soft);padding:1px 6px;border-radius:5px}
 <script>
 (async function () {
   const EVALS = {"ed-final": "Évaluation orale : le prétérit"};
-  const STEPS = ["Excuse Lab", "Les sons de -ed", "Stress Lab", "Blame the bus!"];
+  const STEPS = ["Excuse Lab", "Fill in the note", "Les sons de -ed", "Stress Lab", "Blame the bus!"];
   const rows = document.getElementById("rows");
   try {
     const cfg = await (await fetch("../classes.json?v=" + Date.now(), {cache: "no-store"})).json();

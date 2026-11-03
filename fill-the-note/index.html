@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fill in the note – Late and absent – Collège Réeberg Néron</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Fill in the note: listen to the school dialogues on your own and fill in the notes.
+   Level (5e: dialogues 1-3, 4e: dialogues 1-6) comes from the class code, or a level switch. */
+:root{
+  --paper:#f3f5fb; --card:#ffffff; --ink:#1b2340; --muted:#5b6380; --line:#d9ddea;
+  --accent:#2f4fd8; --accent-soft:#e3e8ff; --mark:#ffd23f; --onmark:#1b2340;
+  --good:#1f8a55; --good-soft:#dff3e8; --bad:#c2412d; --bad-soft:#fbe5df;
+  --late:#b26a00; --late-soft:#fff1d6; --abs:#2f4fd8; --abs-soft:#e3e8ff; --perm:#1f8a55; --perm-soft:#dff3e8;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11152a; --card:#1a1f37; --ink:#e8ebf7; --muted:#9aa1bd; --line:#2d3456;
+  --accent:#8ea2ff; --accent-soft:#262e57; --mark:#f2c418; --good:#4cc38a; --good-soft:#173a2b; --bad:#f0785f; --bad-soft:#3d2120;
+  --late:#f2b45a; --late-soft:#3a2c14; --abs:#8ea2ff; --abs-soft:#262e57; --perm:#4cc38a; --perm-soft:#173a2b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11152a; --card:#1a1f37; --ink:#e8ebf7; --muted:#9aa1bd; --line:#2d3456;
+  --accent:#8ea2ff; --accent-soft:#262e57; --mark:#f2c418; --good:#4cc38a; --good-soft:#173a2b; --bad:#f0785f; --bad-soft:#3d2120;
+  --late:#f2b45a; --late-soft:#3a2c14; --abs:#8ea2ff; --abs-soft:#262e57; --perm:#4cc38a; --perm-soft:#173a2b; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 56px}
+button,select{font:inherit;color:inherit}
+.wrap{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.homebar{max-width:820px;margin:0 auto;text-align:center}
+.homelink{font-weight:600;font-size:14px;color:inherit;opacity:.75;text-decoration:none}
+.homelink:hover{opacity:1;text-decoration:underline}
+.kicker{font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2.1rem,8.5vw,3.3rem);line-height:1;letter-spacing:-.02em;margin:8px 0 0}
+h1 span{background:linear-gradient(transparent 58%,var(--mark) 58%)}
+.lead{font-size:1.05rem;color:var(--muted);margin:10px 0 0;max-width:34em}
+.hero-art{float:right;width:clamp(92px,26vw,150px);aspect-ratio:1;margin:0 0 8px 14px}.hero-art svg{display:block;width:100%;height:100%}
+header::after{content:"";display:block;clear:both}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px}
+.lvl{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.lvl b{font-family:var(--display);font-size:1.05rem}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.seg button{border:0;background:var(--card);padding:8px 14px;cursor:pointer;font-weight:700}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.lvl p{flex:1 1 100%;margin:0;font-size:.9rem;color:var(--muted)}
+.stars{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin:0;padding:0;list-style:none;font-size:.92rem}
+.stars li{background:var(--paper);border-radius:10px;padding:8px 12px}
+.stars b{color:var(--accent)}
+.overall{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.overall b{font-family:var(--display)}
+.overall .pc{margin-left:auto;font-family:var(--display);font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.bar{flex:1 1 100%;display:block;height:10px;border-radius:999px;background:var(--accent-soft);overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:var(--accent);border-radius:999px;transition:width .5s}
+
+.act{display:flex;flex-direction:column;gap:14px}
+.act-h{display:flex;align-items:center;gap:12px;margin:10px 0 0}
+.act-h i{flex:none;font-style:normal;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--paper);font:800 1.1rem/1 var(--display)}
+.act-h h2{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(1.35rem,5vw,1.7rem);line-height:1.1}
+.act-h .fiche{margin-left:auto;font-size:.75rem;font-weight:700;color:var(--muted);white-space:nowrap}
+.consigne{margin:-4px 0 0;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.card.ok{border-color:var(--good);box-shadow:inset 4px 0 0 var(--good)}
+.card-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.card-h h3{margin:0;font-family:var(--display);font-weight:800;font-size:1.2rem}
+.done-tag{margin-left:auto;font-size:.78rem;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--good);color:#fff}
+.en{font-family:var(--display);font-weight:500;font-size:1.08rem}
+
+/* audio player */
+.player{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;background:var(--paper);border-radius:12px;padding:10px 12px}
+.play{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:10px;padding:9px 14px;background:var(--accent);color:var(--card);font-weight:700;cursor:pointer}
+.play svg{width:18px;height:18px}
+.track{flex:1 1 120px;height:8px;border-radius:999px;background:var(--line);overflow:hidden;cursor:pointer}
+.track span{display:block;height:100%;width:0;background:var(--accent)}
+.slow{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:6px 10px;cursor:pointer;font-size:.88rem;font-weight:700}
+.slow[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.count{font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.mini .play{padding:6px 11px;font-size:.9rem}
+
+/* choice rows */
+.q{display:grid;grid-template-columns:minmax(130px,190px) 1fr;gap:6px 14px;align-items:center}
+.q .lab{font-weight:700;font-size:.92rem}
+.q .lab small{display:block;font-weight:400;color:var(--muted)}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 13px;cursor:pointer;font-size:.95rem;text-align:left}
+.opt:hover{border-color:var(--accent)}
+.opt[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.opt.right{background:var(--good);border-color:var(--good);color:#fff}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.opt:focus-visible,.play:focus-visible,.slow:focus-visible,.btn:focus-visible,.tile:focus-visible,select:focus-visible,.seg button:focus-visible,.track:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.note-late{--k:var(--late);--ks:var(--late-soft)} .note-abs{--k:var(--abs);--ks:var(--abs-soft)} .note-perm{--k:var(--perm);--ks:var(--perm-soft)}
+.opt.note{border-color:var(--k);color:var(--k);background:var(--ks);font-weight:700}
+.opt.note[aria-pressed="true"]{background:var(--k);color:var(--card)}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--card);font-weight:700;border-radius:10px;padding:8px 16px;cursor:pointer}
+.btn.lite{background:none;color:var(--accent)}
+.fb{margin:0;font-weight:700}
+.fb.good{color:var(--good)} .fb.bad{color:var(--bad)}
+.rule{margin:0;font-size:.9rem;background:var(--accent-soft);border-radius:10px;padding:8px 12px}
+
+/* aide script à trous */
+details{background:var(--paper);border-radius:12px;padding:10px 14px}
+details>summary{cursor:pointer;font-weight:700;color:var(--accent)}
+.script{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.script p{margin:0}
+.script .who{font-weight:700;font-style:italic}
+.script select{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:3px 6px;font-size:.95rem;max-width:100%}
+.script select.right{border-color:var(--good);background:var(--good-soft)}
+.script select.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.bank{font-size:.88rem;color:var(--muted)}
+
+/* sentence builder */
+.answer{min-height:48px;border:2px dashed var(--line);border-radius:12px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.answer:empty::before{content:"Touche les étiquettes dans l'ordre…";color:var(--muted);font-size:.9rem;padding:0 4px}
+.answer.right{border-style:solid;border-color:var(--good);background:var(--good-soft)}
+.answer.wrong{border-style:solid;border-color:var(--bad)}
+.tiles{display:flex;flex-wrap:wrap;gap:6px}
+.tile{border:1px solid var(--ink);background:var(--card);border-radius:8px;padding:6px 11px;cursor:pointer;font-family:var(--display);font-weight:500;font-size:1.02rem}
+.tile.used{visibility:hidden}
+.answer .tile{background:var(--accent-soft);border-color:var(--accent)}
+.answer .tile.k{background:var(--mark);color:var(--onmark);border-color:var(--onmark)}
+
+/* bilan */
+.sortrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:6px 0;border-bottom:1px dashed var(--line)}
+.sortrow:last-child{border-bottom:0}
+.sortrow .en{flex:1 1 220px}
+.tip{margin:0;font-size:.92rem;background:var(--mark);color:var(--onmark);border-radius:10px;padding:8px 12px}
+
+.end{text-align:center}
+.end b{font-family:var(--display);font-size:1.3rem}
+details.prof{background:var(--card);border:1px solid var(--line);padding:14px 16px}
+details.prof summary{color:inherit}
+details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.93rem}
+@media (max-width:560px){.q{grid-template-columns:1fr}.act-h .fiche{display:none}}
+@media (prefers-reduced-motion:reduce){.bar span{transition:none}}
+</style>
+</head>
+<body>
+<div class="homebar"><a class="homelink" href="../">← Toutes les activités · Collège Réeberg Néron</a></div>
+<div class="wrap">
+  <header>
+    <div class="hero-art" data-art="note" aria-hidden="true"></div>
+    <p class="kicker">Late and absent · Écoute en autonomie</p>
+    <h1>Fill in the <span>note</span></h1>
+    <p class="lead">Écoute les dialogues du collège et remplis les billets : <i lang="en">late slip</i>, <i lang="en">absence note</i> ou <i lang="en">permission note</i>. Tu travailles seul, à ton rythme, et tu te corriges tout seul.</p>
+  </header>
+
+  <div id="class-box" class="cl-box" aria-live="polite"></div>
+
+  <div class="panel lvl" id="lvl-box">
+    <b>Mon niveau</b>
+    <span class="seg" role="group" aria-label="Choisis ton niveau">
+      <button type="button" data-lvl="5e" aria-pressed="false">5e · 3 dialogues</button>
+      <button type="button" data-lvl="4e" aria-pressed="false">4e · 6 dialogues</button>
+    </span>
+    <p id="lvl-msg">Pas de code de classe ? Choisis ton niveau.</p>
+  </div>
+
+  <div class="panel">
+    <ul class="stars">
+      <li><b>★ Je découvre</b> : ouvre l'aide « script à trous » sous chaque dialogue.</li>
+      <li><b>★★ Je maîtrise</b> : 3 écoutes au maximum par dialogue.</li>
+      <li><b>★★★ Je vais plus loin</b> : 2 écoutes au maximum, sans l'aide.</li>
+    </ul>
+  </div>
+
+  <div class="panel overall">
+    <b>Ma progression</b><span class="pc" id="pc">0 / 0</span>
+    <span class="bar" aria-hidden="true"><span id="pcbar"></span></span>
+  </div>
+
+  <section class="act" aria-labelledby="h1a">
+    <div class="act-h"><i>1</i><h2 id="h1a" lang="en">Which note?</h2><span class="fiche">Fiche : activité 4</span></div>
+    <p class="consigne">Quel billet faut-il pour chaque situation ? Touche la bonne réponse.</p>
+    <div id="a1" class="act"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h2a">
+    <div class="act-h"><i>2</i><h2 id="h2a" lang="en">Listen to the dialogues</h2><span class="fiche">Fiche : activité 5</span></div>
+    <p class="consigne">Écoute chaque dialogue, puis remplis le billet : quel billet, le prénom, quand ou quelle permission, et la raison. Touche « Vérifier » : ce qui est faux s'affiche en rouge, réécoute et corrige.</p>
+    <div id="a2" class="act"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h3a">
+    <div class="act-h"><i>3</i><h2 id="h3a" lang="en">Spot the questions</h2><span class="fiche">Fiche : activité 6</span></div>
+    <p class="consigne">Réécoute le dialogue. Quelle question pose le professeur ? Puis écoute sa voix à la fin de la question : elle descend ↘ ou elle monte ↗ ?</p>
+    <div id="a3" class="act"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h4a">
+    <div class="act-h"><i>4</i><h2 id="h4a" lang="en">Time to write</h2><span class="fiche">Fiche : activité 7</span></div>
+    <p class="consigne">Résume chaque situation en une phrase avec <b lang="en">because</b>. Touche les étiquettes dans l'ordre. Attention : une étiquette est en trop !</p>
+    <div id="a4" class="act"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h5a">
+    <div class="act-h"><i>5</i><h2 id="h5a">Bilan</h2><span class="fiche">Fiche : activité 8</span></div>
+    <p class="consigne">Range les questions du professeur : pour un retard ou pour une absence ? Puis trouve la règle.</p>
+    <div id="a5" class="act"></div>
+  </section>
+
+  <div class="panel end" id="end" hidden>
+    <b>Well done! 🎉</b>
+    <p>Tu as fini toutes les activités. Recopie tes réponses sur ta fiche, puis passe à l'étape suivante.</p>
+  </div>
+
+  <details class="prof">
+    <summary>Notes pour le professeur</summary>
+    <ul>
+      <li>Les activités reprennent la séance 1 de la fiche élève (activités 4 à 8) : <i lang="en">Which note?</i>, l'écoute des dialogues, <i lang="en">Spot the questions</i>, <i lang="en">Time to write</i> et le bilan.</li>
+      <li><b>5e : dialogues 1 à 3</b> (Helen, Francis, Jonathan). <b>4e : dialogues 1 à 6</b> (+ Mary, Martin, Abel, et le <i lang="en">question tag</i> <i lang="en">weren't you?</i>). Le niveau vient du code de classe ; sans code, l'élève choisit son niveau.</li>
+      <li>Audio : <i lang="en">What's your excuse today?</i>, découpé par dialogue. L'élève peut réécouter, ralentir (vitesse 0,8) et voit son nombre d'écoutes pour respecter la consigne ★★ ou ★★★.</li>
+      <li>Tout se corrige automatiquement. La progression reste sur l'appareil de l'élève ; rien n'est envoyé en ligne.</li>
+    </ul>
+  </details>
+</div>
+
+<script src="../assets/art.js"></script>
+<script src="../assets/newbadge.js"></script>
+<script src="../assets/flagtips.js"></script>
+<script src="../assets/classes.js"></script>
+<script>
+(function () {
+  const KEY = "fillnote";
+  const $ = (s, r) => (r || document).querySelector(s), $$ = (s, r) => [...(r || document).querySelectorAll(s)];
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  let S = {}; try { S = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) {}
+  S.res = S.res || {}; S.plays = S.plays || {};
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+
+  const NOTES = {late: ["Late slip", "note-late"], abs: ["Absence note", "note-abs"], perm: ["Permission note", "note-perm"]};
+
+  /* ---------- content ---------- */
+  const SITU = [
+    {t: "a. Class starts at 8:00. You arrive at 8:20.", a: "late"},
+    {t: "b. You were ill yesterday. You come back to school today.", a: "abs"},
+    {t: "c. You feel sick. You want to see the nurse during the lesson.", a: "perm"}
+  ];
+  const BANK = ["flu", "absence note", "overslept", "missed", "late slip", "forgot", "sick", "toilet", "headache", "nurse", "head teacher", "Wednesday", "dentist's"];
+  // Each dialogue: note, name, a third question (when / permission), reason, the teacher's question, the sentence, the gap script.
+  const D = [
+    {n: 1, name: "Helen", note: "abs", names: ["Helen", "Ellen", "Hannah"],
+      when: {lab: "Absence note?", q: "Has she got her absence note?", a: "Yes, here it is.", o: ["No, she forgot it."]},
+      why: {a: "She had the flu.", o: ["She had a headache.", "She broke her leg."]},
+      ques: {a: "Have you got your absence note?", o: ["Have you got your late slip?", "Where's your absence note?"], up: true},
+      w: {k: ["Helen", "was absent", "because", "she had", "the flu."], x: "is absent"},
+      gaps: [["Teacher", "Where were you?"], ["Helen", "I had the {flu}."], ["Teacher", "Have you got your {absence note}?"], ["Helen", "Here it is."]]},
+    {n: 2, name: "Francis", note: "late", names: ["Francis", "Frank", "Felix"],
+      when: {lab: "When?", q: "Is it the first time this week?", a: "No, it's the second time.", o: ["Yes, it's the first time.", "No, it's the third time."]},
+      why: {a: "He overslept and missed his bus.", o: ["His dad's car broke down.", "He was with the head teacher."]},
+      ques: {a: "What's your excuse today, Francis?", o: ["What's wrong today, Francis?", "Why are you late today, Francis?"], up: false},
+      w: {k: ["Francis", "is late", "because", "he overslept", "and missed", "his bus."], x: "so"},
+      gaps: [["Francis", "Sorry, I'm late. I {overslept} and {missed} my bus."], ["Teacher", "Where's your {late slip}?"], ["Francis", "I {forgot} to get one."]]},
+    {n: 3, name: "Jonathan", note: "perm", names: ["Jonathan", "Jason", "Johnny"],
+      when: {lab: "Permission?", q: "Permission to…", a: "go to the toilet", o: ["go to the nurse", "go home"]},
+      why: {a: "He feels sick.", o: ["He has a toothache.", "He's cold."]},
+      ques: {a: "What's wrong, Jonathan?", o: ["What's the matter, Jonathan?", "Where were you, Jonathan?"], up: false},
+      w: {k: ["Jonathan", "wants to go", "to the toilet", "because", "he feels sick."], x: "to the nurse"},
+      gaps: [["Teacher", "What's wrong, Jonathan?"], ["Jonathan", "I feel {sick}. Can I go to the {toilet}, please?"]]},
+    {n: 4, name: "Mary", note: "perm", names: ["Mary", "Maria", "Molly"],
+      when: {lab: "Permission?", q: "Permission to…", a: "go to the nurse", o: ["go to the toilet", "go home"]},
+      why: {a: "She's got a headache.", o: ["She's got a sore throat.", "She broke her leg."]},
+      ques: {a: "Mary, what's the matter?", o: ["Mary, what's wrong?", "Mary, where were you?"], up: false},
+      w: {k: ["Mary", "wants to go", "to the nurse", "because", "she's got", "a headache."], x: "a toothache."},
+      gaps: [["Teacher", "Mary, what's the matter?"], ["Mary", "I don't feel well. I've got a {headache}. Can I go to the {nurse}, please?"]]},
+    {n: 5, name: "Martin", note: "late", names: ["Martin", "Marvin", "Matthew"],
+      when: {lab: "Late slip?", q: "Has he got a late slip?", a: "Yes, here it is.", o: ["No, he forgot it."]},
+      why: {a: "He was with the head teacher.", o: ["He missed the bus.", "He overslept."]},
+      ques: {a: "Are you in trouble?", o: ["Are you feeling better?", "Are you OK?"], up: true},
+      w: {k: ["Martin", "is late", "because", "he was", "with the head teacher."], x: "with the nurse."},
+      gaps: [["Teacher", "Where were you, Martin?"], ["Martin", "I was with the {head teacher}. Here's my late slip."]]},
+    {n: 6, name: "Abel", note: "abs", names: ["Abel", "Abe", "Mabel"],
+      when: {lab: "When?", q: "When was he absent?", a: "last Wednesday afternoon", o: ["last Wednesday morning", "last Thursday afternoon"]},
+      why: {a: "He had an appointment at the dentist's.", o: ["He had the flu.", "He was with the nurse."]},
+      ques: {a: "You were away last Wednesday afternoon, weren't you?", o: ["You were late last Wednesday afternoon, weren't you?", "You were away last Wednesday morning, weren't you?"], tag: true},
+      w: {k: ["Abel", "was absent", "last Wednesday afternoon", "because", "he had an appointment", "at the dentist's."], x: "is absent",
+        alt: [["Abel", "was absent", "because", "he had an appointment", "at the dentist's.", "last Wednesday afternoon"]]},
+      gaps: [["Teacher", "You were away last {Wednesday} afternoon, weren't you?"], ["Abel", "Yes, sir. I had an appointment at the {dentist's}."]]}
+  ];
+  const SORT = [
+    {t: "What's your excuse today?", a: "late"}, {t: "Where were you yesterday?", a: "abs"}, {t: "Why are you late?", a: "late"},
+    {t: "Why were you absent?", a: "abs"}, {t: "Where's your late slip?", a: "late"}
+  ];
+
+  /* ---------- level ---------- */
+  const C = () => window.Classes;
+  function level() {
+    const k = C() && C().klass ? C().klass() : null;
+    if (k && (k.level === "5e" || k.level === "4e")) return k.level;
+    return S.lvl === "4e" ? "4e" : "5e";
+  }
+  const nDlg = () => level() === "4e" ? 6 : 3;
+  const ids = () => { const n = nDlg(), out = ["n1", "n2", "n3"]; for (let i = 1; i <= n; i++) out.push("l" + i, "q" + i, "w" + i); out.push("bilan"); return out; };
+  function done(id, extra) { S.res[id] = Object.assign({ok: true}, extra || {}); S.lvl = level(); save(); progress(); }
+  function progress() {
+    const list = ids(), n = list.filter(i => S.res[i]).length;
+    $("#pc").textContent = `${n} / ${list.length}`;
+    $("#pcbar").style.width = Math.round(100 * n / list.length) + "%";
+    $("#end").hidden = n < list.length;
+  }
+
+  /* ---------- audio ---------- */
+  const ICO = {play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l12-7z"/></svg>',
+    pause: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>'};
+  const audios = {};
+  let slow = false;
+  function audioFor(n) {
+    if (!audios[n]) { const a = new Audio("../assets/audio/note-d" + n + ".mp3"); a.preload = "none"; audios[n] = a; }
+    return audios[n];
+  }
+  function player(n, mini) {
+    const el = document.createElement("div");
+    el.className = "player" + (mini ? " mini" : "");
+    el.innerHTML = `<button type="button" class="play">${ICO.play}<span>${mini ? "Réécouter" : "Écouter le dialogue " + n}</span></button>
+      <span class="track" role="progressbar" aria-label="Avancement de l'écoute" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></span>
+      ${mini ? "" : `<button type="button" class="slow" aria-pressed="false" title="Vitesse 0,8">🐢 Plus lent</button>`}
+      <span class="count"></span>`;
+    const a = audioFor(n), btn = $(".play", el), fill = $(".track span", el), cnt = $(".count", el), tr = $(".track", el);
+    const draw = () => {
+      const on = !a.paused && !a.ended;
+      btn.innerHTML = (on ? ICO.pause : ICO.play) + `<span>${on ? "Pause" : (mini ? "Réécouter" : "Écouter le dialogue " + n)}</span>`;
+      const pc = a.duration ? 100 * a.currentTime / a.duration : 0;
+      fill.style.width = pc + "%"; tr.setAttribute("aria-valuenow", Math.round(pc));
+      const p = S.plays[n] || 0; cnt.textContent = p ? `Écoutes : ${p}` : "";
+    };
+    btn.addEventListener("click", () => {
+      if (!a.paused) { a.pause(); return; }
+      Object.values(audios).forEach(o => { if (o !== a) o.pause(); });
+      if (a.ended || a.currentTime === 0) { S.plays[n] = (S.plays[n] || 0) + 1; save(); if (a.ended) a.currentTime = 0; }
+      a.playbackRate = slow ? 0.8 : 1; a.play().catch(() => { cnt.textContent = "Le son ne démarre pas : vérifie le volume ou réessaie."; });
+    });
+    tr.addEventListener("click", e => { if (!a.duration) return; const r = tr.getBoundingClientRect(); a.currentTime = a.duration * (e.clientX - r.left) / r.width; });
+    const sl = $(".slow", el);
+    if (sl) sl.addEventListener("click", () => { slow = !slow; $$(".slow").forEach(b => b.setAttribute("aria-pressed", slow)); Object.values(audios).forEach(o => o.playbackRate = slow ? 0.8 : 1); });
+    ["play", "pause", "ended", "timeupdate", "loadedmetadata"].forEach(ev => a.addEventListener(ev, draw));
+    document.addEventListener("plays-changed", draw);
+    draw();
+    return el;
+  }
+
+  /* ---------- choice groups ---------- */
+  // A group of single-choice chips. Returns {el, value(), mark(correct)}
+  function group(options, cls) {
+    const el = document.createElement("div"); el.className = "opts"; el.setAttribute("role", "group");
+    let val = null;
+    el.innerHTML = options.map(o => `<button type="button" class="opt ${cls ? cls(o) : ""}" aria-pressed="false" data-v="${esc(o.v)}" ${o.lang ? `lang="${o.lang}"` : ""}>${o.html || esc(o.t)}</button>`).join("");
+    el.addEventListener("click", e => {
+      const b = e.target.closest(".opt"); if (!b || el.dataset.locked) return;
+      $$(".opt", el).forEach(x => { x.setAttribute("aria-pressed", x === b); x.classList.remove("right", "wrong"); });
+      val = b.dataset.v; el.dispatchEvent(new CustomEvent("pick", {bubbles: true}));
+    });
+    return {el, value: () => val,
+      mark(ans) { $$(".opt", el).forEach(x => { x.classList.remove("right", "wrong"); if (x.dataset.v === val) x.classList.add(val === ans ? "right" : "wrong"); }); return val === ans; },
+      solve(ans) { val = ans; $$(".opt", el).forEach(x => { x.setAttribute("aria-pressed", x.dataset.v === ans); x.classList.toggle("right", x.dataset.v === ans); }); el.dataset.locked = "1"; }};
+  }
+  const noteOpts = () => shuffle(Object.keys(NOTES)).map(k => ({v: k, t: NOTES[k][0], lang: "en"}));
+  const noteCls = o => "note " + NOTES[o.v][1];
+  const txtOpts = (a, o) => shuffle([a, ...o]).map(t => ({v: t, t, lang: "en"}));
+  function card(title, id) {
+    const c = document.createElement("div"); c.className = "card" + (S.res[id] ? " ok" : "");
+    c.innerHTML = `<div class="card-h"><h3>${title}</h3>${S.res[id] ? `<span class="done-tag">✓ Fait</span>` : ""}</div>`;
+    return c;
+  }
+  function setDone(c) { c.classList.add("ok"); if (!$(".done-tag", c)) $(".card-h", c).insertAdjacentHTML("beforeend", `<span class="done-tag">✓ Fait</span>`); }
+
+  /* ---------- 1. Which note? ---------- */
+  function renderA1() {
+    const box = $("#a1"); box.innerHTML = "";
+    SITU.forEach((s, i) => {
+      const id = "n" + (i + 1), c = card(`<span class="en" lang="en">${esc(s.t)}</span>`, id);
+      const g = group(noteOpts(), noteCls), fb = document.createElement("p"); fb.className = "fb"; fb.setAttribute("aria-live", "polite");
+      c.append(g.el, fb);
+      if (S.res[id]) g.solve(s.a);
+      g.el.addEventListener("pick", () => {
+        if (g.mark(s.a)) { fb.className = "fb good"; fb.textContent = "Well done!"; g.solve(s.a); done(id); setDone(c); }
+        else { fb.className = "fb bad"; fb.textContent = "Try again!"; }
+      });
+      box.appendChild(c);
+    });
+  }
+
+  /* ---------- 2. Listen and fill in the note ---------- */
+  function gapScript(d, id) {
+    const det = document.createElement("details");
+    let k = 0;
+    const lines = d.gaps.map(([who, line]) => `<p lang="en"><span class="who">${who}:</span> ${esc(line).replace(/\{([^}]+)\}/g, (_, w) =>
+      `<select data-a="${esc(w)}" aria-label="Mot manquant ${++k}"><option value="">……</option>${BANK.map(b => `<option>${esc(b)}</option>`).join("")}</select>`)}</p>`).join("");
+    det.innerHTML = `<summary>Aide ★ : le script à trous</summary><div class="script"><p class="bank"><b>Banque de mots :</b> <span lang="en">${BANK.join(" · ")}</span></p>${lines}
+      <div class="actions"><button type="button" class="btn lite">Vérifier le script</button><p class="fb" aria-live="polite"></p></div></div>`;
+    $(".btn", det).addEventListener("click", () => {
+      let ok = 0; const sel = $$("select", det);
+      sel.forEach(s => { const r = s.value === s.dataset.a; s.classList.toggle("right", r); s.classList.toggle("wrong", !!s.value && !r); if (r) ok++; });
+      const fb = $(".fb", det); fb.className = "fb " + (ok === sel.length ? "good" : "bad");
+      fb.textContent = ok === sel.length ? "Well done! Tu peux remplir le billet." : `${ok} / ${sel.length} : réécoute et corrige.`;
+    });
+    return det;
+  }
+  function renderA2() {
+    const box = $("#a2"); box.innerHTML = "";
+    D.slice(0, nDlg()).forEach(d => {
+      const id = "l" + d.n, c = card(`Dialogue ${d.n}`, id);
+      c.appendChild(player(d.n));
+      const rows = [
+        {lab: "Billet", sub: "Late slip, absence note ou permission note ?", g: group(noteOpts(), noteCls), a: d.note},
+        {lab: "Name", sub: "Le prénom de l'élève", g: group(shuffle(d.names).map(t => ({v: t, t, lang: "en"}))), a: d.name},
+        {lab: "When / Permission", sub: d.when.q, g: group(txtOpts(d.when.a, d.when.o)), a: d.when.a},
+        {lab: "Reason", sub: "Pourquoi ?", g: group(txtOpts(d.why.a, d.why.o)), a: d.why.a}
+      ];
+      rows.forEach(r => {
+        const q = document.createElement("div"); q.className = "q";
+        q.innerHTML = `<div class="lab" lang="en">${r.lab}<small ${r.lab === "Billet" || r.lab === "Name" || r.lab === "Reason" ? 'lang="fr"' : ""}>${esc(r.sub)}</small></div>`;
+        q.appendChild(r.g.el); c.appendChild(q);
+      });
+      const act = document.createElement("div"); act.className = "actions";
+      act.innerHTML = `<button type="button" class="btn">Vérifier</button><p class="fb" aria-live="polite"></p>`;
+      c.append(act, gapScript(d, id));
+      const fb = $(".fb", act);
+      if (S.res[id]) { rows.forEach(r => r.g.solve(r.a)); fb.className = "fb good"; fb.textContent = "Billet rempli ✓"; $(".btn", act).hidden = true; }
+      $(".btn", act).addEventListener("click", () => {
+        const empty = rows.filter(r => !r.g.value()).length;
+        if (empty) { fb.className = "fb bad"; fb.textContent = "Réponds d'abord à toutes les lignes."; return; }
+        const ok = rows.filter(r => r.g.mark(r.a)).length;
+        if (ok === rows.length) {
+          rows.forEach(r => r.g.solve(r.a)); fb.className = "fb good";
+          fb.textContent = `Well done! ${S.plays[d.n] ? `(${S.plays[d.n]} écoute${S.plays[d.n] > 1 ? "s" : ""})` : ""}`;
+          $(".btn", act).hidden = true; done(id); setDone(c);
+        } else { fb.className = "fb bad"; fb.textContent = `${ok} / ${rows.length} : réécoute et corrige ce qui est en rouge.`; }
+      });
+      box.appendChild(c);
+    });
+  }
+
+  /* ---------- 3. Spot the questions ---------- */
+  function renderA3() {
+    const box = $("#a3"); box.innerHTML = "";
+    D.slice(0, nDlg()).forEach(d => {
+      const id = "q" + d.n, c = card(`Dialogue ${d.n} · ${d.name}`, id);
+      c.appendChild(player(d.n, true));
+      const g1 = group(txtOpts(d.ques.a, d.ques.o));
+      const g2 = d.ques.tag
+        ? group(shuffle([{v: "ok", t: "« …n'est-ce pas ? »"}, {v: "why", t: "« …pourquoi ? »"}, {v: "where", t: "« …où étais-tu ? »"}]))
+        : group([{v: "down", t: "↘ La voix descend"}, {v: "up", t: "↗ La voix monte"}]);
+      const a2 = d.ques.tag ? "ok" : (d.ques.up ? "up" : "down");
+      const q1 = document.createElement("div"); q1.className = "q"; q1.innerHTML = `<div class="lab">La question du professeur</div>`; q1.appendChild(g1.el);
+      const q2 = document.createElement("div"); q2.className = "q";
+      q2.innerHTML = d.ques.tag ? `<div class="lab">★★★ <span lang="en">weren't you?</span><small>Que veut dire cette fin de question ?</small></div>` : `<div class="lab">L'intonation<small>À la fin de la question</small></div>`;
+      q2.appendChild(g2.el);
+      const act = document.createElement("div"); act.className = "actions";
+      act.innerHTML = `<button type="button" class="btn">Vérifier</button><p class="fb" aria-live="polite"></p>`;
+      const rule = document.createElement("p"); rule.className = "rule"; rule.hidden = true;
+      rule.innerHTML = d.ques.tag
+        ? `<b lang="en">weren't you?</b> est un <i>question tag</i> : le professeur vérifie une information qu'il connaît déjà, comme « n'est-ce pas ? » en français.`
+        : `<b>La règle</b> : question qui commence par un mot en <b lang="en">Wh-</b> (<i lang="en">what, where, why…</i>) → la voix descend ↘. Question à laquelle on répond par oui ou non → la voix monte ↗.`;
+      c.append(q1, q2, act, rule);
+      const fb = $(".fb", act);
+      if (S.res[id]) { g1.solve(d.ques.a); g2.solve(a2); rule.hidden = false; $(".btn", act).hidden = true; }
+      $(".btn", act).addEventListener("click", () => {
+        if (!g1.value() || !g2.value()) { fb.className = "fb bad"; fb.textContent = "Réponds d'abord aux deux lignes."; return; }
+        const ok = [g1.mark(d.ques.a), g2.mark(a2)].filter(Boolean).length;
+        if (ok === 2) { g1.solve(d.ques.a); g2.solve(a2); fb.className = "fb good"; fb.textContent = "Well done!"; rule.hidden = false; $(".btn", act).hidden = true; done(id); setDone(c); }
+        else { fb.className = "fb bad"; fb.textContent = "Pas tout à fait : réécoute et corrige ce qui est en rouge."; rule.hidden = false; }
+      });
+      box.appendChild(c);
+    });
+  }
+
+  /* ---------- 4. Time to write ---------- */
+  function renderA4() {
+    const box = $("#a4"); box.innerHTML = "";
+    D.slice(0, nDlg()).forEach(d => {
+      const id = "w" + d.n, c = card(`${d.n}. ${d.name}`, id);
+      const ans = document.createElement("div"); ans.className = "answer"; ans.setAttribute("lang", "en"); ans.setAttribute("aria-label", "Ta phrase");
+      const tiles = document.createElement("div"); tiles.className = "tiles"; tiles.setAttribute("lang", "en");
+      const words = shuffle([...d.w.k, d.w.x]);
+      tiles.innerHTML = words.map((w, i) => `<button type="button" class="tile" data-i="${i}">${esc(w)}</button>`).join("");
+      const act = document.createElement("div"); act.className = "actions";
+      act.innerHTML = `<button type="button" class="btn">Vérifier</button><button type="button" class="btn lite">Effacer</button><p class="fb" aria-live="polite"></p>`;
+      c.append(ans, tiles, act);
+      const fb = $(".fb", act), [chk, clr] = $$(".btn", act);
+      const solved = () => { ans.innerHTML = d.w.k.map(w => `<span class="tile${w === "because" ? " k" : ""}">${esc(w)}</span>`).join(""); ans.classList.add("right"); tiles.hidden = true; chk.hidden = clr.hidden = true; };
+      if (S.res[id]) { solved(); fb.className = "fb good"; fb.textContent = "✓"; }
+      tiles.addEventListener("click", e => {
+        const t = e.target.closest(".tile"); if (!t || t.classList.contains("used")) return;
+        t.classList.add("used"); ans.classList.remove("wrong");
+        const b = document.createElement("button"); b.type = "button"; b.className = "tile"; b.dataset.i = t.dataset.i; b.textContent = t.textContent;
+        ans.appendChild(b); fb.textContent = "";
+      });
+      ans.addEventListener("click", e => {
+        const t = e.target.closest("button.tile"); if (!t) return;
+        $(`.tile[data-i="${t.dataset.i}"]`, tiles).classList.remove("used"); t.remove(); ans.classList.remove("wrong"); fb.textContent = "";
+      });
+      clr.addEventListener("click", () => { ans.innerHTML = ""; $$(".tile", tiles).forEach(t => t.classList.remove("used")); ans.classList.remove("wrong"); fb.textContent = ""; });
+      chk.addEventListener("click", () => {
+        const got = $$("button.tile", ans).map(t => t.textContent);
+        if (!got.length) { fb.className = "fb bad"; fb.textContent = "Construis d'abord ta phrase."; return; }
+        const good = [d.w.k, ...(d.w.alt || [])].some(k => k.join("|") === got.join("|"));
+        if (good) { solved(); fb.className = "fb good"; fb.textContent = "Well done! Recopie la phrase sur ta fiche."; done(id); setDone(c); }
+        else {
+          ans.classList.add("wrong"); fb.className = "fb bad";
+          fb.textContent = got.includes(d.w.x) ? `Une étiquette est en trop : « ${d.w.x} ». Laquelle ne va pas avec le dialogue ?` : (got.length < d.w.k.length ? "Il manque des étiquettes." : "L'ordre n'est pas bon. Commence par le prénom.");
+        }
+      });
+      box.appendChild(c);
+    });
+  }
+
+  /* ---------- 5. Bilan ---------- */
+  function renderA5() {
+    const box = $("#a5"); box.innerHTML = "";
+    const id = "bilan", c = card("Retard ou absence ?", id);
+    const rows = SORT.map(s => {
+      const r = document.createElement("div"); r.className = "sortrow";
+      r.innerHTML = `<span class="en" lang="en">${esc(s.t)}</span>`;
+      const g = group([{v: "late", t: "Retard"}, {v: "abs", t: "Absence"}]); r.appendChild(g.el); c.appendChild(r);
+      return {g, a: s.a};
+    });
+    const rl = document.createElement("div"); rl.className = "q"; rl.innerHTML = `<div class="lab">Pour un <b>retard</b>, la question est…</div>`;
+    const ra = document.createElement("div"); ra.className = "q"; ra.innerHTML = `<div class="lab">Pour une <b>absence</b>, la question est…</div>`;
+    const gl = group([{v: "pres", t: "au présent"}, {v: "pret", t: "au prétérit"}]), ga = group([{v: "pres", t: "au présent"}, {v: "pret", t: "au prétérit"}]);
+    rl.appendChild(gl.el); ra.appendChild(ga.el);
+    const act = document.createElement("div"); act.className = "actions";
+    act.innerHTML = `<button type="button" class="btn">Vérifier</button><p class="fb" aria-live="polite"></p>`;
+    const tip = document.createElement("p"); tip.className = "tip"; tip.hidden = true;
+    tip.innerHTML = `★★★ <b>Attention</b> : dans le dialogue 5, Martin est en retard, mais le professeur demande <i lang="en">Where were you, Martin?</i> au prétérit : il veut savoir où Martin était <b>avant</b> le cours.`;
+    c.append(rl, ra, act, tip);
+    const all = [...rows, {g: gl, a: "pres"}, {g: ga, a: "pret"}], fb = $(".fb", act);
+    const showTip = () => { tip.hidden = level() !== "4e"; };
+    if (S.res[id]) { all.forEach(r => r.g.solve(r.a)); $(".btn", act).hidden = true; fb.className = "fb good"; fb.textContent = "✓"; showTip(); }
+    $(".btn", act).addEventListener("click", () => {
+      if (all.some(r => !r.g.value())) { fb.className = "fb bad"; fb.textContent = "Réponds d'abord à toutes les lignes."; return; }
+      const ok = all.filter(r => r.g.mark(r.a)).length;
+      if (ok === all.length) { all.forEach(r => r.g.solve(r.a)); fb.className = "fb good"; fb.textContent = "Well done! Retard → présent ; absence → prétérit."; $(".btn", act).hidden = true; done(id); setDone(c); showTip(); }
+      else { fb.className = "fb bad"; fb.textContent = `${ok} / ${all.length} : corrige ce qui est en rouge.`; }
+    });
+    box.appendChild(c);
+  }
+
+  /* ---------- level box and full render ---------- */
+  function renderLevel() {
+    const k = C() && C().klass ? C().klass() : null, lv = level();
+    const box = $("#lvl-box");
+    $$("[data-lvl]", box).forEach(b => { b.setAttribute("aria-pressed", b.dataset.lvl === lv); b.disabled = !!k; });
+    $("#lvl-msg").textContent = k ? `Ta classe est en ${k.level} : ${k.level === "4e" ? "tu écoutes les 6 dialogues." : "tu écoutes les dialogues 1 à 3."}` : "Pas de code de classe ? Choisis ton niveau.";
+  }
+  let lastLvl = null;
+  function renderAll(force) {
+    renderLevel();
+    const lv = level();
+    if (!force && lv === lastLvl) return;
+    lastLvl = lv; S.lvl = lv; save();
+    Object.values(audios).forEach(a => a.pause());
+    renderA1(); renderA2(); renderA3(); renderA4(); renderA5(); progress();
+  }
+  $("#lvl-box").addEventListener("click", e => {
+    const b = e.target.closest("[data-lvl]"); if (!b || b.disabled) return;
+    S.lvl = b.dataset.lvl; save(); renderAll();
+  });
+  if (C()) C().mountPicker($("#class-box"));
+  renderAll(true);
+  document.addEventListener("classes:ready", () => renderAll());
+  document.addEventListener("classes:change", () => renderAll());
+})();
+</script>
+<script src="../assets/sequence.js" data-step="note"></script>
+</body>
+</html>
