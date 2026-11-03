@@ -22,6 +22,8 @@
   const ADMIN = {id: "PROF", label: "Professeur", level: null, admin: true, sequences: {}};
   const klass = () => (cur && cfg) ? (cur.admin ? ADMIN : (cfg.classes.find(c => c.id === cur.id) || null)) : null;
   const isAdmin = () => !!(klass() && klass().admin);
+  // Imposed level: 1 = free (class code), 2 = ★★, 3 = ★★★ (group code). null for the teacher (free preview).
+  const stars = () => { const k = klass(); if (!k) return 1; if (k.admin) return null; return (cur && cur.stars) || 1; };
   async function join(code) {
     if (!cfg) await ready;
     if (!window.crypto || !crypto.subtle) return null;
@@ -30,9 +32,14 @@
       cur = {id: "PROF", admin: true}; try { localStorage.setItem(LS, JSON.stringify(cur)); } catch (e) {}
       fire("classes:change"); return ADMIN;
     }
-    const c = cfg.classes.find(x => x.hash === h);
+    let c = cfg.classes.find(x => x.hash === h), stars = 1;
+    if (!c) {
+      // A group code: same class, but a level imposed by the teacher (★★ or ★★★)
+      c = cfg.classes.find(x => (x.groups || []).some(g => g.hash === h));
+      if (c) stars = c.groups.find(g => g.hash === h).stars || 1;
+    }
     if (!c) return null;
-    cur = {id: c.id}; try { localStorage.setItem(LS, JSON.stringify(cur)); } catch (e) {}
+    cur = stars > 1 ? {id: c.id, stars} : {id: c.id}; try { localStorage.setItem(LS, JSON.stringify(cur)); } catch (e) {}
     fire("classes:change"); return c;
   }
   function leave() { cur = null; try { localStorage.removeItem(LS); } catch (e) {} fire("classes:change"); }
@@ -75,7 +82,7 @@
       if (c && c.admin) {
         el.innerHTML = `<span class="cl-ico" aria-hidden="true">🔑</span><span>Mode professeur :</span><span class="cl-badge">accès complet</span><button type="button" class="lite" data-cl="leave">Quitter le mode professeur</button><p class="cl-msg">Sur cet appareil, toutes les étapes et toutes les évaluations sont ouvertes, quels que soient les réglages des classes.</p>`;
       } else if (c) {
-        el.innerHTML = `<span class="cl-ico" aria-hidden="true">🏫</span><span>Ma classe :</span><span class="cl-badge">${c.label}</span><button type="button" class="lite" data-cl="leave">Changer de classe</button>${opts.noReset ? "" : RESET}${opts.note ? `<p class="cl-msg">${opts.note(c)}</p>` : ""}`;
+        el.innerHTML = `<span class="cl-ico" aria-hidden="true">🏫</span><span>Ma classe :</span><span class="cl-badge">${c.label}${stars() > 1 ? " · " + "★".repeat(stars()) : ""}</span><button type="button" class="lite" data-cl="leave">Changer de classe</button>${opts.noReset ? "" : RESET}${opts.note ? `<p class="cl-msg">${opts.note(c)}</p>` : ""}`;
       } else {
         el.innerHTML = `<span class="cl-ico" aria-hidden="true">🏫</span><b>${opts.title || "Entre le code de ta classe"}</b>
           <form novalidate><label class="sr" for="cl-in-${el.id || "x"}" style="position:absolute;left:-9999px">Code de la classe</label>
@@ -96,5 +103,5 @@
     document.addEventListener("classes:change", () => draw());
   }
 
-  window.Classes = {ready, klass, join, leave, evalOpen, stepOpen, part, isAdmin, mountPicker, isReady: () => !!cfg};
+  window.Classes = {ready, klass, join, leave, evalOpen, stepOpen, part, isAdmin, stars, mountPicker, isReady: () => !!cfg};
 })();

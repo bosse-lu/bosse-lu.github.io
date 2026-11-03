@@ -1,5 +1,5 @@
 {
-  "_aide": "Réglages des classes. Pour chaque classe et chaque séquence : open = étapes ouvertes (identifiants : note, ed, stress, bus, excuse) ; parts = ouverture partielle d'une étape (ex. \"note\": {\"dialogues\": [1]}) ; evals = évaluations débloquées (ex. \"ed-final\"). Sans réglage, tout est verrouillé. admins = codes professeur (accès complet). Les codes ne sont jamais écrits ici, seulement leur empreinte.",
+  "_aide": "Réglages des classes. Pour chaque classe et chaque séquence : open = étapes ouvertes (identifiants : note, ed, stress, bus, excuse) ; parts = ouverture partielle d'une étape (ex. \"note\": {\"dialogues\": [1]}) ; evals = évaluations débloquées (ex. \"ed-final\"). Sans réglage, tout est verrouillé. groups = codes de groupe d'une classe qui imposent un niveau (stars 2 = ★★, 3 = ★★★ ; le code de classe = niveau libre). admins = codes professeur (accès complet). Les codes ne sont jamais écrits ici, seulement leur empreinte.",
   "admins": [
     {
       "label": "M. Bosse",
@@ -18,7 +18,13 @@
           "parts": {},
           "evals": []
         }
-      }
+      },
+      "groups": [
+        {
+          "stars": 2,
+          "hash": "dd51216eb58254b68101f7f9d9b587b32ee00d93d6dd1284cd8e018cd00d5f6b"
+        }
+      ]
     },
     {
       "id": "5D",
@@ -31,7 +37,13 @@
           "parts": {},
           "evals": []
         }
-      }
+      },
+      "groups": [
+        {
+          "stars": 2,
+          "hash": "2a0c5d385748e22dc31e45b666749ba2d6fa3dd5ec2a88b8364945556b10f353"
+        }
+      ]
     },
     {
       "id": "5F",
@@ -44,7 +56,13 @@
           "parts": {},
           "evals": []
         }
-      }
+      },
+      "groups": [
+        {
+          "stars": 2,
+          "hash": "2cf8d7168c2aa597b6387adc6fced05c848e8e170f6e88253988ebfc3b1a7118"
+        }
+      ]
     },
     {
       "id": "4D",
@@ -57,7 +75,13 @@
           "parts": {},
           "evals": []
         }
-      }
+      },
+      "groups": [
+        {
+          "stars": 2,
+          "hash": "a7c1809b7f32c36d07057e3a424ba9ceef13720aaf9eb1dd28c8d3807d8dcbeb"
+        }
+      ]
     },
     {
       "id": "4E",
@@ -78,7 +102,17 @@
           },
           "evals": []
         }
-      }
+      },
+      "groups": [
+        {
+          "stars": 3,
+          "hash": "bf833329aae3a34fec1b7d7514556661c9e0d5fb7f2e296f728e46dc8ef944db"
+        },
+        {
+          "stars": 2,
+          "hash": "bc43372dd530e8bcd3739a42c2509ea02890fbbffaac23c1e974b450cb81ee7c"
+        }
+      ]
     },
     {
       "id": "4F",
@@ -91,7 +125,13 @@
           "parts": {},
           "evals": []
         }
-      }
+      },
+      "groups": [
+        {
+          "stars": 2,
+          "hash": "f0e816741e581eb0c53441982b53e277faf31b27c78b98ed6a84d616896ea27e"
+        }
+      ]
     }
   ]
 }

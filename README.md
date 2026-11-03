@@ -21,6 +21,7 @@ Site : https://bosse-lu.github.io
 
 - Chaque classe (5e C, 5e D, 5e F, 4e D, 4e E, 4e F) a un code que l'élève entre une fois sur son appareil.
 - **Règle générale : les étapes et les évaluations des séquences sont verrouillées** jusqu'à ce que M. Bosse les ouvre pour une classe (une étape peut aussi s'ouvrir en partie, par exemple un seul dialogue). L'espace « Pour aller plus loin… » reste libre.
+- **Groupes de niveau** : dans une classe, un code de groupe impose le niveau ★★ ou ★★★ sur les exercices (nombre d'écoutes, aides, réponses écrites). Le code de classe laisse le niveau libre.
 - **Mode professeur** : un code professeur (non publié) ouvre tout sur l'appareil du professeur.
 - **Ordinateur partagé** : le bouton « 👤 Je suis un autre élève » (accueil, parcours, chaque activité) efface tout le travail enregistré sur l'appareil, pour que l'élève suivant reparte de zéro.
 - Les réglages sont dans `classes.json` (étapes ouvertes, ouvertures partielles et évaluations débloquées par classe). L'état des classes se lit sur l'[espace prof](https://bosse-lu.github.io/prof/).

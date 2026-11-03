@@ -58,6 +58,7 @@ code{background:var(--accent-soft);padding:1px 6px;border-radius:5px}
       <li><b>Vous-même, sur GitHub</b> : ouvrez le fichier <code>classes.json</code> du dépôt, cliquez sur le crayon, puis modifiez la classe voulue :
         <ul>
           <li><code>"open": ["note", "ed"]</code> = étapes ouvertes (<code>note</code> Fill in the note, <code>ed</code> Les sons de -ed, <code>stress</code> Stress Lab, <code>bus</code> Blame the bus!, <code>excuse</code> Recap: Excuse Lab) ; <code>"open": []</code> = tout verrouillé ;</li>
+          <li><code>"groups"</code> = codes de groupe de la classe qui imposent un niveau (★★ ou ★★★). Les élèves sans code de groupe gardent le niveau libre. Pour créer ou changer un groupe, demandez-le à Claude ;</li>
           <li><code>"parts": {"note": {"dialogues": [1]}}</code> = dans Fill in the note, seul le dialogue 1 est ouvert (sans cette ligne, toute l'étape est ouverte) ;</li>
           <li><code>"evals": ["ed-final"]</code> = évaluation orale du prétérit débloquée ; <code>"evals": []</code> = tout verrouillé.</li>
         </ul>
@@ -90,7 +91,8 @@ code{background:var(--accent-soft);padding:1px 6px;border-radius:5px}
         return `<span class="pill ${on ? "on" : "off"}">${on ? "" : "🔒 "}${i + 1}. ${t}${extra}</span>`;
       }).join("");
       const ev = Object.entries(EVALS).map(([id, t]) => `<span class="pill ${(s.evals || []).includes(id) ? "on" : "off"}">${(s.evals || []).includes(id) ? "Débloquée" : "🔒 Verrouillée"} · ${t}</span>`).join("");
-      return `<tr><td><b>${c.label}</b></td><td>${steps}</td><td>${ev}</td></tr>`;
+      const gr = (c.groups || []).map(g => "★".repeat(g.stars)).join(" · ");
+      return `<tr><td><b>${c.label}</b>${gr ? `<br><small style="color:var(--muted)">Groupes : ${gr}</small>` : ""}</td><td>${steps}</td><td>${ev}</td></tr>`;
     }).join("");
   } catch (e) { rows.innerHTML = `<tr><td colspan="3">Impossible de lire classes.json.</td></tr>`; }
 })();

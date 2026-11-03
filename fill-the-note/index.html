@@ -50,6 +50,11 @@ header::after{content:"";display:block;clear:both}
 .lvl p{flex:1 1 100%;margin:0;font-size:.9rem;color:var(--muted)}
 .stars{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin:0;padding:0;list-style:none;font-size:.92rem}
 .stars li{background:var(--paper);border-radius:10px;padding:8px 12px}
+.stars li.me{outline:2px solid var(--accent);background:var(--accent-soft)}
+.stars li.off{opacity:.5}
+#stars-box{display:flex;flex-direction:column;gap:10px}
+.stars-msg{margin:0;font-weight:700}
+.stars-msg:empty{display:none}
 .stars b{color:var(--accent)}
 .overall{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .overall b{font-family:var(--display)}
@@ -98,6 +103,12 @@ body.nb-has .dlg>.player{top:70px}
 .opt{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 13px;cursor:pointer;font-size:.95rem;text-align:left}
 .opt:hover{border-color:var(--accent)}
 .opt[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.typed{font:inherit;font-family:var(--display);font-size:1.02rem;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px 12px;width:min(100%,24em)}
+.typed.long{width:100%}
+.typed:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.typed.right{border-color:var(--good);background:var(--good-soft)}
+.typed.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.play:disabled{opacity:.55;cursor:not-allowed}
 .opt.right{background:var(--good);border-color:var(--good);color:#fff}
 .opt.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad);text-decoration:line-through}
 .opt:focus-visible,.play:focus-visible,.slow:focus-visible,.btn:focus-visible,.tile:focus-visible,select:focus-visible,.seg button:focus-visible,.track:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
@@ -159,11 +170,17 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     <p id="lvl-msg">Pas de code de classe ? Choisis ton niveau.</p>
   </div>
 
-  <div class="panel">
+  <div class="panel" id="stars-box">
+    <p class="stars-msg" id="stars-msg"></p>
+    <span class="seg" role="group" aria-label="Aperçu du niveau (mode professeur)" id="pv" hidden>
+      <button type="button" data-pv="1" aria-pressed="false">★ libre</button>
+      <button type="button" data-pv="2" aria-pressed="false">★★</button>
+      <button type="button" data-pv="3" aria-pressed="false">★★★</button>
+    </span>
     <ul class="stars">
-      <li><b>★ Je découvre</b> : écoute autant de fois que tu veux, et utilise le ralenti 🐢.</li>
-      <li><b>★★ Je maîtrise</b> : 3 écoutes au maximum par dialogue.</li>
-      <li><b>★★★ Je vais plus loin</b> : 2 écoutes au maximum, sans le ralenti.</li>
+      <li data-st="1"><b>★ Je découvre</b> : écoute autant de fois que tu veux, et utilise le ralenti 🐢.</li>
+      <li data-st="2"><b>★★ Je maîtrise</b> : 3 écoutes au maximum par dialogue, deux étiquettes pièges.</li>
+      <li data-st="3"><b>★★★ Je vais plus loin</b> : 2 écoutes au maximum, sans le ralenti ; tu écris toi-même le prénom, la raison, la question et la phrase.</li>
     </ul>
   </div>
 
@@ -202,6 +219,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       <li><b>5e : dialogues 1 à 3</b> (Helen, Francis, Jonathan). <b>4e : dialogues 1 à 6</b> (+ Mary, Martin, Abel, et le <i lang="en">question tag</i> <i lang="en">weren't you?</i>). Le niveau vient du code de classe ; sans code, l'élève choisit son niveau.</li>
       <li>Audio : <i lang="en">What's your excuse today?</i>, découpé par dialogue. L'élève peut réécouter, ralentir (vitesse 0,8) et voit son nombre d'écoutes pour respecter la consigne ★★ ou ★★★.</li>
       <li>Le script à trous (aide ★) n'est pas sur le site : il reste sur papier, à donner aux élèves qui en ont besoin.</li>
+      <li><b>Niveaux imposés</b> : un code de groupe impose ★★ (3 écoutes, deux étiquettes pièges) ou ★★★ (2 écoutes, sans ralenti, réponses écrites : prénom, raison, question, phrase ; petites fautes de frappe et contractions acceptées). Le code de classe laisse le niveau libre.</li>
       <li>Tout se corrige automatiquement. La progression reste sur l'appareil de l'élève ; rien n'est envoyé en ligne.</li>
     </ul>
   </details>
@@ -232,32 +250,38 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   ];
   // Each dialogue: note, name, a third question (when / permission), reason, the teacher's question, the sentence.
   const D = [
-    {n: 1, name: "Helen", note: "abs", names: ["Helen", "Ellen", "Hannah"],
+    {n: 1, name: "Helen", note: "abs", x2: "so", kw: [["flu"]], qs: [["Where were you?", false], ["Are you feeling better now?", true], ["Have you got your absence note?", true], ["Good to see you back, Helen. Where were you?", false]],
+      names: ["Helen", "Ellen", "Hannah"],
       when: {lab: "Absence note?", q: "Has she got her absence note?", a: "Yes, here it is.", o: ["No, she forgot it."]},
       why: {a: "She had the flu.", o: ["She had a headache.", "She broke her leg."]},
       ques: {a: "Have you got your absence note?", o: ["Have you got your late slip?", "Where's your absence note?"], up: true},
       w: {k: ["Helen", "was absent", "because", "she had", "the flu."], x: "is absent"}},
-    {n: 2, name: "Francis", note: "late", names: ["Francis", "Frank", "Felix"],
+    {n: 2, name: "Francis", note: "late", x2: "was absent", kw: [["overslept", "overslep"], ["bus"]], qs: [["What's your excuse today, Francis?", false], ["Where's your late slip?", false], ["And where's your late slip?", false]],
+      names: ["Francis", "Frank", "Felix"],
       when: {lab: "When?", q: "Is it the first time this week?", a: "No, it's the second time.", o: ["Yes, it's the first time.", "No, it's the third time."]},
       why: {a: "He overslept and missed his bus.", o: ["His dad's car broke down.", "He was with the head teacher."]},
       ques: {a: "What's your excuse today, Francis?", o: ["What's wrong today, Francis?", "Why are you late today, Francis?"], up: false},
       w: {k: ["Francis", "is late", "because", "he overslept", "and missed", "his bus."], x: "so"}},
-    {n: 3, name: "Jonathan", note: "perm", names: ["Jonathan", "Jason", "Johnny"],
+    {n: 3, name: "Jonathan", note: "perm", x2: "she feels sick.", kw: [["sick", "ill", "vomit"]], qs: [["What's wrong, Jonathan?", false]],
+      names: ["Jonathan", "Jason", "Johnny"],
       when: {lab: "Permission?", q: "Permission to…", a: "go to the toilet", o: ["go to the nurse", "go home"]},
       why: {a: "He feels sick.", o: ["He has a toothache.", "He's cold."]},
       ques: {a: "What's wrong, Jonathan?", o: ["What's the matter, Jonathan?", "Where were you, Jonathan?"], up: false},
       w: {k: ["Jonathan", "wants to go", "to the toilet", "because", "he feels sick."], x: "to the nurse"}},
-    {n: 4, name: "Mary", note: "perm", names: ["Mary", "Maria", "Molly"],
+    {n: 4, name: "Mary", note: "perm", x2: "so", kw: [["headache", "head ache"]], qs: [["Mary, what's the matter?", false]],
+      names: ["Mary", "Maria", "Molly"],
       when: {lab: "Permission?", q: "Permission to…", a: "go to the nurse", o: ["go to the toilet", "go home"]},
       why: {a: "She's got a headache.", o: ["She's got a sore throat.", "She broke her leg."]},
       ques: {a: "Mary, what's the matter?", o: ["Mary, what's wrong?", "Mary, where were you?"], up: false},
       w: {k: ["Mary", "wants to go", "to the nurse", "because", "she's got", "a headache."], x: "a toothache."}},
-    {n: 5, name: "Martin", note: "late", names: ["Martin", "Marvin", "Matthew"],
+    {n: 5, name: "Martin", note: "late", x2: "is absent", kw: [["head teacher", "headteacher", "headmaster", "principal"]], qs: [["Where were you, Martin?", false], ["Are you in trouble?", true], ["Oh, are you in trouble?", true]],
+      names: ["Martin", "Marvin", "Matthew"],
       when: {lab: "Late slip?", q: "Has he got a late slip?", a: "Yes, here it is.", o: ["No, he forgot it."]},
       why: {a: "He was with the head teacher.", o: ["He missed the bus.", "He overslept."]},
       ques: {a: "Are you in trouble?", o: ["Are you feeling better?", "Are you OK?"], up: true},
       w: {k: ["Martin", "is late", "because", "he was", "with the head teacher."], x: "with the nurse."}},
-    {n: 6, name: "Abel", note: "abs", names: ["Abel", "Abe", "Mabel"],
+    {n: 6, name: "Abel", note: "abs", x2: "so", kw: [["dentist"]], qs: [["You were away last Wednesday afternoon, weren't you?", null]],
+      names: ["Abel", "Abe", "Mabel"],
       when: {lab: "When?", q: "When was he absent?", a: "last Wednesday afternoon", o: ["last Wednesday morning", "last Thursday afternoon"]},
       why: {a: "He had an appointment at the dentist's.", o: ["He had the flu.", "He was with the nurse."]},
       ques: {a: "You were away last Wednesday afternoon, weren't you?", o: ["You were late last Wednesday afternoon, weren't you?", "You were away last Wednesday morning, weren't you?"], tag: true},
@@ -277,6 +301,10 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     return S.lvl === "4e" ? "4e" : "5e";
   }
   const nDlg = () => level() === "4e" ? 6 : 3;
+  // Imposed level from a group code: 1 free, 2 = ★★, 3 = ★★★. The teacher previews any level (S.pv).
+  const stars = () => { const v = C() && C().stars ? C().stars() : 1; return v === null ? (S.pv || 1) : v; };
+  const CAP = {1: 0, 2: 3, 3: 2};   // listens per dialogue (0 = no limit)
+  const cap = () => CAP[stars()] || 0;
   // The teacher can open only some dialogues for a class (classes.json → parts.note.dialogues). null = all.
   const allowed = () => { const p = C() && C().part ? C().part("late-and-absent", "note") : null; return p && Array.isArray(p.dialogues) ? p.dialogues : null; };
   const dlgOpen = n => { const a = allowed(); return !a || a.includes(n); };
@@ -296,6 +324,45 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     markDialogues();
   }
 
+  /* ---------- typed answers (★★★) ---------- */
+  const CONTR = [[/\bwhat's\b/g, "what is"], [/\bwhere's\b/g, "where is"], [/\bshe's\b/g, "she has"], [/\bhe's\b/g, "he has"], [/\bit's\b/g, "it is"],
+    [/\bweren't\b/g, "were not"], [/\bwasn't\b/g, "was not"], [/\bdon't\b/g, "do not"], [/\bi'm\b/g, "i am"], [/\bi've\b/g, "i have"], [/\bdentist's\b/g, "dentist"]];
+  function norm(t) {
+    t = String(t || "").toLowerCase().replace(/[’‘`]/g, "'");
+    CONTR.forEach(([r, v]) => { t = t.replace(r, v); });
+    return t.replace(/[^a-z0-9' ]+/g, " ").replace(/'/g, "").replace(/\s+/g, " ").trim();
+  }
+  function lev(a, b) {
+    const m = a.length, n = b.length, d = Array.from({length: m + 1}, (_, i) => [i]);
+    for (let j = 1; j <= n; j++) d[0][j] = j;
+    for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    return d[m][n];
+  }
+  // Close enough: the same words in the same order; a slip of one letter is allowed only in long words
+  // (5 letters or more, at most 2 such words), so short grammar words (is / was, has / had) must be exact.
+  const near = (got, want) => {
+    const a = norm(got).split(" "), b = norm(want).split(" ");
+    if (!a[0] || a.length !== b.length) return false;
+    let slips = 0;
+    for (let i = 0; i < b.length; i++) {
+      if (a[i] === b[i]) continue;
+      if (b[i].length >= 5 && lev(a[i], b[i]) <= 1 && ++slips <= 2) continue;
+      return false;
+    }
+    return true;
+  };
+  // A text field with the same interface as a choice group
+  function typed(check, ph) {
+    const el = document.createElement("div"); el.className = "opts";
+    el.innerHTML = `<input type="text" class="typed" lang="en" autocomplete="off" autocapitalize="sentences" spellcheck="false" placeholder="${esc(ph || "Écris ta réponse en anglais")}">`;
+    const inp = $("input", el);
+    inp.addEventListener("input", () => inp.classList.remove("right", "wrong"));
+    return {el, input: inp, value: () => inp.value.trim() || null,
+      mark() { const ok = check(inp.value); inp.classList.toggle("right", ok); inp.classList.toggle("wrong", !ok); return ok; },
+      solve(model) { if (!inp.value.trim()) inp.value = model; inp.classList.add("right"); inp.classList.remove("wrong"); inp.readOnly = true; }};
+  }
+  const hasKw = (t, kw) => { const n = " " + norm(t) + " "; return kw.every(alts => alts.some(w => n.includes(norm(w)))); };
+
   /* ---------- audio ---------- */
   const ICO = {play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l12-7z"/></svg>',
     pause: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>'};
@@ -310,21 +377,24 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     el.className = "player" + (mini ? " mini" : "");
     el.innerHTML = `<button type="button" class="play">${ICO.play}<span>${mini ? "Réécouter" : "Écouter le dialogue " + n}</span></button>
       <span class="track" role="progressbar" aria-label="Avancement de l'écoute" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></span>
-      ${mini ? "" : `<button type="button" class="slow" aria-pressed="false" title="Vitesse 0,8">🐢 Plus lent</button>`}
+      ${mini || stars() === 3 ? "" : `<button type="button" class="slow" aria-pressed="false" title="Vitesse 0,8">🐢 Plus lent</button>`}
       <span class="count"></span>`;
     const a = audioFor(n), btn = $(".play", el), fill = $(".track span", el), cnt = $(".count", el), tr = $(".track", el);
     const draw = () => {
-      const on = !a.paused && !a.ended;
-      btn.innerHTML = (on ? ICO.pause : ICO.play) + `<span>${on ? "Pause" : (mini ? "Réécouter" : "Écouter le dialogue " + n)}</span>`;
+      const on = !a.paused && !a.ended, p0 = S.plays[n] || 0, lim = cap();
+      const out = lim && p0 >= lim && !on && (a.ended || a.currentTime === 0);
+      btn.disabled = !!out;
+      btn.innerHTML = (on ? ICO.pause : ICO.play) + `<span>${on ? "Pause" : out ? "Écoutes terminées" : (mini ? "Réécouter" : "Écouter le dialogue " + n)}</span>`;
       const pc = a.duration ? 100 * a.currentTime / a.duration : 0;
       fill.style.width = pc + "%"; tr.setAttribute("aria-valuenow", Math.round(pc));
-      const p = S.plays[n] || 0; cnt.textContent = p ? `Écoutes : ${p}` : "";
+      const p = S.plays[n] || 0; cnt.textContent = lim ? `Écoutes : ${p} / ${lim}` : (p ? `Écoutes : ${p}` : "");
     };
     btn.addEventListener("click", () => {
       if (!a.paused) { a.pause(); return; }
+      if (cap() && (S.plays[n] || 0) >= cap() && (a.ended || a.currentTime === 0)) return;
       Object.values(audios).forEach(o => { if (o !== a) o.pause(); });
       if (a.ended || a.currentTime === 0) { S.plays[n] = (S.plays[n] || 0) + 1; save(); if (a.ended) a.currentTime = 0; }
-      a.playbackRate = slow ? 0.8 : 1; a.play().catch(() => { cnt.textContent = "Le son ne démarre pas : vérifie le volume ou réessaie."; });
+      a.playbackRate = slow && stars() < 3 ? 0.8 : 1; a.play().catch(() => { cnt.textContent = "Le son ne démarre pas : vérifie le volume ou réessaie."; });
     });
     tr.addEventListener("click", e => { if (!a.duration) return; const r = tr.getBoundingClientRect(); a.currentTime = a.duration * (e.clientX - r.left) / r.width; });
     const sl = $(".slow", el);
@@ -388,9 +458,11 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       const id = "l" + d.n, c = sub("a", "Fill in the note", "Compréhension détaillée : je remplis le billet", id);
       const rows = [
         {lab: "Billet", sub: "Late slip, absence note ou permission note ?", g: group(noteOpts(), noteCls), a: d.note},
-        {lab: "Name", sub: "Le prénom de l'élève", g: group(shuffle(d.names).map(t => ({v: t, t, lang: "en"}))), a: d.name},
+        {lab: "Name", sub: stars() === 3 ? "Écris le prénom de l'élève" : "Le prénom de l'élève",
+          g: stars() === 3 ? typed(v => norm(v) === norm(d.name), "First name") : group(shuffle(d.names).map(t => ({v: t, t, lang: "en"}))), a: d.name},
         {lab: "When / Permission", sub: d.when.q, g: group(txtOpts(d.when.a, d.when.o)), a: d.when.a},
-        {lab: "Reason", sub: "Pourquoi ?", g: group(txtOpts(d.why.a, d.why.o)), a: d.why.a}
+        {lab: "Reason", sub: stars() === 3 ? "Pourquoi ? Écris la raison en anglais" : "Pourquoi ?",
+          g: stars() === 3 ? typed(v => hasKw(v, d.kw), "Because…") : group(txtOpts(d.why.a, d.why.o)), a: d.why.a}
       ];
       rows.forEach(r => {
         const q = document.createElement("div"); q.className = "q";
@@ -400,7 +472,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       const act = document.createElement("div"); act.className = "actions";
       act.innerHTML = `<button type="button" class="btn">Vérifier</button><p class="fb" aria-live="polite"></p>`;
       c.appendChild(act);
-      const fb = $(".fb", act);
+      const fb = $(".fb", act); let tries = 0;
       if (S.res[id]) { rows.forEach(r => r.g.solve(r.a)); fb.className = "fb good"; fb.textContent = "Billet rempli ✓"; $(".btn", act).hidden = true; }
       $(".btn", act).addEventListener("click", () => {
         const empty = rows.filter(r => !r.g.value()).length;
@@ -410,7 +482,10 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
           rows.forEach(r => r.g.solve(r.a)); fb.className = "fb good";
           fb.textContent = `Well done! ${S.plays[d.n] ? `(${S.plays[d.n]} écoute${S.plays[d.n] > 1 ? "s" : ""})` : ""}`;
           $(".btn", act).hidden = true; done(id); setDone(c);
-        } else { fb.className = "fb bad"; fb.textContent = `${ok} / ${rows.length} : réécoute et corrige ce qui est en rouge.`; }
+        } else {
+          tries++; fb.className = "fb bad"; fb.textContent = `${ok} / ${rows.length} : réécoute et corrige ce qui est en rouge.`;
+          if (stars() === 3 && tries >= 2) fb.textContent += ` Aide : le prénom est ${d.name} ; la raison : « ${d.why.a} »`;
+        }
       });
       return c;
     }
@@ -420,12 +495,15 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   function partQ(d) {
     {
       const id = "q" + d.n, c = sub("b", "Spot the question", "Repérage : la question du professeur et son intonation", id);
-      const g1 = group(txtOpts(d.ques.a, d.ques.o));
+      const T3 = stars() === 3;
+      const match = v => d.qs.find(([q]) => near(v, q) || near(v.replace(new RegExp("\\b" + d.name + "\\b", "i"), ""), q.replace(new RegExp("\\b" + d.name + "\\b", "i"), "")));
+      const g1 = T3 ? typed(v => !!match(v), "Écris une question du professeur…") : group(txtOpts(d.ques.a, d.ques.o));
       const g2 = d.ques.tag
         ? group(shuffle([{v: "ok", t: "« …n'est-ce pas ? »"}, {v: "why", t: "« …pourquoi ? »"}, {v: "where", t: "« …où étais-tu ? »"}]))
         : group([{v: "down", t: "↘ La voix descend"}, {v: "up", t: "↗ La voix monte"}]);
-      const a2 = d.ques.tag ? "ok" : (d.ques.up ? "up" : "down");
-      const q1 = document.createElement("div"); q1.className = "q"; q1.innerHTML = `<div class="lab">La question du professeur</div>`; q1.appendChild(g1.el);
+      const a2f = () => { if (d.ques.tag) return "ok"; const m = T3 && g1.value() ? match(g1.value()) : null; return (m ? m[1] : d.ques.up) ? "up" : "down"; };
+      let a2 = a2f();
+      const q1 = document.createElement("div"); q1.className = "q"; q1.innerHTML = `<div class="lab">La question du professeur${T3 ? "<small>Écris-en une, telle que tu l'entends</small>" : ""}</div>`; q1.appendChild(g1.el);
       const q2 = document.createElement("div"); q2.className = "q";
       q2.innerHTML = d.ques.tag ? `<div class="lab">★★★ <span lang="en">weren't you?</span><small>Que veut dire cette fin de question ?</small></div>` : `<div class="lab">L'intonation<small>À la fin de la question</small></div>`;
       q2.appendChild(g2.el);
@@ -436,13 +514,17 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
         ? `<b lang="en">weren't you?</b> est un <i>question tag</i> : le professeur vérifie une information qu'il connaît déjà, comme « n'est-ce pas ? » en français.`
         : `<b>La règle</b> : question qui commence par un mot en <b lang="en">Wh-</b> (<i lang="en">what, where, why…</i>) → la voix descend ↘. Question à laquelle on répond par oui ou non → la voix monte ↗.`;
       c.append(q1, q2, act, rule);
-      const fb = $(".fb", act);
+      const fb = $(".fb", act); let tries = 0;
       if (S.res[id]) { g1.solve(d.ques.a); g2.solve(a2); rule.hidden = false; $(".btn", act).hidden = true; }
       $(".btn", act).addEventListener("click", () => {
         if (!g1.value() || !g2.value()) { fb.className = "fb bad"; fb.textContent = "Réponds d'abord aux deux lignes."; return; }
+        a2 = a2f();
         const ok = [g1.mark(d.ques.a), g2.mark(a2)].filter(Boolean).length;
         if (ok === 2) { g1.solve(d.ques.a); g2.solve(a2); fb.className = "fb good"; fb.textContent = "Well done!"; rule.hidden = false; $(".btn", act).hidden = true; done(id); setDone(c); }
-        else { fb.className = "fb bad"; fb.textContent = "Pas tout à fait : réécoute et corrige ce qui est en rouge."; rule.hidden = false; }
+        else {
+          tries++; fb.className = "fb bad"; fb.textContent = "Pas tout à fait : réécoute et corrige ce qui est en rouge."; rule.hidden = false;
+          if (T3 && tries >= 2 && !match(g1.value())) fb.textContent += ` Aide : « ${d.ques.a} »`;
+        }
       });
       return c;
     }
@@ -450,11 +532,34 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
 
   /* ---------- 2c. Rephrasing: one sentence with because ---------- */
   function partW(d) {
+    const st = stars(), id = "w" + d.n;
+    const models = [d.w.k, ...(d.w.alt || [])].map(k => k.join(" "));
+    if (st === 3) {
+      // ★★★: the learner writes the whole sentence
+      const c = sub("c", "Time to write", "Reformulation : j'écris la situation en une phrase avec because", id);
+      const g = typed(v => models.some(m => near(v, m)), `${d.name} … because …`);
+      g.input.classList.add("long");
+      const act = document.createElement("div"); act.className = "actions";
+      act.innerHTML = `<button type="button" class="btn">Vérifier</button><p class="fb" aria-live="polite"></p>`;
+      c.append(g.el, act);
+      const fb = $(".fb", act), chk = $(".btn", act); let tries = 0;
+      if (S.res[id]) { g.solve(models[0]); chk.hidden = true; fb.className = "fb good"; fb.textContent = "✓"; }
+      chk.addEventListener("click", () => {
+        const v = g.value();
+        if (!v) { fb.className = "fb bad"; fb.textContent = "Écris d'abord ta phrase."; return; }
+        if (g.mark()) { g.solve(models[0]); chk.hidden = true; fb.className = "fb good"; fb.textContent = "Well done! Recopie la phrase sur ta fiche."; done(id); setDone(c); return; }
+        tries++; fb.className = "fb bad";
+        fb.textContent = !/\bbecause\b/i.test(v) ? "Ta phrase doit contenir because." : !norm(v).startsWith(norm(d.name)) ? `Commence par le prénom : ${d.name}…` : "Presque : vérifie le temps du verbe (présent ou prétérit) et les mots du dialogue.";
+        if (tries >= 2) fb.textContent += ` Modèle : « ${models[0]} »`;
+      });
+      return c;
+    }
     {
-      const id = "w" + d.n, c = sub("c", "Time to write", "Reformulation : je résume la situation avec because (une étiquette est en trop)", id);
+      const traps = st === 2 ? [d.w.x, d.x2] : [d.w.x];
+      const c = sub("c", "Time to write", `Reformulation : je résume la situation avec because (${traps.length > 1 ? "deux étiquettes sont en trop" : "une étiquette est en trop"})`, id);
       const ans = document.createElement("div"); ans.className = "answer"; ans.setAttribute("lang", "en"); ans.setAttribute("aria-label", "Ta phrase");
       const tiles = document.createElement("div"); tiles.className = "tiles"; tiles.setAttribute("lang", "en");
-      const words = shuffle([...d.w.k, d.w.x]);
+      const words = shuffle([...d.w.k, ...traps]);
       tiles.innerHTML = words.map((w, i) => `<button type="button" class="tile" data-i="${i}">${esc(w)}</button>`).join("");
       const act = document.createElement("div"); act.className = "actions";
       act.innerHTML = `<button type="button" class="btn">Vérifier</button><button type="button" class="btn lite">Effacer</button><p class="fb" aria-live="polite"></p>`;
@@ -480,7 +585,8 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
         if (good) { solved(); fb.className = "fb good"; fb.textContent = "Well done! Recopie la phrase sur ta fiche."; done(id); setDone(c); }
         else {
           ans.classList.add("wrong"); fb.className = "fb bad";
-          fb.textContent = got.includes(d.w.x) ? `Une étiquette est en trop : « ${d.w.x} ». Laquelle ne va pas avec le dialogue ?` : (got.length < d.w.k.length ? "Il manque des étiquettes." : "L'ordre n'est pas bon. Commence par le prénom.");
+          const trap = got.find(w => traps.includes(w));
+          fb.textContent = trap ? `Une étiquette est en trop : « ${trap} ». Laquelle ne va pas avec le dialogue ?` : (got.length < d.w.k.length ? "Il manque des étiquettes." : "L'ordre n'est pas bon. Commence par le prénom.");
         }
       });
       return c;
@@ -533,7 +639,17 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   }
 
   /* ---------- level box and full render ---------- */
+  function renderStars() {
+    const k = C() && C().klass ? C().klass() : null, st = stars(), imposed = k && !k.admin && st > 1;
+    $("#pv").hidden = !(k && k.admin);
+    $$("[data-pv]").forEach(b => b.setAttribute("aria-pressed", +b.dataset.pv === st));
+    $$(".stars li").forEach(li => { li.classList.toggle("me", (imposed || (k && k.admin)) && +li.dataset.st === st); li.classList.toggle("off", !!imposed && +li.dataset.st !== st); });
+    $("#stars-msg").textContent = k && k.admin ? "Mode professeur : aperçu du niveau. Changer de niveau remet les écoutes à zéro."
+      : imposed ? `Ton niveau, choisi par ton professeur : ${"★".repeat(st)} ${st === 3 ? "Je vais plus loin" : "Je maîtrise"}.`
+      : "Niveau libre : choisis ton défi.";
+  }
   function renderLevel() {
+    renderStars();
     const k = C() && C().klass ? C().klass() : null, lv = level();
     const box = $("#lvl-box");
     $$("[data-lvl]", box).forEach(b => { b.setAttribute("aria-pressed", b.dataset.lvl === lv); b.disabled = !!(k && !k.admin); });
@@ -543,12 +659,18 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   let lastSig = null;
   function renderAll(force) {
     renderLevel();
-    const lv = level(), sig = lv + "|" + JSON.stringify(allowed());
+    const lv = level(), st = stars(), sig = lv + "|" + st + "|" + JSON.stringify(allowed());
     if (!force && sig === lastSig) return;
-    lastSig = sig; S.lvl = lv; save();
+    // A new imposed level starts the listening count again
+    if (S.st !== undefined && S.st !== st) S.plays = {};
+    lastSig = sig; S.lvl = lv; S.st = st; save();
     Object.values(audios).forEach(a => a.pause());
     renderA1(); renderDialogues(); renderA5(); progress();
   }
+  $("#pv").addEventListener("click", e => {
+    const b = e.target.closest("[data-pv]"); if (!b) return;
+    S.pv = +b.dataset.pv; save(); renderAll();
+  });
   $("#lvl-box").addEventListener("click", e => {
     const b = e.target.closest("[data-lvl]"); if (!b || b.disabled) return;
     S.lvl = b.dataset.lvl; save(); renderAll();
