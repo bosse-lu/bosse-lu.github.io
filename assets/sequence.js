@@ -158,5 +158,11 @@
     document.addEventListener("classes:change", lockIfClosed);
     const wrap = document.querySelector(".wrap");
     if (wrap) { const notes = [...wrap.children].reverse().find(el => el.tagName === "DETAILS"); notes ? wrap.insertBefore(nav, notes) : wrap.appendChild(nav); }
+    // Shared computers: a way to hand the device to the next learner (assets/reset.js)
+    if (wrap && !document.getElementById("class-box")) {
+      const r = document.createElement("p"); r.style.cssText = "margin:0;text-align:center";
+      r.innerHTML = `<button type="button" class="reset-btn" data-reset-btn><span aria-hidden="true">👤</span> Je suis un autre élève</button>`;
+      nav.after(r);
+    }
   }
 })();

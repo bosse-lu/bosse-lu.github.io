@@ -20,6 +20,7 @@ Site : https://bosse-lu.github.io
 
 - Chaque classe (5e C, 5e D, 5e F, 4e D, 4e E, 4e F) a un code que l'élève entre une fois sur son appareil.
 - **Règle générale : les évaluations des séquences sont verrouillées** jusqu'à ce que M. Bosse les débloque pour une classe. L'entraînement reste libre, ainsi que les quiz des articles News et foot.
+- **Ordinateur partagé** : le bouton « 👤 Je suis un autre élève » (accueil, parcours, chaque activité) efface tout le travail enregistré sur l'appareil, pour que l'élève suivant reparte de zéro.
 - Les réglages sont dans `classes.json` (étapes ouvertes et évaluations débloquées par classe). L'état des classes se lit sur l'[espace prof](https://bosse-lu.github.io/prof/).
 
 ## Comment ça marche

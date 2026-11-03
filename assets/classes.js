@@ -45,9 +45,12 @@
   .cl-box button.lite{background:none;color:var(--accent,#2f4fd8)}
   .cl-box input:focus-visible,.cl-box button:focus-visible{outline:3px solid var(--accent,#2f4fd8);outline-offset:2px}
   .cl-msg{flex:1 1 100%;margin:0;font-size:.88rem;color:var(--muted,#5b6380)}
-  .cl-msg.err{color:#c2412d;font-weight:700}`;
+  .cl-msg.err{color:#c2412d;font-weight:700}
+  .cl-reset{margin-left:auto}`;
   document.head.appendChild(st);
 
+  // "Je suis un autre élève" (assets/reset.js handles the click): for computers shared by several learners
+  const RESET = `<span class="cl-reset"><button type="button" class="reset-btn" data-reset-btn><span aria-hidden="true">👤</span> Je suis un autre élève</button></span>`;
   // A small "my class" box: shows the class, or a field to type the class code.
   function mountPicker(el, opts) {
     opts = opts || {};
@@ -55,12 +58,12 @@
       const c = klass();
       el.className = "cl-box";
       if (c) {
-        el.innerHTML = `<span class="cl-ico" aria-hidden="true">🏫</span><span>Ma classe :</span><span class="cl-badge">${c.label}</span><button type="button" class="lite" data-cl="leave">Changer de classe</button>${opts.note ? `<p class="cl-msg">${opts.note(c)}</p>` : ""}`;
+        el.innerHTML = `<span class="cl-ico" aria-hidden="true">🏫</span><span>Ma classe :</span><span class="cl-badge">${c.label}</span><button type="button" class="lite" data-cl="leave">Changer de classe</button>${RESET}${opts.note ? `<p class="cl-msg">${opts.note(c)}</p>` : ""}`;
       } else {
         el.innerHTML = `<span class="cl-ico" aria-hidden="true">🏫</span><b>${opts.title || "Entre le code de ta classe"}</b>
           <form novalidate><label class="sr" for="cl-in-${el.id || "x"}" style="position:absolute;left:-9999px">Code de la classe</label>
           <input id="cl-in-${el.id || "x"}" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ex. ABC-5X"><button type="submit">Valider</button></form>
-          <p class="cl-msg${err ? " err" : ""}">${msg || "Ton professeur te donne ce code. Tu ne le tapes qu'une fois sur cet appareil."}</p>`;
+          <p class="cl-msg${err ? " err" : ""}">${msg || "Ton professeur te donne ce code. Tu ne le tapes qu'une fois sur cet appareil."}</p>${RESET}`;
         el.querySelector("form").addEventListener("submit", async e => {
           e.preventDefault();
           const v = el.querySelector("input").value;
