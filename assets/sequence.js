@@ -21,6 +21,9 @@
         // 5e: 3 situations + 3 dialogues x 3 activities + bilan = 13 ; 4e: 3 + 6 x 3 + 1 = 22
         total: s => s.lvl === "4e" ? 22 : 13,
         count: s => Object.keys(s.res || {}).filter(k => s.lvl === "4e" || !/^[lqw][456]$/.test(k)).length},
+      {id: "so", href: "because-or-so/", art: "so", title: "Because or so?",
+        what: "La séance 2 : récapitule les billets, explique la cause et la conséquence avec because ou so, recrée les situations, puis joue contre la montre (à l'écrit, puis à l'oral).",
+        skills: ["Cause / conséquence", "Prétérit", "Jeu chronométré"], key: "becauseso", total: 21},
       {id: "ed", href: "ed-sounds/", art: "ed", title: "Les sons de -ed",
         what: "Le prétérit : /t/, /d/ ou /ɪd/ ? Puis la négation (didn't) et les questions (Did…?), avec de vraies voix. Entraîne-toi, puis passe l'évaluation finale.",
         skills: ["Prétérit", "Prononciation"], key: "edlab5e-real", total: 19},
@@ -101,7 +104,7 @@
     const cl = document.getElementById("class-box");
     if (cl && C() && !cl.dataset.mounted) {
       cl.dataset.mounted = "1";
-      C().mountPicker(cl, {note: c => c.admin ? "" : c.level !== SEQ.level ? `Ta classe est en ${c.level} : cette séquence est celle des ${SEQ.level}.${c.level === "4e" ? " L'étape 1, Fill in the note, est aussi pour toi : tu y écoutes les 6 dialogues, quand ton professeur les ouvre." : ""}` : ""});
+      C().mountPicker(cl, {note: c => c.admin ? "" : c.level !== SEQ.level ? `Ta classe est en ${c.level} : cette séquence est celle des ${SEQ.level}.${c.level === "4e" ? " Les étapes que ton professeur ouvre pour ta classe sont aussi pour toi (Fill in the note : les 6 dialogues)." : ""}` : ""});
     }
     drawArt(list);
   }

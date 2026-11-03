@@ -102,6 +102,17 @@
         <path d="M144 114l9 4.5-9 4.5z" fill="${C.yellow}" stroke="${C.navy}" stroke-width="2.5" stroke-linejoin="round"/>
       </g>`,
 
+    // Cause and consequence blocks joined by because / so, for Because or so?
+    so: () => `${bg}
+      <rect x="18" y="44" width="58" height="30" rx="8" fill="${C.green}" stroke="${C.navy}" stroke-width="3"/>
+      <rect x="86" y="44" width="58" height="30" rx="8" fill="${C.red}" stroke="${C.navy}" stroke-width="3"/>
+      <text x="47" y="64" text-anchor="middle" font-family="'Bricolage Grotesque','Trebuchet MS',sans-serif" font-weight="800" font-size="11" fill="${C.white}">CAUSE</text>
+      <text x="115" y="64" text-anchor="middle" font-family="'Bricolage Grotesque','Trebuchet MS',sans-serif" font-weight="800" font-size="10" fill="${C.white}">RESULT</text>
+      <path d="M70 92q11 12 22 0" fill="none" stroke="${C.navy}" stroke-width="3" stroke-linecap="round"/>
+      <path d="M88 90l5 3-1 6" fill="none" stroke="${C.navy}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="40" y="104" width="80" height="28" rx="14" fill="${C.yellow}" stroke="${C.navy}" stroke-width="3"/>
+      <text x="80" y="123" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-weight="700" font-size="14" fill="${C.navy}">so / because</text>`,
+
     // A lab flask with -ed bubbles for Les sons de -ed
     ed: () => `${bg}
       <circle cx="58" cy="38" r="12" fill="${C.blue}"/><text x="58" y="42" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" fill="${C.white}">/t/</text>

@@ -6,8 +6,9 @@ Site : https://bosse-lu.github.io
 
 ## Les activités
 
-- **[Séquence Late and absent](https://bosse-lu.github.io/late-and-absent/)** : le parcours de la séquence en 5 étapes, avec la progression de l'élève. Les étapes :
+- **[Séquence Late and absent](https://bosse-lu.github.io/late-and-absent/)** : le parcours de la séquence en 6 étapes, avec la progression de l'élève. Les étapes :
   - **[Fill in the note](https://bosse-lu.github.io/fill-the-note/)** : écoute en autonomie des dialogues du collège (5e : dialogues 1 à 3 ; 4e : les 6 dialogues). Pour chaque dialogue : compréhension détaillée (le billet), repérage (la question du professeur et son intonation), reformulation avec *because*.
+  - **[Because or so?](https://bosse-lu.github.io/because-or-so/)** : la séance 2 d'après le diaporama animé : warm-up, récapitulatif des billets, *Make excuses*, cause et conséquence (*because* / *so*), *Recreate the situation*, puis le jeu chronométré (15 s, pastilles de difficulté, à l'écrit puis à l'oral).
   - **[Les sons de -ed](https://bosse-lu.github.io/ed-sounds/)** : /t/, /d/ ou /ɪd/ ? Le prétérit, la négation (*didn't*) et les questions (*Did…?*), avec de vraies voix anglaises.
   - **[Stress Lab](https://bosse-lu.github.io/stress-lab/)** : l'accent tonique des mots et des phrases de la séquence, avec de vraies voix, et le rythme des questions et de la négation.
   - **[Blame the bus!](https://bosse-lu.github.io/late-bus/)** : un article de *The Independent* adapté pour la 5e. Lis, écoute, et entraîne-toi sur les verbes en -ed du texte.
