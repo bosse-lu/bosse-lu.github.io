@@ -1,5 +1,89 @@
 [
   {
+    "id": "2026-11-03-phone-free-schools",
+    "date": "2026-11-03",
+    "level": "5e · 4e",
+    "topic": "School",
+    "country": "England",
+    "flag": "england",
+    "emoji": "📵",
+    "title": "No phones at school in England!",
+    "lead": "The government says schools in England should be phone-free. How do the schools do it?",
+    "body": [
+      "In England, the government wants all schools to be \"phone-free\". Pupils shouldn't use their mobile phones during lessons, between lessons, at break or at lunch.",
+      "Each school chooses how to do it. Some schools collect the phones in the morning. Others ask pupils to put them in a locker, or in a pouch: a small bag that stays closed until the end of the day.",
+      "In West Norfolk, in the east of England, some secondary schools already had a phone-free policy. Pupils can bring their phone to school, but they can't use it before they leave.",
+      "Why? The idea is to have fewer distractions in class, to help pupils concentrate, and to encourage them to talk to each other."
+    ],
+    "keywords": [
+      [
+        "mobile phones",
+        "téléphones portables"
+      ],
+      [
+        "pupils",
+        "élèves"
+      ],
+      [
+        "break",
+        "récréation"
+      ],
+      [
+        "locker",
+        "casier"
+      ],
+      [
+        "pouch",
+        "pochette"
+      ],
+      [
+        "distractions",
+        "distractions"
+      ],
+      [
+        "concentrate",
+        "se concentrer"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "When can't pupils use their phones?",
+        "options": [
+          "Only during lessons",
+          "All day at school",
+          "Only at lunch"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "What is a pouch?",
+        "options": [
+          "A small bag that stays closed",
+          "A new phone",
+          "A school bus"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Why are schools phone-free?",
+        "options": [
+          "To sell more phones",
+          "To help pupils concentrate",
+          "To make lessons longer"
+        ],
+        "answer": 1
+      }
+    ],
+    "turn": "Compare with your school: In England, pupils… In my school, we… I think it's a good / bad idea because…",
+    "sources": [
+      {
+        "name": "Lynn News (England)",
+        "date": "14 October 2026",
+        "url": "https://www.lynnnews.co.uk/news/schools-reveal-how-new-mobile-phone-rules-are-being-enforced-9486814/"
+      }
+    ]
+  },
+  {
     "id": "2026-11-01-honey-bee-bullies",
     "date": "2026-11-01",
     "level": "4e",
