@@ -102,16 +102,6 @@ header::after{content:"";display:block;clear:both}
 .fb.good{color:var(--good)} .fb.bad{color:var(--bad)}
 .rule{margin:0;font-size:.9rem;background:var(--accent-soft);border-radius:10px;padding:8px 12px}
 
-/* aide script à trous */
-details{background:var(--paper);border-radius:12px;padding:10px 14px}
-details>summary{cursor:pointer;font-weight:700;color:var(--accent)}
-.script{display:flex;flex-direction:column;gap:8px;margin-top:10px}
-.script p{margin:0}
-.script .who{font-weight:700;font-style:italic}
-.script select{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:3px 6px;font-size:.95rem;max-width:100%}
-.script select.right{border-color:var(--good);background:var(--good-soft)}
-.script select.wrong{border-color:var(--bad);background:var(--bad-soft)}
-.bank{font-size:.88rem;color:var(--muted)}
 
 /* sentence builder */
 .answer{min-height:48px;border:2px dashed var(--line);border-radius:12px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
@@ -162,7 +152,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
 
   <div class="panel">
     <ul class="stars">
-      <li><b>★ Je découvre</b> : ouvre l'aide « script à trous » sous chaque dialogue.</li>
+      <li><b>★ Je découvre</b> : écoute autant de fois que tu veux, et utilise le ralenti 🐢.</li>
       <li><b>★★ Je maîtrise</b> : 3 écoutes au maximum par dialogue.</li>
       <li><b>★★★ Je vais plus loin</b> : 2 écoutes au maximum, sans l'aide.</li>
     </ul>
@@ -214,6 +204,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       <li>Les activités reprennent la séance 1 de la fiche élève (activités 4 à 8) : <i lang="en">Which note?</i>, l'écoute des dialogues, <i lang="en">Spot the questions</i>, <i lang="en">Time to write</i> et le bilan.</li>
       <li><b>5e : dialogues 1 à 3</b> (Helen, Francis, Jonathan). <b>4e : dialogues 1 à 6</b> (+ Mary, Martin, Abel, et le <i lang="en">question tag</i> <i lang="en">weren't you?</i>). Le niveau vient du code de classe ; sans code, l'élève choisit son niveau.</li>
       <li>Audio : <i lang="en">What's your excuse today?</i>, découpé par dialogue. L'élève peut réécouter, ralentir (vitesse 0,8) et voit son nombre d'écoutes pour respecter la consigne ★★ ou ★★★.</li>
+      <li>Le script à trous (aide ★) n'est pas sur le site : il reste sur papier, à donner aux élèves qui en ont besoin.</li>
       <li>Tout se corrige automatiquement. La progression reste sur l'appareil de l'élève ; rien n'est envoyé en ligne.</li>
     </ul>
   </details>
@@ -242,46 +233,39 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     {t: "b. You were ill yesterday. You come back to school today.", a: "abs"},
     {t: "c. You feel sick. You want to see the nurse during the lesson.", a: "perm"}
   ];
-  const BANK = ["flu", "absence note", "overslept", "missed", "late slip", "forgot", "sick", "toilet", "headache", "nurse", "head teacher", "Wednesday", "dentist's"];
-  // Each dialogue: note, name, a third question (when / permission), reason, the teacher's question, the sentence, the gap script.
+  // Each dialogue: note, name, a third question (when / permission), reason, the teacher's question, the sentence.
   const D = [
     {n: 1, name: "Helen", note: "abs", names: ["Helen", "Ellen", "Hannah"],
       when: {lab: "Absence note?", q: "Has she got her absence note?", a: "Yes, here it is.", o: ["No, she forgot it."]},
       why: {a: "She had the flu.", o: ["She had a headache.", "She broke her leg."]},
       ques: {a: "Have you got your absence note?", o: ["Have you got your late slip?", "Where's your absence note?"], up: true},
-      w: {k: ["Helen", "was absent", "because", "she had", "the flu."], x: "is absent"},
-      gaps: [["Teacher", "Where were you?"], ["Helen", "I had the {flu}."], ["Teacher", "Have you got your {absence note}?"], ["Helen", "Here it is."]]},
+      w: {k: ["Helen", "was absent", "because", "she had", "the flu."], x: "is absent"}},
     {n: 2, name: "Francis", note: "late", names: ["Francis", "Frank", "Felix"],
       when: {lab: "When?", q: "Is it the first time this week?", a: "No, it's the second time.", o: ["Yes, it's the first time.", "No, it's the third time."]},
       why: {a: "He overslept and missed his bus.", o: ["His dad's car broke down.", "He was with the head teacher."]},
       ques: {a: "What's your excuse today, Francis?", o: ["What's wrong today, Francis?", "Why are you late today, Francis?"], up: false},
-      w: {k: ["Francis", "is late", "because", "he overslept", "and missed", "his bus."], x: "so"},
-      gaps: [["Francis", "Sorry, I'm late. I {overslept} and {missed} my bus."], ["Teacher", "Where's your {late slip}?"], ["Francis", "I {forgot} to get one."]]},
+      w: {k: ["Francis", "is late", "because", "he overslept", "and missed", "his bus."], x: "so"}},
     {n: 3, name: "Jonathan", note: "perm", names: ["Jonathan", "Jason", "Johnny"],
       when: {lab: "Permission?", q: "Permission to…", a: "go to the toilet", o: ["go to the nurse", "go home"]},
       why: {a: "He feels sick.", o: ["He has a toothache.", "He's cold."]},
       ques: {a: "What's wrong, Jonathan?", o: ["What's the matter, Jonathan?", "Where were you, Jonathan?"], up: false},
-      w: {k: ["Jonathan", "wants to go", "to the toilet", "because", "he feels sick."], x: "to the nurse"},
-      gaps: [["Teacher", "What's wrong, Jonathan?"], ["Jonathan", "I feel {sick}. Can I go to the {toilet}, please?"]]},
+      w: {k: ["Jonathan", "wants to go", "to the toilet", "because", "he feels sick."], x: "to the nurse"}},
     {n: 4, name: "Mary", note: "perm", names: ["Mary", "Maria", "Molly"],
       when: {lab: "Permission?", q: "Permission to…", a: "go to the nurse", o: ["go to the toilet", "go home"]},
       why: {a: "She's got a headache.", o: ["She's got a sore throat.", "She broke her leg."]},
       ques: {a: "Mary, what's the matter?", o: ["Mary, what's wrong?", "Mary, where were you?"], up: false},
-      w: {k: ["Mary", "wants to go", "to the nurse", "because", "she's got", "a headache."], x: "a toothache."},
-      gaps: [["Teacher", "Mary, what's the matter?"], ["Mary", "I don't feel well. I've got a {headache}. Can I go to the {nurse}, please?"]]},
+      w: {k: ["Mary", "wants to go", "to the nurse", "because", "she's got", "a headache."], x: "a toothache."}},
     {n: 5, name: "Martin", note: "late", names: ["Martin", "Marvin", "Matthew"],
       when: {lab: "Late slip?", q: "Has he got a late slip?", a: "Yes, here it is.", o: ["No, he forgot it."]},
       why: {a: "He was with the head teacher.", o: ["He missed the bus.", "He overslept."]},
       ques: {a: "Are you in trouble?", o: ["Are you feeling better?", "Are you OK?"], up: true},
-      w: {k: ["Martin", "is late", "because", "he was", "with the head teacher."], x: "with the nurse."},
-      gaps: [["Teacher", "Where were you, Martin?"], ["Martin", "I was with the {head teacher}. Here's my late slip."]]},
+      w: {k: ["Martin", "is late", "because", "he was", "with the head teacher."], x: "with the nurse."}},
     {n: 6, name: "Abel", note: "abs", names: ["Abel", "Abe", "Mabel"],
       when: {lab: "When?", q: "When was he absent?", a: "last Wednesday afternoon", o: ["last Wednesday morning", "last Thursday afternoon"]},
       why: {a: "He had an appointment at the dentist's.", o: ["He had the flu.", "He was with the nurse."]},
       ques: {a: "You were away last Wednesday afternoon, weren't you?", o: ["You were late last Wednesday afternoon, weren't you?", "You were away last Wednesday morning, weren't you?"], tag: true},
       w: {k: ["Abel", "was absent", "last Wednesday afternoon", "because", "he had an appointment", "at the dentist's."], x: "is absent",
-        alt: [["Abel", "was absent", "because", "he had an appointment", "at the dentist's.", "last Wednesday afternoon"]]},
-      gaps: [["Teacher", "You were away last {Wednesday} afternoon, weren't you?"], ["Abel", "Yes, sir. I had an appointment at the {dentist's}."]]}
+        alt: [["Abel", "was absent", "because", "he had an appointment", "at the dentist's.", "last Wednesday afternoon"]]}}
   ];
   const SORT = [
     {t: "What's your excuse today?", a: "late"}, {t: "Where were you yesterday?", a: "abs"}, {t: "Why are you late?", a: "late"},
@@ -386,21 +370,6 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   }
 
   /* ---------- 2. Listen and fill in the note ---------- */
-  function gapScript(d, id) {
-    const det = document.createElement("details");
-    let k = 0;
-    const lines = d.gaps.map(([who, line]) => `<p lang="en"><span class="who">${who}:</span> ${esc(line).replace(/\{([^}]+)\}/g, (_, w) =>
-      `<select data-a="${esc(w)}" aria-label="Mot manquant ${++k}"><option value="">……</option>${BANK.map(b => `<option>${esc(b)}</option>`).join("")}</select>`)}</p>`).join("");
-    det.innerHTML = `<summary>Aide ★ : le script à trous</summary><div class="script"><p class="bank"><b>Banque de mots :</b> <span lang="en">${BANK.join(" · ")}</span></p>${lines}
-      <div class="actions"><button type="button" class="btn lite">Vérifier le script</button><p class="fb" aria-live="polite"></p></div></div>`;
-    $(".btn", det).addEventListener("click", () => {
-      let ok = 0; const sel = $$("select", det);
-      sel.forEach(s => { const r = s.value === s.dataset.a; s.classList.toggle("right", r); s.classList.toggle("wrong", !!s.value && !r); if (r) ok++; });
-      const fb = $(".fb", det); fb.className = "fb " + (ok === sel.length ? "good" : "bad");
-      fb.textContent = ok === sel.length ? "Well done! Tu peux remplir le billet." : `${ok} / ${sel.length} : réécoute et corrige.`;
-    });
-    return det;
-  }
   function renderA2() {
     const box = $("#a2"); box.innerHTML = "";
     D.slice(0, nDlg()).forEach(d => {
@@ -419,7 +388,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       });
       const act = document.createElement("div"); act.className = "actions";
       act.innerHTML = `<button type="button" class="btn">Vérifier</button><p class="fb" aria-live="polite"></p>`;
-      c.append(act, gapScript(d, id));
+      c.appendChild(act);
       const fb = $(".fb", act);
       if (S.res[id]) { rows.forEach(r => r.g.solve(r.a)); fb.className = "fb good"; fb.textContent = "Billet rempli ✓"; $(".btn", act).hidden = true; }
       $(".btn", act).addEventListener("click", () => {
