@@ -196,6 +196,10 @@ header::after{content:"";display:block;clear:both}
 .big-end{text-align:center}
 .big-end b{display:block;font:800 2rem/1.1 var(--display)}
 .rec{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.heard{font-size:.95rem}
+.heard .w{display:inline-block;padding:1px 6px;border-radius:6px;margin:2px 1px;font-family:var(--display)}
+.heard .w.ok{background:var(--good-soft);color:var(--good)}
+.heard .w.ko{background:var(--bad-soft);color:var(--bad);text-decoration:line-through}
 .homework{border:2px dashed var(--accent);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--card)}
 details.prof{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 details.prof summary{cursor:pointer;font-weight:700}
@@ -250,30 +254,30 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     <div id="make" class="act"></div>
   </section>
 
+  <section class="act" aria-labelledby="h5s">
+    <div class="step-h"><span class="step-k">Step 4</span><h2 id="h5s"><em>Training session</em> : recreate the situation</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Image et billet : que s'est-il passé ? Mets les mots dans l'ordre des images. Que cache la boîte mystère ❓ ?">Picture and note: what happened? Put the words in the order of the pictures. What does the mystery box ❓ hide?</p></div>
+    <div id="recreate" class="act"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h7s">
+    <div class="step-h"><span class="step-k">Step 5</span><h2 id="h7s"><em>OK OK, now it's time to manipulate</em> · the game</h2></div>
+    <div class="instr"><p class="consigne" data-fr="25 secondes par carte. Ta phrase suit l'ordre des images. Les cartes difficiles rapportent plus de points. Partie 1 : écris. Partie 2 : dis la phrase, l'ordinateur vérifie.">25 seconds per card. Your sentence follows the order of the pictures. Difficult cards give more points. Part 1: write. Part 2: say it, the computer checks.</p></div>
+    <div class="legend-dots"><span><i class="dot g"></i>easy · 1 point</span><span><i class="dot y"></i>medium · 2 points</span><span><i class="dot r"></i>difficult · 3 points</span></div>
+    <div id="game" class="game"></div>
+  </section>
+
   <section class="act" aria-labelledby="h4s">
-    <div class="step-h"><span class="step-k">Step 4</span><h2 id="h4s"><em>Look and think</em></h2></div>
+    <div class="step-h"><span class="step-k">Step 6</span><h2 id="h4s"><em>Think</em> 🧠</h2></div>
     <div class="instr"><p class="consigne" data-fr="Appuie sur ▶ Start et observe les deux phrases. Puis réponds aux questions : c'est toi qui trouves la règle.">Press <b>▶ Start</b> and look at the two sentences. Then answer the questions: you find the rule.</p>
       <button type="button" class="start" id="th-start"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>Start</button></div>
     <div id="think" class="card stage" hidden></div>
   </section>
 
-  <section class="act" aria-labelledby="h5s">
-    <div class="step-h"><span class="step-k">Step 5</span><h2 id="h5s"><em>Recreate the situation</em></h2></div>
-    <div class="instr"><p class="consigne" data-fr="Image + billet : que s'est-il passé ? Mets les mots dans l'ordre des images. La boîte mystère ❓ cache because ou so : devine lequel, puis vérifie.">Picture + note: what happened? Put the words in the order of the pictures. The mystery box ❓ hides <b>because</b> or <b>so</b>: guess which one, then check.</p></div>
-    <div id="recreate" class="act"></div>
-  </section>
-
   <section class="act" aria-labelledby="h6s">
-    <div class="step-h"><span class="step-k">Step 6</span><h2 id="h6s"><em>Linking words</em> · and, but, because, so</h2></div>
-    <div class="instr"><p class="consigne" data-fr="Complète l'histoire de Leo avec and, but, because ou so. Chaque mot sert deux fois.">Complete Leo's story with <b>and</b>, <b>but</b>, <b>because</b> or <b>so</b>. Use each word twice.</p></div>
+    <div class="step-h"><span class="step-k">Step 7</span><h2 id="h6s"><em>Linking words</em> · and, but, because, so</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Maintenant que tu as manipulé ces deux outils, es-tu capable de les utiliser dans un contexte plus large, avec leur famille : but et and ? Let's go!">Now you have practised these two tools: can you use them in a longer text, with their family, <b>but</b> and <b>and</b>? Let's go!</p></div>
     <div id="gap" class="card"></div>
-  </section>
-
-  <section class="act" aria-labelledby="h7s">
-    <div class="step-h"><span class="step-k">Step 7</span><h2 id="h7s"><em>Time to manipulate</em> · the game</h2></div>
-    <div class="instr"><p class="consigne" data-fr="25 secondes par carte. Ta phrase suit l'ordre des images. Les cartes difficiles rapportent plus de points. D'abord à l'écrit, puis à l'oral.">25 seconds per card. Your sentence follows the order of the pictures. Difficult cards give more points. First write, then speak.</p></div>
-    <div class="legend-dots"><span><i class="dot g"></i>easy · 1 point</span><span><i class="dot y"></i>medium · 2 points</span><span><i class="dot r"></i>difficult · 3 points</span></div>
-    <div id="game" class="game"></div>
   </section>
 
   <div class="panel"><p class="consigne" style="font-weight:400" data-fr="Sur ta fiche : fais les exercices A à E de la séance 2.">On your worksheet: do exercises A to E of lesson 2.</p></div>
@@ -281,9 +285,9 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   <details class="prof" lang="fr">
     <summary>Notes pour le professeur</summary>
     <ul>
-      <li>La page suit le diaporama de la séance 2, avec ses images : <i>Warm-up · revision</i> (3 images de la séance 1), <i>So, let's recap</i> (animation lancée par l'élève : les billets apparaissent, il choisit <i>I'm late / I was absent / Can I…?</i>, puis les mots rouges s'inscrivent), <i>Make excuses</i> (avec <i>because</i>, déjà connu), <i>Look and think</i> (réflexion sur la langue : les deux phrases inversées et colorées, quatre questions, puis la règle formulée), <i>Recreate the situation</i> (3, avec la boîte mystère qui cache <i>because</i> ou <i>so</i>), <i>Linking words</i> (texte à trous : <i>and, but, because, so</i>, pour montrer que <i>so</i> appartient à la famille des mots qui relient deux propositions), puis le jeu.</li>
+      <li>Ordre de la séance : 1 <i>Warm-up · revision</i> (3 images de la séance 1) ; 2 <i>So, let's recap</i> (animation lancée par l'élève) ; 3 <i>Make excuses</i> (avec <i>because</i>, puis la boîte mystère ❓ qui cache <i>so</i>) ; 4 <i>Training session : recreate the situation</i> (3 situations, la boîte mystère cache <i>because</i> ou <i>so</i> selon l'ordre des images) ; 5 le jeu (6 cartes, écrit puis oral) ; 6 <i>Think 🧠</i> (réflexion sur la langue : les deux phrases inversées et colorées, quatre questions, puis la règle) ; 7 <i>Linking words</i> (court texte à trous avec <i>and, but, because, so</i> : <i>so</i> rejoint la famille des mots qui relient deux propositions).</li>
       <li>Consignes en anglais. Groupe ★ (et niveau libre) : traduction française affichée dessous ; ★★ : bouton FR pour l'afficher ; ★★★ : anglais seul.</li>
-      <li><b>Le jeu</b> : 25 secondes par carte, score, pastilles verte / jaune / rouge (1, 2, 3 points). 1er temps à l'écrit : ★ mots à remettre dans l'ordre, ★★ mots + erreurs, ★★★ rédiger la phrase. 2e temps à l'oral : ★ mots dans le désordre avec une erreur, ★★ mots + erreurs, ★★★ l'image seule ; l'élève dit la phrase (il peut s'enregistrer), puis la vérification sonore fait entendre le modèle (voix anglaise du navigateur) et il valide.</li>
+      <li><b>Le jeu</b> : 25 secondes par carte, score, pastilles verte / jaune / rouge (1, 2, 3 points). 1er temps à l'écrit : ★ mots à remettre dans l'ordre, ★★ mots + erreurs, ★★★ rédiger la phrase. 2e temps à l'oral : ★ mots dans le désordre avec une erreur, ★★ mots + erreurs, ★★★ l'image seule ; l'élève dit la phrase et la reconnaissance vocale (Chrome ou Edge, comme « Check my pronunciation » dans les Labs) la valide : au moins 3 mots sur 4 dans le bon ordre, avec because ou so. Deux essais, puis le modèle. Sans reconnaissance vocale : écoute du modèle et auto-validation. 6 cartes par partie.</li>
       <li>Code couleur des diapos : cause en vert, conséquence en rouge, mot de liaison souligné. La phrase suit l'ordre des images : billet puis image → conséquence + <i>because</i> + cause (<i>I'm late because I overslept</i>) ; image puis billet → cause + <i>so</i> + conséquence (<i>I overslept, so I was absent</i>). Dans <i>Make excuses</i>, la 2e excuse cache <i>so</i> dans une boîte mystère ❓ : l'élève le découvre en manipulant, puis l'étape 4 fait formuler la règle.</li>
     </ul>
   </details>
@@ -397,34 +401,23 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   ];
   const RECREATE = [
     {id: "t1", only: "so", mystery: "reveal", scene: [{img: "brokeleg", alt: "broken leg"}, {note: "abs"}], cause: ["I broke", "my leg"], cons: ["I was absent"], x: ["I break", "I breaked"]},
-    {id: "t2", only: "so", mystery: "reveal", scene: [{img: "dentist", alt: "dentist"}, {note: "abs", f: {Date: "Yesterday"}}], cause: ["I went", "to the dentist"], cons: ["I was absent", "yesterday"], x: ["I go", "I'm absent"]},
+    {id: "t2", only: "because", mystery: "reveal", scene: [{note: "abs", f: {Date: "Yesterday"}}, {img: "dentist", alt: "dentist"}], cause: ["I went", "to the dentist"], cons: ["I was absent", "yesterday"], x: ["I go", "I'm absent"]},
     {id: "t3", only: "so", mystery: "reveal", scene: [{img: "wrist", alt: "twisted wrist", lab: "Two days ago"}, {note: "abs", f: {Date: "Yesterday"}}], cause: ["I twisted", "my wrist", "two days ago"], cons: ["I was absent", "yesterday"], x: ["I twist", "I'm absent"]}
   ];
   const GAME = [
     {dot: "g", only: "so", scene: [{img: "bus", alt: "missing the bus"}, {note: "late"}], cause: ["I missed", "the bus"], cons: ["I'm late"], x: ["I miss", "I was absent"]},
-    {dot: "g", only: "so", scene: [{img: "sick", alt: "feeling sick"}, {img: "toilets", alt: "toilets", wide: 1}, {q: 1}], cause: ["I feel sick"], cons: ["can I go", "to the toilet"], perm: true, x: ["I feeled sick", "can I goes"]},
     {dot: "g", only: "so", scene: [{img: "headache", alt: "headache"}, {img: "nursesign", alt: "nurse", wide: 1}, {q: 1}], cause: ["I have", "a headache"], cons: ["can I go", "to the nurse"], perm: true, x: ["I has", "can I goes"]},
     {dot: "y", only: "because", scene: [{note: "abs", lab: "Yesterday"}, {img: "dentist", alt: "dentist"}], cause: ["I went", "to the dentist"], cons: ["I was absent", "yesterday"], x: ["I go", "I'm absent"]},
     {dot: "y", only: "because", scene: [{img: "dentist", alt: "dentist", cap: "I go to the dentist"}, {kw: "because / so"}, {img: "toothache", alt: "toothache", cap: "I have a toothache"}], cause: ["I have", "a toothache"], cons: ["I go", "to the dentist"], x: ["I went", "I has"]},
-    {dot: "y", question: true, scene: [{note: "abs", f: {Name: "Kelyan", Date: "Tuesday", Signed: "SIG"}}, {q: 1}], hint: ["The reason is missing: ask Kelyan.", "Le motif manque : pose la question à Kelyan."], k: ["why", "were you", "absent", "on Tuesday"], x: ["was you", "are you"]},
-    {dot: "r", only: "because", scene: [{note: "abs", f: {Date: "Friday 1 pm – 2 pm"}}, {img: "headteacher", alt: "head teacher office", wide: 1}], cause: ["I was", "in the head teacher's office"], cons: ["I was absent", "on Friday", "from 1 pm to 2 pm"], x: ["I am", "I'm absent"]},
-    {dot: "r", only: "so", scene: [{img: "wrist", alt: "twisted wrist", lab: "Two days ago"}, {note: "abs", lab: "Yesterday"}], cause: ["I twisted", "my wrist", "two days ago"], cons: ["I was absent", "yesterday"], x: ["I twist", "I'm absent"]},
     {dot: "r", only: "so", scene: [{img: "brokeleg", alt: "broken leg", lab: "Last Wednesday"}, {no: "COME", img: "school", alt: "school", wide: 1, lab: "Friday"}], cause: ["I broke", "my leg", "last Wednesday"], cons: ["I didn't come", "to school", "on Friday"], x: ["I didn't came", "I breaked"]},
-    {dot: "r", only: "because", scene: [{no: "GO", img: "school", alt: "school", wide: 1}, {img: "flu", alt: "ill in bed"}], cause: ["I had", "the flu"], cons: ["I didn't go", "to school"], x: ["I didn't went", "I have"]},
-    {dot: "r", only: "so", scene: [{img: "car", alt: "car breakdown", lab: "Dad · last Friday"}, {note: "abs"}], cause: ["my dad's car", "broke down", "last Friday"], cons: ["I was absent"], x: ["breaks down", "I'm absent"]},
-    {dot: "r", only: "because", scene: [{verb: "STAY", img: "house", alt: "home", lab: "Yesterday"}, {img: "sorethroat", alt: "sore throat"}], cause: ["I had", "a sore throat"], cons: ["I stayed", "at home", "yesterday"], x: ["I stay", "I have"]},
-    {dot: "r", only: "so", scene: [{img: "flu", alt: "ill in bed", lab: "Last week"}, {no: "COME", img: "school", alt: "school", wide: 1}], cause: ["I had", "the flu", "last week"], cons: ["I didn't come", "to school"], x: ["I didn't came", "I have"]}
+    {dot: "r", only: "because", scene: [{verb: "STAY", img: "house", alt: "home", lab: "Yesterday"}, {img: "sorethroat", alt: "sore throat"}], cause: ["I had", "a sore throat"], cons: ["I stayed", "at home", "yesterday"], x: ["I stay", "I have"]}
   ];
-  // Step 6: Leo's bad day, with the four linking words (each one twice)
+  // Step 7: Leo's bad day, with the four linking words (each one once)
   const GAP = [
     ["Monday was a bad day for Leo. He overslept,", "so", "he missed the bus."],
-    ["He ran to the bus stop,", "but", "the bus was gone."],
-    ["His mum drove him to school", "and", "he arrived at 8:20."],
-    ["The teacher asked: “Why are you late?” Leo said: “I'm late", "because", "I missed the bus.”"],
-    ["He had a late slip,", "but", "it wasn't signed!"],
-    ["At lunch, he felt sick,", "so", "he went to the nurse."],
-    ["The nurse gave him some water", "and", "a biscuit."],
-    ["He went home early", "because", "he had a headache."]
+    ["His mum drove (🚗) him to school,", "but", "he was still late."],
+    ["Leo said to the teacher: “I'm late", "because", "I overslept.”"],
+    ["He went to the office", "and", "he got a late slip."]
   ];
   const LINKS = {and: ["adds information", "ajoute une information"], but: ["shows a contrast", "montre une opposition"], because: ["gives the cause (why?)", "donne la cause (pourquoi ?)"], so: ["gives the consequence (the result)", "donne la conséquence (le résultat)"]};
   const POINTS = {g: 1, y: 2, r: 3}, SECS = 25;
@@ -454,8 +447,8 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     let tries = 0, solved = false, check;
     const win = f => {
       solved = true; said.innerHTML = pretty(it, f); said.hidden = false;
-      if (it.mystery === true) fbSet(fb, "good", "Well done! The mystery word is <b>so</b>. Why so and not because? Find out in Step 4.", "Bravo ! Le mot mystère est so. Pourquoi so et pas because ? Tu vas le découvrir à l'étape 4.");
-      else if (it.mystery) fbSet(fb, "good", `Well done! The box hides <b>${hidden}</b>: the picture comes first, it is the cause.`, `Bravo ! La boîte cache ${hidden} : l'image vient en premier, c'est la cause.`);
+      if (it.mystery === true) fbSet(fb, "good", "Well done! The mystery word is <b>so</b>. Why so and not because? Find out in Step 6.", "Bravo ! Le mot mystère est so. Pourquoi so et pas because ? Tu vas le découvrir à l'étape 6.");
+      else if (it.mystery) fbSet(fb, "good", `Well done! The mystery box hides <b>${hidden}</b>.`, `Bravo ! La boîte mystère cache ${hidden}.`);
       else fbSet(fb, "good", "Well done!");
       $$("button", act).forEach(b => b.hidden = true); opts.onWin && opts.onWin(f);
     };
@@ -673,42 +666,68 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       G.onTimeout = () => { b.reveal(); finish(false, "Time's up! Here is a possible answer.", "Temps écoulé ! Voici une réponse possible."); };
       setTimeout(() => b.focusFirst && b.focusFirst(), 50);
     } else {
-      const st = G.st;
+      // Part 2, speaking: the learner says the sentence; speech recognition checks it, as in the Labs
+      const st = G.st, model = modelText(it, fs[0]);
       if (st < 3) {
         const traps = (it.x || []).slice(0, st === 1 ? 1 : 2), conn = it.k ? [] : ["because", "so"];
         const words = shuffle([...(it.k || [...it.cons, ...it.cause]), ...conn, ...traps]);
         card.insertAdjacentHTML("beforeend", `<div class="tiles" lang="en" aria-label="The words, mixed up">${words.map(w => `<span class="tile${conn.includes(w) ? " kw" : ""}" style="cursor:default">${esc(w)}</span>`).join("")}</div>
-          <p class="consigne" data-fr="Dis la phrase à voix haute, dans le bon ordre, sans les pièges.">Say the sentence aloud, in the right order, without the traps.</p>`);
+          <p class="consigne" data-fr="Dis la phrase à voix haute, dans l'ordre des images, sans les pièges.">Say the sentence aloud, in the order of the pictures, without the traps.</p>`);
       } else card.insertAdjacentHTML("beforeend", `<p class="consigne">Look at the card and say the sentence aloud.</p>`);
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
       const rec = document.createElement("div"); rec.className = "rec";
-      rec.innerHTML = `<button type="button" class="btn lite" data-r="rec">🎙️ Record me</button><button type="button" class="btn lite" data-r="me" hidden>▶ Play me back</button><button type="button" class="btn" data-r="check">🔊 Check with the model</button>`;
-      card.appendChild(rec);
+      const heard = document.createElement("div"); heard.className = "heard"; heard.setAttribute("aria-live", "polite");
       const said = document.createElement("p"); said.className = "said"; said.hidden = true; said.setAttribute("lang", "en");
-      const self = document.createElement("div"); self.className = "actions"; self.hidden = true;
-      self.innerHTML = `<span>Did you say the same thing?</span><button type="button" class="btn" data-s="1">✓ Yes</button><button type="button" class="btn lite" data-s="0">✗ Not yet</button>`;
-      card.append(said, self);
-      let mr = null, chunks = [], url = null;
-      $('[data-r="rec"]', rec).addEventListener("click", async e => {
-        const b = e.currentTarget;
-        if (mr && mr.state === "recording") { mr.stop(); return; }
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({audio: true});
-          mr = new MediaRecorder(stream); chunks = [];
-          mr.ondataavailable = ev => chunks.push(ev.data);
-          mr.onstop = () => { stream.getTracks().forEach(t => t.stop()); if (url) URL.revokeObjectURL(url); url = URL.createObjectURL(new Blob(chunks, {type: mr.mimeType || "audio/webm"})); $('[data-r="me"]', rec).hidden = false; b.textContent = "🎙️ Record me"; };
-          mr.start(); b.textContent = "⏹ Stop recording";
-        } catch (err) { b.textContent = "No microphone"; b.disabled = true; }
-      });
-      $('[data-r="me"]', rec).addEventListener("click", () => { if (url) new Audio(url).play().catch(() => {}); });
-      const check = () => {
-        stopTimer(); if (mr && mr.state === "recording") mr.stop();
-        said.innerHTML = fs.map(f => pretty(it, f)).join("<br><small style='color:var(--muted)'>or</small><br>"); said.hidden = false;
-        say(modelText(it, fs[0])); self.hidden = false;
-        const cb = $('[data-r="check"]', rec); cb.textContent = "🔊 Listen again"; cb.onclick = () => say(modelText(it, fs[0]));
+      card.append(rec, heard, said);
+      const showModel = () => { said.innerHTML = pretty(it, fs[0]); said.hidden = false; say(model); };
+      // Ordered match between what was heard and the model (longest common subsequence of words)
+      const score = txt => {
+        const a = norm(txt).split(" ").filter(Boolean), b = norm(model).split(" ");
+        const d = Array.from({length: a.length + 1}, () => new Array(b.length + 1).fill(0));
+        for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = a[i - 1] === b[j - 1] ? d[i - 1][j - 1] + 1 : Math.max(d[i - 1][j], d[i][j - 1]);
+        // which model words were found, in order
+        const found = new Array(b.length).fill(false), heardOk = new Array(a.length).fill(false); let i = a.length, j = b.length;
+        while (i && j) { if (a[i - 1] === b[j - 1]) { found[j - 1] = true; heardOk[i - 1] = true; i--; j--; } else if (d[i - 1][j] >= d[i][j - 1]) i--; else j--; }
+        return {ratio: d[a.length][b.length] / b.length, found, words: b, heard: a, heardOk};
       };
-      $('[data-r="check"]', rec).addEventListener("click", check, {once: true});
-      self.addEventListener("click", e => { const b = e.target.closest("[data-s]"); if (!b) return; self.hidden = true; finish(b.dataset.s === "1", b.dataset.s === "1" ? `+${pts} point${pts > 1 ? "s" : ""}!` : "Listen to the model and say it again.", b.dataset.s === "1" ? "" : "Réécoute le modèle et redis la phrase."); });
-      G.onTimeout = () => { if (said.hidden) check(); };
+      if (SR) {
+        rec.innerHTML = `<button type="button" class="btn" data-r="say">🎙️ Check my sentence</button><button type="button" class="btn lite" data-r="model" hidden>🔊 Listen to the model</button>`;
+        let tries = 0, busy = false;
+        $('[data-r="model"]', rec).addEventListener("click", () => say(model));
+        $('[data-r="say"]', rec).addEventListener("click", e => {
+          if (busy || over) return; busy = true;
+          const btn = e.currentTarget; btn.disabled = true; btn.textContent = "👂 I'm listening… speak!";
+          const r = new SR(); r.lang = "en-GB"; r.interimResults = false; r.maxAlternatives = 3;
+          r.onresult = ev => {
+            const alts = [...ev.results[0]].map(x => x.transcript);
+            const best = alts.map(score).sort((x, y) => y.ratio - x.ratio)[0];
+            const kOk = it.k || best.words.some((w, i) => (w === "because" || w === "so") && best.found[i]);
+            // Only what the learner said is shown (green = right word in the right place), never the model words
+            heard.innerHTML = `<div>The computer heard:</div><div style="margin-top:6px">${best.heard.map((w, i) => `<span class="w ${best.heardOk[i] ? "ok" : "ko"}">${esc(w)}</span>`).join(" ") || "…"}</div>`;
+            if (best.ratio >= .75 && kOk) { showModel(); finish(true, `+${pts} point${pts > 1 ? "s" : ""}! The computer understood your sentence.`); return; }
+            tries++;
+            if (tries >= 2) { showModel(); finish(false, "Not this time. Listen to the model.", "Pas cette fois. Écoute le modèle."); return; }
+            fbSet(heard.appendChild(document.createElement("p")), "bad", "Some words are missing, wrong (crossed out) or not in the right order. Try again!", "Il manque des mots, ou certains sont faux (barrés) ou mal placés. Réessaie !");
+          };
+          r.onerror = ev => {
+            if (ev.error === "not-allowed" || ev.error === "service-not-allowed") { heard.innerHTML = T("The microphone is blocked. Say the sentence, then check with the model.", "Le micro est bloqué. Dis la phrase, puis compare avec le modèle."); selfCheck(); }
+            else heard.textContent = ev.error === "no-speech" ? "I heard nothing. Try again, closer to the microphone." : "The check failed. Try again.";
+          };
+          r.onend = () => { busy = false; if (!over) { btn.disabled = false; btn.textContent = "🎙️ Check my sentence"; } else btn.hidden = true; };
+          try { r.start(); } catch (err) { busy = false; btn.disabled = false; }
+        });
+      }
+      // Without speech recognition (or with the microphone blocked): hear the model, then decide
+      const selfCheck = () => {
+        rec.innerHTML = `<button type="button" class="btn" data-r="check">🔊 Check with the model</button>`;
+        const self = document.createElement("div"); self.className = "actions"; self.hidden = true;
+        self.innerHTML = `<span>Did you say the same thing?</span><button type="button" class="btn" data-s="1">✓ Yes</button><button type="button" class="btn lite" data-s="0">✗ Not yet</button>`;
+        card.appendChild(self);
+        $('[data-r="check"]', rec).addEventListener("click", () => { stopTimer(); showModel(); self.hidden = false; }, {once: true});
+        self.addEventListener("click", e => { const b = e.target.closest("[data-s]"); if (!b) return; self.hidden = true; finish(b.dataset.s === "1", b.dataset.s === "1" ? `+${pts} point${pts > 1 ? "s" : ""}!` : "Listen to the model and say it again.", b.dataset.s === "1" ? "" : "Réécoute le modèle et redis la phrase."); });
+      };
+      if (!SR) { heard.innerHTML = T("The automatic check works in <b>Chrome</b> or <b>Edge</b>. Here, say the sentence, then check with the model.", "La vérification automatique marche dans Chrome ou Edge. Ici, dis la phrase, puis compare avec le modèle."); selfCheck(); }
+      G.onTimeout = () => { if (!over) { showModel(); finish(false, "Time's up! Listen to the model.", "Temps écoulé ! Écoute le modèle."); } };
     }
     let left = SECS; const fg = $("#tm .fg"), tm = $("#tm"), n = $("#tm-n");
     timerId = setInterval(() => {
@@ -732,7 +751,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   function renderGap() {
     const box = $("#gap"); box.innerHTML = "";
     const allDone = GAP.every((g, i) => S.res["x" + (i + 1)]);
-    box.innerHTML = `<p class="bank" lang="en"><b>Word bank:</b> ${Object.keys(LINKS).map(w => `<span class="lk">${w}</span>`).join(" · ")} <span style="color:var(--muted)">(×2)</span></p>
+    box.innerHTML = `<p class="bank" lang="en"><b>Word bank:</b> ${Object.keys(LINKS).map(w => `<span class="lk">${w}</span>`).join(" · ")} <span style="color:var(--muted)">(×1)</span></p>
       <div class="story" lang="en">${GAP.map((g, i) => `${esc(g[0])} <select class="gsel" data-i="${i}" aria-label="Gap ${i + 1}"><option value="">…</option>${Object.keys(LINKS).map(w => `<option${S.res["x" + (i + 1)] && w === g[1] ? " selected" : ""}>${w}</option>`).join("")}</select> ${esc(g[2])}`).join(" ")}</div>
       <div class="actions"><button type="button" class="btn">Check</button><p class="fb" aria-live="polite"></p></div>
       <div id="family"></div>`;

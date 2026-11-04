@@ -26,7 +26,7 @@
         skills: ["Prétérit", "Prononciation"], key: "edlab5e-real", total: 19},
       {id: "so", href: "can-you-explain/", art: "so", title: "Can you explain?",
         what: "Lesson 2: revise the excuses, recap the notes, find the rule (cause and consequence), recreate the situations, then play against the clock. Homework at the end.",
-        skills: ["Cause / consequence", "Past simple", "Game"], key: "becauseso", total: 25},
+        skills: ["Cause / consequence", "Past simple", "Game"], key: "becauseso", total: 21},
       {id: "bus", href: "late-bus/", art: "bus", title: "Blame the bus!",
         what: "Un vrai article de presse britannique sur les retards à Londres. Lis-le, écoute-le, puis entraîne-toi sur ses verbes en -ed.",
         skills: ["Lecture", "Document authentique", "Royaume-Uni"], key: "latebus5e", total: 12},
