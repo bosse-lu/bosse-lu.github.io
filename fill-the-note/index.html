@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -64,6 +64,7 @@ header::after{content:"";display:block;clear:both}
 
 .act{display:flex;flex-direction:column;gap:14px}
 .act-h{display:flex;align-items:center;gap:12px;margin:10px 0 0}
+.act-h i.stp{width:auto;border-radius:999px;padding:0 12px;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
 .act-h i{flex:none;font-style:normal;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--paper);font:800 1.1rem/1 var(--display)}
 .act-h h2{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(1.35rem,5vw,1.7rem);line-height:1.1}
 .act-h .fiche{margin-left:auto;font-size:.75rem;font-weight:700;color:var(--muted);white-space:nowrap}
@@ -125,7 +126,7 @@ body.nb-has .dlg>.player{top:70px}
 
 /* sentence builder */
 .answer{min-height:48px;border:2px dashed var(--line);border-radius:12px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.answer:empty::before{content:"Touche les étiquettes dans l'ordre…";color:var(--muted);font-size:.9rem;padding:0 4px}
+.answer:empty::before{content:"Tap the words in order…";color:var(--muted);font-size:.9rem;padding:0 4px}
 .answer.right{border-style:solid;border-color:var(--good);background:var(--good-soft)}
 .answer.wrong{border-style:solid;border-color:var(--bad)}
 .tiles{display:flex;flex-wrap:wrap;gap:6px}
@@ -148,71 +149,72 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
 @media (max-width:560px){.q{grid-template-columns:1fr}.act-h .fiche{display:none}}
 @media (prefers-reduced-motion:reduce){.bar span{transition:none}}
 </style>
+<script src="../assets/consigne.js"></script>
 </head>
 <body>
 <div class="homebar"><a class="homelink" href="../">← Toutes les activités · Collège Réeberg Néron</a></div>
 <div class="wrap">
   <header>
     <div class="hero-art" data-art="note" aria-hidden="true"></div>
-    <p class="kicker">Late and absent · Écoute en autonomie</p>
+    <p class="kicker">Late and absent · Lesson 1 · Listening</p>
     <h1>Fill in the <span>note</span></h1>
-    <p class="lead">Écoute les dialogues du collège et remplis les billets : <i lang="en">late slip</i>, <i lang="en">absence note</i> ou <i lang="en">permission note</i>. Tu travailles seul, à ton rythme, et tu te corriges tout seul.</p>
+    <p class="lead" data-fr="Écoute les dialogues du collège et remplis les billets. Tu travailles seul, à ton rythme, et tu te corriges tout seul.">Listen to the school dialogues and fill in the notes. Work on your own, at your own pace.</p>
   </header>
 
   <div id="class-box" class="cl-box" aria-live="polite"></div>
 
   <div class="panel lvl" id="lvl-box">
-    <b>Mon niveau</b>
+    <b>My class level</b>
     <span class="seg" role="group" aria-label="Choisis ton niveau">
       <button type="button" data-lvl="5e" aria-pressed="false">5e · 3 dialogues</button>
       <button type="button" data-lvl="4e" aria-pressed="false">4e · 6 dialogues</button>
     </span>
-    <p id="lvl-msg">Pas de code de classe ? Choisis ton niveau.</p>
+    <p id="lvl-msg">No class code? Choose your level.</p>
   </div>
 
   <div class="panel" id="stars-box">
     <p class="stars-msg" id="stars-msg"></p>
     <span class="seg" role="group" aria-label="Aperçu du niveau (mode professeur)" id="pv" hidden>
-      <button type="button" data-pv="1" aria-pressed="false">★ libre</button>
+      <button type="button" data-pv="1" aria-pressed="false">★ free</button>
       <button type="button" data-pv="2" aria-pressed="false">★★</button>
       <button type="button" data-pv="3" aria-pressed="false">★★★</button>
     </span>
     <ul class="stars">
-      <li data-st="1"><b>★ Je découvre</b> : écoute autant de fois que tu veux, et utilise le ralenti 🐢.</li>
-      <li data-st="2"><b>★★ Je maîtrise</b> : 3 écoutes au maximum par dialogue, deux étiquettes pièges.</li>
-      <li data-st="3"><b>★★★ Je vais plus loin</b> : 2 écoutes au maximum, sans le ralenti ; tu écris toi-même le prénom, la raison, la question et la phrase.</li>
+      <li data-st="1" data-fr="Écoute autant de fois que tu veux, utilise le ralenti 🐢."><b>★ Discover</b>: listen as many times as you want, use slow mode 🐢.</li>
+      <li data-st="2" data-fr="3 écoutes au maximum par dialogue, deux étiquettes pièges."><b>★★ Practise</b>: 3 listens per dialogue, two trap words.</li>
+      <li data-st="3"><b>★★★ Challenge</b>: 2 listens, no slow mode. You write the name, the reason, the question and the sentence.</li>
     </ul>
   </div>
 
   <div class="panel overall">
-    <b>Ma progression</b><span class="pc" id="pc">0 / 0</span>
+    <b>My progress</b><span class="pc" id="pc">0 / 0</span>
     <span class="bar" aria-hidden="true"><span id="pcbar"></span></span>
   </div>
 
   <section class="act" aria-labelledby="h1a">
-    <div class="act-h"><i>1</i><h2 id="h1a" lang="en">Which note?</h2><span class="fiche">Fiche : activité 4</span></div>
-    <p class="consigne">Quel billet faut-il pour chaque situation ? Touche la bonne réponse.</p>
+    <div class="act-h"><i class="stp">Step 1</i><h2 id="h1a" lang="en">Which note?</h2><span class="fiche">Worksheet: activity 3</span></div>
+    <p class="consigne" data-fr="Quel billet faut-il pour chaque situation ? Touche la bonne réponse.">Which note do you need? Tap the right answer.</p>
     <div id="a1" class="act"></div>
   </section>
 
   <section class="act" aria-labelledby="h2a">
-    <div class="act-h"><i>2</i><h2 id="h2a" lang="en">Listen to the dialogues</h2><span class="fiche">Fiche : activités 5 à 7</span></div>
-    <p class="consigne">Pour chaque dialogue, écoute puis fais les trois activités à la suite : <b>a.</b> je comprends en détail et je remplis le billet ; <b>b.</b> je repère la question du professeur et son intonation ; <b>c.</b> je reformule la situation avec <b lang="en">because</b>. Le lecteur reste en haut du dialogue : tu peux réécouter à tout moment.</p>
+    <div class="act-h"><i class="stp">Step 2</i><h2 id="h2a" lang="en">Listen to the dialogues</h2><span class="fiche">Worksheet: activity 4</span></div>
+    <p class="consigne" data-fr="Pour chaque dialogue : écoute, puis fais a, b et c. a : remplis le billet. b : trouve la question du professeur et son intonation. c : écris la phrase avec because. Tu peux réécouter à tout moment.">For each dialogue: listen, then do a, b and c. <b>a.</b> Fill in the note. <b>b.</b> Find the teacher's question and its intonation. <b>c.</b> Write the sentence with <b>because</b>.</p>
     <div id="a2" class="act"></div>
   </section>
 
   <section class="act" aria-labelledby="h5a">
-    <div class="act-h"><i>3</i><h2 id="h5a">Bilan</h2><span class="fiche">Fiche : activité 8</span></div>
-    <p class="consigne">Range les questions du professeur : pour un retard ou pour une absence ? Puis trouve la règle.</p>
+    <div class="act-h"><i class="stp">Step 3</i><h2 id="h5a" lang="en">Sum up</h2><span class="fiche">Worksheet: activity 5</span></div>
+    <p class="consigne" data-fr="Les questions du professeur : pour un retard ou pour une absence ? Puis trouve la règle.">The teacher's questions: late or absent? Then find the rule.</p>
     <div id="a5" class="act"></div>
   </section>
 
   <div class="panel end" id="end" hidden>
     <b>Well done! 🎉</b>
-    <p>Tu as fini toutes les activités. Recopie tes réponses sur ta fiche, puis passe à l'étape suivante.</p>
+    <p data-fr="Tu as fini toutes les activités. Recopie tes réponses sur ta fiche, puis passe à l'étape suivante.">You have finished. Copy your answers on your worksheet, then go to the next step.</p>
   </div>
 
-  <details class="prof">
+  <details class="prof" lang="fr">
     <summary>Notes pour le professeur</summary>
     <ul>
       <li>Les activités reprennent la séance 1 de la fiche élève (activités 4 à 8). Après la mise en situation (<i lang="en">Which note?</i>), le travail est organisé <b>par dialogue</b> : pour chacun, compréhension détaillée (le billet), repérage (la question du professeur et son intonation) puis reformulation écrite avec <i lang="en">because</i>, sous un même lecteur audio. L'élève n'a pas à revenir chercher l'audio d'une activité à l'autre. Le bilan (règle présent / prétérit) vient à la fin.</li>
@@ -233,6 +235,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
 <script>
 (function () {
   const KEY = "fillnote";
+  const T = (en, fr) => window.Consigne ? Consigne.t(en, fr) : en;
   const $ = (s, r) => (r || document).querySelector(s), $$ = (s, r) => [...(r || document).querySelectorAll(s)];
   const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
@@ -305,6 +308,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   const stars = () => { const v = C() && C().stars ? C().stars() : 1; return v === null ? (S.pv || 1) : v; };
   const CAP = {1: 0, 2: 3, 3: 2};   // listens per dialogue (0 = no limit)
   const cap = () => CAP[stars()] || 0;
+  window.pageStars = stars;
   // The teacher can open only some dialogues for a class (classes.json → parts.note.dialogues). null = all.
   const allowed = () => { const p = C() && C().part ? C().part("late-and-absent", "note") : null; return p && Array.isArray(p.dialogues) ? p.dialogues : null; };
   const dlgOpen = n => { const a = allowed(); return !a || a.includes(n); };
@@ -354,7 +358,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   // A text field with the same interface as a choice group
   function typed(check, ph) {
     const el = document.createElement("div"); el.className = "opts";
-    el.innerHTML = `<input type="text" class="typed" lang="en" autocomplete="off" autocapitalize="sentences" spellcheck="false" placeholder="${esc(ph || "Écris ta réponse en anglais")}">`;
+    el.innerHTML = `<input type="text" class="typed" lang="en" autocomplete="off" autocapitalize="sentences" spellcheck="false" placeholder="${esc(ph || "Write your answer")}">`;
     const inp = $("input", el);
     inp.addEventListener("input", () => inp.classList.remove("right", "wrong"));
     return {el, input: inp, value: () => inp.value.trim() || null,
@@ -375,26 +379,26 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   function player(n, mini) {
     const el = document.createElement("div");
     el.className = "player" + (mini ? " mini" : "");
-    el.innerHTML = `<button type="button" class="play">${ICO.play}<span>${mini ? "Réécouter" : "Écouter le dialogue " + n}</span></button>
-      <span class="track" role="progressbar" aria-label="Avancement de l'écoute" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></span>
-      ${mini || stars() === 3 ? "" : `<button type="button" class="slow" aria-pressed="false" title="Vitesse 0,8">🐢 Plus lent</button>`}
+    el.innerHTML = `<button type="button" class="play">${ICO.play}<span>${mini ? "Listen again" : "Listen to dialogue " + n}</span></button>
+      <span class="track" role="progressbar" aria-label="Listening progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></span>
+      ${mini || stars() === 3 ? "" : `<button type="button" class="slow" aria-pressed="false" title="Speed 0.8">🐢 Slower</button>`}
       <span class="count"></span>`;
     const a = audioFor(n), btn = $(".play", el), fill = $(".track span", el), cnt = $(".count", el), tr = $(".track", el);
     const draw = () => {
       const on = !a.paused && !a.ended, p0 = S.plays[n] || 0, lim = cap();
       const out = lim && p0 >= lim && !on && (a.ended || a.currentTime === 0);
       btn.disabled = !!out;
-      btn.innerHTML = (on ? ICO.pause : ICO.play) + `<span>${on ? "Pause" : out ? "Écoutes terminées" : (mini ? "Réécouter" : "Écouter le dialogue " + n)}</span>`;
+      btn.innerHTML = (on ? ICO.pause : ICO.play) + `<span>${on ? "Pause" : out ? "No more listens" : (mini ? "Listen again" : "Listen to dialogue " + n)}</span>`;
       const pc = a.duration ? 100 * a.currentTime / a.duration : 0;
       fill.style.width = pc + "%"; tr.setAttribute("aria-valuenow", Math.round(pc));
-      const p = S.plays[n] || 0; cnt.textContent = lim ? `Écoutes : ${p} / ${lim}` : (p ? `Écoutes : ${p}` : "");
+      const p = S.plays[n] || 0; cnt.textContent = lim ? `Listens: ${p} / ${lim}` : (p ? `Listens: ${p}` : "");
     };
     btn.addEventListener("click", () => {
       if (!a.paused) { a.pause(); return; }
       if (cap() && (S.plays[n] || 0) >= cap() && (a.ended || a.currentTime === 0)) return;
       Object.values(audios).forEach(o => { if (o !== a) o.pause(); });
       if (a.ended || a.currentTime === 0) { S.plays[n] = (S.plays[n] || 0) + 1; save(); if (a.ended) a.currentTime = 0; }
-      a.playbackRate = slow && stars() < 3 ? 0.8 : 1; a.play().catch(() => { cnt.textContent = "Le son ne démarre pas : vérifie le volume ou réessaie."; });
+      a.playbackRate = slow && stars() < 3 ? 0.8 : 1; a.play().catch(() => { cnt.textContent = "The sound does not start: check the volume and try again."; });
     });
     tr.addEventListener("click", e => { if (!a.duration) return; const r = tr.getBoundingClientRect(); a.currentTime = a.duration * (e.clientX - r.left) / r.width; });
     const sl = $(".slow", el);
@@ -425,16 +429,16 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   const txtOpts = (a, o) => shuffle([a, ...o]).map(t => ({v: t, t, lang: "en"}));
   function card(title, id) {
     const c = document.createElement("div"); c.className = "card" + (S.res[id] ? " ok" : "");
-    c.innerHTML = `<div class="card-h"><h3>${title}</h3>${S.res[id] ? `<span class="done-tag">✓ Fait</span>` : ""}</div>`;
+    c.innerHTML = `<div class="card-h"><h3>${title}</h3>${S.res[id] ? `<span class="done-tag">✓ Done</span>` : ""}</div>`;
     return c;
   }
   // One part (a, b, c) inside a dialogue card
   function sub(letter, en, fr, id) {
     const c = document.createElement("div"); c.className = "sub" + (S.res[id] ? " ok" : "");
-    c.innerHTML = `<div class="card-h"><h3><i>${letter}</i><span lang="en">${en}</span><small>${fr}</small></h3>${S.res[id] ? `<span class="done-tag">✓ Fait</span>` : ""}</div>`;
+    c.innerHTML = `<div class="card-h"><h3><i>${letter}</i><span lang="en">${en}</span><small>${fr}</small></h3>${S.res[id] ? `<span class="done-tag">✓ Done</span>` : ""}</div>`;
     return c;
   }
-  function setDone(c) { c.classList.add("ok"); if (!$(":scope > .card-h .done-tag", c)) $(":scope > .card-h", c).insertAdjacentHTML("beforeend", `<span class="done-tag">✓ Fait</span>`); }
+  function setDone(c) { c.classList.add("ok"); if (!$(":scope > .card-h .done-tag", c)) $(":scope > .card-h", c).insertAdjacentHTML("beforeend", `<span class="done-tag">✓ Done</span>`); }
 
   /* ---------- 1. Which note? ---------- */
   function renderA1() {
@@ -455,36 +459,36 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   /* ---------- 2a. Detailed comprehension: fill in the note ---------- */
   function partL(d) {
     {
-      const id = "l" + d.n, c = sub("a", "Fill in the note", "Compréhension détaillée : je remplis le billet", id);
+      const id = "l" + d.n, c = sub("a", "Fill in the note", "Detailed listening: I fill in the note", id);
       const rows = [
-        {lab: "Billet", sub: "Late slip, absence note ou permission note ?", g: group(noteOpts(), noteCls), a: d.note},
-        {lab: "Name", sub: stars() === 3 ? "Écris le prénom de l'élève" : "Le prénom de l'élève",
+        {lab: "Note", sub: "Late slip, absence note or permission note?", g: group(noteOpts(), noteCls), a: d.note},
+        {lab: "Name", sub: stars() === 3 ? "Write the student's first name" : "The student's first name",
           g: stars() === 3 ? typed(v => norm(v) === norm(d.name), "First name") : group(shuffle(d.names).map(t => ({v: t, t, lang: "en"}))), a: d.name},
         {lab: "When / Permission", sub: d.when.q, g: group(txtOpts(d.when.a, d.when.o)), a: d.when.a},
-        {lab: "Reason", sub: stars() === 3 ? "Pourquoi ? Écris la raison en anglais" : "Pourquoi ?",
+        {lab: "Reason", sub: stars() === 3 ? "Why? Write the reason" : "Why?",
           g: stars() === 3 ? typed(v => hasKw(v, d.kw), "Because…") : group(txtOpts(d.why.a, d.why.o)), a: d.why.a}
       ];
       rows.forEach(r => {
         const q = document.createElement("div"); q.className = "q";
-        q.innerHTML = `<div class="lab" lang="en">${r.lab}<small ${r.lab === "Billet" || r.lab === "Name" || r.lab === "Reason" ? 'lang="fr"' : ""}>${esc(r.sub)}</small></div>`;
+        q.innerHTML = `<div class="lab" lang="en">${r.lab}<small>${esc(r.sub)}</small></div>`;
         q.appendChild(r.g.el); c.appendChild(q);
       });
       const act = document.createElement("div"); act.className = "actions";
-      act.innerHTML = `<button type="button" class="btn">Vérifier</button><p class="fb" aria-live="polite"></p>`;
+      act.innerHTML = `<button type="button" class="btn">Check</button><p class="fb" aria-live="polite"></p>`;
       c.appendChild(act);
       const fb = $(".fb", act); let tries = 0;
-      if (S.res[id]) { rows.forEach(r => r.g.solve(r.a)); fb.className = "fb good"; fb.textContent = "Billet rempli ✓"; $(".btn", act).hidden = true; }
+      if (S.res[id]) { rows.forEach(r => r.g.solve(r.a)); fb.className = "fb good"; fb.textContent = "Note filled in ✓"; $(".btn", act).hidden = true; }
       $(".btn", act).addEventListener("click", () => {
         const empty = rows.filter(r => !r.g.value()).length;
-        if (empty) { fb.className = "fb bad"; fb.textContent = "Réponds d'abord à toutes les lignes."; return; }
+        if (empty) { fb.className = "fb bad"; fb.textContent = "Answer every line first."; return; }
         const ok = rows.filter(r => r.g.mark(r.a)).length;
         if (ok === rows.length) {
           rows.forEach(r => r.g.solve(r.a)); fb.className = "fb good";
-          fb.textContent = `Well done! ${S.plays[d.n] ? `(${S.plays[d.n]} écoute${S.plays[d.n] > 1 ? "s" : ""})` : ""}`;
+          fb.textContent = `Well done! ${S.plays[d.n] ? `(${S.plays[d.n]} listen${S.plays[d.n] > 1 ? "s" : ""})` : ""}`;
           $(".btn", act).hidden = true; done(id); setDone(c);
         } else {
-          tries++; fb.className = "fb bad"; fb.textContent = `${ok} / ${rows.length} : réécoute et corrige ce qui est en rouge.`;
-          if (stars() === 3 && tries >= 2) fb.textContent += ` Aide : le prénom est ${d.name} ; la raison : « ${d.why.a} »`;
+          tries++; fb.className = "fb bad"; fb.textContent = `${ok} / ${rows.length}: listen again and correct the red answers.`;
+          if (stars() === 3 && tries >= 2) fb.textContent += ` Help: the name is ${d.name}; the reason: “${d.why.a}”`;
         }
       });
       return c;
@@ -494,36 +498,36 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   /* ---------- 2b. Spotting: the teacher's question and its intonation ---------- */
   function partQ(d) {
     {
-      const id = "q" + d.n, c = sub("b", "Spot the question", "Repérage : la question du professeur et son intonation", id);
+      const id = "q" + d.n, c = sub("b", "Spot the question", "Spotting: the teacher's question and its intonation", id);
       const T3 = stars() === 3;
       const match = v => d.qs.find(([q]) => near(v, q) || near(v.replace(new RegExp("\\b" + d.name + "\\b", "i"), ""), q.replace(new RegExp("\\b" + d.name + "\\b", "i"), "")));
       const g1 = T3 ? typed(v => !!match(v), "Écris une question du professeur…") : group(txtOpts(d.ques.a, d.ques.o));
       const g2 = d.ques.tag
-        ? group(shuffle([{v: "ok", t: "« …n'est-ce pas ? »"}, {v: "why", t: "« …pourquoi ? »"}, {v: "where", t: "« …où étais-tu ? »"}]))
-        : group([{v: "down", t: "↘ La voix descend"}, {v: "up", t: "↗ La voix monte"}]);
+        ? group(shuffle([{v: "ok", t: "It checks something the teacher already knows."}, {v: "why", t: "It asks why."}, {v: "where", t: "It asks where."}]))
+        : group([{v: "down", t: "↘ The voice goes down"}, {v: "up", t: "↗ The voice goes up"}]);
       const a2f = () => { if (d.ques.tag) return "ok"; const m = T3 && g1.value() ? match(g1.value()) : null; return (m ? m[1] : d.ques.up) ? "up" : "down"; };
       let a2 = a2f();
-      const q1 = document.createElement("div"); q1.className = "q"; q1.innerHTML = `<div class="lab">La question du professeur${T3 ? "<small>Écris-en une, telle que tu l'entends</small>" : ""}</div>`; q1.appendChild(g1.el);
+      const q1 = document.createElement("div"); q1.className = "q"; q1.innerHTML = `<div class="lab">The teacher's question${T3 ? "<small>Write one, as you hear it</small>" : ""}</div>`; q1.appendChild(g1.el);
       const q2 = document.createElement("div"); q2.className = "q";
-      q2.innerHTML = d.ques.tag ? `<div class="lab">★★★ <span lang="en">weren't you?</span><small>Que veut dire cette fin de question ?</small></div>` : `<div class="lab">L'intonation<small>À la fin de la question</small></div>`;
+      q2.innerHTML = d.ques.tag ? `<div class="lab">★★★ <span lang="en">weren't you?</span><small>Que veut dire cette fin de question ?</small></div>` : `<div class="lab">Intonation<small>At the end of the question</small></div>`;
       q2.appendChild(g2.el);
       const act = document.createElement("div"); act.className = "actions";
-      act.innerHTML = `<button type="button" class="btn">Vérifier</button><p class="fb" aria-live="polite"></p>`;
+      act.innerHTML = `<button type="button" class="btn">Check</button><p class="fb" aria-live="polite"></p>`;
       const rule = document.createElement("p"); rule.className = "rule"; rule.hidden = true;
       rule.innerHTML = d.ques.tag
-        ? `<b lang="en">weren't you?</b> est un <i>question tag</i> : le professeur vérifie une information qu'il connaît déjà, comme « n'est-ce pas ? » en français.`
-        : `<b>La règle</b> : question qui commence par un mot en <b lang="en">Wh-</b> (<i lang="en">what, where, why…</i>) → la voix descend ↘. Question à laquelle on répond par oui ou non → la voix monte ↗.`;
+        ? T(`<b>weren't you?</b> is a <i>question tag</i>: the teacher checks something he already knows.`, "weren't you? est un question tag : le professeur vérifie une information qu'il connaît déjà, comme « n'est-ce pas ? ».")
+        : T(`<b>The rule</b>: a question with a <b>Wh-</b> word (what, where, why…) → the voice goes down ↘. A yes / no question → the voice goes up ↗.`, "La règle : question avec un mot en Wh- (what, where, why…) → la voix descend ↘. Question fermée (oui / non) → la voix monte ↗.");
       c.append(q1, q2, act, rule);
       const fb = $(".fb", act); let tries = 0;
       if (S.res[id]) { g1.solve(d.ques.a); g2.solve(a2); rule.hidden = false; $(".btn", act).hidden = true; }
       $(".btn", act).addEventListener("click", () => {
-        if (!g1.value() || !g2.value()) { fb.className = "fb bad"; fb.textContent = "Réponds d'abord aux deux lignes."; return; }
+        if (!g1.value() || !g2.value()) { fb.className = "fb bad"; fb.textContent = "Answer both lines first."; return; }
         a2 = a2f();
         const ok = [g1.mark(d.ques.a), g2.mark(a2)].filter(Boolean).length;
         if (ok === 2) { g1.solve(d.ques.a); g2.solve(a2); fb.className = "fb good"; fb.textContent = "Well done!"; rule.hidden = false; $(".btn", act).hidden = true; done(id); setDone(c); }
         else {
-          tries++; fb.className = "fb bad"; fb.textContent = "Pas tout à fait : réécoute et corrige ce qui est en rouge."; rule.hidden = false;
-          if (T3 && tries >= 2 && !match(g1.value())) fb.textContent += ` Aide : « ${d.ques.a} »`;
+          tries++; fb.className = "fb bad"; fb.textContent = "Not quite: listen again and correct the red answers."; rule.hidden = false;
+          if (T3 && tries >= 2 && !match(g1.value())) fb.textContent += ` Help: “${d.ques.a}”`;
         }
       });
       return c;
@@ -536,33 +540,33 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     const models = [d.w.k, ...(d.w.alt || [])].map(k => k.join(" "));
     if (st === 3) {
       // ★★★: the learner writes the whole sentence
-      const c = sub("c", "Time to write", "Reformulation : j'écris la situation en une phrase avec because", id);
+      const c = sub("c", "Time to write", "Rephrasing: I write the situation in one sentence with because", id);
       const g = typed(v => models.some(m => near(v, m)), `${d.name} … because …`);
       g.input.classList.add("long");
       const act = document.createElement("div"); act.className = "actions";
-      act.innerHTML = `<button type="button" class="btn">Vérifier</button><p class="fb" aria-live="polite"></p>`;
+      act.innerHTML = `<button type="button" class="btn">Check</button><p class="fb" aria-live="polite"></p>`;
       c.append(g.el, act);
       const fb = $(".fb", act), chk = $(".btn", act); let tries = 0;
       if (S.res[id]) { g.solve(models[0]); chk.hidden = true; fb.className = "fb good"; fb.textContent = "✓"; }
       chk.addEventListener("click", () => {
         const v = g.value();
-        if (!v) { fb.className = "fb bad"; fb.textContent = "Écris d'abord ta phrase."; return; }
-        if (g.mark()) { g.solve(models[0]); chk.hidden = true; fb.className = "fb good"; fb.textContent = "Well done! Recopie la phrase sur ta fiche."; done(id); setDone(c); return; }
+        if (!v) { fb.className = "fb bad"; fb.textContent = "Write your sentence first."; return; }
+        if (g.mark()) { g.solve(models[0]); chk.hidden = true; fb.className = "fb good"; fb.textContent = "Well done! Copy the sentence on your worksheet."; done(id); setDone(c); return; }
         tries++; fb.className = "fb bad";
-        fb.textContent = !/\bbecause\b/i.test(v) ? "Ta phrase doit contenir because." : !norm(v).startsWith(norm(d.name)) ? `Commence par le prénom : ${d.name}…` : "Presque : vérifie le temps du verbe (présent ou prétérit) et les mots du dialogue.";
-        if (tries >= 2) fb.textContent += ` Modèle : « ${models[0]} »`;
+        fb.textContent = !/\bbecause\b/i.test(v) ? "Your sentence needs because." : !norm(v).startsWith(norm(d.name)) ? `Start with the name: ${d.name}…` : "Almost: check the tense of the verb (present or past) and the words of the dialogue.";
+        if (tries >= 2) fb.textContent += ` Model: “${models[0]}”`;
       });
       return c;
     }
     {
       const traps = st === 2 ? [d.w.x, d.x2] : [d.w.x];
-      const c = sub("c", "Time to write", `Reformulation : je résume la situation avec because (${traps.length > 1 ? "deux étiquettes sont en trop" : "une étiquette est en trop"})`, id);
+      const c = sub("c", "Time to write", `Rephrasing: I sum up the situation with because (${traps.length > 1 ? "two words are traps" : "one word is a trap"})`, id);
       const ans = document.createElement("div"); ans.className = "answer"; ans.setAttribute("lang", "en"); ans.setAttribute("aria-label", "Ta phrase");
       const tiles = document.createElement("div"); tiles.className = "tiles"; tiles.setAttribute("lang", "en");
       const words = shuffle([...d.w.k, ...traps]);
       tiles.innerHTML = words.map((w, i) => `<button type="button" class="tile" data-i="${i}">${esc(w)}</button>`).join("");
       const act = document.createElement("div"); act.className = "actions";
-      act.innerHTML = `<button type="button" class="btn">Vérifier</button><button type="button" class="btn lite">Effacer</button><p class="fb" aria-live="polite"></p>`;
+      act.innerHTML = `<button type="button" class="btn">Check</button><button type="button" class="btn lite">Clear</button><p class="fb" aria-live="polite"></p>`;
       c.append(ans, tiles, act);
       const fb = $(".fb", act), [chk, clr] = $$(".btn", act);
       const solved = () => { ans.innerHTML = d.w.k.map(w => `<span class="tile${w === "because" ? " k" : ""}">${esc(w)}</span>`).join(""); ans.classList.add("right"); tiles.hidden = true; chk.hidden = clr.hidden = true; };
@@ -582,11 +586,11 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
         const got = $$("button.tile", ans).map(t => t.textContent);
         if (!got.length) { fb.className = "fb bad"; fb.textContent = "Construis d'abord ta phrase."; return; }
         const good = [d.w.k, ...(d.w.alt || [])].some(k => k.join("|") === got.join("|"));
-        if (good) { solved(); fb.className = "fb good"; fb.textContent = "Well done! Recopie la phrase sur ta fiche."; done(id); setDone(c); }
+        if (good) { solved(); fb.className = "fb good"; fb.textContent = "Well done! Copy the sentence on your worksheet."; done(id); setDone(c); }
         else {
           ans.classList.add("wrong"); fb.className = "fb bad";
           const trap = got.find(w => traps.includes(w));
-          fb.textContent = trap ? `Une étiquette est en trop : « ${trap} ». Laquelle ne va pas avec le dialogue ?` : (got.length < d.w.k.length ? "Il manque des étiquettes." : "L'ordre n'est pas bon. Commence par le prénom.");
+          fb.textContent = trap ? `“${trap}” is a trap: it does not match the dialogue.` : (got.length < d.w.k.length ? "Some words are missing." : "The order is not right. Start with the name.");
         }
       });
       return c;
@@ -597,7 +601,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   function renderDialogues() {
     const box = $("#a2"); box.innerHTML = "";
     D.slice(0, nDlg()).forEach(d => {
-      if (!dlgOpen(d.n)) { box.appendChild(lockedCard(`Dialogue ${d.n}`, "Ce dialogue n'est pas encore ouvert. Ton professeur l'ouvrira en classe, au bon moment.")); return; }
+      if (!dlgOpen(d.n)) { box.appendChild(lockedCard(`Dialogue ${d.n}`, T("This dialogue is not open yet. Your teacher will open it in class.", "Ce dialogue n'est pas encore ouvert. Ton professeur l'ouvrira en classe."))); return; }
       const c = card(`Dialogue ${d.n}`, "dlg" + d.n); c.classList.add("dlg"); c.dataset.n = d.n;
       c.append(player(d.n), partL(d), partQ(d), partW(d));
       box.appendChild(c);
@@ -609,30 +613,30 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   /* ---------- 5. Bilan ---------- */
   function renderA5() {
     const box = $("#a5"); box.innerHTML = "";
-    if (!allOpen()) { box.appendChild(lockedCard("Retard ou absence ?", "Le bilan s'ouvrira quand tous les dialogues seront ouverts : il compare les questions de tous les dialogues.")); return; }
-    const id = "bilan", c = card("Retard ou absence ?", id);
+    if (!allOpen()) { box.appendChild(lockedCard("Late or absent?", "This opens when all the dialogues are open.")); return; }
+    const id = "bilan", c = card("Late or absent?", id);
     const rows = SORT.map(s => {
       const r = document.createElement("div"); r.className = "sortrow";
       r.innerHTML = `<span class="en" lang="en">${esc(s.t)}</span>`;
-      const g = group([{v: "late", t: "Retard"}, {v: "abs", t: "Absence"}]); r.appendChild(g.el); c.appendChild(r);
+      const g = group([{v: "late", t: "Late"}, {v: "abs", t: "Absent"}]); r.appendChild(g.el); c.appendChild(r);
       return {g, a: s.a};
     });
-    const rl = document.createElement("div"); rl.className = "q"; rl.innerHTML = `<div class="lab">Pour un <b>retard</b>, la question est…</div>`;
-    const ra = document.createElement("div"); ra.className = "q"; ra.innerHTML = `<div class="lab">Pour une <b>absence</b>, la question est…</div>`;
-    const gl = group([{v: "pres", t: "au présent"}, {v: "pret", t: "au prétérit"}]), ga = group([{v: "pres", t: "au présent"}, {v: "pret", t: "au prétérit"}]);
+    const rl = document.createElement("div"); rl.className = "q"; rl.innerHTML = `<div class="lab">When a student is <b>late</b>, the question is…</div>`;
+    const ra = document.createElement("div"); ra.className = "q"; ra.innerHTML = `<div class="lab">When a student was <b>absent</b>, the question is…</div>`;
+    const gl = group([{v: "pres", t: "in the present"}, {v: "pret", t: "in the past"}]), ga = group([{v: "pres", t: "in the present"}, {v: "pret", t: "in the past"}]);
     rl.appendChild(gl.el); ra.appendChild(ga.el);
     const act = document.createElement("div"); act.className = "actions";
-    act.innerHTML = `<button type="button" class="btn">Vérifier</button><p class="fb" aria-live="polite"></p>`;
+    act.innerHTML = `<button type="button" class="btn">Check</button><p class="fb" aria-live="polite"></p>`;
     const tip = document.createElement("p"); tip.className = "tip"; tip.hidden = true;
-    tip.innerHTML = `★★★ <b>Attention</b> : dans le dialogue 5, Martin est en retard, mais le professeur demande <i lang="en">Where were you, Martin?</i> au prétérit : il veut savoir où Martin était <b>avant</b> le cours.`;
+    tip.innerHTML = `★★★ <b>Watch out</b>: in dialogue 5, Martin is late, but the teacher asks <i>Where were you, Martin?</i> in the past: he wants to know where Martin was <b>before</b> the lesson.`;
     c.append(rl, ra, act, tip);
     const all = [...rows, {g: gl, a: "pres"}, {g: ga, a: "pret"}], fb = $(".fb", act);
     const showTip = () => { tip.hidden = level() !== "4e"; };
     if (S.res[id]) { all.forEach(r => r.g.solve(r.a)); $(".btn", act).hidden = true; fb.className = "fb good"; fb.textContent = "✓"; showTip(); }
     $(".btn", act).addEventListener("click", () => {
-      if (all.some(r => !r.g.value())) { fb.className = "fb bad"; fb.textContent = "Réponds d'abord à toutes les lignes."; return; }
+      if (all.some(r => !r.g.value())) { fb.className = "fb bad"; fb.textContent = "Answer every line first."; return; }
       const ok = all.filter(r => r.g.mark(r.a)).length;
-      if (ok === all.length) { all.forEach(r => r.g.solve(r.a)); fb.className = "fb good"; fb.textContent = "Well done! Retard → présent ; absence → prétérit."; $(".btn", act).hidden = true; done(id); setDone(c); showTip(); }
+      if (ok === all.length) { all.forEach(r => r.g.solve(r.a)); fb.className = "fb good"; fb.textContent = "Well done! Late → present · Absent → past."; $(".btn", act).hidden = true; done(id); setDone(c); showTip(); }
       else { fb.className = "fb bad"; fb.textContent = `${ok} / ${all.length} : corrige ce qui est en rouge.`; }
     });
     box.appendChild(c);
@@ -645,16 +649,16 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     $$("[data-pv]").forEach(b => b.setAttribute("aria-pressed", +b.dataset.pv === st));
     $$(".stars li").forEach(li => { li.classList.toggle("me", (imposed || (k && k.admin)) && +li.dataset.st === st); li.classList.toggle("off", !!imposed && +li.dataset.st !== st); });
     $("#stars-msg").textContent = k && k.admin ? "Mode professeur : aperçu du niveau. Changer de niveau remet les écoutes à zéro."
-      : imposed ? `Ton niveau, choisi par ton professeur : ${"★".repeat(st)} ${st === 3 ? "Je vais plus loin" : "Je maîtrise"}.`
-      : "Niveau libre : choisis ton défi.";
+      : imposed ? `Your level, chosen by your teacher: ${"★".repeat(st)} ${st === 3 ? "Challenge" : "Practise"}.`
+      : "Free level: choose your challenge.";
   }
   function renderLevel() {
     renderStars();
     const k = C() && C().klass ? C().klass() : null, lv = level();
     const box = $("#lvl-box");
     $$("[data-lvl]", box).forEach(b => { b.setAttribute("aria-pressed", b.dataset.lvl === lv); b.disabled = !!(k && !k.admin); });
-    $("#lvl-msg").textContent = k && k.admin ? "Mode professeur : choisis le niveau à afficher. Tout est ouvert."
-      : k ? `Ta classe est en ${k.level} : ${k.level === "4e" ? "tu écoutes les 6 dialogues." : "tu écoutes les dialogues 1 à 3."}` : "Pas de code de classe ? Choisis ton niveau.";
+    $("#lvl-msg").textContent = k && k.admin ? "Mode professeur : choisissez le niveau à afficher. Tout est ouvert."
+      : k ? `Your class: ${k.level} · ${k.level === "4e" ? "6 dialogues." : "dialogues 1 to 3."}` : "No class code? Choose your level.";
   }
   let lastSig = null;
   function renderAll(force) {
@@ -669,7 +673,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   }
   $("#pv").addEventListener("click", e => {
     const b = e.target.closest("[data-pv]"); if (!b) return;
-    S.pv = +b.dataset.pv; save(); renderAll();
+    S.pv = +b.dataset.pv; save(); renderAll(); document.dispatchEvent(new CustomEvent("level:change"));
   });
   $("#lvl-box").addEventListener("click", e => {
     const b = e.target.closest("[data-lvl]"); if (!b || b.disabled) return;

@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=Literata:ital,wght@0,400;0,700;1,400;1,700&display=swap">
 <link rel="stylesheet" href="../../assets/story.css">
+<script src="../../assets/consigne.js"></script>
 </head>
 <body class="lvl4">
 <div class="wrap">
@@ -20,16 +21,16 @@
   </header>
   <div class="controls">
     <button class="btn primary" id="readAll" type="button"></button>
-    <label class="sel">Vitesse <select id="rate"><option value="0.9">Normale</option><option value="0.75">Lente</option><option value="0.6">Très lente</option></select></label>
-    <label class="sel">Voix <select id="accent"><option value="en-GB">British</option><option value="en-US">American</option></select></label>
-    <p class="hint" id="hint">Lis l'histoire, puis écoute-la. Touche une phrase pour l'entendre seule.</p>
+    <label class="sel">Speed <select id="rate"><option value="0.9">Normal</option><option value="0.75">Slow</option><option value="0.6">Very slow</option></select></label>
+    <label class="sel">Voice <select id="accent"><option value="en-GB">British</option><option value="en-US">American</option></select></label>
+    <p class="hint" id="hint" data-fr="Lis l'histoire, puis écoute-la. Touche une phrase pour l'entendre seule.">Read the story, then listen to it. Tap a sentence to hear it alone.</p>
   </div>
   <article class="story" id="story" lang="en"></article>
   <details>
-    <summary>Besoin d'aide ? Vocabulary</summary>
+    <summary>Need help? Vocabulary</summary>
     <ul class="vocab" id="vocab"></ul>
   </details>
-  <p class="soon">Les questions et la correction arriveront ici après le travail à la maison.</p>
+  <p class="soon" data-fr="Les questions et la correction arriveront ici après le travail à la maison.">The questions and the answers will come here after your homework.</p>
 </div>
 <script type="application/json" id="story-data">{"parts": [["In a small village, there lived a young shepherd boy. Every day, his job was to take the sheep up the hill and watch them while they ate grass. It was a quiet, peaceful job, but the boy often felt bored, alone on the hillside with nothing to do.", "One afternoon, the boy decided to have some fun. He ran down the hill towards the village, shouting as loudly as he could: “Wolf! Wolf! A wolf is attacking the sheep!”", "The villagers immediately stopped their work. Some grabbed sticks, others ran straight from the fields, and together they rushed up the hill to help him. But when they arrived, they found nothing at all — no wolf, and all the sheep were calmly eating grass.", "The boy burst out laughing. “You should have seen your faces!” he said. The villagers were not amused. “Don't cry wolf when there is no wolf, boy,” said an old farmer, shaking his head as they walked back down."], ["A few days later, the boy played the same trick again. “Wolf! Wolf!” he screamed, running down the hill with a big smile on his face. Once again, the villagers dropped everything and hurried up the hill to save the flock.", "And once again, there was no wolf. The boy laughed even harder than before, delighted with his clever joke. This time, the villagers were furious. “This is not funny,” said the farmer. “One day you may need our help for real, and nobody will believe you.”", "The boy did not listen. He thought it was the best joke in the world, and he was already planning to do it again."], ["A few weeks passed. One evening, as the sun was going down, a real wolf crept out of the forest and approached the flock. This time, the danger was real. The boy was terrified. He ran down the hill as fast as his legs could carry him, screaming: “Wolf! Wolf! Please, a real wolf is here! Help me!”", "But in the village, nobody moved. “He is trying to trick us again,” said one villager, and everyone continued their work, ignoring his cries completely.", "The wolf attacked the flock, and the boy could do nothing to stop it alone. That night, he learned a hard lesson: once you lie, people stop believing you — even when you finally tell the truth."]], "moral": "Moral: Nobody believes a liar, even when they are telling the truth.", "vocab": [["a shepherd / a flock", "un berger / un troupeau"], ["bored / alone", "ennuyé / seul"], ["to shout / to scream", "crier / hurler"], ["a villager", "un villageois"], ["to rush / to hurry", "se précipiter"], ["a trick / to play a trick", "une farce / faire une farce"], ["furious", "furieux"], ["to creep out of the forest", "sortir furtivement de la forêt"], ["to lie / a liar", "mentir / un menteur"]]}</script>
 <script src="../../assets/story.js"></script>
@@ -37,5 +38,6 @@
 <script src="../../assets/art.js"></script>
 <script src="../../assets/flagtips.js"></script>
 <script src="../../assets/newbadge.js"></script>
+<script src="../../assets/classes.js"></script>
 </body>
 </html>

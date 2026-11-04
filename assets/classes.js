@@ -72,7 +72,7 @@
   document.head.appendChild(st);
 
   // "Je suis un autre élève" (assets/reset.js handles the click): for computers shared by several learners
-  const RESET = `<span class="cl-reset"><button type="button" class="reset-btn" data-reset-btn><span aria-hidden="true">👤</span> Je suis un autre élève</button></span>`;
+  const RESET = `<span class="cl-reset"><button type="button" class="reset-btn" data-reset-btn><span aria-hidden="true">👤</span> I am another student</button></span>`;
   // A small "my class" box: shows the class, or a field to type the class code.
   function mountPicker(el, opts) {
     opts = opts || {};
@@ -82,18 +82,18 @@
       if (c && c.admin) {
         el.innerHTML = `<span class="cl-ico" aria-hidden="true">🔑</span><span>Mode professeur :</span><span class="cl-badge">accès complet</span><button type="button" class="lite" data-cl="leave">Quitter le mode professeur</button><p class="cl-msg">Sur cet appareil, toutes les étapes et toutes les évaluations sont ouvertes, quels que soient les réglages des classes.</p>`;
       } else if (c) {
-        el.innerHTML = `<span class="cl-ico" aria-hidden="true">🏫</span><span>Ma classe :</span><span class="cl-badge">${c.label}${stars() > 1 ? " · " + "★".repeat(stars()) : ""}</span><button type="button" class="lite" data-cl="leave">Changer de classe</button>${opts.noReset ? "" : RESET}${opts.note ? `<p class="cl-msg">${opts.note(c)}</p>` : ""}`;
+        el.innerHTML = `<span class="cl-ico" aria-hidden="true">🏫</span><span>My class:</span><span class="cl-badge">${c.label}${stars() > 1 ? " · " + "★".repeat(stars()) : ""}</span><button type="button" class="lite" data-cl="leave">Change class</button>${opts.noReset ? "" : RESET}${opts.note ? `<p class="cl-msg">${opts.note(c)}</p>` : ""}`;
       } else {
-        el.innerHTML = `<span class="cl-ico" aria-hidden="true">🏫</span><b>${opts.title || "Entre le code de ta classe"}</b>
-          <form novalidate><label class="sr" for="cl-in-${el.id || "x"}" style="position:absolute;left:-9999px">Code de la classe</label>
-          <input id="cl-in-${el.id || "x"}" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ex. ABC-5X"><button type="submit">Valider</button></form>
-          <p class="cl-msg${err ? " err" : ""}">${msg || opts.hint || "Ton professeur te donne ce code. Tu ne le tapes qu'une fois sur cet appareil."}</p>${opts.noReset ? "" : RESET}`;
+        el.innerHTML = `<span class="cl-ico" aria-hidden="true">🏫</span><b data-fr="${opts.titleFr || "Entre le code de ta classe"}">${opts.title || "Enter your class code"}</b>
+          <form novalidate><label class="sr" for="cl-in-${el.id || "x"}" style="position:absolute;left:-9999px">Class code</label>
+          <input id="cl-in-${el.id || "x"}" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="e.g. ABC-5X"><button type="submit">OK</button></form>
+          <p class="cl-msg${err ? " err" : ""}">${msg || opts.hint || "Your teacher gives you this code. You type it only once on this device."}</p>${opts.noReset ? "" : RESET}`;
         el.querySelector("form").addEventListener("submit", async e => {
           e.preventDefault();
           const v = el.querySelector("input").value;
-          if (!norm(v)) { draw("Écris le code de ta classe.", true); return; }
+          if (!norm(v)) { draw("Write your class code.", true); return; }
           const c2 = await join(v);
-          if (!c2) draw("Ce code ne correspond à aucune classe. Vérifie-le avec ton professeur.", true);
+          if (!c2) draw("This code does not match any class. Check it with your teacher.", true);
         });
       }
       const lv = el.querySelector('[data-cl="leave"]'); if (lv) lv.addEventListener("click", leave);

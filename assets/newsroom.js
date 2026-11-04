@@ -69,14 +69,14 @@
     }).join("");
     const n = (a.questions || []).length, done = Object.keys(ans).length;
     const good = (a.questions || []).filter((q, qi) => ans[qi] === q.answer).length;
-    const score = done === n && n ? `<p class="qscore">${good} / ${n} ${good === n ? "– Excellent!" : good >= n - 1 ? "– Well done!" : "– Relis l'article et réessaie demain !"}</p>` : "";
+    const score = done === n && n ? `<p class="qscore">${good} / ${n} ${good === n ? "– Excellent!" : good >= n - 1 ? "– Well done!" : "– Read the article again and try again tomorrow!"}</p>` : "";
     return qs + score;
   }
   function card(a) {
     const open = store.open === a.id;
     const tags = [
       a.draft ? `<span class="tag dr">Brouillon</span>` : (unread(a) ? `<span class="tag hot">NEW</span>` : ""),
-      a.level ? `<span class="tag lvl" title="Niveau conseillé. Lecture libre pour tous les élèves du cycle 4.">Niveau ${esc(a.level)}</span>` : "",
+      a.level ? `<span class="tag lvl" title="Suggested level. Free reading for everyone.">Level ${esc(a.level)}</span>` : "",
       a.topic ? `<span class="tag">${esc(a.topic)}</span>` : ""
     ].join("");
     const srcs = (a.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>${s.date ? `, ${esc(s.date)}` : ""}`).join(" · ");
@@ -84,14 +84,14 @@
       <div class="art-top">${flag(a.flag)}<span>${esc(a.country || "")} · ${fmt(a.date)}</span>${tags}</div>
       <h2 lang="en">${a.emoji ? `<span class="emo" aria-hidden="true">${esc(a.emoji)}</span>` : ""}${esc(a.title)}</h2>
       <p class="lead" lang="en">${esc(a.lead || "")}</p>
-      <button class="open" data-open="${esc(a.id)}" aria-expanded="${open}">${open ? "Fermer l'article ↑" : "Lire l'article ↓"}</button>
+      <button class="open" data-open="${esc(a.id)}" aria-expanded="${open}">${open ? "Close the article ↑" : "Read the article ↓"}</button>
       <div class="full" ${open ? "" : "hidden"}>
         <div class="body" lang="en">${markKeywords(a.body || [], a.keywords)}</div>
-        <p class="hint">Touche un mot souligné pour voir sa traduction.</p>
+        <p class="hint" data-fr="Touche un mot souligné pour voir sa traduction.">Tap an underlined word to see its translation.</p>
         <div class="box"><h3>Key words</h3><ul class="kwlist">${(a.keywords || []).map(([en, fr]) => `<li><b lang="en">${esc(en)}</b> = ${esc(fr)}</li>`).join("")}</ul></div>
         <div class="box quiz" id="quiz-${esc(a.id)}"><h3>Quiz</h3>${quizHTML(a)}</div>
         ${a.turn ? `<div class="box turn"><h3>Your turn!</h3><p lang="en">${esc(a.turn)}</p></div>` : ""}
-        <p class="src">Article écrit en anglais simplifié pour la classe, d'après : ${srcs}</p>
+        <p class="src">Written in simple English for the class, from: ${srcs}</p>
       </div>
     </article>`;
   }
@@ -102,14 +102,14 @@
   function renderFilters() {
     const f = document.getElementById("filters");
     const levels = ["5e", "4e"].filter(l => all.some(a => (a.level || "").includes(l)));
-    const lv = (levels.length > 1 ? ["all"].concat(levels) : []).map(v => `<button class="fchip" data-fl="${v}" aria-pressed="${fl === v}">${v === "all" ? "Tous" : v}</button>`).join("");
-    const tp = topics.length > 1 ? `<span class="sep"></span><span class="lbl">Thème</span>` + ["all"].concat(topics).map(v => `<button class="fchip" data-ft="${esc(v)}" aria-pressed="${ft === v}">${v === "all" ? "Tous" : esc(v)}</button>`).join("") : "";
-    f.innerHTML = (lv ? `<span class="lbl">Niveau conseillé</span>${lv}` : "") + (lv ? tp : tp.replace(`<span class="sep"></span>`, ""));
+    const lv = (levels.length > 1 ? ["all"].concat(levels) : []).map(v => `<button class="fchip" data-fl="${v}" aria-pressed="${fl === v}">${v === "all" ? "All" : v}</button>`).join("");
+    const tp = topics.length > 1 ? `<span class="sep"></span><span class="lbl">Topic</span>` + ["all"].concat(topics).map(v => `<button class="fchip" data-ft="${esc(v)}" aria-pressed="${ft === v}">${v === "all" ? "All" : esc(v)}</button>`).join("") : "";
+    f.innerHTML = (lv ? `<span class="lbl">Suggested level</span>${lv}` : "") + (lv ? tp : tp.replace(`<span class="sep"></span>`, ""));
     f.hidden = !f.innerHTML;
   }
   function render() {
     const shown = all.filter(a => (fl === "all" || (a.level || "").includes(fl)) && (ft === "all" || a.topic === ft));
-    list.innerHTML = shown.length ? shown.map(card).join("") : `<div class="empty">${all.length ? "Aucun article pour ce choix." : root.dataset.empty}</div>`;
+    list.innerHTML = shown.length ? shown.map(card).join("") : `<div class="empty">${all.length ? "No article for this choice." : root.dataset.empty}</div>`;
   }
   // NEW corner badge, notification banner and tab title for unread articles
   const baseTitle = document.title;

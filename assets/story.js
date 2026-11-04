@@ -28,10 +28,10 @@
     const v = voices.find(v => v.lang.replace("_", "-") === lang) || voices.find(v => v.lang.startsWith("en"));
     if (v) u.voice = v; return u;
   }
-  function setBtn(on) { reading = on; $("#readAll").innerHTML = on ? ico.stop + "Arrêter" : ico.play + "Écouter l'histoire"; }
+  function setBtn(on) { reading = on; $("#readAll").innerHTML = on ? ico.stop + "Stop" : ico.play + "Listen to the story"; }
   function stop() { tok++; try { speechSynthesis.cancel(); } catch (e) {} $$(".s.now").forEach(e => e.classList.remove("now")); setBtn(false); }
   function readFrom(start, onlyOne) {
-    if (!("speechSynthesis" in window)) { $("#hint").textContent = "La lecture à voix haute n'est pas disponible sur ce navigateur."; return; }
+    if (!("speechSynthesis" in window)) { $("#hint").textContent = "Reading aloud is not available in this browser."; return; }
     stop(); const t = ++tok; const all = $$(".s"); let i = start; setBtn(!onlyOne);
     const next = () => {
       if (t !== tok) return;

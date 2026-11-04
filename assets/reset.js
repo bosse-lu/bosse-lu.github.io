@@ -16,7 +16,7 @@
   .reset-done{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:90;background:#1f8a55;color:#fff;font:700 .95rem/1.4 "Atkinson Hyperlegible",Verdana,sans-serif;border-radius:12px;padding:10px 16px;box-shadow:0 6px 20px rgba(0,0,0,.25);max-width:calc(100% - 32px);text-align:center}`;
   document.head.appendChild(st);
 
-  const label = '<span aria-hidden="true">👤</span> Je suis un autre élève';
+  const label = '<span aria-hidden="true">👤</span> I am another student';
   const html = () => `<button type="button" class="reset-btn" data-reset-btn>${label}</button>`;
 
   function wipe() {
@@ -29,8 +29,8 @@
     if (b) {
       e.preventDefault();
       const ask = document.createElement("span"); ask.className = "reset-ask"; ask.setAttribute("role", "alertdialog"); ask.setAttribute("aria-label", "Effacer le travail sur cet appareil");
-      ask.innerHTML = `<p><b>Effacer tout le travail fait sur cet appareil ?</b> Progression, réponses et code de classe : le prochain élève repart de zéro. Pense d'abord à recopier tes réponses sur ta fiche.</p>
-        <button type="button" class="yes">Oui, effacer</button><button type="button" class="no">Annuler</button>`;
+      ask.innerHTML = `<p><b>Delete all the work on this device?</b> Progress, answers and class code: the next student starts from zero. Copy your answers on your worksheet first.<span class="cg-fr" lang="fr" style="display:block;font-style:italic;font-size:.86em">Effacer tout le travail fait sur cet appareil ? Le prochain élève repart de zéro.</span></p>
+        <button type="button" class="yes">Yes, delete</button><button type="button" class="no">Cancel</button>`;
       b.replaceWith(ask);
       ask.querySelector(".no").addEventListener("click", () => { const nb = document.createElement("span"); nb.innerHTML = html(); const btn = nb.firstChild; ask.replaceWith(btn); btn.focus(); });
       ask.querySelector(".yes").addEventListener("click", wipe);
@@ -41,7 +41,7 @@
     let flag = null; try { flag = sessionStorage.getItem("site-reset-done"); sessionStorage.removeItem("site-reset-done"); } catch (e) {}
     if (!flag) return;
     const t = document.createElement("div"); t.className = "reset-done"; t.setAttribute("role", "status");
-    t.textContent = "C'est fait : l'appareil est prêt pour un nouvel élève.";
+    t.textContent = "Done: the device is ready for a new student.";
     document.body.appendChild(t); setTimeout(() => t.remove(), 5000);
   }
   document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", toast) : toast();

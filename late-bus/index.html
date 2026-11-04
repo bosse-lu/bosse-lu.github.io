@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -181,25 +181,26 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
 
 .hero-art{flex:none;width:clamp(76px,20vw,124px);aspect-ratio:1}.hero-art svg{display:block;width:100%;height:100%}header{align-items:center!important}.hero-art + div{flex:1 1 200px}
 </style>
+<script src="../assets/consigne.js"></script>
 </head>
 <body>
 <div class="wrap">
-  <div class="homebar"><a class="homelink" href="../">← Toutes les activités · Collège Réeberg Néron</a></div>
+  <div class="homebar"><a class="homelink" href="../">← All activities · Collège Réeberg Néron</a></div>
   <div data-bunting></div>
   <header>
     <div class="hero-art" data-art="bus" aria-hidden="true"></div>
     <div>
       <h1>Late for school? <span>Blame the bus!</span></h1>
-      <p class="sub">Un article de presse britannique adapté pour la 5e. Lis-le, écoute-le, puis entraîne-toi sur les verbes en&nbsp;‑ed.</p>
+      <p class="sub" data-fr="Un article de presse britannique adapté pour la 5e. Lis-le, écoute-le, puis entraîne-toi sur les verbes en -ed.">A real British newspaper article, made easier. Read it, listen to it, then practise the -ed verbs.</p>
     </div>
     <div class="settings">
-      <label for="accent">Voix</label>
+      <label for="accent">Voice</label>
       <select id="accent"><option value="en-GB">British</option><option value="en-US">American</option></select>
     </div>
   </header>
 
-  <div class="tabs" role="tablist" aria-label="Parties de l'activité">
-    <button class="tab" role="tab" id="tab-read" aria-controls="read" aria-selected="true">1 · Lecture</button>
+  <div class="tabs" role="tablist" aria-label="Parts of the activity">
+    <button class="tab" role="tab" id="tab-read" aria-controls="read" aria-selected="true">1 · Reading</button>
     <button class="tab" role="tab" id="tab-lab" aria-controls="lab" aria-selected="false">2 · Lab -ed</button>
   </div>
 
@@ -207,19 +208,19 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
   <section id="read" role="tabpanel" aria-labelledby="tab-read" class="panel">
     <div class="src">
       <span class="src-art" data-art="news" aria-hidden="true"></span>
-      <p><b>Texte adapté de <i>The Independent</i></b>, journal britannique, 4 avril 2025.<br>
-      <a href="https://www.yahoo.com/news/london-school-pupils-handed-detentions-105326916.html" target="_blank" rel="noopener">Voir l'article original ↗</a></p>
+      <p><b>Adapted from <i>The Independent</i></b>, a British newspaper, 4 April 2025.<br>
+      <a href="https://www.yahoo.com/news/london-school-pupils-handed-detentions-105326916.html" target="_blank" rel="noopener">See the original article ↗</a></p>
     </div>
 
     <div class="controls">
       <button class="btn primary" id="readAll"></button>
-      <label class="sel">Vitesse
-        <select id="rate"><option value="0.9">Normale</option><option value="0.7">Lente</option><option value="0.5">Très lente</option></select>
+      <label class="sel">Speed
+        <select id="rate"><option value="0.9">Normal</option><option value="0.7">Slow</option><option value="0.5">Very slow</option></select>
       </label>
     </div>
     <div class="controls">
-      <label class="toggle"><input type="checkbox" id="showEd"> Voir les verbes en -ed</label>
-      <label class="toggle"><input type="checkbox" id="showGloss" checked> Mots difficiles soulignés</label>
+      <label class="toggle"><input type="checkbox" id="showEd"> Show the -ed verbs</label>
+      <label class="toggle"><input type="checkbox" id="showGloss" checked> Underline difficult words</label>
     </div>
 
     <article class="paper" lang="en" id="paper">
@@ -227,28 +228,28 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
       <p class="byline">Adapted from The Independent, 4 April 2025</p>
       <div id="text"></div>
     </article>
-    <p class="glossbar" id="glossbar" aria-live="polite">Touche une phrase pour l'écouter. Touche un mot souligné pour voir sa traduction.</p>
+    <p class="glossbar" id="glossbar" aria-live="polite" data-fr="Touche une phrase pour l'écouter. Touche un mot souligné pour voir sa traduction.">Tap a sentence to hear it. Tap an underlined word to see its translation.</p>
 
     <div class="card">
       <section class="step first">
-        <h2><i>★</i>Lis à ton tour</h2>
-        <p class="hint">Choisis un paragraphe, écoute le modèle, puis enregistre-toi en le lisant. Compare ensuite les deux.</p>
-        <nav class="chips" id="pchips" aria-label="Choisir un paragraphe"></nav>
+        <h2><i>★</i>Your turn to read</h2>
+        <p class="hint" data-fr="Choisis un paragraphe, écoute le modèle, puis enregistre-toi en le lisant. Compare ensuite les deux.">Choose a paragraph, listen to the model, then record yourself reading it. Compare the two.</p>
+        <nav class="chips" id="pchips" aria-label="Choose a paragraph"></nav>
         <div class="row">
           <button class="btn primary" id="rModel"></button>
           <button class="btn rec" id="rec2"></button>
-          <button class="btn" id="rMine" data-mine disabled><span class="ico-play"></span>Me réécouter</button>
-          <button class="btn" id="rCompare" data-mine disabled>Modèle puis moi</button>
+          <button class="btn" id="rMine" data-mine disabled><span class="ico-play"></span>Play me back</button>
+          <button class="btn" id="rCompare" data-mine disabled>Model, then me</button>
         </div>
         <div class="fallback" hidden>
           <p class="hint fallbackMsg"></p>
-          <label class="upload"><span class="ico-file"></span>Importer mon enregistrement<input type="file" class="uploadIn" accept="audio/*"></label>
+          <label class="upload"><span class="ico-file"></span>Import my recording<input type="file" class="uploadIn" accept="audio/*"></label>
         </div>
       </section>
     </div>
 
     <details>
-      <summary>Glossary · les mots difficiles</summary>
+      <summary>Glossary · difficult words</summary>
       <ul class="glosslist" id="glosslist"></ul>
     </details>
   </section>
@@ -261,7 +262,7 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
       <div><span class="s3 id">/ɪd/</span><span class="ex">wait<b>ed</b> · 2 syllabes</span></div>
     </div>
     <div class="labhead"><span class="score" id="score"></span></div>
-    <nav class="chips" id="chips" aria-label="Liste des verbes et des phrases"></nav>
+    <nav class="chips" id="chips" aria-label="List of verbs and sentences"></nav>
     <main class="card" id="card"></main>
   </section>
 
@@ -356,24 +357,25 @@ const TEXT = [
 ];
 const ED = {changed:"d", waited:"id", arrived:"d", asked:"t"};
 const SND = {t:"/t/", d:"/d/", id:"/ɪd/"};
+const T=(en,fr)=>window.Consigne?Consigne.t(en,fr):en;
 const RULE = {
-  t:"<strong class='t'>/t/</strong> après un son <strong>sourd</strong> (p, k, f, s, ch, sh, tch) : pas de syllabe en plus.",
-  d:"<strong class='d'>/d/</strong> après un son <strong>sonore</strong> (voyelle, b, g, v, z, l, m, n, r, dj) : pas de syllabe en plus.",
-  id:"<strong class='id'>/ɪd/</strong> après le son <strong>/t/ ou /d/</strong> : une syllabe en plus."
+  t:T("<strong class='t'>/t/</strong> after a <strong>voiceless</strong> sound (p, k, f, s, ch, sh, tch): no extra syllable.", "/t/ après un son sourd (p, k, f, s, ch, sh, tch) : pas de syllabe en plus."),
+  d:T("<strong class='d'>/d/</strong> after a <strong>voiced</strong> sound (vowel, b, g, v, z, l, m, n, r, dj): no extra syllable.", "/d/ après un son sonore (voyelle, b, g, v, z, l, m, n, r, dj) : pas de syllabe en plus."),
+  id:T("<strong class='id'>/ɪd/</strong> after the sound <strong>/t/ or /d/</strong>: one extra syllable.", "/ɪd/ après le son /t/ ou /d/ : une syllabe en plus.")
 };
 const ITEMS = [
-  {g:"Verbes du texte", w:"changed", stem:"change", end:"d", a:"d", ipa:"/tʃeɪndʒd/", fr:"changer", src:2, why:"change finit par le son /dʒ/ (« dj »), un son sonore. Le e muet ne compte pas : pas de syllabe en plus."},
-  {g:"Verbes du texte", w:"waited", stem:"wait", end:"ed", a:"id", ipa:"/ˈweɪ.tɪd/", fr:"attendre", src:3, why:"wait finit par le son /t/ : on ajoute une syllabe, wai-tid."},
-  {g:"Verbes du texte", w:"arrived", stem:"arrive", end:"d", a:"d", ipa:"/əˈraɪvd/", fr:"arriver", src:3, why:"arrive finit par le son /v/, un son sonore. Le e muet ne compte pas."},
-  {g:"Verbes du texte", w:"asked", stem:"ask", end:"ed", a:"t", ipa:"/ɑːskt/", fr:"demander", src:5, why:"ask finit par le son /k/, un son sourd. Une seule syllabe : /ɑːskt/, pas « as-kède »."},
-  {g:"Phrases du texte", label:"Texte 1", src:2, text:"But last year, Transport for London changed two bus lines.", fr:"Mais l'an dernier, Transport for London a changé deux lignes de bus.", verbs:[{w:"changed",a:"d"}]},
-  {g:"Phrases du texte", label:"Texte 2", src:3, text:"30 to 50 students waited at the bus stop for a long time.", fr:"30 à 50 élèves ont attendu longtemps à l'arrêt de bus.", verbs:[{w:"waited",a:"id"}]},
-  {g:"Phrases du texte", label:"Texte 3", src:3, text:"They arrived late at school, so they got a detention.", fr:"Ils sont arrivés en retard au collège, alors ils ont eu une retenue.", verbs:[{w:"arrived",a:"d"}]},
-  {g:"Phrases du texte", label:"Texte 4", src:5, text:"He asked for a special bus for the students after school.", fr:"Il a demandé un bus spécial pour les élèves après les cours.", verbs:[{w:"asked",a:"t"}]},
-  {g:"À toi !", label:"Phrase 1", text:"I waited for the bus, but it arrived late.", fr:"J'ai attendu le bus, mais il est arrivé en retard.", verbs:[{w:"waited",a:"id"},{w:"arrived",a:"d"}]},
-  {g:"À toi !", label:"Phrase 2", text:"My teacher asked me: “Why are you late?”", fr:"Mon professeur m'a demandé : « Pourquoi es-tu en retard ? »", verbs:[{w:"asked",a:"t"}]},
-  {g:"À toi !", label:"Phrase 3", text:"They changed the bus lines, so we waited a long time.", fr:"Ils ont changé les lignes de bus, alors nous avons attendu longtemps.", verbs:[{w:"changed",a:"d"},{w:"waited",a:"id"}]},
-  {g:"À toi !", label:"Phrase 4", text:"We asked for a new bus and the school changed the rules.", fr:"Nous avons demandé un nouveau bus et le collège a changé les règles.", verbs:[{w:"asked",a:"t"},{w:"changed",a:"d"}]}
+  {g:"Verbes du texte", w:"changed", stem:"change", end:"d", a:"d", ipa:"/tʃeɪndʒd/", fr:"changer", src:2, why:"change finit par le son /dʒ/ (« dj »), un son sonore. Le e muet ne compte pas : pas de syllabe en plus.", whyEn:"change ends with the sound /dʒ/, a voiced sound. The silent e does not count: no extra syllable."},
+  {g:"Verbes du texte", w:"waited", stem:"wait", end:"ed", a:"id", ipa:"/ˈweɪ.tɪd/", fr:"attendre", src:3, why:"wait finit par le son /t/ : on ajoute une syllabe, wai-tid.", whyEn:"wait ends with the sound /t/: we add a syllable, wai-tid."},
+  {g:"Verbes du texte", w:"arrived", stem:"arrive", end:"d", a:"d", ipa:"/əˈraɪvd/", fr:"arriver", src:3, why:"arrive finit par le son /v/, un son sonore. Le e muet ne compte pas.", whyEn:"arrive ends with the sound /v/, a voiced sound. The silent e does not count."},
+  {g:"Verbes du texte", w:"asked", stem:"ask", end:"ed", a:"t", ipa:"/ɑːskt/", fr:"demander", src:5, why:"ask finit par le son /k/, un son sourd. Une seule syllabe : /ɑːskt/, pas « as-kède ».", whyEn:"ask ends with the sound /k/, a voiceless sound. One syllable: /ɑːskt/, not “as-ked”."},
+  {g:"Phrases du texte", label:"Text 1", src:2, text:"But last year, Transport for London changed two bus lines.", fr:"Mais l'an dernier, Transport for London a changé deux lignes de bus.", verbs:[{w:"changed",a:"d"}]},
+  {g:"Phrases du texte", label:"Text 2", src:3, text:"30 to 50 students waited at the bus stop for a long time.", fr:"30 à 50 élèves ont attendu longtemps à l'arrêt de bus.", verbs:[{w:"waited",a:"id"}]},
+  {g:"Phrases du texte", label:"Text 3", src:3, text:"They arrived late at school, so they got a detention.", fr:"Ils sont arrivés en retard au collège, alors ils ont eu une retenue.", verbs:[{w:"arrived",a:"d"}]},
+  {g:"Phrases du texte", label:"Text 4", src:5, text:"He asked for a special bus for the students after school.", fr:"Il a demandé un bus spécial pour les élèves après les cours.", verbs:[{w:"asked",a:"t"}]},
+  {g:"À toi !", label:"Sentence 1", text:"I waited for the bus, but it arrived late.", fr:"J'ai attendu le bus, mais il est arrivé en retard.", verbs:[{w:"waited",a:"id"},{w:"arrived",a:"d"}]},
+  {g:"À toi !", label:"Sentence 2", text:"My teacher asked me: “Why are you late?”", fr:"Mon professeur m'a demandé : « Pourquoi es-tu en retard ? »", verbs:[{w:"asked",a:"t"}]},
+  {g:"À toi !", label:"Sentence 3", text:"They changed the bus lines, so we waited a long time.", fr:"Ils ont changé les lignes de bus, alors nous avons attendu longtemps.", verbs:[{w:"changed",a:"d"},{w:"waited",a:"id"}]},
+  {g:"À toi !", label:"Sentence 4", text:"We asked for a new bus and the school changed the rules.", fr:"Nous avons demandé un nouveau bus et le collège a changé les règles.", verbs:[{w:"asked",a:"t"},{w:"changed",a:"d"}]}
 ];
 ITEMS.forEach(it => { if (it.w) it.verbs = [{w:it.w, a:it.a}]; });
 
@@ -413,12 +415,12 @@ function stopSpeech() {
   $$(".s.now").forEach(e => e.classList.remove("now")); setReadBtns(false);
 }
 function speak(text, rate, then) {
-  if (!("speechSynthesis" in window)) { note("La voix n'est pas disponible sur ce navigateur."); then && then(); return; }
+  if (!("speechSynthesis" in window)) { note("The voice is not available in this browser."); then && then(); return; }
   stopSpeech(); const u = utter(text, rate); keepAlive = [u]; if (then) u.onend = then; speechSynthesis.speak(u);
 }
 // Read a list of sentence elements one by one, highlighting each.
 function readList(els, which, then) {
-  if (!("speechSynthesis" in window)) { gloss("La voix n'est pas disponible sur ce navigateur."); return; }
+  if (!("speechSynthesis" in window)) { gloss("The voice is not available in this browser."); return; }
   stopSpeech(); const tok = ++rtoken; let i = 0; setReadBtns(which);
   const rate = +$("#rate").value;
   const next = () => {
@@ -437,8 +439,8 @@ let readingWhich = false;
 function setReadBtns(which) {
   readingWhich = which;
   const a = $("#readAll"), m = $("#rModel");
-  if (a) a.innerHTML = which === "all" ? ico.stop + "Arrêter la lecture" : ico.play + "Écouter tout le texte";
-  if (m) m.innerHTML = which === "para" ? ico.stop + "Arrêter" : ico.play + "Écouter le modèle";
+  if (a) a.innerHTML = which === "all" ? ico.stop + "Stop reading" : ico.play + "Listen to the whole text";
+  if (m) m.innerHTML = which === "para" ? ico.stop + "Stop" : ico.play + "Listen to the model";
 }
 
 /* ---------- recording (shared by both tabs) ---------- */
@@ -447,7 +449,7 @@ async function toggleRecord(btn) {
   if (rec && rec.state === "recording") { rec.stop(); return; }
   stopSpeech();
   try { recStream = await navigator.mediaDevices.getUserMedia({audio:true}); }
-  catch (e) { showFallback("Le micro n'est pas accessible ici."); return; }
+  catch (e) { showFallback("The microphone is not available here."); return; }
   chunks = []; rec = new MediaRecorder(recStream);
   rec.ondataavailable = e => chunks.push(e.data);
   rec.onstop = () => {
@@ -455,7 +457,7 @@ async function toggleRecord(btn) {
     setMyAudio(URL.createObjectURL(new Blob(chunks, {type: rec.mimeType || "audio/webm"})));
     btn.classList.remove("on"); btn.innerHTML = ico.mic + "Recommencer";
   };
-  rec.start(); btn.classList.add("on"); btn.innerHTML = ico.stop + "Arrêter";
+  rec.start(); btn.classList.add("on"); btn.innerHTML = ico.stop + "Stop";
 }
 function abortRec() {
   if (rec && rec.state === "recording") { rec.onstop = () => recStream.getTracks().forEach(t => t.stop()); rec.stop(); }
@@ -473,7 +475,7 @@ function resetAudio() {
 function playMine() { if (myAudioURL) new Audio(myAudioURL).play(); }
 function showFallback(msg) {
   const f = $(`#${state.tab} .fallback`); if (!f) return; f.hidden = false;
-  f.querySelector(".fallbackMsg").textContent = msg + " Enregistre-toi avec le dictaphone de ton téléphone, puis importe le fichier.";
+  f.querySelector(".fallbackMsg").textContent = msg + " Record yourself with your phone's voice recorder, then import the file.";
 }
 
 /* ---------- reading tab ---------- */
@@ -510,10 +512,10 @@ function norm(s) { return s.toLowerCase().replace(/[^a-z' ]/g, " ").split(/\s+/)
 function note(m) { const h = $("#heard"); if (h) h.textContent = m; }
 function listen(btn) {
   const out = $("#heard");
-  if (!SR) { out.innerHTML = "La vérification automatique marche dans <b>Chrome</b> ou <b>Edge</b>. Ici, compare ton enregistrement avec le modèle."; return; }
+  if (!SR) { out.innerHTML = T("The automatic check works in <b>Chrome</b> or <b>Edge</b>. Here, compare your recording with the model.", "La vérification automatique marche dans Chrome ou Edge. Ici, compare ton enregistrement avec le modèle."); return; }
   stopSpeech();
   const r = new SR(); r.lang = $("#accent").value; r.maxAlternatives = 3; r.interimResults = false;
-  btn.disabled = true; btn.innerHTML = ico.ear + "Je t'écoute… parle !";
+  btn.disabled = true; btn.innerHTML = ico.ear + "I'm listening… speak!";
   r.onresult = e => {
     const it = ITEMS[state.i];
     const alts = [...e.results[0]].map(a => a.transcript);
@@ -523,31 +525,31 @@ function listen(btn) {
     const html = target.map(w => `<span class="w ${pool.has(w) ? "ok" : "ko"}">${w}</span>`).join(" ");
     const missed = verbs.filter(v => !pool.has(v));
     let msg;
-    if (missed.length === 0) msg = verbs.length > 1 ? "Les verbes au prétérit ont été reconnus. Vérifie à l'oreille que tu n'as pas ajouté de syllabe." : "Le verbe au prétérit a été reconnu. Vérifie à l'oreille que tu n'as pas ajouté de syllabe.";
+    if (missed.length === 0) msg = verbs.length > 1 ? "The past verbs were understood. Check by ear that you did not add a syllable." : "The past verb was understood. Check by ear that you did not add a syllable.";
     else {
       const stems = missed.map(v => v.replace(/(ed|d)$/, ""));
       const heardStem = stems.some(s => pool.has(s) || pool.has(s + "e"));
-      msg = heardStem ? "L'ordinateur a entendu le verbe <b>sans terminaison</b> : on n'entend pas ton -ed. Réécoute le modèle." : "Le mot barré n'a pas été reconnu : réécoute le modèle et réessaie.";
+      msg = heardStem ? "The computer heard the verb <b>without an ending</b>: we cannot hear your -ed. Listen to the model again." : "The crossed-out word was not understood: listen to the model and try again.";
     }
     out.innerHTML = `<div>L'ordinateur a entendu : <b>« ${esc(alts[0])} »</b></div><div style="margin-top:6px">${html}</div><p class="hint" style="margin-top:6px">${msg}</p>`;
   };
   r.onerror = e => {
-    if (e.error === "not-allowed" || e.error === "service-not-allowed") out.textContent = "Le micro est bloqué ici. Ouvre la page dans Chrome ou Edge pour la vérification automatique.";
-    else if (e.error === "no-speech") out.textContent = "Je n'ai rien entendu. Rapproche-toi du micro et réessaie.";
-    else out.textContent = "La reconnaissance a échoué (" + e.error + "). Réessaie.";
+    if (e.error === "not-allowed" || e.error === "service-not-allowed") out.textContent = "The microphone is blocked here. Open the page in Chrome or Edge for the automatic check.";
+    else if (e.error === "no-speech") out.textContent = "I heard nothing. Get closer to the microphone and try again.";
+    else out.textContent = "The check failed (" + e.error + "). Try again.";
   };
-  r.onend = () => { btn.disabled = false; btn.innerHTML = ico.ear + "Vérifier ma prononciation"; };
+  r.onend = () => { btn.disabled = false; btn.innerHTML = ico.ear + "Check my pronunciation"; };
   try { r.start(); } catch (e) { r.onend(); }
 }
 function renderChips() {
   let html = "", last = "";
   ITEMS.forEach((it, k) => {
-    if (it.g !== last) { html += `<span class="group-label">${it.g}</span>`; last = it.g; }
+    if (it.g !== last) { html += `<span class="group-label">${({"Verbes du texte": "Verbs in the text", "Phrases du texte": "Sentences in the text", "À toi !": "Your turn!"})[it.g] || it.g}</span>`; last = it.g; }
     const r = state.res[k];
     html += `<button class="chip lchip${r ? " done-" + r : ""}" data-k="${k}" aria-current="${k === state.i}">${it.w || it.label}</button>`;
   });
   $("#chips").innerHTML = html;
-  $("#score").textContent = `${Object.keys(state.res).length} / ${ITEMS.length} faits`;
+  $("#score").textContent = `${Object.keys(state.res).length} / ${ITEMS.length} done`;
   const cur = $("#chips .chip[aria-current=true]"); if (cur && state.tab === "lab") {const c=cur.parentElement,r=cur.getBoundingClientRect(),cr=c.getBoundingClientRect();c.scrollLeft+=r.left-cr.left-(cr.width-r.width)/2;};
 }
 function markText(it) {
@@ -573,57 +575,57 @@ function renderCard() {
     const list = it.verbs.map(v => `<b>${v.w}</b> → <span class="${v.a}">${SND[v.a]}</span>`).join(", ");
     fb = nRight === it.verbs.length ? `<div class="feedback ok">Bravo ! ${list}.</div>` : `<div class="feedback ko">Attention : ${list}.</div>`;
     const sounds = [...new Set(it.verbs.map(v => v.a))];
-    fb += `<div class="rules">${it.why ? `<div>${it.why}</div>` : ""}${sounds.map(a => `<div>${RULE[a]}</div>`).join("")}</div>`;
+    fb += `<div class="rules">${it.why ? `<div>${it.whyEn ? T(it.whyEn, it.why) : it.why}</div>` : ""}${sounds.map(a => `<div>${RULE[a]}</div>`).join("")}</div>`;
   }
   const hint = state.hint[k], self = state.res[k], locked = !done;
   $("#card").innerHTML = `
-    <div class="meta"><span>${it.g}${it.src ? ` · <span class="srcpara">paragraphe [${it.src}]</span>` : ""}</span><span>${k + 1} / ${ITEMS.length}</span></div>
+    <div class="meta"><span>${({"Verbes":"Verbs","Phrases":"Sentences","Négation":"Negative","Questions":"Questions","Mots en contexte":"Words in context","Phrases du dialogue":"Dialogue sentences","Questions et négation":"Questions and negatives","Verbes du texte":"Verbs in the text","Phrases du texte":"Sentences in the text","À toi !":"Your turn!","Réguliers":"Regular verbs","Irréguliers":"Irregular verbs","Dialogue 2 · Retard":"Dialogue 2 · Late"})[it.g]||it.g}${it.src ? ` · <span class="srcpara">paragraph [${it.src}]</span>` : ""}</span><span>${k + 1} / ${ITEMS.length}</span></div>
     <div class="target" lang="en">
       ${it.w ? `<p class="big">${markText(it)}</p>` : `<p class="sentence">${markText(it)}</p>`}
-      ${done && it.w ? `<div class="ipa">${it.ipa} · <span class="syl">${it.a === "id" ? "une syllabe de plus" : "pas de syllabe en plus"}</span></div>` : ""}
-      <div class="fr" lang="fr">${it.fr}</div>
+      ${done && it.w ? `<div class="ipa">${it.ipa} · <span class="syl">${it.a === "id" ? "one extra syllable" : "no extra syllable"}</span></div>` : ""}
+      <div class="fr fr-help" lang="fr">${it.fr}</div>
     </div>
     <div class="quiz">
-      ${done ? "" : `<p class="prompt">${it.verbs.length > 1 ? "Comment se prononce -ed dans chaque verbe ?" : "Comment se prononce -ed ?"}</p>`}
+      ${done ? "" : `<p class="prompt">${it.verbs.length > 1 ? T("How do you say -ed in each verb?", "Comment se prononce -ed dans chaque verbe ?") : T("How do you say -ed?", "Comment se prononce -ed ?")}</p>`}
       ${rows}
-      ${done ? "" : (hint ? `<p class="hint" style="text-align:center">Main sur la gorge : dis le dernier son du verbe <b>sans -ed</b>. C'est /t/ ou /d/ ? → /ɪd/. Ça vibre ? → /d/. Ça ne vibre pas ? → /t/.</p>` : `<button class="hintbtn" id="hint">Coup de pouce</button>`)}
+      ${done ? "" : (hint ? `<p class="hint" style="text-align:center" data-fr="Main sur la gorge : dis le dernier son du verbe sans -ed. C'est /t/ ou /d/ ? → /ɪd/. Ça vibre ? → /d/. Ça ne vibre pas ? → /t/.">Hand on your throat: say the last sound of the verb <b>without -ed</b>. Is it /t/ or /d/? → /ɪd/. Does it buzz? → /d/. No buzz? → /t/.</p>` : `<button class="hintbtn" id="hint">Hint</button>`)}
       ${fb}
     </div>
     <section class="step" ${locked ? "hidden" : ""}>
-      <h2><i>1</i>Écoute le modèle</h2>
-      <div class="row"><button class="btn primary" id="play">${ico.play}Écouter</button><button class="btn" id="slow">${ico.slow}Lentement</button></div>
+      <h2><i>1</i>Listen to the model</h2>
+      <div class="row"><button class="btn primary" id="play">${ico.play}Listen</button><button class="btn" id="slow">${ico.slow}Slowly</button></div>
     </section>
     <section class="step" ${locked ? "hidden" : ""}>
-      <h2><i>2</i>Enregistre-toi</h2>
+      <h2><i>2</i>Record yourself</h2>
       <div class="row">
-        <button class="btn rec" id="rec">${ico.mic}S'enregistrer</button>
-        <button class="btn" id="playMine" data-mine disabled>${ico.play}Me réécouter</button>
-        <button class="btn" id="compare" data-mine disabled>Modèle puis moi</button>
+        <button class="btn rec" id="rec">${ico.mic}Record</button>
+        <button class="btn" id="playMine" data-mine disabled>${ico.play}Play me back</button>
+        <button class="btn" id="compare" data-mine disabled>Model, then me</button>
       </div>
       <div class="fallback" hidden>
         <p class="hint fallbackMsg"></p>
-        <label class="upload">${ico.file}Importer mon enregistrement<input type="file" class="uploadIn" accept="audio/*"></label>
+        <label class="upload">${ico.file}Import my recording<input type="file" class="uploadIn" accept="audio/*"></label>
       </div>
     </section>
     <section class="step" ${locked ? "hidden" : ""}>
-      <h2><i>3</i>Vérification automatique</h2>
-      <div class="row"><button class="btn" id="listen">${ico.ear}Vérifier ma prononciation</button></div>
-      <div class="heard" id="heard"><p class="hint">L'ordinateur te dit quels mots il a compris. Pour la terminaison, fais confiance à ton oreille.</p></div>
+      <h2><i>3</i>Automatic check</h2>
+      <div class="row"><button class="btn" id="listen">${ico.ear}Check my pronunciation</button></div>
+      <div class="heard" id="heard"><p class="hint" data-fr="L'ordinateur te dit quels mots il a compris. Pour la terminaison, fais confiance à ton oreille.">The computer tells you which words it understood. For the ending, trust your ears.</p></div>
     </section>
     <section class="step" ${locked ? "hidden" : ""}>
-      <h2><i>4</i>Ma terminaison -ed était…</h2>
+      <h2><i>4</i>My -ed ending was…</h2>
       <div class="self">
-        <button class="btn g" data-r="good" aria-pressed="${self === "good"}">${ico.check}Juste</button>
-        <button class="btn m" data-r="mid" aria-pressed="${self === "mid"}">Presque</button>
-        <button class="btn b" data-r="bad" aria-pressed="${self === "bad"}">À retravailler</button>
+        <button class="btn g" data-r="good" aria-pressed="${self === "good"}">${ico.check}Right</button>
+        <button class="btn m" data-r="mid" aria-pressed="${self === "mid"}">Almost</button>
+        <button class="btn b" data-r="bad" aria-pressed="${self === "bad"}">Practise again</button>
       </div>
     </section>
     <div class="nav">
-      <button class="btn" id="prev" ${k === 0 ? "disabled" : ""}>← Précédent</button>
-      <button class="btn" id="next" ${k === ITEMS.length - 1 ? "disabled" : ""}>Suivant →</button>
+      <button class="btn" id="prev" ${k === 0 ? "disabled" : ""}>← Back</button>
+      <button class="btn" id="next" ${k === ITEMS.length - 1 ? "disabled" : ""}>Next →</button>
     </div>`;
   if (!done) return;
-  if (!navigator.mediaDevices || !window.MediaRecorder) showFallback("L'enregistrement direct n'est pas possible sur ce navigateur.");
+  if (!navigator.mediaDevices || !window.MediaRecorder) showFallback("Direct recording is not possible in this browser.");
 }
 function renderLab() { renderChips(); renderCard(); }
 
@@ -636,7 +638,7 @@ function showTab(t) {
     $("#tab-" + x).setAttribute("aria-selected", String(x === t));
   });
   if (t === "lab") renderLab();
-  else if (!navigator.mediaDevices || !window.MediaRecorder) showFallback("L'enregistrement direct n'est pas possible sur ce navigateur.");
+  else if (!navigator.mediaDevices || !window.MediaRecorder) showFallback("Direct recording is not possible in this browser.");
 }
 
 /* ---------- events ---------- */

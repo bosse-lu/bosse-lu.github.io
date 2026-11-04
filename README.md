@@ -8,8 +8,8 @@ Site : https://bosse-lu.github.io
 
 - **[Séquence Late and absent](https://bosse-lu.github.io/late-and-absent/)** : le parcours de la séquence en 6 étapes, avec la progression de l'élève. Les étapes :
   - **[Fill in the note](https://bosse-lu.github.io/fill-the-note/)** : écoute en autonomie des dialogues du collège (5e : dialogues 1 à 3 ; 4e : les 6 dialogues). Pour chaque dialogue : compréhension détaillée (le billet), repérage (la question du professeur et son intonation), reformulation avec *because*.
-  - **[Because or so?](https://bosse-lu.github.io/because-or-so/)** : la séance 2 d'après le diaporama animé : warm-up, récapitulatif des billets, *Make excuses*, cause et conséquence (*because* / *so*), *Recreate the situation*, puis le jeu chronométré (15 s, pastilles de difficulté, à l'écrit puis à l'oral).
   - **[Les sons de -ed](https://bosse-lu.github.io/ed-sounds/)** : /t/, /d/ ou /ɪd/ ? Le prétérit, la négation (*didn't*) et les questions (*Did…?*), avec de vraies voix anglaises.
+  - **[Can you explain?](https://bosse-lu.github.io/can-you-explain/)** : la séance 2 d'après le diaporama animé, avec ses images : warm-up de révision, récapitulatif des billets, *make excuses*, réflexion sur la langue (cause et conséquence, *because* / *so*), *recreate the situation*, le jeu chronométré (25 s, à l'écrit puis à l'oral) et l'exercice à faire à la maison.
   - **[Stress Lab](https://bosse-lu.github.io/stress-lab/)** : l'accent tonique des mots et des phrases de la séquence, avec de vraies voix, et le rythme des questions et de la négation.
   - **[Blame the bus!](https://bosse-lu.github.io/late-bus/)** : un article de *The Independent* adapté pour la 5e. Lis, écoute, et entraîne-toi sur les verbes en -ed du texte.
   - **[Recap: Excuse Lab](https://bosse-lu.github.io/excuse-lab/)** : pour finir, toutes les excuses et les vraies voix du dialogue *What's your excuse today?* Écoute, répète et joue la scène.
@@ -24,8 +24,12 @@ Site : https://bosse-lu.github.io
 - **Règle générale : les étapes et les évaluations des séquences sont verrouillées** jusqu'à ce que M. Bosse les ouvre pour une classe (une étape peut aussi s'ouvrir en partie, par exemple un seul dialogue). L'espace « Pour aller plus loin… » reste libre.
 - **Groupes de niveau** : dans une classe, un code de groupe impose le niveau ★★ ou ★★★ sur les exercices (nombre d'écoutes, aides, réponses écrites). Le code de classe laisse le niveau libre.
 - **Mode professeur** : un code professeur (non publié) ouvre tout sur l'appareil du professeur.
-- **Ordinateur partagé** : le bouton « 👤 Je suis un autre élève » (accueil, parcours, chaque activité) efface tout le travail enregistré sur l'appareil, pour que l'élève suivant reparte de zéro.
+- **Ordinateur partagé** : le bouton « 👤 I am another student » (accueil, parcours, chaque activité) efface tout le travail enregistré sur l'appareil, pour que l'élève suivant reparte de zéro.
 - Les réglages sont dans `classes.json` (étapes ouvertes, ouvertures partielles et évaluations débloquées par classe). L'état des classes se lit sur l'[espace prof](https://bosse-lu.github.io/prof/).
+
+## Consignes
+
+Les consignes sont en anglais. Niveau ★ (et niveau libre) : la traduction française s'affiche dessous ; ★★ : un bouton FR l'affiche à la demande ; ★★★ : anglais seul.
 
 ## Comment ça marche
 

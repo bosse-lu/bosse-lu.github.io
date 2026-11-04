@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=Literata:ital,wght@0,400;0,700;1,400;1,700&display=swap">
 <link rel="stylesheet" href="../../assets/story.css">
+<script src="../../assets/consigne.js"></script>
 </head>
 <body class="">
 <div class="wrap">
@@ -20,16 +21,16 @@
   </header>
   <div class="controls">
     <button class="btn primary" id="readAll" type="button"></button>
-    <label class="sel">Vitesse <select id="rate"><option value="0.9">Normale</option><option value="0.75">Lente</option><option value="0.6">Très lente</option></select></label>
-    <label class="sel">Voix <select id="accent"><option value="en-GB">British</option><option value="en-US">American</option></select></label>
-    <p class="hint" id="hint">Lis l'histoire, puis écoute-la. Touche une phrase pour l'entendre seule.</p>
+    <label class="sel">Speed <select id="rate"><option value="0.9">Normal</option><option value="0.75">Slow</option><option value="0.6">Very slow</option></select></label>
+    <label class="sel">Voice <select id="accent"><option value="en-GB">British</option><option value="en-US">American</option></select></label>
+    <p class="hint" id="hint" data-fr="Lis l'histoire, puis écoute-la. Touche une phrase pour l'entendre seule.">Read the story, then listen to it. Tap a sentence to hear it alone.</p>
   </div>
   <article class="story" id="story" lang="en"></article>
   <details>
-    <summary>Besoin d'aide ? Vocabulary</summary>
+    <summary>Need help? Vocabulary</summary>
     <ul class="vocab" id="vocab"></ul>
   </details>
-  <p class="soon">Les questions et la correction arriveront ici après le travail à la maison.</p>
+  <p class="soon" data-fr="Les questions et la correction arriveront ici après le travail à la maison.">The questions and the answers will come here after your homework.</p>
 </div>
 <script type="application/json" id="story-data">{"parts": [["One hot afternoon, a big Lion was sleeping under a tree in the forest. He was tired after a long day of hunting. Suddenly, a little Mouse ran across his nose and woke him up!", "The Lion was very angry. He caught the Mouse in his enormous paw. “How dare you wake me up!” roared the Lion. “I am going to eat you right now!”", "“Please, Mr Lion, don't eat me!” cried the Mouse. “I am very sorry. If you let me go, I promise I will help you one day.”", "The Lion laughed loudly. “You? Help me? You are so small and weak! But you are funny, so I will let you go.” He opened his paw, and the little Mouse ran away as fast as he could."], ["A few weeks later, some hunters came to the forest. They put a big net between the trees to catch animals. The Lion did not see the net, and he walked right into it! He was trapped.", "The Lion roared and roared, but the more he moved, the tighter the net became. He could not escape. “Somebody, please help me!” he shouted.", "The little Mouse heard the Lion's loud roar from far away. He remembered his promise, so he ran quickly to help his friend."], ["When the Mouse arrived, he saw the Lion trapped in the net. “Don't worry, my friend,” said the Mouse. “I promised to help you, and I will keep my promise!”", "The little Mouse began to bite the ropes of the net with his sharp teeth. He worked and worked, bite after bite, until finally… the net broke! The Lion was free!", "“Thank you, little Mouse,” said the Lion. “You saved my life. I was wrong — even a small friend can be a great friend.” From that day, the Lion and the Mouse were best friends forever."]], "moral": "Moral: No act of kindness, however small, is ever wasted.", "vocab": [["to sleep / to wake up", "dormir / se réveiller"], ["angry", "en colère"], ["a paw", "une patte"], ["to promise / a promise", "promettre / une promesse"], ["a hunter", "un chasseur"], ["a net / trapped", "un filet / piégé"], ["to roar", "rugir"], ["sharp teeth", "des dents pointues"], ["to save someone's life", "sauver la vie de quelqu'un"]]}</script>
 <script src="../../assets/story.js"></script>
@@ -37,5 +38,6 @@
 <script src="../../assets/art.js"></script>
 <script src="../../assets/flagtips.js"></script>
 <script src="../../assets/newbadge.js"></script>
+<script src="../../assets/classes.js"></script>
 </body>
 </html>

@@ -21,15 +21,15 @@
         // 5e: 3 situations + 3 dialogues x 3 activities + bilan = 13 ; 4e: 3 + 6 x 3 + 1 = 22
         total: s => s.lvl === "4e" ? 22 : 13,
         count: s => Object.keys(s.res || {}).filter(k => s.lvl === "4e" || !/^[lqw][456]$/.test(k)).length},
-      {id: "so", href: "because-or-so/", art: "so", title: "Because or so?",
-        what: "La séance 2 : récapitule les billets, explique la cause et la conséquence avec because ou so, recrée les situations, puis joue contre la montre (à l'écrit, puis à l'oral).",
-        skills: ["Cause / conséquence", "Prétérit", "Jeu chronométré"], key: "becauseso", total: 21},
-      {id: "ed", href: "ed-sounds/", art: "ed", title: "Les sons de -ed",
+      {id: "ed", href: "ed-sounds/", art: "ed", title: "The sounds of -ed",
         what: "Le prétérit : /t/, /d/ ou /ɪd/ ? Puis la négation (didn't) et les questions (Did…?), avec de vraies voix. Entraîne-toi, puis passe l'évaluation finale.",
         skills: ["Prétérit", "Prononciation"], key: "edlab5e-real", total: 19},
+      {id: "so", href: "can-you-explain/", art: "so", title: "Can you explain?",
+        what: "Lesson 2: revise the excuses, recap the notes, find the rule (cause and consequence), recreate the situations, then play against the clock. Homework at the end.",
+        skills: ["Cause / consequence", "Past simple", "Game"], key: "becauseso", total: 23},
       {id: "stress", href: "stress-lab/", art: "stress", title: "Stress Lab",
         what: "L'accent des mots et des phrases de la séquence avec de vraies voix : ABsence, exCUSE, SORry I'm LATE… et le rythme de Did you GO…? / She DIDn't…",
-        skills: ["Accent tonique", "Rythme"], key: "stresslab5e-real", total: 28},
+        skills: ["Accent tonique", "Rythme"], key: "stresslab5e-v3", total: 23},
       {id: "bus", href: "late-bus/", art: "bus", title: "Blame the bus!",
         what: "Un vrai article de presse britannique sur les retards à Londres. Lis-le, écoute-le, puis entraîne-toi sur ses verbes en -ed.",
         skills: ["Lecture", "Document authentique", "Royaume-Uni"], key: "latebus5e", total: 12},
@@ -142,13 +142,13 @@
     const home = document.querySelector(".homebar") || document.querySelector(".homelink");
     if (home) {
       const bar = document.createElement("nav"); bar.className = "seqbar homebar"; bar.setAttribute("aria-label", "Fil d'Ariane");
-      bar.innerHTML = `<a href="${url("")}">Accueil</a><span class="sep">›</span><a href="${url(SEQ.href)}">← Séquence ${SEQ.title}</a><span class="stp">Étape ${i + 1} / ${SEQ.steps.length}</span>`;
+      bar.innerHTML = `<a href="${url("")}">Home</a><span class="sep">›</span><a href="${url(SEQ.href)}">← ${SEQ.title}</a><span class="stp">Step ${i + 1} / ${SEQ.steps.length}</span>`;
       home.replaceWith(bar);
     }
     const prev = SEQ.steps[i - 1], next = SEQ.steps[i + 1];
-    const nav = document.createElement("nav"); nav.className = "seqnav"; nav.setAttribute("aria-label", "Étapes de la séquence");
-    nav.innerHTML = (prev ? `<a href="${url(prev.href)}"><small>← Étape ${i}</small><b>${prev.title}</b></a>` : `<a href="${url(SEQ.href)}"><small>←</small><b>Le parcours de la séquence</b></a>`)
-      + (next ? `<a class="nx" href="${url(next.href)}"><small>Étape suivante ${i + 2} →</small><b>${next.title}</b></a>` : `<a class="nx" href="${url(SEQ.href)}"><small>Dernière étape terminée ? →</small><b>Retour au parcours</b></a>`);
+    const nav = document.createElement("nav"); nav.className = "seqnav"; nav.setAttribute("aria-label", "Steps of the sequence");
+    nav.innerHTML = (prev ? `<a href="${url(prev.href)}"><small>← Step ${i}</small><b>${prev.title}</b></a>` : `<a href="${url(SEQ.href)}"><small>←</small><b>The sequence</b></a>`)
+      + (next ? `<a class="nx" href="${url(next.href)}"><small>Next step ${i + 2} →</small><b>${next.title}</b></a>` : `<a class="nx" href="${url(SEQ.href)}"><small>Last step done? →</small><b>Back to the sequence</b></a>`);
     function lockIfClosed() {
       const old = document.getElementById("seq-lock"); if (old) old.remove();
       if (!ready() || isOpen(SEQ.steps[i], i)) return;
@@ -159,10 +159,10 @@
         #seq-lock a.back{display:inline-block;margin-top:14px;font-weight:700;color:#fff;background:var(--accent,#2f4fd8);border-radius:10px;padding:10px 16px;text-decoration:none}`);
       const d = document.createElement("div"); d.id = "seq-lock"; d.setAttribute("role", "dialog"); d.setAttribute("aria-modal", "true"); d.setAttribute("aria-labelledby", "seq-lock-t");
       const k = hasClass();
-      d.innerHTML = `<div><span style="font-size:2.4rem" aria-hidden="true">🔒</span><b class="t" id="seq-lock-t">Étape verrouillée</b>${k
-        ? "Cette étape n'est pas encore ouverte pour ta classe. Ton professeur l'ouvrira en classe, au bon moment."
-        : "Entre le code de ta classe : seules les étapes ouvertes par ton professeur sont accessibles."}
-        ${k ? "" : `<div id="seq-lock-cl"></div>`}<br><a class="back" href="${url(SEQ.href)}">← Retour au parcours</a></div>`;
+      d.innerHTML = `<div><span style="font-size:2.4rem" aria-hidden="true">🔒</span><b class="t" id="seq-lock-t">Locked step</b>${k
+        ? `<span data-fr="Cette étape n'est pas encore ouverte pour ta classe. Ton professeur l'ouvrira en classe, au bon moment.">This step is not open for your class yet. Your teacher will open it in class.</span>`
+        : `<span data-fr="Entre le code de ta classe : seules les étapes ouvertes par ton professeur sont accessibles.">Enter your class code: you can only open the steps your teacher has opened.</span>`}
+        ${k ? "" : `<div id="seq-lock-cl"></div>`}<br><a class="back" href="${url(SEQ.href)}">← Back to the sequence</a></div>`;
       document.body.appendChild(d);
       const box = document.getElementById("seq-lock-cl"); if (box && C()) C().mountPicker(box, {noReset: true});
     }
@@ -174,7 +174,7 @@
     // Shared computers: a way to hand the device to the next learner (assets/reset.js)
     if (wrap && !document.getElementById("class-box")) {
       const r = document.createElement("p"); r.style.cssText = "margin:0;text-align:center";
-      r.innerHTML = `<button type="button" class="reset-btn" data-reset-btn><span aria-hidden="true">👤</span> Je suis un autre élève</button>`;
+      r.innerHTML = `<button type="button" class="reset-btn" data-reset-btn><span aria-hidden="true">👤</span> I am another student</button>`;
       nav.after(r);
     }
   }

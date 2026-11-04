@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Can you explain? – Late and absent – Collège Réeberg Néron</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Can you explain? — lesson 2 of Late and absent, from the teacher's animated slideshow.
+   Step 1 warm-up (revision with the pictures of lesson 1), step 2 recap of the notes, step 3 make excuses,
+   step 4 think about the language (cause / consequence, inductive), step 5 recreate the situation, step 6 the game,
+   step 7 homework. Cause = teal, consequence = red, as on the slides. Instructions in English; French help by level. */
+:root{
+  --paper:#f3f5fb; --card:#ffffff; --ink:#1b2340; --muted:#5b6380; --line:#d9ddea;
+  --accent:#2f4fd8; --accent-soft:#e3e8ff; --mark:#ffd23f; --onmark:#1b2340; --navy:#1b2340;
+  --good:#1f8a55; --good-soft:#dff3e8; --bad:#c2412d; --bad-soft:#fbe5df;
+  --cause:#1f8f7f; --cause-soft:#d9f2ee; --cons:#cc2936; --cons-soft:#fbe1e3;
+  --note:#fff3b8; --note-line:#e2b93b; --ink-red:#c2141f;
+  --dot-g:#22a447; --dot-y:#f2c418; --dot-r:#e0281f;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;
+  --slide:Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11152a; --card:#1a1f37; --ink:#e8ebf7; --muted:#9aa1bd; --line:#2d3456;
+  --accent:#8ea2ff; --accent-soft:#262e57; --mark:#f2c418; --good:#4cc38a; --good-soft:#173a2b; --bad:#f0785f; --bad-soft:#3d2120;
+  --cause:#4fd1bd; --cause-soft:#15342f; --cons:#ff7a84; --cons-soft:#3d1c20; --note:#3a3420; --note-line:#a8862b; --ink-red:#ff8a8a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11152a; --card:#1a1f37; --ink:#e8ebf7; --muted:#9aa1bd; --line:#2d3456;
+  --accent:#8ea2ff; --accent-soft:#262e57; --mark:#f2c418; --good:#4cc38a; --good-soft:#173a2b; --bad:#f0785f; --bad-soft:#3d2120;
+  --cause:#4fd1bd; --cause-soft:#15342f; --cons:#ff7a84; --cons-soft:#3d1c20; --note:#3a3420; --note-line:#a8862b; --ink-red:#ff8a8a; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 56px}
+button,select,input{font:inherit;color:inherit}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.homebar{max-width:860px;margin:0 auto;text-align:center}
+.homelink{font-weight:600;font-size:14px;color:inherit;opacity:.75;text-decoration:none}
+.homelink:hover{opacity:1;text-decoration:underline}
+.kicker{font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2.2rem,9vw,3.5rem);line-height:1;letter-spacing:-.02em;margin:8px 0 0}
+h1 span{background:linear-gradient(transparent 58%,var(--mark) 58%)}
+.hero-art{float:right;width:clamp(96px,27vw,156px);aspect-ratio:1;margin:-6px 0 6px 14px}.hero-art svg{display:block;width:100%;height:100%}
+header::after{content:"";display:block;clear:both}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;flex-wrap:wrap}
+.seg button{border:0;background:var(--card);padding:8px 14px;cursor:pointer;font-weight:700}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg button:disabled{cursor:default;opacity:.55}
+.lvlrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.lvlrow p{flex:1 1 100%;margin:0;font-size:.92rem;color:var(--muted)}
+.overall{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.overall b{font-family:var(--display)}
+.overall .pc{margin-left:auto;font-family:var(--display);font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.bar{flex:1 1 100%;display:block;height:10px;border-radius:999px;background:var(--accent-soft);overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:var(--accent);border-radius:999px;transition:width .5s}
+
+/* steps */
+.act{display:flex;flex-direction:column;gap:14px}
+.step-h{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin:14px 0 0}
+.step-k{flex:none;font:800 .8rem/1 var(--display);letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--paper);border-radius:999px;padding:6px 12px;align-self:center}
+.step-h h2{margin:0;font-family:var(--slide);font-weight:400;font-size:clamp(1.45rem,5vw,1.85rem);line-height:1.1}
+.step-h h2 em{font-weight:700}
+.step-h .home{margin-left:auto;font-size:.8rem;font-weight:700;color:var(--muted)}
+.consigne{margin:0;font-size:1.02rem;font-weight:700}
+.instr{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;padding:12px 14px}
+.instr .consigne{flex:1 1 260px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.card.ok{border-color:var(--good);box-shadow:inset 4px 0 0 var(--good)}
+.card-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.card-h h3{margin:0;font-family:var(--display);font-weight:800;font-size:1.1rem}
+.done-tag{margin-left:auto;font-size:.78rem;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--good);color:#fff}
+.start{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:12px;padding:12px 20px;background:var(--accent);color:#fff;font:800 1.05rem/1 var(--display);cursor:pointer;box-shadow:0 4px 14px rgba(47,79,216,.3)}
+.start:hover{filter:brightness(1.08)}
+.start svg{width:18px;height:18px}
+.start.again{background:var(--card);color:var(--accent);border:2px solid var(--accent);box-shadow:none;padding:9px 16px;font-size:.95rem}
+
+/* pictures: the slide images, notes and signs */
+.scene{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 12px}
+.scene .plus,.scene .eq{font:800 1.8rem/1 var(--display);color:var(--ink)}
+.pic{display:flex;flex-direction:column;align-items:center;gap:6px}
+.frame{background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px;box-shadow:0 2px 6px rgba(27,35,64,.08);display:grid;place-items:center;width:132px;height:118px}
+.frame{overflow:hidden;display:flex!important;align-items:center;justify-content:center}
+.frame img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
+.frame.wide{width:auto;height:auto;padding:4px}
+.frame.wide img{width:auto;height:64px;max-width:200px}
+.pill{display:inline-block;font-weight:700;font-size:.78rem;background:var(--navy);color:var(--mark);border-radius:999px;padding:4px 12px;text-align:center}
+.lab{font:700 .85rem/1.2 var(--slide);text-transform:uppercase;letter-spacing:.03em;text-align:center}
+.cap{font-size:.75rem;font-weight:700;text-align:center;max-width:12em}
+.overword{position:relative;font:800 1.5rem/1 var(--slide)}
+.overword.no::before{content:"✗";position:absolute;left:-.4em;top:-.3em;color:var(--dot-r);font-size:1.5em;font-family:var(--body)}
+.q-mark{font:800 2.2rem/1 var(--slide)}
+.note{width:170px;background:var(--note);border:2px solid var(--note-line);border-radius:6px;padding:8px 10px;font-family:var(--slide);box-shadow:0 2px 0 rgba(0,0,0,.08)}
+.note b{display:block;text-align:center;font-size:.78rem;letter-spacing:.04em;margin-bottom:6px}
+.note .row{display:flex;gap:6px;font-size:.66rem;border-bottom:1px dotted var(--note-line);padding:2px 0;min-height:1.45em;align-items:flex-end}
+.note .row span{flex:none;width:5.4em}
+.note .row em{font-style:normal;font-weight:700;color:var(--ink-red);font-family:var(--body);font-size:.72rem;text-transform:uppercase}
+.note .row img{height:22px}
+.note.big{width:210px}
+
+/* warm-up strip, like the slide */
+.strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.wpick{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px;cursor:pointer}
+.wpick .frame{width:100%;height:120px;border:0;box-shadow:none}
+.wpick[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.wpick .ok{position:absolute;top:8px;right:8px;width:24px;height:24px;border-radius:50%;background:var(--good);color:#fff;display:grid;place-items:center;font-weight:800;font-size:.85rem}
+.wpick:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* sentence building */
+.answer{min-height:50px;border:2px dashed var(--line);border-radius:12px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.answer:empty::before{content:"Tap the words in order…";color:var(--muted);font-size:.9rem;padding:0 4px}
+.answer.right{border-style:solid;border-color:var(--good);background:var(--good-soft)}
+.answer.wrong{border-style:solid;border-color:var(--bad)}
+.tiles{display:flex;flex-wrap:wrap;gap:6px}
+.tile{border:1px solid var(--ink);background:var(--card);border-radius:8px;padding:6px 11px;cursor:pointer;font-family:var(--display);font-weight:500;font-size:1.02rem}
+.tile.used{visibility:hidden}
+.answer .tile{background:var(--accent-soft);border-color:var(--accent)}
+.tile.kw{font-weight:800}
+.typed{font:inherit;font-family:var(--display);font-size:1.05rem;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%}
+.typed.right{border-color:var(--good);background:var(--good-soft)}
+.typed.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.said{font-family:var(--display);font-size:1.15rem;line-height:1.5;margin:0;padding:10px 14px;border-radius:12px;background:var(--paper)}
+.said .ca{color:var(--cause);font-weight:700} .said .co{color:var(--cons);font-weight:700} .said .kk{font-weight:800;text-decoration:underline;text-underline-offset:3px}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--card);font-weight:700;border-radius:10px;padding:8px 16px;cursor:pointer}
+.btn.lite{background:none;color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.fb{margin:0;font-weight:700}
+.fb.good{color:var(--good)} .fb.bad{color:var(--bad)}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 15px;cursor:pointer;font-weight:700}
+.opt:hover{border-color:var(--accent)}
+.opt.right{background:var(--good);border-color:var(--good);color:#fff}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.btn:focus-visible,.opt:focus-visible,.tile:focus-visible,.seg button:focus-visible,.typed:focus-visible,.start:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* recap */
+.stage{min-height:40px}
+.recap{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}
+.rc{display:flex;flex-direction:column;align-items:center;gap:8px;width:210px;animation:pop .5s ease both}
+.rc .pill{min-height:1.9em}
+.rc .pill:empty{visibility:hidden}
+.rc .sent{font-family:var(--display);font-size:.98rem;text-align:center;margin:0;min-height:1.5em}
+.write{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;animation:typing 1.1s steps(20,end) both}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes typing{from{max-width:0}to{max-width:14em}}
+.ask{display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center}
+.ask .consigne{font-size:1rem}
+
+/* think about it */
+.line3{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;width:100%;max-width:640px;margin:0 auto}
+.blk{border-radius:12px;padding:14px 10px;text-align:center;font-weight:700;color:#fff;font-size:1.08rem}
+.blk.ca{background:var(--cause)} .blk.co{background:var(--cons)}
+.blk.plain{background:var(--paper);color:var(--ink);border:2px dashed var(--line)}
+.kwd{font:700 1.4rem/1 var(--slide);min-width:3.6em;text-align:center}
+.pop{animation:pop .5s both}
+.rule-box{border:2px solid var(--ink);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;background:var(--paper);animation:pop .6s both}
+.rule-box b.t{font-family:var(--display);font-size:1.15rem}
+.rule-box .ca{color:var(--cause);font-weight:800}.rule-box .co{color:var(--cons);font-weight:800}
+.qrow{display:flex;flex-direction:column;gap:8px;padding:10px 0;border-top:1px dashed var(--line);animation:pop .4s both}
+.mini-q{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.mini-q:last-child{border-bottom:0}
+.mini-q .part{font-family:var(--display);font-size:1.05rem}
+.mini-q.done .p1{color:var(--c1);font-weight:700}.mini-q.done .p2{color:var(--c2);font-weight:700}
+
+/* the game */
+.game{display:flex;flex-direction:column;gap:14px}
+.gbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.score{font:800 1.4rem/1 var(--display);font-variant-numeric:tabular-nums}
+.timer{position:relative;width:64px;height:64px;flex:none}
+.timer svg{width:64px;height:64px;transform:rotate(-90deg)}
+.timer circle{fill:none;stroke-width:7}
+.timer .bg{stroke:var(--line)} .timer .fg{stroke:var(--accent);transition:stroke-dashoffset 1s linear}
+.timer.low .fg{stroke:var(--bad)}
+.timer b{position:absolute;inset:0;display:grid;place-items:center;font:800 1.3rem/1 var(--display);font-variant-numeric:tabular-nums}
+.dot{width:26px;height:26px;border-radius:50%;flex:none;box-shadow:inset 0 -3px 0 rgba(0,0,0,.15);display:inline-block}
+.dot.g{background:var(--dot-g)} .dot.y{background:var(--dot-y)} .dot.r{background:var(--dot-r)}
+.gcard{position:relative;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.gcard>.dot{position:absolute;top:14px;left:14px}
+.gcard .qn{position:absolute;top:16px;right:16px;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.gcard .scene{padding-top:22px}
+.gcard.timeout{border-color:var(--bad)}
+.gcard.win{border-color:var(--good)}
+.legend-dots{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:.88rem;color:var(--muted);align-items:center}
+.legend-dots span{display:inline-flex;align-items:center;gap:6px}
+.legend-dots .dot{width:16px;height:16px}
+.big-end{text-align:center}
+.big-end b{display:block;font:800 2rem/1.1 var(--display)}
+.rec{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.homework{border:2px dashed var(--accent);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--card)}
+details.prof{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+details.prof summary{cursor:pointer;font-weight:700}
+details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.93rem}
+@media (max-width:560px){.line3{grid-template-columns:1fr}.kwd{padding:2px 0}.frame{width:112px;height:100px}.note{width:150px}.strip{gap:8px}.wpick{padding:6px}.wpick .frame{height:84px}.pill{font-size:.68rem;padding:3px 8px}}
+@media (prefers-reduced-motion:reduce){.rc,.pop,.qrow,.rule-box,.write{animation:none!important}.bar span{transition:none}.timer .fg{transition:none}}
+</style>
+<script src="../assets/consigne.js"></script>
+</head>
+<body>
+<div class="homebar"><a class="homelink" href="../">← Toutes les activités · Collège Réeberg Néron</a></div>
+<div class="wrap">
+  <header>
+    <div class="hero-art" data-art="so" aria-hidden="true"></div>
+    <p class="kicker">Late and absent · Lesson 2</p>
+    <h1>Can you <span>explain?</span></h1>
+  </header>
+
+  <div id="class-box" class="cl-box" aria-live="polite"></div>
+
+  <div class="panel lvlrow" id="lvl-box">
+    <b>My level</b>
+    <span class="seg" role="group" aria-label="Level">
+      <button type="button" data-st="1" aria-pressed="false">★ Discover</button>
+      <button type="button" data-st="2" aria-pressed="false">★★ Practise</button>
+      <button type="button" data-st="3" aria-pressed="false">★★★ Challenge</button>
+    </span>
+    <p id="lvl-msg"></p>
+  </div>
+
+  <div class="panel overall">
+    <b>My progress</b><span class="pc" id="pc">0 / 0</span>
+    <span class="bar" aria-hidden="true"><span id="pcbar"></span></span>
+  </div>
+
+  <section class="act" aria-labelledby="h1s">
+    <div class="step-h"><span class="step-k">Step 1</span><h2 id="h1s"><em>Warm-up</em> · revision</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Choisis une image. Regarde le moment et fais une phrase au prétérit.">Choose a picture. Look at the time and make a sentence in the past.</p></div>
+    <div id="warm" class="act"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h2s">
+    <div class="step-h"><span class="step-k">Step 2</span><h2 id="h2s"><em>So, let's recap</em></h2></div>
+    <div class="instr"><p class="consigne" data-fr="Appuie sur ▶ Start. Un billet apparaît : que dit l'élève qui le donne ? Choisis la bonne phrase.">Press <b>▶ Start</b>. A note appears: what does the student say? Choose the right sentence.</p>
+      <button type="button" class="start" id="rc-start"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>Start</button></div>
+    <div id="recap" class="card stage" hidden></div>
+  </section>
+
+  <section class="act" aria-labelledby="h3s">
+    <div class="step-h"><span class="step-k">Step 3</span><h2 id="h3s"><em>Now it is your turn</em> : make excuses</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Billet + image = une excuse. Fais la phrase avec because.">Note + picture = an excuse. Make the sentence with <b>because</b>.</p></div>
+    <div id="make" class="act"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h4s">
+    <div class="step-h"><span class="step-k">Step 4</span><h2 id="h4s"><em>Look and think</em></h2></div>
+    <div class="instr"><p class="consigne" data-fr="Appuie sur ▶ Start et observe les deux phrases. Puis réponds aux questions : c'est toi qui trouves la règle.">Press <b>▶ Start</b> and look at the two sentences. Then answer the questions: you find the rule.</p>
+      <button type="button" class="start" id="th-start"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>Start</button></div>
+    <div id="think" class="card stage" hidden></div>
+  </section>
+
+  <section class="act" aria-labelledby="h5s">
+    <div class="step-h"><span class="step-k">Step 5</span><h2 id="h5s"><em>Recreate the situation</em></h2></div>
+    <div class="instr"><p class="consigne" data-fr="Image + billet : que s'est-il passé ? Dis-le en une phrase avec because ou so.">Picture + note: what happened? Say it in one sentence with <b>because</b> or <b>so</b>.</p></div>
+    <div id="recreate" class="act"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h6s">
+    <div class="step-h"><span class="step-k">Step 6</span><h2 id="h6s"><em>Time to manipulate</em> · the game</h2></div>
+    <div class="instr"><p class="consigne" data-fr="25 secondes par carte. Les cartes difficiles rapportent plus de points. D'abord à l'écrit, puis à l'oral.">25 seconds per card. Difficult cards give more points. First write, then speak.</p></div>
+    <div class="legend-dots"><span><i class="dot g"></i>easy · 1 point</span><span><i class="dot y"></i>medium · 2 points</span><span><i class="dot r"></i>difficult · 3 points</span></div>
+    <div id="game" class="game"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h7s">
+    <div class="step-h"><span class="step-k">Step 7</span><h2 id="h7s"><em>Homework</em> · because or so?</h2><span class="home">🏠 At home</span></div>
+    <div class="instr"><p class="consigne" data-fr="À faire à la maison : choisis because ou so. Puis fais les exercices A à E de ta fiche.">At home: choose <b>because</b> or <b>so</b>. Then do exercises A to E on your worksheet.</p></div>
+    <div id="hw" class="homework"></div>
+  </section>
+
+  <details class="prof" lang="fr">
+    <summary>Notes pour le professeur</summary>
+    <ul>
+      <li>La page suit le diaporama de la séance 2, avec ses images : <i>Warm-up · revision</i> (3 images de la séance 1), <i>So, let's recap</i> (animation lancée par l'élève : les billets apparaissent, il choisit <i>I'm late / I was absent / Can I…?</i>, puis les mots rouges s'inscrivent), <i>Make excuses</i> (avec <i>because</i>, déjà connu), <i>Look and think</i> (réflexion sur la langue : les deux phrases inversées et colorées, quatre questions, puis la règle formulée), <i>Recreate the situation</i> (3), le jeu, et l'exercice <i>because or so?</i> à faire à la maison.</li>
+      <li>Consignes en anglais. Groupe ★ (et niveau libre) : traduction française affichée dessous ; ★★ : bouton FR pour l'afficher ; ★★★ : anglais seul.</li>
+      <li><b>Le jeu</b> : 25 secondes par carte, score, pastilles verte / jaune / rouge (1, 2, 3 points). 1er temps à l'écrit : ★ mots à remettre dans l'ordre, ★★ mots + erreurs, ★★★ rédiger la phrase. 2e temps à l'oral : ★ mots dans le désordre avec une erreur, ★★ mots + erreurs, ★★★ l'image seule ; l'élève dit la phrase (il peut s'enregistrer), puis la vérification sonore fait entendre le modèle (voix anglaise du navigateur) et il valide.</li>
+      <li>Code couleur des diapos : cause en vert, conséquence en rouge, mot de liaison souligné. Les deux formes sont acceptées : <i>I'm late because I overslept</i> / <i>I overslept, so I'm late</i>.</li>
+    </ul>
+  </details>
+</div>
+<script src="../assets/art.js"></script>
+<script src="../assets/newbadge.js"></script>
+<script src="../assets/flagtips.js"></script>
+<script src="../assets/reset.js"></script>
+<script src="../assets/classes.js"></script>
+<script>
+(function () {
+  const KEY = "becauseso";
+  const IMG = n => `../assets/img/excuses/${n}.png`;
+  const $ = (s, r) => (r || document).querySelector(s), $$ = (s, r) => [...(r || document).querySelectorAll(s)];
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const cap1 = t => t.charAt(0).toUpperCase() + t.slice(1);
+  const T = (en, fr) => window.Consigne ? Consigne.t(en, fr) : en;
+  let S = {}; try { S = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) {}
+  S.res = S.res || {}; S.best = S.best || {};
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+  const fbSet = (el, cls, en, fr) => { el.className = "fb " + cls; el.innerHTML = fr ? T(en, fr) : en; };
+
+  /* ---------- level ---------- */
+  const C = () => window.Classes;
+  const stars = () => { const v = C() && C().stars ? C().stars() : 1; if (v === null) return S.pv || 1; const k = C() && C().klass ? C().klass() : null; return (k && v > 1) ? v : (S.free || 1); };
+  const imposed = () => { const k = C() && C().klass ? C().klass() : null; return !!(k && !k.admin && C().stars() > 1); };
+  window.pageStars = stars;
+
+  /* ---------- matching ---------- */
+  const CONTR = [[/\bi'm\b/g, "i am"], [/\bdidn't\b/g, "did not"], [/\bdon't\b/g, "do not"], [/\bdad's\b/g, "dads"], [/\bteacher's\b/g, "teachers"], [/\bdentist's\b/g, "dentist"], [/\bshe's\b/g, "she has"], [/\bhe's\b/g, "he has"], [/\bwhat's\b/g, "what is"]];
+  function norm(t) {
+    t = String(t || "").toLowerCase().replace(/[’‘`]/g, "'");
+    CONTR.forEach(([r, v]) => { t = t.replace(r, v); });
+    t = t.replace(/[^a-z0-9' ]+/g, " ").replace(/'/g, "").replace(/\s+/g, " ").trim();
+    return t.replace(/^sorry /, "").replace(/ please$/, "").replace(/ please /g, " ");
+  }
+  function lev(a, b) {
+    const m = a.length, n = b.length, d = Array.from({length: m + 1}, (_, i) => [i]);
+    for (let j = 1; j <= n; j++) d[0][j] = j;
+    for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    return d[m][n];
+  }
+  function near(got, want) {
+    const a = norm(got).split(" "), b = norm(want).split(" ");
+    if (!a[0] || a.length !== b.length) return false;
+    let slips = 0;
+    for (let i = 0; i < b.length; i++) {
+      if (a[i] === b[i]) continue;
+      if (b[i].length >= 5 && lev(a[i], b[i]) <= 1 && ++slips <= 2) continue;
+      return false;
+    }
+    return true;
+  }
+
+  /* ---------- sentences: cause + so + consequence / consequence + because + cause ---------- */
+  function forms(it) {
+    if (it.k) return [{parts: it.k.map(t => ({t, r: ""})), kind: "plain"}, ...(it.alt || []).map(a => ({parts: a.map(t => ({t, r: ""})), kind: "plain"}))];
+    const ca = it.cause.map(t => ({t, r: "ca"})), co = it.cons.map(t => ({t, r: "co"}));
+    const f = [{parts: [...co, {t: "because", r: "kk"}, ...ca], kind: "because"}, {parts: [...ca, {t: "so", r: "kk"}, ...co], kind: "so"}];
+    return it.only ? f.filter(x => x.kind === it.only) : f;
+  }
+  const joinF = f => f.parts.map(p => p.t).join(" ");
+  function pretty(it, f) {
+    let html = "";
+    f.parts.forEach((p, i) => {
+      const t = esc(i ? p.t : cap1(p.t)), comma = f.parts[i + 1] && f.parts[i + 1].t === "so" ? "," : "";
+      html += (i ? " " : "") + (p.r ? `<span class="${p.r}">${t}</span>` : t) + comma;
+    });
+    const pre = it.pre && f.kind === "because" ? esc(it.pre) + " " : "";
+    return pre + html + (it.perm || it.question ? "?" : ".");
+  }
+  const modelText = (it, f) => pretty(it, f).replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&quot;/g, '"');
+
+  /* ---------- pictures ---------- */
+  const NOTE_ROWS = {late: ["LATE SLIP", ["Name", "Late", "Reason", "Signed"]], abs: ["ABSENCE NOTE", ["Name", "Date", "Reason", "Signed"]], perm: ["PERMISSION NOTE", ["Name", "Permission", "Reason", "Signed"]]};
+  function noteHTML(type, f, cls) {
+    const [title, rows] = NOTE_ROWS[type]; f = f || {};
+    return `<div class="note ${cls || ""}" lang="en"><b>${title}</b>${rows.map(r => `<div class="row"><span>${r} :</span>${f[r] === "SIG" ? `<img src="${IMG("signature")}" alt="signature">` : f[r] ? `<em>${esc(f[r])}</em>` : ""}</div>`).join("")}</div>`;
+  }
+  function partHTML(p) {
+    if (p.note) return `<div class="pic">${noteHTML(p.note, p.f)}${p.lab ? `<span class="lab">${esc(p.lab)}</span>` : ""}</div>`;
+    if (p.q) return `<span class="q-mark" aria-label="question">?</span>`;
+    if (p.kw) return `<span class="cap" style="color:var(--bad)">${esc(p.kw)}</span>`;
+    const top = p.no ? `<span class="overword no">${esc(p.no)}</span>` : p.verb ? `<span class="overword">${esc(p.verb)}</span>` : "";
+    return `<div class="pic">${p.cap ? `<span class="cap">${esc(p.cap)}</span>` : ""}${top}<span class="frame${p.wide ? " wide" : ""}"><img src="${IMG(p.img)}" alt="${esc(p.alt || "")}" loading="lazy"></span>${p.lab ? `<span class="lab">${esc(p.lab)}</span>` : ""}</div>`;
+  }
+  const sceneHTML = (parts, eq) => `<div class="scene">${parts.map((p, i) => (i && !p.q && !p.kw && !parts[i - 1].kw ? '<span class="plus" aria-hidden="true">+</span>' : "") + partHTML(p)).join("")}${eq ? '<span class="eq" aria-hidden="true">=</span><span class="q-mark">?</span>' : ""}</div>`;
+
+  /* ---------- content (from the lesson 2 slides; pictures of lesson 1 for the revision) ---------- */
+  const WARM = [
+    {id: "w1", img: "dentist", alt: "dentist", lab: "On Tuesday morning", k: ["I went", "to the dentist", "on Tuesday morning"], x: ["I go", "I goed"], alt2: [["on Tuesday morning", "I went", "to the dentist"]]},
+    {id: "w2", img: "bus", alt: "missing the bus", lab: "This morning", k: ["I missed", "the bus", "this morning"], x: ["I miss", "I missd"], alt2: [["this morning", "I missed", "the bus"]]},
+    {id: "w3", img: "flu", alt: "ill in bed", lab: "The day before yesterday", k: ["I had", "the flu", "the day before yesterday"], x: ["I have", "I haved"], alt2: [["the day before yesterday", "I had", "the flu"]]}
+  ].map(w => Object.assign(w, {alt: w.alt2}));
+  const WARM_ALT = {w1: "dentist", w2: "missing the bus", w3: "ill in bed"};
+  const RECAP = [
+    {type: "late", say: "I'm late", field: "Reason", red: "Missed the bus", sent: "I'm late because I missed the bus."},
+    {type: "abs", say: "I was absent", field: "Reason", red: "Broke my leg", sent: "I was absent because I broke my leg."},
+    {type: "perm", say: "Can I…?", field: "Permission", red: "Go to the nurse", sent: "Can I go to the nurse, please?"}
+  ];
+  const MAKE = [
+    {id: "m1", scene: [{note: "late"}, {img: "overslept", alt: "oversleeping"}], cause: ["I overslept"], cons: ["I'm late"], pre: "Sorry,", only: "because", x: ["I oversleep", "I was absent"]},
+    {id: "m2", scene: [{img: "overslept", alt: "oversleeping"}, {note: "abs"}], cause: ["I overslept"], cons: ["I was absent"], only: "because", x: ["I oversleep", "I'm absent"]}
+  ];
+  const THINK = [
+    {id: "k1", q: ["Do the two sentences tell the same story?", "Les deux phrases racontent-elles la même chose ?"], o: ["Yes", "No"], a: "Yes"},
+    {id: "k2", q: ["Look at the colours. Which part says <b>why</b>? (the cause)", "Regarde les couleurs. Quelle partie dit pourquoi ? (la cause)"], o: ["I overslept", "I'm late"], a: "I overslept"},
+    {id: "k3", q: ["What comes after <b>because</b>?", "Qu'est-ce qui vient après because ?"], o: ["the cause", "the consequence"], a: "the cause"},
+    {id: "k4", q: ["What comes after <b>so</b>?", "Qu'est-ce qui vient après so ?"], o: ["the cause", "the consequence"], a: "the consequence"}
+  ];
+  const RECREATE = [
+    {id: "t1", scene: [{img: "brokeleg", alt: "broken leg"}, {note: "abs"}], cause: ["I broke", "my leg"], cons: ["I was absent"], x: ["I break", "I breaked"]},
+    {id: "t2", scene: [{img: "dentist", alt: "dentist"}, {note: "abs", f: {Date: "Yesterday"}}], cause: ["I went", "to the dentist"], cons: ["I was absent", "yesterday"], x: ["I go", "I'm absent"]},
+    {id: "t3", scene: [{img: "wrist", alt: "twisted wrist", lab: "Two days ago"}, {note: "abs", f: {Date: "Yesterday"}}], cause: ["I twisted", "my wrist", "two days ago"], cons: ["I was absent", "yesterday"], x: ["I twist", "I'm absent"]}
+  ];
+  const GAME = [
+    {dot: "g", scene: [{img: "bus", alt: "missing the bus"}, {note: "late"}], cause: ["I missed", "the bus"], cons: ["I'm late"], x: ["I miss", "I was absent"]},
+    {dot: "g", scene: [{img: "sick", alt: "feeling sick"}, {img: "toilets", alt: "toilets", wide: 1}, {q: 1}], cause: ["I feel sick"], cons: ["can I go", "to the toilet"], perm: true, x: ["I feeled sick", "can I goes"]},
+    {dot: "g", scene: [{img: "headache", alt: "headache"}, {img: "nursesign", alt: "nurse", wide: 1}, {q: 1}], cause: ["I have", "a headache"], cons: ["can I go", "to the nurse"], perm: true, x: ["I has", "can I goes"]},
+    {dot: "y", scene: [{note: "abs", lab: "Yesterday"}, {img: "dentist", alt: "dentist"}], cause: ["I went", "to the dentist"], cons: ["I was absent", "yesterday"], x: ["I go", "I'm absent"]},
+    {dot: "y", scene: [{img: "dentist", alt: "dentist", cap: "I go to the dentist"}, {kw: "because / so"}, {img: "toothache", alt: "toothache", cap: "I have a toothache"}], cause: ["I have", "a toothache"], cons: ["I go", "to the dentist"], x: ["I went", "I has"]},
+    {dot: "y", question: true, scene: [{note: "abs", f: {Name: "Kelyan", Date: "Tuesday", Signed: "SIG"}}, {q: 1}], hint: ["The reason is missing: ask Kelyan.", "Le motif manque : pose la question à Kelyan."], k: ["why", "were you", "absent", "on Tuesday"], x: ["was you", "are you"]},
+    {dot: "r", scene: [{note: "abs", f: {Date: "Friday 1 pm – 2 pm"}}, {img: "headteacher", alt: "head teacher office", wide: 1}], cause: ["I was", "in the head teacher's office"], cons: ["I was absent", "on Friday", "from 1 pm to 2 pm"], x: ["I am", "I'm absent"]},
+    {dot: "r", scene: [{img: "wrist", alt: "twisted wrist", lab: "Two days ago"}, {note: "abs", lab: "Yesterday"}], cause: ["I twisted", "my wrist", "two days ago"], cons: ["I was absent", "yesterday"], x: ["I twist", "I'm absent"]},
+    {dot: "r", scene: [{img: "brokeleg", alt: "broken leg", lab: "Last Wednesday"}, {no: "COME", img: "school", alt: "school", wide: 1, lab: "Friday"}], cause: ["I broke", "my leg", "last Wednesday"], cons: ["I didn't come", "to school", "on Friday"], x: ["I didn't came", "I breaked"]},
+    {dot: "r", scene: [{no: "GO", img: "school", alt: "school", wide: 1}, {img: "flu", alt: "ill in bed"}], cause: ["I had", "the flu"], cons: ["I didn't go", "to school"], x: ["I didn't went", "I have"]},
+    {dot: "r", scene: [{img: "car", alt: "car breakdown", lab: "Dad · last Friday"}, {note: "abs"}], cause: ["my dad's car", "broke down", "last Friday"], cons: ["I was absent"], x: ["breaks down", "I'm absent"]},
+    {dot: "r", scene: [{verb: "STAY", img: "house", alt: "home", lab: "Yesterday"}, {img: "sorethroat", alt: "sore throat"}], cause: ["I had", "a sore throat"], cons: ["I stayed", "at home", "yesterday"], x: ["I stay", "I have"]},
+    {dot: "r", scene: [{img: "flu", alt: "ill in bed", lab: "Last week"}, {no: "COME", img: "school", alt: "school", wide: 1}], cause: ["I had", "the flu", "last week"], cons: ["I didn't come", "to school"], x: ["I didn't came", "I have"]}
+  ];
+  const HW = [
+    {id: "c1", a: "I missed the bus", b: "I'm late.", k: "so"},
+    {id: "c2", a: "I was absent", b: "I had the flu.", k: "because"},
+    {id: "c3", a: "I'm late", b: "my dad's car broke down.", k: "because"},
+    {id: "c4", a: "I broke my leg", b: "I didn't come to school.", k: "so"},
+    {id: "c5", a: "I had a sore throat", b: "I stayed at home.", k: "so"},
+    {id: "c6", a: "I didn't come to school", b: "I went to the dentist.", k: "because"}
+  ];
+  const POINTS = {g: 1, y: 2, r: 3}, SECS = 25;
+
+  /* ---------- progress ---------- */
+  const IDS = [...WARM.map(w => w.id), "r1", "r2", "r3", ...MAKE.map(m => m.id), ...THINK.map(t => t.id), ...RECREATE.map(t => t.id), "g1", "g2", ...HW.map(h => h.id)];
+  function done(id) { if (!S.res[id]) { S.res[id] = 1; save(); } progress(); }
+  function progress() { const n = IDS.filter(i => S.res[i]).length; $("#pc").textContent = `${n} / ${IDS.length}`; $("#pcbar").style.width = Math.round(100 * n / IDS.length) + "%"; }
+  function cardEl(title, id) {
+    const c = document.createElement("div"); c.className = "card" + (id && S.res[id] ? " ok" : "");
+    c.innerHTML = `<div class="card-h"><h3>${title}</h3>${id && S.res[id] ? `<span class="done-tag">✓ Done</span>` : ""}</div>`;
+    return c;
+  }
+  function setDone(c) { c.classList.add("ok"); if (!$(":scope > .card-h .done-tag", c)) $(":scope > .card-h", c).insertAdjacentHTML("beforeend", `<span class="done-tag">✓ Done</span>`); }
+
+  /* ---------- the sentence builder (★ words, ★★ words + traps, ★★★ write) ---------- */
+  function builder(it, opts) {
+    const st = opts.st || stars(), fs = forms(it);
+    const el = document.createElement("div"); el.className = "act";
+    const said = document.createElement("p"); said.className = "said"; said.hidden = true; said.setAttribute("lang", "en");
+    const act = document.createElement("div"); act.className = "actions";
+    const fb = document.createElement("p"); fb.className = "fb"; fb.setAttribute("aria-live", "polite");
+    let tries = 0, solved = false, check;
+    const win = f => { solved = true; said.innerHTML = pretty(it, f); said.hidden = false; fbSet(fb, "good", "Well done!"); $$("button", act).forEach(b => b.hidden = true); opts.onWin && opts.onWin(f); };
+    const model = () => modelText(it, fs[0]);
+    if (st === 3) {
+      const inp = document.createElement("input"); inp.type = "text"; inp.className = "typed"; inp.setAttribute("lang", "en"); inp.autocomplete = "off"; inp.spellcheck = false;
+      inp.placeholder = it.question ? "Write the question…" : "Write the sentence…";
+      act.innerHTML = `<button type="button" class="btn">Check</button>`;
+      el.append(inp, act, fb, said);
+      inp.addEventListener("input", () => inp.classList.remove("right", "wrong"));
+      inp.addEventListener("keydown", e => { if (e.key === "Enter") check(); });
+      check = () => {
+        if (solved) return;
+        const v = inp.value;
+        if (!v.trim()) { fbSet(fb, "bad", "Write your answer first."); return; }
+        const f = fs.find(f => near(v, joinF(f)) || (it.question && near(v.replace(/,?\s*kelyan\b/i, ""), joinF(f))));
+        if (f) { inp.classList.add("right"); inp.readOnly = true; win(f); return; }
+        tries++; inp.classList.add("wrong");
+        const n = norm(v);
+        let msg = it.question ? "Check the question word and the verb be in the past." : !/\b(because|so)\b/.test(n) ? "Use because or so." : "Check the order and the verbs in the past.";
+        if (tries >= 2) msg += ` Model: “${model()}”`;
+        fbSet(fb, "bad", msg);
+      };
+      $(".btn", act).addEventListener("click", () => check());
+      el.focusFirst = () => inp.focus();
+    } else {
+      const traps = st === 2 ? (it.x || []).slice(0, 2) : [];
+      const conn = it.k ? [] : (it.only ? [it.only] : ["because", "so"]);
+      const base = it.k ? it.k : [...it.cons, ...it.cause];
+      const words = shuffle([...base, ...conn, ...traps]);
+      const ans = document.createElement("div"); ans.className = "answer"; ans.setAttribute("lang", "en"); ans.setAttribute("aria-label", "Your sentence");
+      const tiles = document.createElement("div"); tiles.className = "tiles"; tiles.setAttribute("lang", "en");
+      tiles.innerHTML = words.map((w, i) => `<button type="button" class="tile${conn.includes(w) ? " kw" : ""}" data-i="${i}">${esc(w)}</button>`).join("");
+      act.innerHTML = `<button type="button" class="btn">Check</button><button type="button" class="btn lite">Clear</button>`;
+      el.append(ans, tiles, act, fb, said);
+      tiles.addEventListener("click", e => {
+        const t = e.target.closest(".tile"); if (!t || t.classList.contains("used") || solved) return;
+        t.classList.add("used"); ans.classList.remove("wrong"); fb.textContent = "";
+        const b = document.createElement("button"); b.type = "button"; b.className = "tile"; b.dataset.i = t.dataset.i; b.textContent = t.textContent; ans.appendChild(b);
+      });
+      ans.addEventListener("click", e => {
+        const t = e.target.closest("button.tile"); if (!t || solved) return;
+        $(`.tile[data-i="${t.dataset.i}"]`, tiles).classList.remove("used"); t.remove(); ans.classList.remove("wrong"); fb.textContent = "";
+      });
+      const [chk, clr] = $$(".btn", act);
+      clr.addEventListener("click", () => { ans.innerHTML = ""; $$(".tile", tiles).forEach(t => t.classList.remove("used")); ans.classList.remove("wrong"); fb.textContent = ""; });
+      check = () => {
+        if (solved) return;
+        const got = $$("button.tile", ans).map(t => t.textContent);
+        if (!got.length) { fbSet(fb, "bad", "Tap the words first.", "Touche d'abord les étiquettes."); return; }
+        const f = fs.find(f => norm(got.join(" ")) === norm(joinF(f)));
+        if (f) { ans.classList.add("right"); tiles.hidden = true; ans.hidden = true; win(f); return; }
+        tries++; ans.classList.add("wrong");
+        const trap = got.find(w => traps.includes(w)), hasK = got.includes("because") || got.includes("so");
+        let en, fr;
+        if (trap) { en = `“${trap}” is a trap. What's wrong?`; fr = `« ${trap} » est un piège. Qu'est-ce qui ne va pas ?`; }
+        else if (!it.k && !hasK) { en = "You need because or so."; fr = "Il manque because ou so."; }
+        else if (got.includes("because") && got.includes("so")) { en = "Choose because OR so, not both."; fr = "Choisis because OU so, pas les deux."; }
+        else if (got.length < base.length + (it.k ? 0 : 1)) { en = "Some words are missing."; fr = "Il manque des étiquettes."; }
+        else if (it.k) { en = "The order is not right."; fr = "L'ordre n'est pas bon."; }
+        else { en = "Check the order: cause + so + consequence, or consequence + because + cause."; fr = "Vérifie l'ordre : cause + so + conséquence, ou conséquence + because + cause."; }
+        if (tries >= 3) { en += ` Model: “${model()}”`; fr += ` Modèle : « ${model()} »`; }
+        fbSet(fb, "bad", en, fr);
+      };
+      chk.addEventListener("click", () => check());
+      el.focusFirst = () => { const t = $(".tile", tiles); if (t) t.focus(); };
+    }
+    el.reveal = () => { if (solved) return; solved = true; said.innerHTML = pretty(it, fs[0]); said.hidden = false; $$("button", act).forEach(b => b.hidden = true); $$(".tiles,.answer", el).forEach(x => x.hidden = true); $$("input", el).forEach(x => x.readOnly = true); };
+    el.showDone = () => { solved = true; said.innerHTML = pretty(it, fs[0]); said.hidden = false; $$(".tiles,.answer,input,.actions", el).forEach(x => x.hidden = true); };
+    return el;
+  }
+
+  /* ---------- Step 1: warm-up, a strip of pictures like the slide ---------- */
+  let warmSel = null;
+  function renderWarm() {
+    const box = $("#warm"); box.innerHTML = "";
+    const strip = document.createElement("div"); strip.className = "strip"; strip.setAttribute("role", "group"); strip.setAttribute("aria-label", "Pictures");
+    strip.innerHTML = WARM.map(w => `<button type="button" class="wpick" data-id="${w.id}" aria-pressed="false">${S.res[w.id] ? '<span class="ok" aria-label="done">✓</span>' : ""}<span class="frame"><img src="${IMG(w.img)}" alt="${esc(WARM_ALT[w.id])}"></span><span class="pill">${esc(w.lab)}</span></button>`).join("");
+    const area = document.createElement("div"); area.className = "card";
+    box.append(strip, area);
+    const pick = id => {
+      warmSel = id; const w = WARM.find(x => x.id === id);
+      $$(".wpick", strip).forEach(b => b.setAttribute("aria-pressed", b.dataset.id === id));
+      area.className = "card" + (S.res[id] ? " ok" : ""); area.innerHTML = `<div class="card-h"><h3>${esc(w.lab)}</h3>${S.res[id] ? '<span class="done-tag">✓ Done</span>' : ""}</div>`;
+      const b = builder(w, {onWin: () => {
+        done(w.id); setDone(area);
+        const pb = $(`.wpick[data-id="${w.id}"]`, strip); if (!$(".ok", pb)) pb.insertAdjacentHTML("afterbegin", '<span class="ok" aria-label="done">✓</span>');
+        const next = WARM.find(x => !S.res[x.id]);
+        if (next) { const nb = document.createElement("div"); nb.className = "actions"; nb.innerHTML = `<button type="button" class="btn">Next picture →</button>`; $(".btn", nb).onclick = () => pick(next.id); area.appendChild(nb); }
+      }});
+      if (S.res[id]) b.showDone();
+      area.appendChild(b);
+    };
+    strip.addEventListener("click", e => { const b = e.target.closest(".wpick"); if (b) pick(b.dataset.id); });
+    pick((warmSel && WARM.find(w => w.id === warmSel)) ? warmSel : (WARM.find(w => !S.res[w.id]) || WARM[0]).id);
+  }
+
+  /* ---------- Step 2: recap — started by the learner ---------- */
+  function startRecap() {
+    const box = $("#recap"); box.hidden = false; box.innerHTML = "";
+    $("#rc-start").className = "start again"; $("#rc-start").innerHTML = "↺ Replay";
+    box.innerHTML = `<div class="recap" id="rc-wrap"></div><div class="ask" id="rc-ask"></div>`;
+    let step = 0;
+    const wrap = $("#rc-wrap"), ask = $("#rc-ask");
+    const show = i => {
+      const r = RECAP[i];
+      wrap.insertAdjacentHTML("beforeend", `<div class="rc" data-i="${i}"><div class="rc-note">${noteHTML(r.type, {}, "big")}</div><span class="pill"></span><p class="sent" lang="en"></p></div>`);
+      ask.innerHTML = `${T("What does the student say?", "Que dit l'élève qui donne ce billet ?", "p").replace("<p ", '<p class="consigne" ')}<div class="opts" role="group">${shuffle(RECAP.map(x => x.say)).map(t => `<button type="button" class="opt">${esc(t)}</button>`).join("")}</div><p class="fb" aria-live="polite"></p>`;
+    };
+    ask.addEventListener("click", e => {
+      const b = e.target.closest(".opt"); if (!b || step >= RECAP.length) return;
+      const r = RECAP[step], fb = $(".fb", ask);
+      if (b.textContent !== r.say) { b.classList.add("wrong"); fbSet(fb, "bad", "Try again! Look at the title of the note.", "Essaie encore ! Regarde le titre du billet."); return; }
+      const rc = $(`.rc[data-i="${step}"]`, wrap);
+      $(".pill", rc).textContent = r.say;
+      const row = $$(".row", rc).find(x => x.firstChild.textContent.startsWith(r.field));
+      row.insertAdjacentHTML("beforeend", `<em class="write">${esc(r.red)}</em>`);
+      setTimeout(() => { $(".sent", rc).textContent = r.sent; }, 1100);
+      done("r" + (step + 1)); step++;
+      ask.innerHTML = "";
+      if (step < RECAP.length) setTimeout(() => show(step), 1500);
+      else setTimeout(() => { ask.innerHTML = `<p class="fb good">${T("Well done! Late slip → I'm late · Absence note → I was absent · Permission note → Can I…?", "Bravo ! Late slip → I'm late · Absence note → I was absent · Permission note → Can I…?")}</p>`; }, 1300);
+    });
+    show(0);
+  }
+
+  /* ---------- Step 3 / Step 5: picture + note = sentence ---------- */
+  function renderPairs(boxId, list) {
+    const box = $("#" + boxId); box.innerHTML = "";
+    list.forEach((it, i) => {
+      const c = cardEl(`${i + 1}.`, it.id);
+      c.insertAdjacentHTML("beforeend", sceneHTML(it.scene, true));
+      const b = builder(it, {onWin: () => { done(it.id); setDone(c); }});
+      if (S.res[it.id]) b.showDone();
+      c.appendChild(b); box.appendChild(c);
+    });
+  }
+
+  /* ---------- Step 4: look and think — the two sentences build up, questions, then the rule ---------- */
+  function startThink() {
+    const box = $("#think"); box.hidden = false;
+    $("#th-start").className = "start again"; $("#th-start").innerHTML = "↺ Replay";
+    box.innerHTML = `<div class="line3" lang="en" id="s1"></div><div class="line3" lang="en" id="s2"></div><div id="qs"></div><div id="rl"></div>`;
+    const blocks = (el, parts, delay) => parts.forEach((p, i) => setTimeout(() => el.insertAdjacentHTML("beforeend", p), delay + i * 650));
+    blocks($("#s1", box), ['<span class="blk co pop">I\'m late</span>', '<span class="kwd pop">because</span>', '<span class="blk ca pop">I overslept.</span>'], 100);
+    blocks($("#s2", box), ['<span class="blk ca pop">I overslept,</span>', '<span class="kwd pop">so</span>', '<span class="blk co pop">I\'m late.</span>'], 2300);
+    let qi = 0;
+    const askQ = () => {
+      const q = THINK[qi];
+      const row = document.createElement("div"); row.className = "qrow";
+      row.innerHTML = `<p class="consigne" data-fr="${esc(q.q[1])}">${q.q[0]}</p><div class="opts" lang="en">${q.o.map(o => `<button type="button" class="opt">${esc(o)}</button>`).join("")}</div><p class="fb" aria-live="polite"></p>`;
+      $("#qs", box).appendChild(row);
+      row.addEventListener("click", e => {
+        const b = e.target.closest(".opt"); if (!b || row.dataset.ok) return;
+        if (b.textContent !== q.a) { b.classList.add("wrong"); fbSet($(".fb", row), "bad", "Look at the colours again.", "Regarde encore les couleurs."); return; }
+        b.classList.add("right"); row.dataset.ok = "1"; $(".fb", row).textContent = ""; done(q.id); qi++;
+        if (qi < THINK.length) setTimeout(askQ, 400); else setTimeout(showRule, 500);
+      });
+    };
+    const showRule = () => {
+      $("#rl", box).innerHTML = `<div class="rule-box"><b class="t">${T("Your rule", "Ta règle")}</b>
+        <span lang="en"><b>because</b> + <span class="ca">the cause</span> (why?)</span>
+        <span lang="en"><b>so</b> + <span class="co">the consequence</span> (the result)</span>
+        <span>${T("The two parts change places, but the story is the same.", "Les deux parties changent de place, mais l'histoire reste la même.")}</span></div>`;
+    };
+    setTimeout(askQ, 4600);
+  }
+
+  /* ---------- Step 6: the game ---------- */
+  let G = null, timerId = null;
+  const voice = () => { try { const v = speechSynthesis.getVoices(); return v.find(x => /en[-_]GB/i.test(x.lang)) || v.find(x => /^en/i.test(x.lang)); } catch (e) { return null; } };
+  function say(text) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "en-GB"; u.rate = .92; const v = voice(); if (v) u.voice = v; speechSynthesis.speak(u); } catch (e) {} }
+  function stopTimer() { if (timerId) { clearInterval(timerId); timerId = null; } }
+  function renderGameIntro() {
+    stopTimer();
+    const box = $("#game"), st = stars(), max = GAME.reduce((a, g) => a + POINTS[g.dot], 0);
+    const best = p => S.best[p + "-" + st] != null ? `${p === 1 ? "Writing" : "Speaking"}: best score ${S.best[p + "-" + st]} points` : "";
+    const how = st === 1 ? T("Put the words in order.", "Remets les mots dans l'ordre.") : st === 2 ? T("Put the words in order. Watch out for the traps!", "Remets les mots dans l'ordre. Attention aux pièges !") : T("Write the sentence.", "Écris la phrase.");
+    box.innerHTML = `<div class="card">
+      <div class="card-h"><h3>Recreation time · ${"★".repeat(st)}</h3></div>
+      <p style="margin:0">${how} · ${GAME.length} cards · ${max} points</p>
+      <div class="actions"><button type="button" class="start" data-ph="1">▶ Part 1: write</button><button type="button" class="start" data-ph="2">🎙️ Part 2: speak</button></div>
+      <p style="margin:0;color:var(--muted)">${[best(1), best(2)].filter(Boolean).join(" · ") || "The timer starts when the card appears."}</p></div>`;
+    $$("[data-ph]", box).forEach(b => b.addEventListener("click", () => startGame(+b.dataset.ph)));
+  }
+  function startGame(phase) { G = {phase, i: 0, score: 0, deck: shuffle(GAME), st: stars(), wins: 0}; nextCard(); }
+  function nextCard() {
+    stopTimer();
+    const box = $("#game"); box.innerHTML = "";
+    if (G.i >= G.deck.length) return endGame();
+    const it = G.deck[G.i], pts = POINTS[it.dot];
+    box.insertAdjacentHTML("beforeend", `<div class="gbar"><span class="timer" id="tm"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="bg" cx="32" cy="32" r="27"/><circle class="fg" cx="32" cy="32" r="27" stroke-dasharray="169.6" stroke-dashoffset="0"/></svg><b id="tm-n">${SECS}</b></span>
+      <span class="score" aria-live="polite">Score: <span id="sc">${G.score}</span></span><span style="color:var(--muted)">${G.phase === 1 ? "Part 1 · write" : "Part 2 · speak"}</span>
+      <button type="button" class="btn lite" id="quit" style="margin-left:auto">Stop</button></div>`);
+    const card = document.createElement("div"); card.className = "gcard";
+    card.innerHTML = `<i class="dot ${it.dot}" title="${pts} point${pts > 1 ? "s" : ""}"></i><span class="qn">Card ${G.i + 1} / ${G.deck.length} · ${pts} pt${pts > 1 ? "s" : ""}</span>${sceneHTML(it.scene)}${it.hint ? `<p class="consigne" style="text-align:center" data-fr="${esc(it.hint[1])}">${esc(it.hint[0])}</p>` : ""}`;
+    box.appendChild(card);
+    $("#quit").addEventListener("click", () => { stopTimer(); try { speechSynthesis.cancel(); } catch (e) {} renderGameIntro(); });
+    const next = document.createElement("div"); next.className = "actions"; next.hidden = true;
+    next.innerHTML = `<button type="button" class="btn">Next card →</button>`;
+    $(".btn", next).addEventListener("click", () => { G.i++; nextCard(); });
+    let over = false;
+    const finish = (won, en, fr) => {
+      if (over) return; over = true; stopTimer();
+      if (won) { G.score += pts; G.wins++; $("#sc").textContent = G.score; card.classList.add("win"); } else card.classList.add("timeout");
+      if (en) { const p = document.createElement("p"); fbSet(p, won ? "good" : "bad", en, fr); card.appendChild(p); }
+      next.hidden = false; card.appendChild(next); $(".btn", next).focus();
+    };
+    const fs = forms(it);
+    if (G.phase === 1) {
+      const b = builder(it, {st: G.st, onWin: () => finish(true, `+${pts} point${pts > 1 ? "s" : ""}!`)});
+      card.appendChild(b);
+      G.onTimeout = () => { b.reveal(); finish(false, "Time's up! Here is a possible answer.", "Temps écoulé ! Voici une réponse possible."); };
+      setTimeout(() => b.focusFirst && b.focusFirst(), 50);
+    } else {
+      const st = G.st;
+      if (st < 3) {
+        const traps = (it.x || []).slice(0, st === 1 ? 1 : 2), conn = it.k ? [] : ["because", "so"];
+        const words = shuffle([...(it.k || [...it.cons, ...it.cause]), ...conn, ...traps]);
+        card.insertAdjacentHTML("beforeend", `<div class="tiles" lang="en" aria-label="The words, mixed up">${words.map(w => `<span class="tile${conn.includes(w) ? " kw" : ""}" style="cursor:default">${esc(w)}</span>`).join("")}</div>
+          <p class="consigne" data-fr="Dis la phrase à voix haute, dans le bon ordre, sans les pièges.">Say the sentence aloud, in the right order, without the traps.</p>`);
+      } else card.insertAdjacentHTML("beforeend", `<p class="consigne">Look at the card and say the sentence aloud.</p>`);
+      const rec = document.createElement("div"); rec.className = "rec";
+      rec.innerHTML = `<button type="button" class="btn lite" data-r="rec">🎙️ Record me</button><button type="button" class="btn lite" data-r="me" hidden>▶ Play me back</button><button type="button" class="btn" data-r="check">🔊 Check with the model</button>`;
+      card.appendChild(rec);
+      const said = document.createElement("p"); said.className = "said"; said.hidden = true; said.setAttribute("lang", "en");
+      const self = document.createElement("div"); self.className = "actions"; self.hidden = true;
+      self.innerHTML = `<span>Did you say the same thing?</span><button type="button" class="btn" data-s="1">✓ Yes</button><button type="button" class="btn lite" data-s="0">✗ Not yet</button>`;
+      card.append(said, self);
+      let mr = null, chunks = [], url = null;
+      $('[data-r="rec"]', rec).addEventListener("click", async e => {
+        const b = e.currentTarget;
+        if (mr && mr.state === "recording") { mr.stop(); return; }
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({audio: true});
+          mr = new MediaRecorder(stream); chunks = [];
+          mr.ondataavailable = ev => chunks.push(ev.data);
+          mr.onstop = () => { stream.getTracks().forEach(t => t.stop()); if (url) URL.revokeObjectURL(url); url = URL.createObjectURL(new Blob(chunks, {type: mr.mimeType || "audio/webm"})); $('[data-r="me"]', rec).hidden = false; b.textContent = "🎙️ Record me"; };
+          mr.start(); b.textContent = "⏹ Stop recording";
+        } catch (err) { b.textContent = "No microphone"; b.disabled = true; }
+      });
+      $('[data-r="me"]', rec).addEventListener("click", () => { if (url) new Audio(url).play().catch(() => {}); });
+      const check = () => {
+        stopTimer(); if (mr && mr.state === "recording") mr.stop();
+        said.innerHTML = fs.map(f => pretty(it, f)).join("<br><small style='color:var(--muted)'>or</small><br>"); said.hidden = false;
+        say(modelText(it, fs[0])); self.hidden = false;
+        const cb = $('[data-r="check"]', rec); cb.textContent = "🔊 Listen again"; cb.onclick = () => say(modelText(it, fs[0]));
+      };
+      $('[data-r="check"]', rec).addEventListener("click", check, {once: true});
+      self.addEventListener("click", e => { const b = e.target.closest("[data-s]"); if (!b) return; self.hidden = true; finish(b.dataset.s === "1", b.dataset.s === "1" ? `+${pts} point${pts > 1 ? "s" : ""}!` : "Listen to the model and say it again.", b.dataset.s === "1" ? "" : "Réécoute le modèle et redis la phrase."); });
+      G.onTimeout = () => { if (said.hidden) check(); };
+    }
+    let left = SECS; const fg = $("#tm .fg"), tm = $("#tm"), n = $("#tm-n");
+    timerId = setInterval(() => {
+      left--; n.textContent = Math.max(0, left); fg.style.strokeDashoffset = String(169.6 * (1 - left / SECS)); tm.classList.toggle("low", left <= 5);
+      if (left <= 0) { stopTimer(); G.onTimeout && G.onTimeout(); }
+    }, 1000);
+  }
+  function endGame() {
+    stopTimer();
+    const key = G.phase + "-" + G.st, max = GAME.reduce((a, g) => a + POINTS[g.dot], 0);
+    const rec = S.best[key] == null || G.score > S.best[key];
+    if (rec) S.best[key] = G.score;
+    save(); done("g" + G.phase);
+    $("#game").innerHTML = `<div class="card big-end"><b>${G.score} / ${max} points</b>
+      <p style="margin:0">${G.wins} / ${G.deck.length} cards. ${rec ? "New record! 🎉" : `Your record: ${S.best[key]} points.`}</p>
+      <div class="actions" style="justify-content:center"><button type="button" class="btn" data-a="again">↺ Play again</button>${G.phase === 1 ? `<button type="button" class="btn" data-a="oral">🎙️ Part 2: speak</button>` : ""}<button type="button" class="btn lite" data-a="menu">Game menu</button></div></div>`;
+    $$("[data-a]").forEach(b => b.addEventListener("click", () => b.dataset.a === "again" ? startGame(G.phase) : b.dataset.a === "oral" ? startGame(2) : renderGameIntro()));
+  }
+
+  /* ---------- Step 7: homework ---------- */
+  function renderHW() {
+    const box = $("#hw"); box.innerHTML = "";
+    HW.forEach(r => {
+      const row = document.createElement("div"); row.className = "mini-q" + (S.res[r.id] ? " done" : "");
+      const isSo = r.k === "so";
+      row.style.setProperty("--c1", isSo ? "var(--cause)" : "var(--cons)"); row.style.setProperty("--c2", isSo ? "var(--cons)" : "var(--cause)");
+      row.innerHTML = `<span class="part p1" lang="en">${esc(r.a)}</span><span class="opts"><button type="button" class="opt" lang="en">because</button><button type="button" class="opt" lang="en">so</button></span><span class="part p2" lang="en">${esc(r.b)}</span>`;
+      if (S.res[r.id]) $$(".opt", row).forEach(b => { if (b.textContent === r.k) b.classList.add("right"); else b.hidden = true; });
+      row.addEventListener("click", e => {
+        const b = e.target.closest(".opt"); if (!b || row.classList.contains("done")) return;
+        if (b.textContent === r.k) { b.classList.add("right"); $$(".opt", row).forEach(x => { if (x !== b) x.hidden = true; }); row.classList.add("done"); done(r.id); }
+        else b.classList.add("wrong");
+      });
+      box.appendChild(row);
+    });
+    box.insertAdjacentHTML("beforeend", `<p style="margin:0;color:var(--muted);font-size:.92rem">${T("After your answer: the cause in green, the consequence in red.", "Après ta réponse : la cause en vert, la conséquence en rouge.")}</p>`);
+  }
+
+  /* ---------- level box ---------- */
+  function renderLevel() {
+    const k = C() && C().klass ? C().klass() : null, st = stars(), imp = imposed();
+    $$("[data-st]").forEach(b => { b.setAttribute("aria-pressed", +b.dataset.st === st); b.disabled = imp; });
+    $("#lvl-msg").innerHTML = k && k.admin ? "Mode professeur : choisissez le niveau à prévisualiser."
+      : imp ? T(`Your level, chosen by your teacher: ${"★".repeat(st)}.`, `Ton niveau, choisi par ton professeur : ${"★".repeat(st)}.`)
+      : T("Free level: choose your challenge. ★ words · ★★ words + traps · ★★★ you write.", "Niveau libre : choisis ton défi. ★ étiquettes · ★★ étiquettes et pièges · ★★★ tu écris toi-même.");
+  }
+  $("#lvl-box").addEventListener("click", e => {
+    const b = e.target.closest("[data-st]"); if (!b || b.disabled) return;
+    const k = C() && C().klass ? C().klass() : null;
+    if (k && k.admin) S.pv = +b.dataset.st; else S.free = +b.dataset.st;
+    save(); renderAll(true); document.dispatchEvent(new CustomEvent("level:change"));
+  });
+  $("#rc-start").addEventListener("click", startRecap);
+  $("#th-start").addEventListener("click", startThink);
+  let lastSig = null;
+  function renderAll(force) {
+    renderLevel();
+    const sig = String(stars());
+    if (!force && sig === lastSig) return;
+    lastSig = sig;
+    renderWarm(); renderPairs("make", MAKE); renderPairs("recreate", RECREATE); renderGameIntro(); renderHW(); progress();
+  }
+  if (C()) C().mountPicker($("#class-box"));
+  renderAll(true);
+  document.addEventListener("classes:ready", () => renderAll());
+  document.addEventListener("classes:change", () => renderAll());
+  try { speechSynthesis.getVoices(); } catch (e) {}
+})();
+</script>
+<script src="../assets/sequence.js" data-step="so"></script>
+</body>
+</html>
