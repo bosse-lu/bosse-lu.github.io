@@ -24,7 +24,10 @@
     const v = C && C.stars ? C.stars() : 1;
     return v === null || !v ? 1 : v;
   }
+  // Glossary words (articles, Blame the bus!) also carry data-fr: that is their tap-to-translate text, not an instruction
+  const SKIP = ".kwd, .gl, [data-en]";
   function render(el, lv) {
+    if (el.matches && el.matches(SKIP)) return;
     if (el.dataset.cgLv === String(lv)) return;
     el.querySelectorAll(":scope > .cg-fr, :scope > .cg-fr-btn").forEach(x => x.remove());
     el.dataset.cgLv = String(lv);
