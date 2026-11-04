@@ -573,7 +573,7 @@ function renderCard() {
   let fb = "";
   if (done) {
     const list = it.verbs.map(v => `<b>${v.w}</b> → <span class="${v.a}">${SND[v.a]}</span>`).join(", ");
-    fb = nRight === it.verbs.length ? `<div class="feedback ok">Bravo ! ${list}.</div>` : `<div class="feedback ko">Attention : ${list}.</div>`;
+    fb = nRight === it.verbs.length ? `<div class="feedback ok">Well done! ${list}.</div>` : `<div class="feedback ko">Watch out: ${list}.</div>`;
     const sounds = [...new Set(it.verbs.map(v => v.a))];
     fb += `<div class="rules">${it.why ? `<div>${it.whyEn ? T(it.whyEn, it.why) : it.why}</div>` : ""}${sounds.map(a => `<div>${RULE[a]}</div>`).join("")}</div>`;
   }

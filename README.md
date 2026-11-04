@@ -6,13 +6,12 @@ Site : https://bosse-lu.github.io
 
 ## Les activités
 
-- **[Séquence Late and absent](https://bosse-lu.github.io/late-and-absent/)** : le parcours de la séquence en 6 étapes, avec la progression de l'élève. Les étapes :
+- **[Séquence Late and absent](https://bosse-lu.github.io/late-and-absent/)** : le parcours de la séquence en 5 étapes, avec la progression de l'élève. Les étapes :
   - **[Fill in the note](https://bosse-lu.github.io/fill-the-note/)** : écoute en autonomie des dialogues du collège (5e : dialogues 1 à 3 ; 4e : les 6 dialogues). Pour chaque dialogue : compréhension détaillée (le billet), repérage (la question du professeur et son intonation), reformulation avec *because*.
-  - **[Les sons de -ed](https://bosse-lu.github.io/ed-sounds/)** : /t/, /d/ ou /ɪd/ ? Le prétérit, la négation (*didn't*) et les questions (*Did…?*), avec de vraies voix anglaises.
+  - **[Les sons de -ed](https://bosse-lu.github.io/ed-sounds/)** : /t/, /d/ ou /ɪd/ ? Le prétérit, la négation (*didn't*) et les questions (*Did…?*), avec le rythme et les flèches d'intonation ↗ / ↘, et de vraies voix anglaises.
   - **[Can you explain?](https://bosse-lu.github.io/can-you-explain/)** : la séance 2 d'après le diaporama animé, avec ses images : warm-up de révision, récapitulatif des billets, *make excuses*, réflexion sur la langue (cause et conséquence, *because* / *so*), *recreate the situation*, le jeu chronométré (25 s, à l'écrit puis à l'oral) et l'exercice à faire à la maison.
-  - **[Stress Lab](https://bosse-lu.github.io/stress-lab/)** : l'accent tonique des mots et des phrases de la séquence, avec de vraies voix, et le rythme des questions et de la négation.
   - **[Blame the bus!](https://bosse-lu.github.io/late-bus/)** : un article de *The Independent* adapté pour la 5e. Lis, écoute, et entraîne-toi sur les verbes en -ed du texte.
-  - **[Recap: Excuse Lab](https://bosse-lu.github.io/excuse-lab/)** : pour finir, toutes les excuses et les vraies voix du dialogue *What's your excuse today?* Écoute, répète et joue la scène.
+  - **[Recap: Excuse Lab](https://bosse-lu.github.io/excuse-lab/)** : pour finir, toutes les excuses et les vraies voix du dialogue *What's your excuse today?*, avec l'accent des mots et le rythme des phrases marqués (ancienne Stress Lab). Écoute, répète et joue la scène.
 - **[My short stories](https://bosse-lu.github.io/my-short-stories/)** : une nouvelle en anglais par niveau (5e : *The Lion and the Mouse* ; 4e : *The Boy Who Cried Wolf*), à lire et à écouter.
 - **Pour aller plus loin…** (espace découverte en autonomie, pour les élèves volontaires) :
   - **[English News](https://bosse-lu.github.io/news/)** : l'actualité du monde anglophone en anglais simplifié, avec mots-clés et quiz (5e et 4e).

@@ -139,6 +139,9 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
 .pennant .flag{display:block;width:clamp(28px,8vw,44px);height:clamp(19px,5.3vw,29px);border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.28)}
 @media (prefers-reduced-motion:no-preference){.pennant{animation:sway 4s ease-in-out infinite alternate}.pennant:nth-child(2n){animation-delay:-2s}}
 @keyframes sway{to{transform:rotate(calc(var(--r) * -1))}}
+.rhythm{font-family:"Bricolage Grotesque","Trebuchet MS",sans-serif;font-size:clamp(1.25rem,5vw,1.6rem);text-align:center;margin:10px 0 4px;line-height:1.4}
+.rhythm .st{color:var(--accent);font-weight:800;text-transform:uppercase}
+.arw{font-weight:800;color:var(--accent);font-size:1.1em}
 </style>
 
 <div class="wrap">
@@ -260,14 +263,14 @@ const ITEMS = [
   {g:"Phrases", text:"I played football yesterday.", clip:"s-playedfootball", fr:"J'ai joué au foot hier.", verbs:[{w:"played",a:"d"}]},
   {g:"Phrases", text:"They watched a movie last night.", clip:"s-watched", fr:"Ils ont regardé un film hier soir.", verbs:[{w:"watched",a:"t"}]},
   {g:"Phrases", text:"She visited her grandma.", clip:"s-visited", fr:"Elle a rendu visite à sa grand-mère.", verbs:[{w:"visited",a:"id"}]},
-  {g:"Négation", kind:"neg", from:"They played tennis.", fromClip:"s-playedtennis", text:"They didn't play tennis.", clip:"n-didntplaytennis", opts:["They didn't play tennis.","They didn't played tennis."], ok:0, fr:"Ils n'ont pas joué au tennis."},
-  {g:"Négation", kind:"neg", from:"She played football.", text:"She didn't play football.", clip:"n-didntplayfootball", opts:["She didn't played football.","She didn't play football."], ok:1, fr:"Elle n'a pas joué au foot."},
-  {g:"Négation", kind:"neg", from:"I saw a cat.", text:"I didn't see a cat.", clip:"n-didntsee", opts:["I didn't saw a cat.","I didn't see a cat."], ok:1, fr:"Je n'ai pas vu de chat."},
-  {g:"Négation", kind:"neg", from:"She ate breakfast this morning.", text:"She didn't eat breakfast this morning.", clip:"n-didnteat", opts:["She didn't eat breakfast this morning.","She didn't ate breakfast this morning."], ok:0, fr:"Elle n'a pas pris de petit-déjeuner ce matin."},
-  {g:"Questions", kind:"q", from:"She visited her grandma.", fromClip:"s-visited", text:"Did she visit her grandma?", clip:"q-didshevisit", opts:["Did she visited her grandma?","Did she visit her grandma?"], ok:1, into:"yn", fr:"Est-ce qu'elle a rendu visite à sa grand-mère ?"},
-  {g:"Questions", kind:"q", from:"You went to school yesterday.", text:"Did you go to school yesterday?", clip:"q-didyougo", opts:["Did you go to school yesterday?","Did you went to school yesterday?"], ok:0, into:"yn", fr:"Est-ce que tu es allé à l'école hier ?"},
-  {g:"Questions", kind:"q", from:"They went to school.", text:"Did they go to school?", clip:"q-didtheygo", opts:["Did they went to school?","Did they go to school?"], ok:1, into:"yn", fr:"Est-ce qu'ils sont allés à l'école ?"},
-  {g:"Questions", kind:"q", from:"She drew pictures with her sister.", fromClip:"s-drew", text:"What did she do last night?", clip:"q-whatdid", opts:["What did she do last night?","What did she did last night?"], ok:0, into:"wh", fr:"Qu'est-ce qu'elle a fait hier soir ?"}
+  {g:"Négation", kind:"neg", from:"They played tennis.", fromClip:"s-playedtennis", text:"They didn't play tennis.", stress:"They <b>did</b>n't <b>play</b> <b>ten</b>nis.", clip:"n-didntplaytennis", opts:["They didn't play tennis.","They didn't played tennis."], ok:0, fr:"Ils n'ont pas joué au tennis."},
+  {g:"Négation", kind:"neg", from:"She played football.", text:"She didn't play football.", stress:"She <b>did</b>n't <b>play</b> <b>foot</b>ball.", clip:"n-didntplayfootball", opts:["She didn't played football.","She didn't play football."], ok:1, fr:"Elle n'a pas joué au foot."},
+  {g:"Négation", kind:"neg", from:"I saw a cat.", text:"I didn't see a cat.", stress:"I <b>did</b>n't <b>see</b> a <b>cat</b>.", clip:"n-didntsee", opts:["I didn't saw a cat.","I didn't see a cat."], ok:1, fr:"Je n'ai pas vu de chat."},
+  {g:"Négation", kind:"neg", from:"She ate breakfast this morning.", text:"She didn't eat breakfast this morning.", stress:"She <b>did</b>n't <b>eat</b> <b>break</b>fast this <b>mor</b>ning.", clip:"n-didnteat", opts:["She didn't eat breakfast this morning.","She didn't ate breakfast this morning."], ok:0, fr:"Elle n'a pas pris de petit-déjeuner ce matin."},
+  {g:"Questions", kind:"q", from:"She visited her grandma.", fromClip:"s-visited", text:"Did she visit her grandma?", stress:"Did she <b>vi</b>sit her <b>grand</b>ma?", clip:"q-didshevisit", opts:["Did she visited her grandma?","Did she visit her grandma?"], ok:1, into:"yn", fr:"Est-ce qu'elle a rendu visite à sa grand-mère ?"},
+  {g:"Questions", kind:"q", from:"You went to school yesterday.", text:"Did you go to school yesterday?", stress:"Did you <b>go</b> to <b>school</b> <b>yes</b>terday?", clip:"q-didyougo", opts:["Did you go to school yesterday?","Did you went to school yesterday?"], ok:0, into:"yn", fr:"Est-ce que tu es allé à l'école hier ?"},
+  {g:"Questions", kind:"q", from:"They went to school.", text:"Did they go to school?", stress:"Did they <b>go</b> to <b>school</b>?", clip:"q-didtheygo", opts:["Did they went to school?","Did they go to school?"], ok:1, into:"yn", fr:"Est-ce qu'ils sont allés à l'école ?"},
+  {g:"Questions", kind:"q", from:"She drew pictures with her sister.", fromClip:"s-drew", text:"What did she do last night?", stress:"<b>What</b> did she <b>do</b> last <b>night</b>?", clip:"q-whatdid", opts:["What did she do last night?","What did she did last night?"], ok:0, into:"wh", fr:"Qu'est-ce qu'elle a fait hier soir ?"}
 ];
 const AUDIO="../assets/audio/";
 ITEMS.forEach(it=>{ if(it.w){ it.verbs=[{w:it.w,a:it.a}]; it.clip=it.w; } });
@@ -492,8 +495,8 @@ function renderCard(){
   let fb="";
   if(done){
     fb = nRight===it.verbs.length
-      ? `<div class="feedback ok">Bravo ! ${it.verbs.map(v=>`<b>${v.w}</b> → <span class="${v.a}">${SND[v.a]}</span>`).join(", ")}.</div>`
-      : `<div class="feedback ko">Attention : ${it.verbs.map(v=>`<b>${v.w}</b> → <span class="${v.a}">${SND[v.a]}</span>`).join(", ")}.</div>`;
+      ? `<div class="feedback ok">Well done! ${it.verbs.map(v=>`<b>${v.w}</b> → <span class="${v.a}">${SND[v.a]}</span>`).join(", ")}.</div>`
+      : `<div class="feedback ko">Watch out: ${it.verbs.map(v=>`<b>${v.w}</b> → <span class="${v.a}">${SND[v.a]}</span>`).join(", ")}.</div>`;
     const sounds=[...new Set(it.verbs.map(v=>v.a))];
     fb+=`<div class="rules">${it.why?`<div>${it.whyEn?T(it.whyEn,it.why):it.why}</div>`:""}${sounds.map(a=>`<div>${RULE[a]}</div>`).join("")}</div>`;
   }
@@ -583,15 +586,18 @@ const STEPS=(lbl)=>`
 function renderTransform(){
   const k=state.i,it=ITEMS[k],pick=(state.guess[k]||{}).c,done=pick!==undefined;
   if(myAudioURL){URL.revokeObjectURL(myAudioURL);myAudioURL=null}
-  const neg=it.kind==="neg";
+  const neg=it.kind==="neg", arrow=it.into==="wh"?"↘":it.into==="yn"?"↗":"";
+  // Rhythm (from the former Stress Lab): stressed syllables in colour, and the intonation arrow
+  const rhythm=it.stress?`<div class="rhythm" lang="en">${it.stress.replace(/<b>(.*?)<\/b>/g,'<span class="st">$1</span>')}${arrow?` <span class="arw">${arrow}</span>`:""}</div>
+    <p class="hint" style="text-align:center;margin:0" data-fr="Les syllabes en couleur sont accentuées : dis-les plus fort et plus longtemps.${arrow?" La flèche montre ta voix à la fin de la question.":""}">Coloured syllables are stressed: say them louder and longer.${arrow?" The arrow shows your voice at the end of the question.":""}</p>`:"";
   const task=neg?T("Make this sentence negative:","Mets cette phrase à la forme négative."):(it.into==="wh"?T("Here is the answer. What is the right question?","Voici la réponse. Quelle est la bonne question ?"):T("Make this sentence a question:","Transforme cette phrase en question."));
   const opts=it.opts.map((o,j)=>{let c="opt"; if(done){ if(j===it.ok) c+=" right"; else if(j===pick) c+=" wrong"; }
-    return `<button class="${c} sopt" data-c="${j}" ${done?"disabled":""} lang="en">${o}</button>`}).join("");
+    return `<button class="${c} sopt" data-c="${j}" ${done?"disabled":""} lang="en">${o}${arrow?` <span class="arw">${arrow}</span>`:""}</button>`}).join("");
   const rule=neg
     ? `<div>${T("<b>didn't</b> already shows the past: the verb stays in the base form, <b>without -ed</b>. So you hear no /t/, no /d/, no /ɪd/!","didn't porte déjà le passé : le verbe reste à la base, sans -ed. On n'entend donc ni /t/, ni /d/, ni /ɪd/ !")}</div><div>${T("<b>didn't</b> sounds /ˈdɪd.ənt/ and it is a <b>strong</b> word: you stress it, it says “no”.","didn't se dit /ˈdɪd.ənt/ et c'est un mot fort : on appuie dessus, c'est lui qui dit « non ».")}</div>`
     : `<div>${T("<b>Did</b> already shows the past: the verb stays in the base form, <b>without -ed</b> (<i>visit</i>, not <i>visited</i>; <i>go</i>, not <i>went</i>).","Did porte déjà le passé : le verbe reste à la base, sans -ed (visit, pas visited ; go, pas went).")}</div>`+
       (it.into==="wh"?`<div>${T("A <b>Wh-</b> question (<i>what, where…</i>): <b>did</b> is weak and the voice <b>goes down ↘</b> at the end.","Question en Wh- (what, where…) : did est faible et la voix descend ↘ à la fin.")}</div>`:`<div>${T("A <i>yes / no</i> question: <b>did</b> is weak, /dɪd/, and the voice <b>goes up ↗</b> at the end.","Question fermée (réponse yes / no) : did est faible, /dɪd/, et la voix monte ↗ à la fin.")}</div>`);
-  const fb=!done?"":(pick===it.ok?`<div class="feedback ok">Bravo ! <b lang="en">${it.text}</b></div>`:`<div class="feedback ko">Attention : on dit <b lang="en">${it.text}</b></div>`)+`<div class="rules">${rule}</div>`;
+  const fb=!done?"":(pick===it.ok?`<div class="feedback ok">Well done! <b lang="en">${it.text}</b></div>`:`<div class="feedback ko">Watch out: we say <b lang="en">${it.text}</b></div>`)+rhythm+`<div class="rules">${rule}</div>`;
   $("#card").innerHTML=`
     <div class="meta"><span>${({"Verbes":"Verbs","Phrases":"Sentences","Négation":"Negative","Questions":"Questions","Mots en contexte":"Words in context","Phrases du dialogue":"Dialogue sentences","Questions et négation":"Questions and negatives","Verbes du texte":"Verbs in the text","Phrases du texte":"Sentences in the text","À toi !":"Your turn!","Réguliers":"Regular verbs","Irréguliers":"Irregular verbs","Dialogue 2 · Retard":"Dialogue 2 · Late"})[it.g]||it.g}</span><span>${k+1} / ${ITEMS.length}</span></div>
     <div class="target">
