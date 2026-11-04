@@ -118,6 +118,11 @@ header::after{content:"";display:block;clear:both}
 .tile.used{visibility:hidden}
 .answer .tile{background:var(--accent-soft);border-color:var(--accent)}
 .tile.kw{font-weight:800}
+.story{font-family:var(--display);font-size:1.12rem;line-height:2.1}
+.gsel{font:inherit;font-size:1rem;font-weight:700;border:2px solid var(--accent);background:var(--accent-soft);color:var(--ink);border-radius:8px;padding:1px 6px}
+.gsel.right{border-color:var(--good);background:var(--good-soft)} .gsel.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.gsel:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.bank{margin:0}.lk{font-weight:800;color:var(--accent)}
 .tile.mystery{background:var(--mark);color:var(--onmark);border:2px dashed var(--onmark);font-size:1.1rem;min-width:3em;box-shadow:0 3px 0 rgba(0,0,0,.15)}
 .answer .tile.mystery{background:var(--mark);border-color:var(--onmark)}
 .typed{font:inherit;font-family:var(--display);font-size:1.05rem;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%}
@@ -254,27 +259,29 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
 
   <section class="act" aria-labelledby="h5s">
     <div class="step-h"><span class="step-k">Step 5</span><h2 id="h5s"><em>Recreate the situation</em></h2></div>
-    <div class="instr"><p class="consigne" data-fr="Image + billet : que s'est-il passé ? Fais une phrase dans l'ordre des images, avec because ou so.">Picture + note: what happened? Make one sentence in the order of the pictures, with <b>because</b> or <b>so</b>.</p></div>
+    <div class="instr"><p class="consigne" data-fr="Image + billet : que s'est-il passé ? Mets les mots dans l'ordre des images. La boîte mystère ❓ cache because ou so : devine lequel, puis vérifie.">Picture + note: what happened? Put the words in the order of the pictures. The mystery box ❓ hides <b>because</b> or <b>so</b>: guess which one, then check.</p></div>
     <div id="recreate" class="act"></div>
   </section>
 
   <section class="act" aria-labelledby="h6s">
-    <div class="step-h"><span class="step-k">Step 6</span><h2 id="h6s"><em>Time to manipulate</em> · the game</h2></div>
+    <div class="step-h"><span class="step-k">Step 6</span><h2 id="h6s"><em>Linking words</em> · and, but, because, so</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Complète l'histoire de Leo avec and, but, because ou so. Chaque mot sert deux fois.">Complete Leo's story with <b>and</b>, <b>but</b>, <b>because</b> or <b>so</b>. Use each word twice.</p></div>
+    <div id="gap" class="card"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h7s">
+    <div class="step-h"><span class="step-k">Step 7</span><h2 id="h7s"><em>Time to manipulate</em> · the game</h2></div>
     <div class="instr"><p class="consigne" data-fr="25 secondes par carte. Ta phrase suit l'ordre des images. Les cartes difficiles rapportent plus de points. D'abord à l'écrit, puis à l'oral.">25 seconds per card. Your sentence follows the order of the pictures. Difficult cards give more points. First write, then speak.</p></div>
     <div class="legend-dots"><span><i class="dot g"></i>easy · 1 point</span><span><i class="dot y"></i>medium · 2 points</span><span><i class="dot r"></i>difficult · 3 points</span></div>
     <div id="game" class="game"></div>
   </section>
 
-  <section class="act" aria-labelledby="h7s">
-    <div class="step-h"><span class="step-k">Step 7</span><h2 id="h7s"><em>Homework</em> · because or so?</h2><span class="home">🏠 At home</span></div>
-    <div class="instr"><p class="consigne" data-fr="À faire à la maison : choisis because ou so. Puis fais les exercices A à E de ta fiche.">At home: choose <b>because</b> or <b>so</b>. Then do exercises A to E on your worksheet.</p></div>
-    <div id="hw" class="homework"></div>
-  </section>
+  <div class="panel"><p class="consigne" style="font-weight:400" data-fr="Sur ta fiche : fais les exercices A à E de la séance 2.">On your worksheet: do exercises A to E of lesson 2.</p></div>
 
   <details class="prof" lang="fr">
     <summary>Notes pour le professeur</summary>
     <ul>
-      <li>La page suit le diaporama de la séance 2, avec ses images : <i>Warm-up · revision</i> (3 images de la séance 1), <i>So, let's recap</i> (animation lancée par l'élève : les billets apparaissent, il choisit <i>I'm late / I was absent / Can I…?</i>, puis les mots rouges s'inscrivent), <i>Make excuses</i> (avec <i>because</i>, déjà connu), <i>Look and think</i> (réflexion sur la langue : les deux phrases inversées et colorées, quatre questions, puis la règle formulée), <i>Recreate the situation</i> (3), le jeu, et l'exercice <i>because or so?</i> à faire à la maison.</li>
+      <li>La page suit le diaporama de la séance 2, avec ses images : <i>Warm-up · revision</i> (3 images de la séance 1), <i>So, let's recap</i> (animation lancée par l'élève : les billets apparaissent, il choisit <i>I'm late / I was absent / Can I…?</i>, puis les mots rouges s'inscrivent), <i>Make excuses</i> (avec <i>because</i>, déjà connu), <i>Look and think</i> (réflexion sur la langue : les deux phrases inversées et colorées, quatre questions, puis la règle formulée), <i>Recreate the situation</i> (3, avec la boîte mystère qui cache <i>because</i> ou <i>so</i>), <i>Linking words</i> (texte à trous : <i>and, but, because, so</i>, pour montrer que <i>so</i> appartient à la famille des mots qui relient deux propositions), puis le jeu.</li>
       <li>Consignes en anglais. Groupe ★ (et niveau libre) : traduction française affichée dessous ; ★★ : bouton FR pour l'afficher ; ★★★ : anglais seul.</li>
       <li><b>Le jeu</b> : 25 secondes par carte, score, pastilles verte / jaune / rouge (1, 2, 3 points). 1er temps à l'écrit : ★ mots à remettre dans l'ordre, ★★ mots + erreurs, ★★★ rédiger la phrase. 2e temps à l'oral : ★ mots dans le désordre avec une erreur, ★★ mots + erreurs, ★★★ l'image seule ; l'élève dit la phrase (il peut s'enregistrer), puis la vérification sonore fait entendre le modèle (voix anglaise du navigateur) et il valide.</li>
       <li>Code couleur des diapos : cause en vert, conséquence en rouge, mot de liaison souligné. La phrase suit l'ordre des images : billet puis image → conséquence + <i>because</i> + cause (<i>I'm late because I overslept</i>) ; image puis billet → cause + <i>so</i> + conséquence (<i>I overslept, so I was absent</i>). Dans <i>Make excuses</i>, la 2e excuse cache <i>so</i> dans une boîte mystère ❓ : l'élève le découvre en manipulant, puis l'étape 4 fait formuler la règle.</li>
@@ -389,9 +396,9 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     {id: "k4", q: ["What comes after <b>so</b>?", "Qu'est-ce qui vient après so ?"], o: ["the cause", "the consequence"], a: "the consequence"}
   ];
   const RECREATE = [
-    {id: "t1", only: "so", scene: [{img: "brokeleg", alt: "broken leg"}, {note: "abs"}], cause: ["I broke", "my leg"], cons: ["I was absent"], x: ["I break", "I breaked"]},
-    {id: "t2", only: "so", scene: [{img: "dentist", alt: "dentist"}, {note: "abs", f: {Date: "Yesterday"}}], cause: ["I went", "to the dentist"], cons: ["I was absent", "yesterday"], x: ["I go", "I'm absent"]},
-    {id: "t3", only: "so", scene: [{img: "wrist", alt: "twisted wrist", lab: "Two days ago"}, {note: "abs", f: {Date: "Yesterday"}}], cause: ["I twisted", "my wrist", "two days ago"], cons: ["I was absent", "yesterday"], x: ["I twist", "I'm absent"]}
+    {id: "t1", only: "so", mystery: "reveal", scene: [{img: "brokeleg", alt: "broken leg"}, {note: "abs"}], cause: ["I broke", "my leg"], cons: ["I was absent"], x: ["I break", "I breaked"]},
+    {id: "t2", only: "so", mystery: "reveal", scene: [{img: "dentist", alt: "dentist"}, {note: "abs", f: {Date: "Yesterday"}}], cause: ["I went", "to the dentist"], cons: ["I was absent", "yesterday"], x: ["I go", "I'm absent"]},
+    {id: "t3", only: "so", mystery: "reveal", scene: [{img: "wrist", alt: "twisted wrist", lab: "Two days ago"}, {note: "abs", f: {Date: "Yesterday"}}], cause: ["I twisted", "my wrist", "two days ago"], cons: ["I was absent", "yesterday"], x: ["I twist", "I'm absent"]}
   ];
   const GAME = [
     {dot: "g", only: "so", scene: [{img: "bus", alt: "missing the bus"}, {note: "late"}], cause: ["I missed", "the bus"], cons: ["I'm late"], x: ["I miss", "I was absent"]},
@@ -408,18 +415,22 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     {dot: "r", only: "because", scene: [{verb: "STAY", img: "house", alt: "home", lab: "Yesterday"}, {img: "sorethroat", alt: "sore throat"}], cause: ["I had", "a sore throat"], cons: ["I stayed", "at home", "yesterday"], x: ["I stay", "I have"]},
     {dot: "r", only: "so", scene: [{img: "flu", alt: "ill in bed", lab: "Last week"}, {no: "COME", img: "school", alt: "school", wide: 1}], cause: ["I had", "the flu", "last week"], cons: ["I didn't come", "to school"], x: ["I didn't came", "I have"]}
   ];
-  const HW = [
-    {id: "c1", a: "I missed the bus", b: "I'm late.", k: "so"},
-    {id: "c2", a: "I was absent", b: "I had the flu.", k: "because"},
-    {id: "c3", a: "I'm late", b: "my dad's car broke down.", k: "because"},
-    {id: "c4", a: "I broke my leg", b: "I didn't come to school.", k: "so"},
-    {id: "c5", a: "I had a sore throat", b: "I stayed at home.", k: "so"},
-    {id: "c6", a: "I didn't come to school", b: "I went to the dentist.", k: "because"}
+  // Step 6: Leo's bad day, with the four linking words (each one twice)
+  const GAP = [
+    ["Monday was a bad day for Leo. He overslept,", "so", "he missed the bus."],
+    ["He ran to the bus stop,", "but", "the bus was gone."],
+    ["His mum drove him to school", "and", "he arrived at 8:20."],
+    ["The teacher asked: “Why are you late?” Leo said: “I'm late", "because", "I missed the bus.”"],
+    ["He had a late slip,", "but", "it wasn't signed!"],
+    ["At lunch, he felt sick,", "so", "he went to the nurse."],
+    ["The nurse gave him some water", "and", "a biscuit."],
+    ["He went home early", "because", "he had a headache."]
   ];
+  const LINKS = {and: ["adds information", "ajoute une information"], but: ["shows a contrast", "montre une opposition"], because: ["gives the cause (why?)", "donne la cause (pourquoi ?)"], so: ["gives the consequence (the result)", "donne la conséquence (le résultat)"]};
   const POINTS = {g: 1, y: 2, r: 3}, SECS = 25;
 
   /* ---------- progress ---------- */
-  const IDS = [...WARM.map(w => w.id), "r1", "r2", "r3", ...MAKE.map(m => m.id), ...THINK.map(t => t.id), ...RECREATE.map(t => t.id), "g1", "g2", ...HW.map(h => h.id)];
+  const IDS = [...WARM.map(w => w.id), "r1", "r2", "r3", ...MAKE.map(m => m.id), ...THINK.map(t => t.id), ...RECREATE.map(t => t.id), ...GAP.map((g, i) => "x" + (i + 1)), "g1", "g2"];
   function done(id) { if (!S.res[id]) { S.res[id] = 1; save(); } progress(); }
   function progress() { const n = IDS.filter(i => S.res[i]).length; $("#pc").textContent = `${n} / ${IDS.length}`; $("#pcbar").style.width = Math.round(100 * n / IDS.length) + "%"; }
   function cardEl(title, id) {
@@ -433,6 +444,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   function builder(it, opts) {
     let st = opts.st || stars(); if (it.mystery) st = Math.min(st, 2);  // the mystery word is discovered with tiles
     const fs = forms(it), both = forms(Object.assign({}, it, {only: null}));
+    const hidden = it.only || "so";  // what the mystery box hides
     const wrongOrder = txt => !it.k && both.some(f => !fs.includes(f) && norm(txt) === norm(joinF(f)));
     const orderMsg = ["Follow the order of the pictures: start your sentence with the first picture.", "Suis l'ordre des images : ta phrase commence par la première image."];
     const el = document.createElement("div"); el.className = "act";
@@ -442,7 +454,8 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     let tries = 0, solved = false, check;
     const win = f => {
       solved = true; said.innerHTML = pretty(it, f); said.hidden = false;
-      if (it.mystery) fbSet(fb, "good", "Well done! The mystery word is <b>so</b>. Why so and not because? Find out in Step 4.", "Bravo ! Le mot mystère est so. Pourquoi so et pas because ? Tu vas le découvrir à l'étape 4.");
+      if (it.mystery === true) fbSet(fb, "good", "Well done! The mystery word is <b>so</b>. Why so and not because? Find out in Step 4.", "Bravo ! Le mot mystère est so. Pourquoi so et pas because ? Tu vas le découvrir à l'étape 4.");
+      else if (it.mystery) fbSet(fb, "good", `Well done! The box hides <b>${hidden}</b>: the picture comes first, it is the cause.`, `Bravo ! La boîte cache ${hidden} : l'image vient en premier, c'est la cause.`);
       else fbSet(fb, "good", "Well done!");
       $$("button", act).forEach(b => b.hidden = true); opts.onWin && opts.onWin(f);
     };
@@ -491,7 +504,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       clr.addEventListener("click", () => { ans.innerHTML = ""; $$(".tile", tiles).forEach(t => t.classList.remove("used")); ans.classList.remove("wrong"); fb.textContent = ""; });
       check = () => {
         if (solved) return;
-        const got = $$("button.tile", ans).map(t => t.classList.contains("mystery") ? "so" : t.textContent);
+        const got = $$("button.tile", ans).map(t => t.classList.contains("mystery") ? hidden : t.textContent);
         if (!got.length) { fbSet(fb, "bad", "Tap the words first.", "Touche d'abord les étiquettes."); return; }
         const f = fs.find(f => norm(got.join(" ")) === norm(joinF(f)));
         if (f) { ans.classList.add("right"); tiles.hidden = true; ans.hidden = true; win(f); return; }
@@ -500,7 +513,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
         let en, fr;
         if (trap) { en = `“${trap}” is a trap. What's wrong?`; fr = `« ${trap} » est un piège. Qu'est-ce qui ne va pas ?`; }
         else if (wrongOrder(got.join(" "))) { [en, fr] = orderMsg; }
-        else if (it.mystery && got.length === base.length + 1) { en = "Follow the order of the pictures: first the picture, then the note. Where does the mystery word go?"; fr = "Suis l'ordre des images : d'abord l'image, puis le billet. Où va le mot mystère ?"; }
+        else if (it.mystery && got.length === base.length + 1) { en = "Follow the order of the pictures: start with the first picture. Where does the mystery box go?"; fr = "Suis l'ordre des images : commence par la première image. Où va la boîte mystère ?"; }
         else if (!it.k && !hasK) { en = "You need because or so."; fr = "Il manque because ou so."; }
         else if (got.includes("because") && got.includes("so")) { en = "Choose because OR so, not both."; fr = "Choisis because OU so, pas les deux."; }
         else if (got.length < base.length + (it.k ? 0 : 1)) { en = "Some words are missing."; fr = "Il manque des étiquettes."; }
@@ -716,22 +729,28 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   }
 
   /* ---------- Step 7: homework ---------- */
-  function renderHW() {
-    const box = $("#hw"); box.innerHTML = "";
-    HW.forEach(r => {
-      const row = document.createElement("div"); row.className = "mini-q" + (S.res[r.id] ? " done" : "");
-      const isSo = r.k === "so";
-      row.style.setProperty("--c1", isSo ? "var(--cause)" : "var(--cons)"); row.style.setProperty("--c2", isSo ? "var(--cons)" : "var(--cause)");
-      row.innerHTML = `<span class="part p1" lang="en">${esc(r.a)}</span><span class="opts"><button type="button" class="opt" lang="en">because</button><button type="button" class="opt" lang="en">so</button></span><span class="part p2" lang="en">${esc(r.b)}</span>`;
-      if (S.res[r.id]) $$(".opt", row).forEach(b => { if (b.textContent === r.k) b.classList.add("right"); else b.hidden = true; });
-      row.addEventListener("click", e => {
-        const b = e.target.closest(".opt"); if (!b || row.classList.contains("done")) return;
-        if (b.textContent === r.k) { b.classList.add("right"); $$(".opt", row).forEach(x => { if (x !== b) x.hidden = true; }); row.classList.add("done"); done(r.id); }
-        else b.classList.add("wrong");
-      });
-      box.appendChild(row);
+  function renderGap() {
+    const box = $("#gap"); box.innerHTML = "";
+    const allDone = GAP.every((g, i) => S.res["x" + (i + 1)]);
+    box.innerHTML = `<p class="bank" lang="en"><b>Word bank:</b> ${Object.keys(LINKS).map(w => `<span class="lk">${w}</span>`).join(" · ")} <span style="color:var(--muted)">(×2)</span></p>
+      <div class="story" lang="en">${GAP.map((g, i) => `${esc(g[0])} <select class="gsel" data-i="${i}" aria-label="Gap ${i + 1}"><option value="">…</option>${Object.keys(LINKS).map(w => `<option${S.res["x" + (i + 1)] && w === g[1] ? " selected" : ""}>${w}</option>`).join("")}</select> ${esc(g[2])}`).join(" ")}</div>
+      <div class="actions"><button type="button" class="btn">Check</button><p class="fb" aria-live="polite"></p></div>
+      <div id="family"></div>`;
+    const showFamily = () => {
+      $("#family", box).innerHTML = `<div class="rule-box"><b class="t">${T("The linking words family", "La famille des mots de liaison")}</b>
+        ${Object.entries(LINKS).map(([w, [en, fr]]) => `<span lang="en"><b class="lk">${w}</b> ${T(en, fr)}</span>`).join("")}
+        <span>${T("They all join two parts of a sentence. <b>so</b> is one of the family!", "Ils relient tous deux parties d'une phrase. so fait partie de la famille !")}</span></div>`;
+    };
+    $$(".gsel", box).forEach(sel => { if (S.res["x" + (+sel.dataset.i + 1)]) { sel.classList.add("right"); sel.disabled = true; } });
+    if (allDone) { $(".btn", box).hidden = true; showFamily(); }
+    $(".btn", box).addEventListener("click", () => {
+      const sels = $$(".gsel", box), fb = $(".fb", box);
+      if (sels.some(x => !x.value)) { fbSet(fb, "bad", "Fill in every gap first.", "Complète d'abord tous les trous."); return; }
+      let ok = 0;
+      sels.forEach(x => { const i = +x.dataset.i, r = x.value === GAP[i][1]; x.classList.toggle("right", r); x.classList.toggle("wrong", !r); if (r) { ok++; x.disabled = true; done("x" + (i + 1)); } });
+      if (ok === sels.length) { fbSet(fb, "good", "Well done!"); $(".btn", box).hidden = true; showFamily(); }
+      else fbSet(fb, "bad", `${ok} / ${sels.length}: read the red sentences again.`, `${ok} / ${sels.length} : relis les phrases en rouge.`);
     });
-    box.insertAdjacentHTML("beforeend", `<p style="margin:0;color:var(--muted);font-size:.92rem">${T("After your answer: the cause in green, the consequence in red.", "Après ta réponse : la cause en vert, la conséquence en rouge.")}</p>`);
   }
 
   /* ---------- level box ---------- */
@@ -756,7 +775,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     const sig = String(stars());
     if (!force && sig === lastSig) return;
     lastSig = sig;
-    renderWarm(); renderPairs("make", MAKE, true); renderPairs("recreate", RECREATE); renderGameIntro(); renderHW(); progress();
+    renderWarm(); renderPairs("make", MAKE, true); renderPairs("recreate", RECREATE); renderGap(); renderGameIntro(); progress();
   }
   if (C()) C().mountPicker($("#class-box"));
   renderAll(true);
