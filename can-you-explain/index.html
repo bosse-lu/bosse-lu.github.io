@@ -118,6 +118,8 @@ header::after{content:"";display:block;clear:both}
 .tile.used{visibility:hidden}
 .answer .tile{background:var(--accent-soft);border-color:var(--accent)}
 .tile.kw{font-weight:800}
+.tile.mystery{background:var(--mark);color:var(--onmark);border:2px dashed var(--onmark);font-size:1.1rem;min-width:3em;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.answer .tile.mystery{background:var(--mark);border-color:var(--onmark)}
 .typed{font:inherit;font-family:var(--display);font-size:1.05rem;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%}
 .typed.right{border-color:var(--good);background:var(--good-soft)}
 .typed.wrong{border-color:var(--bad);background:var(--bad-soft)}
@@ -239,7 +241,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
 
   <section class="act" aria-labelledby="h3s">
     <div class="step-h"><span class="step-k">Step 3</span><h2 id="h3s"><em>Now it is your turn</em> : make excuses</h2></div>
-    <div class="instr"><p class="consigne" data-fr="Billet + image = une excuse. Fais la phrase avec because.">Note + picture = an excuse. Make the sentence with <b>because</b>.</p></div>
+    <div class="instr"><p class="consigne" data-fr="Billet + image = une excuse. Mets les mots dans l'ordre des images. Dans la 2e, trouve où va le mot mystère ❓.">Note + picture = an excuse. Put the words in the order of the pictures. In number 2, where does the mystery word ❓ go?</p></div>
     <div id="make" class="act"></div>
   </section>
 
@@ -252,13 +254,13 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
 
   <section class="act" aria-labelledby="h5s">
     <div class="step-h"><span class="step-k">Step 5</span><h2 id="h5s"><em>Recreate the situation</em></h2></div>
-    <div class="instr"><p class="consigne" data-fr="Image + billet : que s'est-il passé ? Dis-le en une phrase avec because ou so.">Picture + note: what happened? Say it in one sentence with <b>because</b> or <b>so</b>.</p></div>
+    <div class="instr"><p class="consigne" data-fr="Image + billet : que s'est-il passé ? Fais une phrase dans l'ordre des images, avec because ou so.">Picture + note: what happened? Make one sentence in the order of the pictures, with <b>because</b> or <b>so</b>.</p></div>
     <div id="recreate" class="act"></div>
   </section>
 
   <section class="act" aria-labelledby="h6s">
     <div class="step-h"><span class="step-k">Step 6</span><h2 id="h6s"><em>Time to manipulate</em> · the game</h2></div>
-    <div class="instr"><p class="consigne" data-fr="25 secondes par carte. Les cartes difficiles rapportent plus de points. D'abord à l'écrit, puis à l'oral.">25 seconds per card. Difficult cards give more points. First write, then speak.</p></div>
+    <div class="instr"><p class="consigne" data-fr="25 secondes par carte. Ta phrase suit l'ordre des images. Les cartes difficiles rapportent plus de points. D'abord à l'écrit, puis à l'oral.">25 seconds per card. Your sentence follows the order of the pictures. Difficult cards give more points. First write, then speak.</p></div>
     <div class="legend-dots"><span><i class="dot g"></i>easy · 1 point</span><span><i class="dot y"></i>medium · 2 points</span><span><i class="dot r"></i>difficult · 3 points</span></div>
     <div id="game" class="game"></div>
   </section>
@@ -275,7 +277,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       <li>La page suit le diaporama de la séance 2, avec ses images : <i>Warm-up · revision</i> (3 images de la séance 1), <i>So, let's recap</i> (animation lancée par l'élève : les billets apparaissent, il choisit <i>I'm late / I was absent / Can I…?</i>, puis les mots rouges s'inscrivent), <i>Make excuses</i> (avec <i>because</i>, déjà connu), <i>Look and think</i> (réflexion sur la langue : les deux phrases inversées et colorées, quatre questions, puis la règle formulée), <i>Recreate the situation</i> (3), le jeu, et l'exercice <i>because or so?</i> à faire à la maison.</li>
       <li>Consignes en anglais. Groupe ★ (et niveau libre) : traduction française affichée dessous ; ★★ : bouton FR pour l'afficher ; ★★★ : anglais seul.</li>
       <li><b>Le jeu</b> : 25 secondes par carte, score, pastilles verte / jaune / rouge (1, 2, 3 points). 1er temps à l'écrit : ★ mots à remettre dans l'ordre, ★★ mots + erreurs, ★★★ rédiger la phrase. 2e temps à l'oral : ★ mots dans le désordre avec une erreur, ★★ mots + erreurs, ★★★ l'image seule ; l'élève dit la phrase (il peut s'enregistrer), puis la vérification sonore fait entendre le modèle (voix anglaise du navigateur) et il valide.</li>
-      <li>Code couleur des diapos : cause en vert, conséquence en rouge, mot de liaison souligné. Les deux formes sont acceptées : <i>I'm late because I overslept</i> / <i>I overslept, so I'm late</i>.</li>
+      <li>Code couleur des diapos : cause en vert, conséquence en rouge, mot de liaison souligné. La phrase suit l'ordre des images : billet puis image → conséquence + <i>because</i> + cause (<i>I'm late because I overslept</i>) ; image puis billet → cause + <i>so</i> + conséquence (<i>I overslept, so I was absent</i>). Dans <i>Make excuses</i>, la 2e excuse cache <i>so</i> dans une boîte mystère ❓ : l'élève le découvre en manipulant, puis l'étape 4 fait formuler la règle.</li>
     </ul>
   </details>
 </div>
@@ -378,7 +380,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   ];
   const MAKE = [
     {id: "m1", scene: [{note: "late"}, {img: "overslept", alt: "oversleeping"}], cause: ["I overslept"], cons: ["I'm late"], pre: "Sorry,", only: "because", x: ["I oversleep", "I was absent"]},
-    {id: "m2", scene: [{img: "overslept", alt: "oversleeping"}, {note: "abs"}], cause: ["I overslept"], cons: ["I was absent"], only: "because", x: ["I oversleep", "I'm absent"]}
+    {id: "m2", scene: [{img: "overslept", alt: "oversleeping"}, {note: "abs"}], cause: ["I overslept"], cons: ["I was absent"], only: "so", mystery: true, x: ["I oversleep", "I'm absent"]}
   ];
   const THINK = [
     {id: "k1", q: ["Do the two sentences tell the same story?", "Les deux phrases racontent-elles la même chose ?"], o: ["Yes", "No"], a: "Yes"},
@@ -387,24 +389,24 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     {id: "k4", q: ["What comes after <b>so</b>?", "Qu'est-ce qui vient après so ?"], o: ["the cause", "the consequence"], a: "the consequence"}
   ];
   const RECREATE = [
-    {id: "t1", scene: [{img: "brokeleg", alt: "broken leg"}, {note: "abs"}], cause: ["I broke", "my leg"], cons: ["I was absent"], x: ["I break", "I breaked"]},
-    {id: "t2", scene: [{img: "dentist", alt: "dentist"}, {note: "abs", f: {Date: "Yesterday"}}], cause: ["I went", "to the dentist"], cons: ["I was absent", "yesterday"], x: ["I go", "I'm absent"]},
-    {id: "t3", scene: [{img: "wrist", alt: "twisted wrist", lab: "Two days ago"}, {note: "abs", f: {Date: "Yesterday"}}], cause: ["I twisted", "my wrist", "two days ago"], cons: ["I was absent", "yesterday"], x: ["I twist", "I'm absent"]}
+    {id: "t1", only: "so", scene: [{img: "brokeleg", alt: "broken leg"}, {note: "abs"}], cause: ["I broke", "my leg"], cons: ["I was absent"], x: ["I break", "I breaked"]},
+    {id: "t2", only: "so", scene: [{img: "dentist", alt: "dentist"}, {note: "abs", f: {Date: "Yesterday"}}], cause: ["I went", "to the dentist"], cons: ["I was absent", "yesterday"], x: ["I go", "I'm absent"]},
+    {id: "t3", only: "so", scene: [{img: "wrist", alt: "twisted wrist", lab: "Two days ago"}, {note: "abs", f: {Date: "Yesterday"}}], cause: ["I twisted", "my wrist", "two days ago"], cons: ["I was absent", "yesterday"], x: ["I twist", "I'm absent"]}
   ];
   const GAME = [
-    {dot: "g", scene: [{img: "bus", alt: "missing the bus"}, {note: "late"}], cause: ["I missed", "the bus"], cons: ["I'm late"], x: ["I miss", "I was absent"]},
-    {dot: "g", scene: [{img: "sick", alt: "feeling sick"}, {img: "toilets", alt: "toilets", wide: 1}, {q: 1}], cause: ["I feel sick"], cons: ["can I go", "to the toilet"], perm: true, x: ["I feeled sick", "can I goes"]},
-    {dot: "g", scene: [{img: "headache", alt: "headache"}, {img: "nursesign", alt: "nurse", wide: 1}, {q: 1}], cause: ["I have", "a headache"], cons: ["can I go", "to the nurse"], perm: true, x: ["I has", "can I goes"]},
-    {dot: "y", scene: [{note: "abs", lab: "Yesterday"}, {img: "dentist", alt: "dentist"}], cause: ["I went", "to the dentist"], cons: ["I was absent", "yesterday"], x: ["I go", "I'm absent"]},
-    {dot: "y", scene: [{img: "dentist", alt: "dentist", cap: "I go to the dentist"}, {kw: "because / so"}, {img: "toothache", alt: "toothache", cap: "I have a toothache"}], cause: ["I have", "a toothache"], cons: ["I go", "to the dentist"], x: ["I went", "I has"]},
+    {dot: "g", only: "so", scene: [{img: "bus", alt: "missing the bus"}, {note: "late"}], cause: ["I missed", "the bus"], cons: ["I'm late"], x: ["I miss", "I was absent"]},
+    {dot: "g", only: "so", scene: [{img: "sick", alt: "feeling sick"}, {img: "toilets", alt: "toilets", wide: 1}, {q: 1}], cause: ["I feel sick"], cons: ["can I go", "to the toilet"], perm: true, x: ["I feeled sick", "can I goes"]},
+    {dot: "g", only: "so", scene: [{img: "headache", alt: "headache"}, {img: "nursesign", alt: "nurse", wide: 1}, {q: 1}], cause: ["I have", "a headache"], cons: ["can I go", "to the nurse"], perm: true, x: ["I has", "can I goes"]},
+    {dot: "y", only: "because", scene: [{note: "abs", lab: "Yesterday"}, {img: "dentist", alt: "dentist"}], cause: ["I went", "to the dentist"], cons: ["I was absent", "yesterday"], x: ["I go", "I'm absent"]},
+    {dot: "y", only: "because", scene: [{img: "dentist", alt: "dentist", cap: "I go to the dentist"}, {kw: "because / so"}, {img: "toothache", alt: "toothache", cap: "I have a toothache"}], cause: ["I have", "a toothache"], cons: ["I go", "to the dentist"], x: ["I went", "I has"]},
     {dot: "y", question: true, scene: [{note: "abs", f: {Name: "Kelyan", Date: "Tuesday", Signed: "SIG"}}, {q: 1}], hint: ["The reason is missing: ask Kelyan.", "Le motif manque : pose la question à Kelyan."], k: ["why", "were you", "absent", "on Tuesday"], x: ["was you", "are you"]},
-    {dot: "r", scene: [{note: "abs", f: {Date: "Friday 1 pm – 2 pm"}}, {img: "headteacher", alt: "head teacher office", wide: 1}], cause: ["I was", "in the head teacher's office"], cons: ["I was absent", "on Friday", "from 1 pm to 2 pm"], x: ["I am", "I'm absent"]},
-    {dot: "r", scene: [{img: "wrist", alt: "twisted wrist", lab: "Two days ago"}, {note: "abs", lab: "Yesterday"}], cause: ["I twisted", "my wrist", "two days ago"], cons: ["I was absent", "yesterday"], x: ["I twist", "I'm absent"]},
-    {dot: "r", scene: [{img: "brokeleg", alt: "broken leg", lab: "Last Wednesday"}, {no: "COME", img: "school", alt: "school", wide: 1, lab: "Friday"}], cause: ["I broke", "my leg", "last Wednesday"], cons: ["I didn't come", "to school", "on Friday"], x: ["I didn't came", "I breaked"]},
-    {dot: "r", scene: [{no: "GO", img: "school", alt: "school", wide: 1}, {img: "flu", alt: "ill in bed"}], cause: ["I had", "the flu"], cons: ["I didn't go", "to school"], x: ["I didn't went", "I have"]},
-    {dot: "r", scene: [{img: "car", alt: "car breakdown", lab: "Dad · last Friday"}, {note: "abs"}], cause: ["my dad's car", "broke down", "last Friday"], cons: ["I was absent"], x: ["breaks down", "I'm absent"]},
-    {dot: "r", scene: [{verb: "STAY", img: "house", alt: "home", lab: "Yesterday"}, {img: "sorethroat", alt: "sore throat"}], cause: ["I had", "a sore throat"], cons: ["I stayed", "at home", "yesterday"], x: ["I stay", "I have"]},
-    {dot: "r", scene: [{img: "flu", alt: "ill in bed", lab: "Last week"}, {no: "COME", img: "school", alt: "school", wide: 1}], cause: ["I had", "the flu", "last week"], cons: ["I didn't come", "to school"], x: ["I didn't came", "I have"]}
+    {dot: "r", only: "because", scene: [{note: "abs", f: {Date: "Friday 1 pm – 2 pm"}}, {img: "headteacher", alt: "head teacher office", wide: 1}], cause: ["I was", "in the head teacher's office"], cons: ["I was absent", "on Friday", "from 1 pm to 2 pm"], x: ["I am", "I'm absent"]},
+    {dot: "r", only: "so", scene: [{img: "wrist", alt: "twisted wrist", lab: "Two days ago"}, {note: "abs", lab: "Yesterday"}], cause: ["I twisted", "my wrist", "two days ago"], cons: ["I was absent", "yesterday"], x: ["I twist", "I'm absent"]},
+    {dot: "r", only: "so", scene: [{img: "brokeleg", alt: "broken leg", lab: "Last Wednesday"}, {no: "COME", img: "school", alt: "school", wide: 1, lab: "Friday"}], cause: ["I broke", "my leg", "last Wednesday"], cons: ["I didn't come", "to school", "on Friday"], x: ["I didn't came", "I breaked"]},
+    {dot: "r", only: "because", scene: [{no: "GO", img: "school", alt: "school", wide: 1}, {img: "flu", alt: "ill in bed"}], cause: ["I had", "the flu"], cons: ["I didn't go", "to school"], x: ["I didn't went", "I have"]},
+    {dot: "r", only: "so", scene: [{img: "car", alt: "car breakdown", lab: "Dad · last Friday"}, {note: "abs"}], cause: ["my dad's car", "broke down", "last Friday"], cons: ["I was absent"], x: ["breaks down", "I'm absent"]},
+    {dot: "r", only: "because", scene: [{verb: "STAY", img: "house", alt: "home", lab: "Yesterday"}, {img: "sorethroat", alt: "sore throat"}], cause: ["I had", "a sore throat"], cons: ["I stayed", "at home", "yesterday"], x: ["I stay", "I have"]},
+    {dot: "r", only: "so", scene: [{img: "flu", alt: "ill in bed", lab: "Last week"}, {no: "COME", img: "school", alt: "school", wide: 1}], cause: ["I had", "the flu", "last week"], cons: ["I didn't come", "to school"], x: ["I didn't came", "I have"]}
   ];
   const HW = [
     {id: "c1", a: "I missed the bus", b: "I'm late.", k: "so"},
@@ -429,13 +431,21 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
 
   /* ---------- the sentence builder (★ words, ★★ words + traps, ★★★ write) ---------- */
   function builder(it, opts) {
-    const st = opts.st || stars(), fs = forms(it);
+    let st = opts.st || stars(); if (it.mystery) st = Math.min(st, 2);  // the mystery word is discovered with tiles
+    const fs = forms(it), both = forms(Object.assign({}, it, {only: null}));
+    const wrongOrder = txt => !it.k && both.some(f => !fs.includes(f) && norm(txt) === norm(joinF(f)));
+    const orderMsg = ["Follow the order of the pictures: start your sentence with the first picture.", "Suis l'ordre des images : ta phrase commence par la première image."];
     const el = document.createElement("div"); el.className = "act";
     const said = document.createElement("p"); said.className = "said"; said.hidden = true; said.setAttribute("lang", "en");
     const act = document.createElement("div"); act.className = "actions";
     const fb = document.createElement("p"); fb.className = "fb"; fb.setAttribute("aria-live", "polite");
     let tries = 0, solved = false, check;
-    const win = f => { solved = true; said.innerHTML = pretty(it, f); said.hidden = false; fbSet(fb, "good", "Well done!"); $$("button", act).forEach(b => b.hidden = true); opts.onWin && opts.onWin(f); };
+    const win = f => {
+      solved = true; said.innerHTML = pretty(it, f); said.hidden = false;
+      if (it.mystery) fbSet(fb, "good", "Well done! The mystery word is <b>so</b>. Why so and not because? Find out in Step 4.", "Bravo ! Le mot mystère est so. Pourquoi so et pas because ? Tu vas le découvrir à l'étape 4.");
+      else fbSet(fb, "good", "Well done!");
+      $$("button", act).forEach(b => b.hidden = true); opts.onWin && opts.onWin(f);
+    };
     const model = () => modelText(it, fs[0]);
     if (st === 3) {
       const inp = document.createElement("input"); inp.type = "text"; inp.className = "typed"; inp.setAttribute("lang", "en"); inp.autocomplete = "off"; inp.spellcheck = false;
@@ -452,7 +462,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
         if (f) { inp.classList.add("right"); inp.readOnly = true; win(f); return; }
         tries++; inp.classList.add("wrong");
         const n = norm(v);
-        let msg = it.question ? "Check the question word and the verb be in the past." : !/\b(because|so)\b/.test(n) ? "Use because or so." : "Check the order and the verbs in the past.";
+        let msg = it.question ? "Check the question word and the verb be in the past." : !/\b(because|so)\b/.test(n) ? "Use because or so." : both.some(f => !fs.includes(f) && near(v, joinF(f))) ? orderMsg[0] : "Check the order of the pictures and the verbs in the past.";
         if (tries >= 2) msg += ` Model: “${model()}”`;
         fbSet(fb, "bad", msg);
       };
@@ -460,18 +470,18 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       el.focusFirst = () => inp.focus();
     } else {
       const traps = st === 2 ? (it.x || []).slice(0, 2) : [];
-      const conn = it.k ? [] : (it.only ? [it.only] : ["because", "so"]);
+      const conn = it.k ? [] : it.mystery ? ["?"] : (opts.oneConn && it.only ? [it.only] : ["because", "so"]);
       const base = it.k ? it.k : [...it.cons, ...it.cause];
       const words = shuffle([...base, ...conn, ...traps]);
       const ans = document.createElement("div"); ans.className = "answer"; ans.setAttribute("lang", "en"); ans.setAttribute("aria-label", "Your sentence");
       const tiles = document.createElement("div"); tiles.className = "tiles"; tiles.setAttribute("lang", "en");
-      tiles.innerHTML = words.map((w, i) => `<button type="button" class="tile${conn.includes(w) ? " kw" : ""}" data-i="${i}">${esc(w)}</button>`).join("");
+      tiles.innerHTML = words.map((w, i) => `<button type="button" class="tile${conn.includes(w) ? " kw" : ""}${w === "?" ? " mystery" : ""}" data-i="${i}" ${w === "?" ? 'aria-label="mystery word"' : ""}>${w === "?" ? "❓" : esc(w)}</button>`).join("");
       act.innerHTML = `<button type="button" class="btn">Check</button><button type="button" class="btn lite">Clear</button>`;
       el.append(ans, tiles, act, fb, said);
       tiles.addEventListener("click", e => {
         const t = e.target.closest(".tile"); if (!t || t.classList.contains("used") || solved) return;
         t.classList.add("used"); ans.classList.remove("wrong"); fb.textContent = "";
-        const b = document.createElement("button"); b.type = "button"; b.className = "tile"; b.dataset.i = t.dataset.i; b.textContent = t.textContent; ans.appendChild(b);
+        const b = document.createElement("button"); b.type = "button"; b.className = "tile" + (t.classList.contains("mystery") ? " mystery" : ""); b.dataset.i = t.dataset.i; b.textContent = t.textContent; ans.appendChild(b);
       });
       ans.addEventListener("click", e => {
         const t = e.target.closest("button.tile"); if (!t || solved) return;
@@ -481,7 +491,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       clr.addEventListener("click", () => { ans.innerHTML = ""; $$(".tile", tiles).forEach(t => t.classList.remove("used")); ans.classList.remove("wrong"); fb.textContent = ""; });
       check = () => {
         if (solved) return;
-        const got = $$("button.tile", ans).map(t => t.textContent);
+        const got = $$("button.tile", ans).map(t => t.classList.contains("mystery") ? "so" : t.textContent);
         if (!got.length) { fbSet(fb, "bad", "Tap the words first.", "Touche d'abord les étiquettes."); return; }
         const f = fs.find(f => norm(got.join(" ")) === norm(joinF(f)));
         if (f) { ans.classList.add("right"); tiles.hidden = true; ans.hidden = true; win(f); return; }
@@ -489,6 +499,8 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
         const trap = got.find(w => traps.includes(w)), hasK = got.includes("because") || got.includes("so");
         let en, fr;
         if (trap) { en = `“${trap}” is a trap. What's wrong?`; fr = `« ${trap} » est un piège. Qu'est-ce qui ne va pas ?`; }
+        else if (wrongOrder(got.join(" "))) { [en, fr] = orderMsg; }
+        else if (it.mystery && got.length === base.length + 1) { en = "Follow the order of the pictures: first the picture, then the note. Where does the mystery word go?"; fr = "Suis l'ordre des images : d'abord l'image, puis le billet. Où va le mot mystère ?"; }
         else if (!it.k && !hasK) { en = "You need because or so."; fr = "Il manque because ou so."; }
         else if (got.includes("because") && got.includes("so")) { en = "Choose because OR so, not both."; fr = "Choisis because OU so, pas les deux."; }
         else if (got.length < base.length + (it.k ? 0 : 1)) { en = "Some words are missing."; fr = "Il manque des étiquettes."; }
@@ -560,12 +572,12 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   }
 
   /* ---------- Step 3 / Step 5: picture + note = sentence ---------- */
-  function renderPairs(boxId, list) {
+  function renderPairs(boxId, list, oneConn) {
     const box = $("#" + boxId); box.innerHTML = "";
     list.forEach((it, i) => {
       const c = cardEl(`${i + 1}.`, it.id);
       c.insertAdjacentHTML("beforeend", sceneHTML(it.scene, true));
-      const b = builder(it, {onWin: () => { done(it.id); setDone(c); }});
+      const b = builder(it, {oneConn, onWin: () => { done(it.id); setDone(c); }});
       if (S.res[it.id]) b.showDone();
       c.appendChild(b); box.appendChild(c);
     });
@@ -744,7 +756,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     const sig = String(stars());
     if (!force && sig === lastSig) return;
     lastSig = sig;
-    renderWarm(); renderPairs("make", MAKE); renderPairs("recreate", RECREATE); renderGameIntro(); renderHW(); progress();
+    renderWarm(); renderPairs("make", MAKE, true); renderPairs("recreate", RECREATE); renderGameIntro(); renderHW(); progress();
   }
   if (C()) C().mountPicker($("#class-box"));
   renderAll(true);
