@@ -120,7 +120,7 @@ header::after{content:"";display:block;clear:both}
     <p class="lead">Des activités pour travailler ta prononciation en anglais : écoute, répète, enregistre-toi et compare.</p>
   </header>
 
-  <section class="intro" id="intro" aria-labelledby="intro-t">
+  <section class="intro" id="intro" aria-label="A basketball coach talks about his job">
     <div class="intro-v" id="orig">
       <div class="poster">
         <p class="pq">“My job – for all these kids – is to make them <span class="u">uncomfortable</span>.</p>
@@ -131,7 +131,6 @@ header::after{content:"";display:block;clear:both}
     </div>
     <div class="intro-txt">
       <span class="tag">Watch and listen · 🏀</span>
-      <h2 id="intro-t">The teacher’s role<br>The students’ role</h2>
       <p class="fr">« Mon rôle, pour tous ces jeunes, c'est de les mettre <span class="u">mal à l'aise</span>. Leur rôle, c'est d'apprendre à être <span class="c">à l'aise</span> quand ils sont <span class="u">mal à l'aise</span>. »</p>
       <div class="words"><span class="w c">comfortable<small>= à l'aise</small></span><span class="w u">uncomfortable<small>= mal à l'aise</small></span></div>
       <p class="src"><b>Source :</b> Kentucky Wildcats TV, conférence de presse de l'entraîneur de basket de l'université du Kentucky.</p>
@@ -285,7 +284,7 @@ header::after{content:"";display:block;clear:both}
   function end() {
     if (!vp) return;
     vp.classList.remove("locked");
-    vp.innerHTML = `<div class="vp-end"><b>✔ End of the extract</b><span>The teacher’s role · The students’ role</span></div>`;
+    vp.innerHTML = `<div class="vp-end"><b>✔ End of the extract</b></div>`;
     f = null; note.textContent = "Use Restart to watch it again.";
   }
   function load() {
