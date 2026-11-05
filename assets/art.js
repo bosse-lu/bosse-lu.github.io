@@ -179,6 +179,18 @@
       <path d="M22 132h116" stroke="${C.green}" stroke-width="4" stroke-linecap="round" opacity=".5"/>`,
 
     // A wolf, a sheep and a hill at sunset (The Boy Who Cried Wolf)
+    // A teacup for The Landlady
+    teacup: () => `${bg}
+      <rect x="22" y="22" width="52" height="26" rx="4" fill="${C.white}" stroke="${C.navy}" stroke-width="2"/>
+      <text x="48" y="32" text-anchor="middle" font-family="'Bricolage Grotesque','Trebuchet MS',sans-serif" font-weight="800" font-size="8" fill="${C.navy}">BED AND</text>
+      <text x="48" y="42" text-anchor="middle" font-family="'Bricolage Grotesque','Trebuchet MS',sans-serif" font-weight="800" font-size="8" fill="${C.navy}">BREAKFAST</text>
+      <path d="M86 52q-6-10 0-18M100 50q-6-10 0-18M114 52q-6-10 0-18" fill="none" stroke="${C.grey}" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="94" cy="126" rx="54" ry="10" fill="${C.white}" stroke="${C.navy}" stroke-width="2"/>
+      <path d="M58 66h72l-8 46a14 14 0 0 1-14 12H80a14 14 0 0 1-14-12z" fill="${C.white}" stroke="${C.navy}" stroke-width="2.5"/>
+      <path d="M128 78a14 14 0 0 1 0 26" fill="none" stroke="${C.navy}" stroke-width="5"/>
+      <path d="M66 84h58" stroke="${C.red}" stroke-width="5"/>
+      <circle cx="80" cy="98" r="4" fill="${C.red}"/><circle cx="95" cy="102" r="4" fill="${C.red}"/><circle cx="110" cy="98" r="4" fill="${C.red}"/>`,
+
     wolf: () => `${bg}
       <circle cx="118" cy="52" r="16" fill="#e8843c"/>
       <path d="M14 118q66-34 132-6v26H14z" fill="#9fbf7c"/>
