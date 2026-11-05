@@ -20,7 +20,7 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 56px}
-.wrap{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.wrap{max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
 .kicker{font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
 h1{font-family:var(--display);font-weight:800;font-size:clamp(2.2rem,8vw,3.6rem);line-height:1;letter-spacing:-.02em;margin:8px 0 0}
 h1 span{background:linear-gradient(transparent 58%,var(--mark) 58%);white-space:nowrap}
@@ -73,20 +73,30 @@ header::after{content:"";display:block;clear:both}
 .feat-prog .bar span{display:block;height:100%;width:0;background:var(--accent);border-radius:999px}
 .feat-prog .pc{font-size:.9rem;color:var(--muted);font-weight:700}
 @media (max-width:620px){.mini{grid-template-columns:repeat(2,1fr)}.explore{padding:14px}.feat-top{align-items:flex-start}.card-art.big{width:72px;height:72px}}
-/* Intro: the coach's video (external post), top right */
-.wrap{max-width:1000px}
-.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:28px;align-items:start}
-.hero::after{display:none}
-.intro{margin:0}
-.orig{display:flex;flex-direction:column;gap:12px;background:#141a33;color:#f3f5fb;border-radius:18px;padding:20px 22px;box-shadow:0 8px 28px rgba(20,26,51,.28)}
-.orig .tag{background:#ffd23f;color:#141a33}
-.orig-q{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(1.35rem,3.6vw,1.75rem);line-height:1.2}
-.orig-q .c{color:#3ccf8e;white-space:nowrap}.orig-q .u{color:#ff6a4d;white-space:nowrap}
-.orig-who{margin:0;color:#c3c9e0;font-size:.95rem}
-.orig-btn{align-self:flex-start;font:inherit;font-size:1.05rem;font-weight:800;border-radius:12px;padding:11px 18px;cursor:pointer;border:0;background:#ffd23f;color:#141a33}
-.orig-btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+/* Intro: the coach's video (external post) on the left, the French version and the key words on the right */
+.intro{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:26px;align-items:start;background:radial-gradient(ellipse at 75% 30%,#1d2547 0%,#141a33 70%);color:#f3f5fb;border-radius:22px;padding:24px;box-shadow:0 8px 28px rgba(20,26,51,.25)}
+.intro .c{color:#3ccf8e;font-weight:800;white-space:nowrap}.intro .u{color:#ff6a4d;font-weight:800;white-space:nowrap}
+.intro-v{display:flex;flex-direction:column;gap:10px;min-width:0}
+.poster{aspect-ratio:1;border-radius:14px;background:#fbf4ea;color:#111;display:flex;flex-direction:column;justify-content:space-between;align-items:center;text-align:center;padding:16px 14px;gap:10px;background-image:linear-gradient(#fbf4ea 0 26%,#2737a8 26% 74%,#fbf4ea 74%)}
+.pq{margin:0;font-family:Impact,"Arial Narrow Bold",var(--display);font-weight:800;font-size:clamp(1.05rem,3.4vw,1.45rem);line-height:1.12}
+.pq .u{color:#d13a1f}.pq .c{color:#14804c}
+.orig-btn{font:inherit;font-size:1.1rem;font-weight:800;border-radius:999px;padding:14px 22px;cursor:pointer;border:0;background:#ffd23f;color:#141a33;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.orig-btn:focus-visible{outline:3px solid #fff;outline-offset:3px}
 .ig-note{margin:0;font-size:.8rem;color:#a9b0cc}
-.ig-note .cg-fr{color:#a9b0cc}
+.intro-txt{display:flex;flex-direction:column;gap:14px;min-width:0}
+.intro-txt .tag{background:#ffd23f;color:#141a33;letter-spacing:.06em;text-transform:uppercase}
+.intro-txt h2{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(1.4rem,3.6vw,1.9rem);line-height:1.15}
+.intro-txt .fr{margin:0;font-size:clamp(1.05rem,2.6vw,1.3rem);line-height:1.45}
+.intro-txt .fr::before{content:"🇫🇷 "}
+.words{display:flex;flex-wrap:wrap;gap:12px}
+.w{border-radius:14px;padding:8px 16px;font-size:1.1rem;border:3px solid}
+.w small{display:block;font-size:.85rem;font-weight:600;color:#a9b0cc}
+.w.c{border-color:#3ccf8e}.w.u{border-color:#ff6a4d}
+.q2{margin:0;font-family:var(--display);font-size:1.15rem}
+.q2 b{color:#ffd23f}
+.src{margin:4px 0 0;padding-top:10px;border-top:1px solid #2d3456;font-size:.8rem;color:#a9b0cc}
+.src b{color:#f3f5fb}
+@media (max-width:720px){.intro{grid-template-columns:1fr;padding:16px;gap:18px}}
 /* Player: only the video part of the external post is shown (its top bar and its bottom part are cut off),
    and after the first tap (play) a shield stops any other tap, so nobody leaves the site.
    --top = height of the post's top bar, --ratio = height / width of the video. */
@@ -97,28 +107,36 @@ header::after{content:"";display:block;clear:both}
 .vp-bar{display:flex;flex-wrap:wrap;gap:8px}
 .vp-bar button{font:inherit;font-size:.9rem;font-weight:700;border-radius:10px;padding:7px 12px;cursor:pointer;border:1px solid #3a4370;background:none;color:#f3f5fb}
 .vp-bar button:focus-visible{outline:3px solid #fff;outline-offset:2px}
-@media (max-width:760px){.hero{grid-template-columns:1fr;gap:18px}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div data-bunting="3"></div>
-  <header class="hero">
-    <div class="hero-txt">
-      <p class="kicker">Collège Réeberg Néron · Anglais 5e · 4e</p>
-      <h1>English with <span>M. Bosse</span></h1>
-      <p class="lead">Des activités pour travailler ta prononciation en anglais : écoute, répète, enregistre-toi et compare.</p>
-    </div>
-    <figure class="intro" id="intro">
-      <div class="orig" id="orig">
-        <span class="tag">Watch and listen · 🏀</span>
-        <p class="orig-q">“My job is to make them <span class="u">uncomfortable</span>. Their job is to become <span class="c">comfortable</span> being <span class="u">uncomfortable</span>.”</p>
-        <p class="orig-who">A basketball coach talks about his job. And you: what is your job in the English class?</p>
-        <button type="button" class="orig-btn" id="orig-btn">▶ Watch the video</button>
-        <p class="ig-note">Video: Kentucky Wildcats TV (press conference). It loads from an external website only when you press the button.</p>
-      </div>
-    </figure>
+  <header>
+    <div class="hero-art" data-art="home" aria-hidden="true"></div>
+    <p class="kicker">Collège Réeberg Néron · Anglais 5e · 4e</p>
+    <h1>English with <span>M. Bosse</span></h1>
+    <p class="lead">Des activités pour travailler ta prononciation en anglais : écoute, répète, enregistre-toi et compare.</p>
   </header>
+
+  <section class="intro" id="intro" aria-labelledby="intro-t">
+    <div class="intro-v" id="orig">
+      <div class="poster">
+        <p class="pq">“My job – for all these kids – is to make them <span class="u">uncomfortable</span>.</p>
+        <button type="button" class="orig-btn" id="orig-btn">▶ Watch the video</button>
+        <p class="pq">Their job is to become <span class="c">comfortable</span> being <span class="u">uncomfortable</span>.”</p>
+      </div>
+      <p class="ig-note">The video loads from an external website only when you press the button.</p>
+    </div>
+    <div class="intro-txt">
+      <span class="tag">Watch and listen · 🏀</span>
+      <h2 id="intro-t">What is the job of the coach?<br>What is the job of the players?</h2>
+      <p class="fr">« Mon rôle, pour tous ces jeunes, c'est de les mettre <span class="u">mal à l'aise</span>. Leur rôle, c'est d'apprendre à être <span class="c">à l'aise</span> quand ils sont <span class="u">mal à l'aise</span>. »</p>
+      <div class="words"><span class="w c">comfortable<small>= à l'aise</small></span><span class="w u">uncomfortable<small>= mal à l'aise</small></span></div>
+      <p class="q2">And you: what is <b>your</b> job in the English class?</p>
+      <p class="src"><b>Source :</b> Kentucky Wildcats TV, conférence de presse de l'entraîneur de basket de l'université du Kentucky.</p>
+    </div>
+  </section>
 
   <section class="grid" aria-label="Activités">
     <a class="tool feature" id="seq-feature" href="late-and-absent/">
@@ -257,7 +275,7 @@ header::after{content:"";display:block;clear:both}
 (function () {
   const POST = "https://www.instagram.com/reel/De0aJrJt9iZ/";
   const m = POST.match(/\/(p|reel|tv)\/([\w-]+)/);
-  const btn = document.getElementById("orig-btn"), note = document.querySelector("#orig .ig-note");
+  const btn = document.getElementById("orig-btn"), note = document.querySelector("#orig .ig-note"), poster = document.querySelector("#orig .poster");
   if (!m) { document.getElementById("intro").hidden = true; return; }
   const src = `https://www.instagram.com/${m[1]}/${m[2]}/embed/`;
   let vp, f;
@@ -276,11 +294,11 @@ header::after{content:"";display:block;clear:both}
     vp = document.createElement("div"); vp.className = "vp";
     const bar = document.createElement("div"); bar.className = "vp-bar";
     bar.innerHTML = `<button type="button" data-a="re">⟲ Restart</button><button type="button" data-a="x">✕ Close</button>`;
-    btn.replaceWith(vp); vp.after(bar);
+    poster.replaceWith(vp); vp.after(bar);
     bar.addEventListener("click", e => {
       const a = e.target.closest("button"); if (!a) return;
       if (a.dataset.a === "re") load();
-      else { vp.replaceWith(btn); bar.remove(); vp = f = null; note.textContent = "Video: Kentucky Wildcats TV (press conference). It loads from an external website only when you press the button."; btn.focus(); }
+      else { vp.replaceWith(poster); bar.remove(); vp = f = null; note.textContent = "The video loads from an external website only when you press the button."; btn.focus(); }
     });
     load();
   });
