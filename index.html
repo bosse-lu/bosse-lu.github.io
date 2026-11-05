@@ -102,6 +102,9 @@ header::after{content:"";display:block;clear:both}
    --top = height of the post's top bar, --ratio = height / width of the video. */
 .vp{--top:60px;--ratio:1;position:relative;width:100%;aspect-ratio:1/var(--ratio);overflow:hidden;border-radius:12px;background:#000}
 .vp iframe{position:absolute;left:0;top:calc(-1 * var(--top));width:100%;height:calc(100% + var(--top) + 420px);border:0}
+.vp-end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px;text-align:center;background:#1d2547;color:#f3f5fb}
+.vp-end b{font-family:var(--display);font-size:1.3rem;color:#3ccf8e}
+.vp-end span{color:#c3c9e0}
 .vp .shield{position:absolute;inset:0;z-index:2;display:none;cursor:default}
 .vp.locked .shield{display:block}
 .vp-bar{display:flex;flex-wrap:wrap;gap:8px}
@@ -278,8 +281,18 @@ header::after{content:"";display:block;clear:both}
   const btn = document.getElementById("orig-btn"), note = document.querySelector("#orig .ig-note"), poster = document.querySelector("#orig .poster");
   if (!m) { document.getElementById("intro").hidden = true; return; }
   const src = `https://www.instagram.com/${m[1]}/${m[2]}/embed/`;
-  let vp, f;
+  // The extract stops after "…know about themselves" (≈ 26.6 s into the post, then a short pause).
+  // Counted from the play tap, with about half a second for the video to start. Adjust here if needed.
+  const STOP = 27.4;
+  let vp, f, timer;
+  function end() {
+    if (!vp) return;
+    vp.classList.remove("locked");
+    vp.innerHTML = `<div class="vp-end"><b>✔ End of the extract</b><span>What is the job of the coach? What is the job of the players?</span></div>`;
+    f = null; note.textContent = "Use Restart to watch it again.";
+  }
   function load() {
+    clearTimeout(timer);
     vp.classList.remove("locked");
     vp.innerHTML = `<iframe title="Video: a basketball coach talks about his job" scrolling="no" allow="autoplay; encrypted-media"></iframe><div class="shield" aria-hidden="true"></div>`;
     f = vp.querySelector("iframe"); f.src = src;
@@ -288,7 +301,9 @@ header::after{content:"";display:block;clear:both}
   // A tap inside the player moves the focus into it: that is the "play" tap. Then the shield goes up.
   window.addEventListener("blur", () => {
     if (!vp || !f || document.activeElement !== f) return;
-    setTimeout(() => { vp.classList.add("locked"); note.textContent = "Playing. Use Restart to watch it again."; window.focus(); }, 400);
+    if (vp.classList.contains("locked")) return;
+    clearTimeout(timer); timer = setTimeout(end, STOP * 1000);
+    setTimeout(() => { if (f) { vp.classList.add("locked"); note.textContent = "Playing…"; } window.focus(); }, 400);
   });
   btn.addEventListener("click", () => {
     vp = document.createElement("div"); vp.className = "vp";
@@ -298,7 +313,7 @@ header::after{content:"";display:block;clear:both}
     bar.addEventListener("click", e => {
       const a = e.target.closest("button"); if (!a) return;
       if (a.dataset.a === "re") load();
-      else { vp.replaceWith(poster); bar.remove(); vp = f = null; note.textContent = "The video loads from an external website only when you press the button."; btn.focus(); }
+      else { clearTimeout(timer); vp.replaceWith(poster); bar.remove(); vp = f = null; note.textContent = "The video loads from an external website only when you press the button."; btn.focus(); }
     });
     load();
   });
