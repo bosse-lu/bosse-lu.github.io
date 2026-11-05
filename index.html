@@ -277,9 +277,10 @@ header::after{content:"";display:block;clear:both}
   const btn = document.getElementById("orig-btn"), note = document.querySelector("#orig .ig-note"), poster = document.querySelector("#orig .poster");
   if (!m) { document.getElementById("intro").hidden = true; return; }
   const src = `https://www.instagram.com/${m[1]}/${m[2]}/embed/`;
-  // The extract stops after "…know about themselves" (≈ 26.6 s into the post, then a short pause).
-  // Counted from the play tap, with about half a second for the video to start. Adjust here if needed.
-  const STOP = 27.4;
+  // The extract stops after "…comfortable being uncomfortable" (≈ 24.9 s into the post), in the pause
+  // before "We have to settle situations". Counted from the play tap, with about half a second for the
+  // video to start. Adjust here if needed.
+  const STOP = 25.8;
   let vp, f, timer;
   function end() {
     if (!vp) return;
