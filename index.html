@@ -73,7 +73,7 @@ header::after{content:"";display:block;clear:both}
 .feat-prog .bar span{display:block;height:100%;width:0;background:var(--accent);border-radius:999px}
 .feat-prog .pc{font-size:.9rem;color:var(--muted);font-weight:700}
 @media (max-width:620px){.mini{grid-template-columns:repeat(2,1fr)}.explore{padding:14px}.feat-top{align-items:flex-start}.card-art.big{width:72px;height:72px}}
-/* Intro: the coach's video (Instagram), top right */
+/* Intro: the coach's video (external post), top right */
 .wrap{max-width:1000px}
 .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:28px;align-items:start}
 .hero::after{display:none}
@@ -87,7 +87,16 @@ header::after{content:"";display:block;clear:both}
 .orig-btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
 .ig-note{margin:0;font-size:.8rem;color:#a9b0cc}
 .ig-note .cg-fr{color:#a9b0cc}
-.orig iframe{display:block;width:100%;height:min(82vh,720px);border:0;border-radius:12px;background:#fff}
+/* Player: only the video part of the external post is shown (its top bar and its bottom part are cut off),
+   and after the first tap (play) a shield stops any other tap, so nobody leaves the site.
+   --top = height of the post's top bar, --ratio = height / width of the video. */
+.vp{--top:60px;--ratio:1;position:relative;width:100%;aspect-ratio:1/var(--ratio);overflow:hidden;border-radius:12px;background:#000}
+.vp iframe{position:absolute;left:0;top:calc(-1 * var(--top));width:100%;height:calc(100% + var(--top) + 420px);border:0}
+.vp .shield{position:absolute;inset:0;z-index:2;display:none;cursor:default}
+.vp.locked .shield{display:block}
+.vp-bar{display:flex;flex-wrap:wrap;gap:8px}
+.vp-bar button{font:inherit;font-size:.9rem;font-weight:700;border-radius:10px;padding:7px 12px;cursor:pointer;border:1px solid #3a4370;background:none;color:#f3f5fb}
+.vp-bar button:focus-visible{outline:3px solid #fff;outline-offset:2px}
 @media (max-width:760px){.hero{grid-template-columns:1fr;gap:18px}}
 </style>
 </head>
@@ -106,7 +115,7 @@ header::after{content:"";display:block;clear:both}
         <p class="orig-q">“My job is to make them <span class="u">uncomfortable</span>. Their job is to become <span class="c">comfortable</span> being <span class="u">uncomfortable</span>.”</p>
         <p class="orig-who">A basketball coach talks about his job. And you: what is your job in the English class?</p>
         <button type="button" class="orig-btn" id="orig-btn">▶ Watch the video</button>
-        <p class="ig-note" data-fr="La vidéo vient d'Instagram : elle se charge seulement si tu cliques.">The video comes from Instagram (Kentucky Wildcats TV, via @coach_mwooten). It loads only if you click.</p>
+        <p class="ig-note">Video: Kentucky Wildcats TV (press conference). It loads from an external website only when you press the button.</p>
       </div>
     </figure>
   </header>
@@ -242,19 +251,38 @@ header::after{content:"";display:block;clear:both}
 </script>
 
 <script>
-/* Intro: the coach's video from Instagram. It loads only on click: nothing is sent to Instagram before
-   (Instagram does not allow an embedded post to start by itself anyway). */
+/* Intro: the coach's video, embedded from an external post. Nothing loads before the click.
+   Only the video is visible; once the learner has pressed play inside it, a shield blocks any other tap
+   (no link can take them off the site). "Restart" reloads it, "Close" removes it. */
 (function () {
-  const IG = "https://www.instagram.com/reel/De0aJrJt9iZ/";
-  const m = IG.match(/instagram\.com\/(?:[\w.]+\/)?(p|reel|tv)\/([\w-]+)/);
-  const btn = document.getElementById("orig-btn");
+  const POST = "https://www.instagram.com/reel/De0aJrJt9iZ/";
+  const m = POST.match(/\/(p|reel|tv)\/([\w-]+)/);
+  const btn = document.getElementById("orig-btn"), note = document.querySelector("#orig .ig-note");
   if (!m) { document.getElementById("intro").hidden = true; return; }
+  const src = `https://www.instagram.com/${m[1]}/${m[2]}/embed/`;
+  let vp, f;
+  function load() {
+    vp.classList.remove("locked");
+    vp.innerHTML = `<iframe title="Video: a basketball coach talks about his job" scrolling="no" allow="autoplay; encrypted-media"></iframe><div class="shield" aria-hidden="true"></div>`;
+    f = vp.querySelector("iframe"); f.src = src;
+    note.textContent = "Press ▶ on the video to play it.";
+  }
+  // A tap inside the player moves the focus into it: that is the "play" tap. Then the shield goes up.
+  window.addEventListener("blur", () => {
+    if (!vp || !f || document.activeElement !== f) return;
+    setTimeout(() => { vp.classList.add("locked"); note.textContent = "Playing. Use Restart to watch it again."; window.focus(); }, 400);
+  });
   btn.addEventListener("click", () => {
-    const f = document.createElement("iframe");
-    f.src = `https://www.instagram.com/${m[1]}/${m[2]}/embed/`; f.title = "The coach's video on Instagram"; f.allowFullscreen = true;
-    btn.replaceWith(f);
-    document.querySelector("#orig .ig-note").textContent = "Press ▶ in the video to play it. Source: Kentucky Wildcats TV, via Instagram @coach_mwooten.";
-    f.focus();
+    vp = document.createElement("div"); vp.className = "vp";
+    const bar = document.createElement("div"); bar.className = "vp-bar";
+    bar.innerHTML = `<button type="button" data-a="re">⟲ Restart</button><button type="button" data-a="x">✕ Close</button>`;
+    btn.replaceWith(vp); vp.after(bar);
+    bar.addEventListener("click", e => {
+      const a = e.target.closest("button"); if (!a) return;
+      if (a.dataset.a === "re") load();
+      else { vp.replaceWith(btn); bar.remove(); vp = f = null; note.textContent = "Video: Kentucky Wildcats TV (press conference). It loads from an external website only when you press the button."; btn.focus(); }
+    });
+    load();
   });
 })();
 </script>
