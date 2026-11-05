@@ -44,7 +44,7 @@
     id: "late-and-absent-4e", title: "Late and absent", level: "4e", axis: "Axe 4 · École et loisirs", href: "late-and-absent-4e/",
     evals: SEQ5.evals,
     steps: [
-      Object.assign({}, S5("note"), {what: "Écoute les six dialogues du collège en autonomie et remplis les billets : late slip, absence note ou permission note. Repère les questions et le question tag « weren't you? »."}),
+      Object.assign({}, S5("note"), {total: () => 22, count: s => Object.keys(s.res || {}).length, what: "Écoute les six dialogues du collège en autonomie et remplis les billets : late slip, absence note ou permission note. Repère les questions et le question tag « weren't you? »."}),
       S5("ed"),
       S5("so"),
       {id: "have", href: "what-have-you-done/", art: "have", title: "Oh no, I've forgotten it!",
@@ -96,7 +96,7 @@
     ["seq-overall", "seq-evals"].forEach(id => { const el = document.getElementById(id); if (el) el.hidden = !!block; });
     const evh = document.getElementById("seq-evals-h"); if (evh) evh.hidden = !!block;
     if (block) {
-      list.innerHTML = `<li><div class="step-card locked"><span class="num" aria-hidden="true">${block.href ? "→" : "🔒"}</span><span class="step-art" data-art="excuse" aria-hidden="true"></span>
+      list.innerHTML = `<li><div class="step-card${block.href ? " next" : " locked"}"><span class="num" aria-hidden="true">${block.href ? "→" : "🔒"}</span><span class="step-art" data-art="excuse" aria-hidden="true"></span>
         <span class="step-body"><span class="step-t">${block.t}</span><span class="step-w">${block.w}</span>${block.href ? `<a class="seq-go" href="${url(block.href)}">${block.go} →</a>` : ""}</span></div></li>`;
       css(".seq-go{align-self:flex-start;margin-top:6px;font-weight:700;color:#fff;background:var(--accent,#2f4fd8);border-radius:10px;padding:9px 14px;text-decoration:none}");
       mountClass(); drawArt(list); return;
