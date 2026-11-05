@@ -179,6 +179,14 @@
       <path d="M22 132h116" stroke="${C.green}" stroke-width="4" stroke-linecap="round" opacity=".5"/>`,
 
     // A wolf, a sheep and a hill at sunset (The Boy Who Cried Wolf)
+    // An exercise book that is not there: Oh no, I've forgotten it!
+    have: () => `${bg}
+      <rect x="30" y="40" width="70" height="90" rx="6" fill="${C.white}" stroke="${C.navy}" stroke-width="2.5" stroke-dasharray="7 6"/>
+      <path d="M46 62h38M46 76h38M46 90h26" stroke="${C.grey}" stroke-width="4" stroke-linecap="round"/>
+      <path d="M42 50l46 70M88 50l-46 70" stroke="${C.red}" stroke-width="6" stroke-linecap="round"/>
+      <path d="M96 24h48a10 10 0 0 1 10 10v20a10 10 0 0 1-10 10h-22l-12 12 2-12h-16a10 10 0 0 1-10-10V34a10 10 0 0 1 10-10z" fill="${C.yellow}" stroke="${C.navy}" stroke-width="2"/>
+      <text x="120" y="50" text-anchor="middle" font-family="'Bricolage Grotesque','Trebuchet MS',sans-serif" font-weight="800" font-size="15" fill="${C.navy}">Oh no!</text>`,
+
     // A teacup for The Landlady
     teacup: () => `${bg}
       <rect x="22" y="22" width="52" height="26" rx="4" fill="${C.white}" stroke="${C.navy}" stroke-width="2"/>

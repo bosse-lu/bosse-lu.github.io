@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Oh no, I've forgotten it! – Late and absent 4e – Collège Réeberg Néron</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Shared look with Can you explain? (lesson 2). Extra rules for this page at the end.
+   Step 1 warm-up (revision with the pictures of lesson 1), step 2 recap of the notes, step 3 make excuses,
+   step 4 think about the language (cause / consequence, inductive), step 5 recreate the situation, step 6 the game,
+   step 7 homework. Cause = teal, consequence = red, as on the slides. Instructions in English; French help by level. */
+:root{
+  --paper:#f3f5fb; --card:#ffffff; --ink:#1b2340; --muted:#5b6380; --line:#d9ddea;
+  --accent:#2f4fd8; --accent-soft:#e3e8ff; --mark:#ffd23f; --onmark:#1b2340; --navy:#1b2340;
+  --good:#1f8a55; --good-soft:#dff3e8; --bad:#c2412d; --bad-soft:#fbe5df;
+  --cause:#1f8f7f; --cause-soft:#d9f2ee; --cons:#cc2936; --cons-soft:#fbe1e3;
+  --note:#fff3b8; --note-line:#e2b93b; --ink-red:#c2141f;
+  --dot-g:#22a447; --dot-y:#f2c418; --dot-r:#e0281f;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;
+  --slide:Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11152a; --card:#1a1f37; --ink:#e8ebf7; --muted:#9aa1bd; --line:#2d3456;
+  --accent:#8ea2ff; --accent-soft:#262e57; --mark:#f2c418; --good:#4cc38a; --good-soft:#173a2b; --bad:#f0785f; --bad-soft:#3d2120;
+  --cause:#4fd1bd; --cause-soft:#15342f; --cons:#ff7a84; --cons-soft:#3d1c20; --note:#3a3420; --note-line:#a8862b; --ink-red:#ff8a8a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11152a; --card:#1a1f37; --ink:#e8ebf7; --muted:#9aa1bd; --line:#2d3456;
+  --accent:#8ea2ff; --accent-soft:#262e57; --mark:#f2c418; --good:#4cc38a; --good-soft:#173a2b; --bad:#f0785f; --bad-soft:#3d2120;
+  --cause:#4fd1bd; --cause-soft:#15342f; --cons:#ff7a84; --cons-soft:#3d1c20; --note:#3a3420; --note-line:#a8862b; --ink-red:#ff8a8a; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 56px}
+button,select,input{font:inherit;color:inherit}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.homebar{max-width:860px;margin:0 auto;text-align:center}
+.homelink{font-weight:600;font-size:14px;color:inherit;opacity:.75;text-decoration:none}
+.homelink:hover{opacity:1;text-decoration:underline}
+.kicker{font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2.2rem,9vw,3.5rem);line-height:1;letter-spacing:-.02em;margin:8px 0 0}
+h1 span{background:linear-gradient(transparent 58%,var(--mark) 58%)}
+.hero-art{float:right;width:clamp(96px,27vw,156px);aspect-ratio:1;margin:-6px 0 6px 14px}.hero-art svg{display:block;width:100%;height:100%}
+header::after{content:"";display:block;clear:both}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;flex-wrap:wrap}
+.seg button{border:0;background:var(--card);padding:8px 14px;cursor:pointer;font-weight:700}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg button:disabled{cursor:default;opacity:.55}
+.lvlrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.lvlrow p{flex:1 1 100%;margin:0;font-size:.92rem;color:var(--muted)}
+.overall{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.overall b{font-family:var(--display)}
+.overall .pc{margin-left:auto;font-family:var(--display);font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.bar{flex:1 1 100%;display:block;height:10px;border-radius:999px;background:var(--accent-soft);overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:var(--accent);border-radius:999px;transition:width .5s}
+
+/* steps */
+.act{display:flex;flex-direction:column;gap:14px}
+.step-h{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin:14px 0 0}
+.step-k{flex:none;font:800 .8rem/1 var(--display);letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--paper);border-radius:999px;padding:6px 12px;align-self:center}
+.step-h h2{margin:0;font-family:var(--slide);font-weight:400;font-size:clamp(1.45rem,5vw,1.85rem);line-height:1.1}
+.step-h h2 em{font-weight:700}
+.step-h .home{margin-left:auto;font-size:.8rem;font-weight:700;color:var(--muted)}
+.consigne{margin:0;font-size:1.02rem;font-weight:700}
+.instr{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;padding:12px 14px}
+.instr .consigne{flex:1 1 260px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.card.ok{border-color:var(--good);box-shadow:inset 4px 0 0 var(--good)}
+.card-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.card-h h3{margin:0;font-family:var(--display);font-weight:800;font-size:1.1rem}
+.done-tag{margin-left:auto;font-size:.78rem;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--good);color:#fff}
+.start{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:12px;padding:12px 20px;background:var(--accent);color:#fff;font:800 1.05rem/1 var(--display);cursor:pointer;box-shadow:0 4px 14px rgba(47,79,216,.3)}
+.start:hover{filter:brightness(1.08)}
+.start svg{width:18px;height:18px}
+.start.again{background:var(--card);color:var(--accent);border:2px solid var(--accent);box-shadow:none;padding:9px 16px;font-size:.95rem}
+
+/* pictures: the slide images, notes and signs */
+.scene{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 12px}
+.scene .plus,.scene .eq{font:800 1.8rem/1 var(--display);color:var(--ink)}
+.pic{display:flex;flex-direction:column;align-items:center;gap:6px}
+.frame{background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px;box-shadow:0 2px 6px rgba(27,35,64,.08);display:grid;place-items:center;width:132px;height:118px}
+.frame{overflow:hidden;display:flex!important;align-items:center;justify-content:center}
+.frame img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
+.frame.wide{width:auto;height:auto;padding:4px}
+.frame.wide img{width:auto;height:64px;max-width:200px}
+.pill{display:inline-block;font-weight:700;font-size:.78rem;background:var(--navy);color:var(--mark);border-radius:999px;padding:4px 12px;text-align:center}
+.lab{font:700 .85rem/1.2 var(--slide);text-transform:uppercase;letter-spacing:.03em;text-align:center}
+.cap{font-size:.75rem;font-weight:700;text-align:center;max-width:12em}
+.overword{position:relative;font:800 1.5rem/1 var(--slide)}
+.overword.no::before{content:"✗";position:absolute;left:-.4em;top:-.3em;color:var(--dot-r);font-size:1.5em;font-family:var(--body)}
+.q-mark{font:800 2.2rem/1 var(--slide)}
+.note{width:170px;background:var(--note);border:2px solid var(--note-line);border-radius:6px;padding:8px 10px;font-family:var(--slide);box-shadow:0 2px 0 rgba(0,0,0,.08)}
+.note b{display:block;text-align:center;font-size:.78rem;letter-spacing:.04em;margin-bottom:6px}
+.note .row{display:flex;gap:6px;font-size:.66rem;border-bottom:1px dotted var(--note-line);padding:2px 0;min-height:1.45em;align-items:flex-end}
+.note .row span{flex:none;width:5.4em}
+.note .row em{font-style:normal;font-weight:700;color:var(--ink-red);font-family:var(--body);font-size:.72rem;text-transform:uppercase}
+.note .row img{height:22px}
+.note.big{width:210px}
+
+/* warm-up strip, like the slide */
+.strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.wpick{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px;cursor:pointer}
+.wpick .frame{width:100%;height:120px;border:0;box-shadow:none}
+.wpick[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.wpick .ok{position:absolute;top:8px;right:8px;width:24px;height:24px;border-radius:50%;background:var(--good);color:#fff;display:grid;place-items:center;font-weight:800;font-size:.85rem}
+.wpick:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* sentence building */
+.answer{min-height:50px;border:2px dashed var(--line);border-radius:12px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.answer:empty::before{content:"Tap the words in order…";color:var(--muted);font-size:.9rem;padding:0 4px}
+.answer.right{border-style:solid;border-color:var(--good);background:var(--good-soft)}
+.answer.wrong{border-style:solid;border-color:var(--bad)}
+.tiles{display:flex;flex-wrap:wrap;gap:6px}
+.tile{border:1px solid var(--ink);background:var(--card);border-radius:8px;padding:6px 11px;cursor:pointer;font-family:var(--display);font-weight:500;font-size:1.02rem}
+.tile.used{visibility:hidden}
+.answer .tile{background:var(--accent-soft);border-color:var(--accent)}
+.tile.kw{font-weight:800}
+.story{font-family:var(--display);font-size:1.12rem;line-height:2.1}
+.gsel{font:inherit;font-size:1rem;font-weight:700;border:2px solid var(--accent);background:var(--accent-soft);color:var(--ink);border-radius:8px;padding:1px 6px}
+.gsel.right{border-color:var(--good);background:var(--good-soft)} .gsel.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.gsel:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.bank{margin:0}.lk{font-weight:800;color:var(--accent)}
+.tile.mystery{background:var(--mark);color:var(--onmark);border:2px dashed var(--onmark);font-size:1.1rem;min-width:3em;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.answer .tile.mystery{background:var(--mark);border-color:var(--onmark)}
+.typed{font:inherit;font-family:var(--display);font-size:1.05rem;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%}
+.typed.right{border-color:var(--good);background:var(--good-soft)}
+.typed.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.said{font-family:var(--display);font-size:1.15rem;line-height:1.5;margin:0;padding:10px 14px;border-radius:12px;background:var(--paper)}
+.said .ca{color:var(--cause);font-weight:700} .said .co{color:var(--cons);font-weight:700} .said .kk{font-weight:800;text-decoration:underline;text-underline-offset:3px}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--card);font-weight:700;border-radius:10px;padding:8px 16px;cursor:pointer}
+.btn.lite{background:none;color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.fb{margin:0;font-weight:700}
+.fb.good{color:var(--good)} .fb.bad{color:var(--bad)}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 15px;cursor:pointer;font-weight:700}
+.opt:hover{border-color:var(--accent)}
+.opt.right{background:var(--good);border-color:var(--good);color:#fff}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.btn:focus-visible,.opt:focus-visible,.tile:focus-visible,.seg button:focus-visible,.typed:focus-visible,.start:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* recap */
+.stage{min-height:40px}
+.recap{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}
+.rc{display:flex;flex-direction:column;align-items:center;gap:8px;width:210px;animation:pop .5s ease both}
+.rc .pill{min-height:1.9em}
+.rc .pill:empty{visibility:hidden}
+.rc .sent{font-family:var(--display);font-size:.98rem;text-align:center;margin:0;min-height:1.5em}
+.write{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;animation:typing 1.1s steps(20,end) both}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes typing{from{max-width:0}to{max-width:14em}}
+.ask{display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center}
+.ask .consigne{font-size:1rem}
+
+/* think about it */
+.line3{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;width:100%;max-width:640px;margin:0 auto}
+.blk{border-radius:12px;padding:14px 10px;text-align:center;font-weight:700;color:#fff;font-size:1.08rem}
+.blk.ca{background:var(--cause)} .blk.co{background:var(--cons)}
+.blk.plain{background:var(--paper);color:var(--ink);border:2px dashed var(--line)}
+.kwd{font:700 1.4rem/1 var(--slide);min-width:3.6em;text-align:center}
+.pop{animation:pop .5s both}
+.rule-box{border:2px solid var(--ink);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;background:var(--paper);animation:pop .6s both}
+.rule-box b.t{font-family:var(--display);font-size:1.15rem}
+.rule-box .ca{color:var(--cause);font-weight:800}.rule-box .co{color:var(--cons);font-weight:800}
+.qrow{display:flex;flex-direction:column;gap:8px;padding:10px 0;border-top:1px dashed var(--line);animation:pop .4s both}
+.mini-q{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.mini-q:last-child{border-bottom:0}
+.mini-q .part{font-family:var(--display);font-size:1.05rem}
+.mini-q.done .p1{color:var(--c1);font-weight:700}.mini-q.done .p2{color:var(--c2);font-weight:700}
+
+/* the game */
+.game{display:flex;flex-direction:column;gap:14px}
+.gbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.score{font:800 1.4rem/1 var(--display);font-variant-numeric:tabular-nums}
+.timer{position:relative;width:64px;height:64px;flex:none}
+.timer svg{width:64px;height:64px;transform:rotate(-90deg)}
+.timer circle{fill:none;stroke-width:7}
+.timer .bg{stroke:var(--line)} .timer .fg{stroke:var(--accent);transition:stroke-dashoffset 1s linear}
+.timer.low .fg{stroke:var(--bad)}
+.timer b{position:absolute;inset:0;display:grid;place-items:center;font:800 1.3rem/1 var(--display);font-variant-numeric:tabular-nums}
+.dot{width:26px;height:26px;border-radius:50%;flex:none;box-shadow:inset 0 -3px 0 rgba(0,0,0,.15);display:inline-block}
+.dot.g{background:var(--dot-g)} .dot.y{background:var(--dot-y)} .dot.r{background:var(--dot-r)}
+.gcard{position:relative;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.gcard>.dot{position:absolute;top:14px;left:14px}
+.gcard .qn{position:absolute;top:16px;right:16px;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.gcard .scene{padding-top:22px}
+.gcard.timeout{border-color:var(--bad)}
+.gcard.win{border-color:var(--good)}
+.legend-dots{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:.88rem;color:var(--muted);align-items:center}
+.legend-dots span{display:inline-flex;align-items:center;gap:6px}
+.legend-dots .dot{width:16px;height:16px}
+.big-end{text-align:center}
+.big-end b{display:block;font:800 2rem/1.1 var(--display)}
+.rec{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.heard{font-size:.95rem}
+.heard .w{display:inline-block;padding:1px 6px;border-radius:6px;margin:2px 1px;font-family:var(--display)}
+.heard .w.ok{background:var(--good-soft);color:var(--good)}
+.heard .w.ko{background:var(--bad-soft);color:var(--bad);text-decoration:line-through}
+.homework{border:2px dashed var(--accent);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--card)}
+details.prof{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+details.prof summary{cursor:pointer;font-weight:700}
+details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.93rem}
+@media (max-width:560px){.line3{grid-template-columns:1fr}.kwd{padding:2px 0}.frame{width:112px;height:100px}.note{width:150px}.strip{gap:8px}.wpick{padding:6px}.wpick .frame{height:84px}.pill{font-size:.68rem;padding:3px 8px}}
+@media (prefers-reduced-motion:reduce){.rc,.pop,.qrow,.rule-box,.write{animation:none!important}.bar span{transition:none}.timer .fg{transition:none}}
+</style>
+<style>
+/* Oh no, I've forgotten it! — 4e, present perfect of the "constat" */
+.scn{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.sc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.sc.ok{border-color:var(--good);box-shadow:inset 4px 0 0 var(--good)}
+.emo{font-size:2.6rem;line-height:1;text-align:center}
+.bub{border-radius:14px;padding:8px 12px;font-family:var(--display);font-size:1.02rem;line-height:1.35;margin:0}
+.bub.t{background:var(--paper);border:1px solid var(--line)}
+.bub.t::before{content:"👩‍🏫 ";}
+.bub.s{background:var(--accent-soft);align-self:flex-end;text-align:right}
+.bub.s::before{content:"🙋 ";}
+.pp{color:var(--cons);font-weight:800}
+.ps{color:var(--cause);font-weight:800}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.ex{border-radius:14px;padding:12px 14px;border:2px solid var(--line);background:var(--card)}
+.ex b{display:block;font-family:var(--display);font-size:1.15rem;margin:6px 0}
+.ex .tag2{font-size:.78rem;font-weight:700;border-radius:999px;padding:2px 10px;background:var(--paper)}
+.rule{border:2px solid var(--good);background:var(--good-soft);border-radius:14px;padding:12px 16px}
+.rule p{margin:4px 0}
+.vt{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.vrow{display:flex;flex-direction:column;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.vrow.ok{border-color:var(--good)}
+.vrow b{font-family:var(--display)}
+.qrow{display:flex;flex-direction:column;gap:8px}
+.gapq{font-family:var(--display);font-size:1.08rem;margin:0}
+.listen{border:1px solid var(--accent);background:none;color:var(--accent);border-radius:10px;padding:6px 12px;font-weight:700;cursor:pointer}
+.listen:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.starter{font-size:.88rem;color:var(--muted);margin:0}
+</style>
+<script src="../assets/consigne.js"></script>
+</head>
+<body>
+<div class="homebar"><a class="homelink" href="../">← Toutes les activités · Collège Réeberg Néron</a></div>
+<div class="wrap">
+  <header>
+    <div class="hero-art" data-art="have" aria-hidden="true"></div>
+    <p class="kicker">Late and absent · 4e · New!</p>
+    <h1>Oh no, I've <span>forgotten</span> it!</h1>
+  </header>
+
+  <div id="class-box" class="cl-box" aria-live="polite"></div>
+
+  <div class="panel lvlrow" id="lvl-box">
+    <b>My level</b>
+    <span class="seg" role="group" aria-label="Level">
+      <button type="button" data-st="1" aria-pressed="false">★ Discover</button>
+      <button type="button" data-st="2" aria-pressed="false">★★ Practise</button>
+      <button type="button" data-st="3" aria-pressed="false">★★★ Challenge</button>
+    </span>
+    <p id="lvl-msg"></p>
+  </div>
+
+  <div class="panel overall">
+    <b>My progress</b><span class="pc" id="pc">0 / 35</span>
+    <span class="bar" aria-hidden="true"><span id="pcbar"></span></span>
+  </div>
+
+  <section class="act" aria-labelledby="h1s">
+    <div class="step-h"><span class="step-k">Step 1</span><h2 id="h1s"><em>Look and listen</em> · what's the problem?</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Écoute chaque situation : le professeur pose une question, l'élève fait un constat. Écoute les six.">Listen to each situation: the teacher asks a question, the student says what the problem is. Listen to all six.</p></div>
+    <div id="look" class="scn"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h2s">
+    <div class="step-h"><span class="step-k">Step 2</span><h2 id="h2s"><em>Think</em> 🧠</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Compare les deux phrases, puis réponds aux questions : c'est toi qui trouves la règle.">Compare the two sentences, then answer the questions: you find the rule.</p></div>
+    <div id="think" class="card"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h3s">
+    <div class="step-h"><span class="step-k">Step 3</span><h2 id="h3s"><em>The past participle</em></h2></div>
+    <div class="instr"><p class="consigne" data-fr="Trouve le participe passé de chaque verbe. Attention aux verbes irréguliers !">Find the past participle of each verb. Be careful with the irregular verbs!</p></div>
+    <div id="part" class="vt"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h4s">
+    <div class="step-h"><span class="step-k">Step 4</span><h2 id="h4s"><em>Make the sentence</em> · have or has?</h2></div>
+    <div class="instr"><p class="consigne" id="mk-cons" data-fr="Regarde l'image et construis le constat.">Look at the picture and make the sentence.</p></div>
+    <div id="make" class="act"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h5s">
+    <div class="step-h"><span class="step-k">Step 5</span><h2 id="h5s"><em>Yesterday or now?</em> · past simple or present perfect</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Un moment précis du passé (yesterday, last week) : prétérit. Le résultat compte maintenant : present perfect. Choisis.">A time in the past (yesterday, last week): past simple. The result is important now: present perfect. Choose.</p></div>
+    <div id="choose" class="card"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h6s">
+    <div class="step-h"><span class="step-k">Step 6</span><h2 id="h6s"><em>Your turn</em> · answer the teacher</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Le professeur te pose une question. Réponds par un constat au present perfect, puis écoute un modèle.">The teacher asks you a question. Answer with the present perfect, then listen to a model.</p></div>
+    <div id="turn" class="scn"></div>
+  </section>
+
+  <details class="prof" lang="fr">
+    <summary>Notes pour le professeur</summary>
+    <ul>
+      <li>Nouveau point de la version 4e : <i>have / has</i> + participe passé pour faire un <b>constat</b> (le résultat présent d'une action passée, sans date) : <i>I've forgotten my exercise book</i>, <i>I haven't finished my homework</i>, <i>The bus has broken down</i>.</li>
+      <li>Démarche : exposition en situation (Step 1), conceptualisation inductive en comparant avec le prétérit (Step 2), formes (Steps 3 et 4), discrimination prétérit / present perfect (Step 5), production guidée (Step 6).</li>
+      <li>Niveaux : ★ choix et étiquettes, consignes traduites ; ★★ étiquettes avec pièges, français sur demande ; ★★★ tout est tapé, anglais seul. Les contractions (<i>I've, hasn't</i>) et les formes pleines sont acceptées.</li>
+    </ul>
+  </details>
+</div>
+<script src="../assets/art.js"></script>
+<script src="../assets/newbadge.js"></script>
+<script src="../assets/flagtips.js"></script>
+<script src="../assets/reset.js"></script>
+<script src="../assets/classes.js"></script>
+<script>
+(function () {
+  const KEY = "pp4e", TOTAL = 35;
+  const $ = (s, r) => (r || document).querySelector(s), $$ = (s, r) => [...(r || document).querySelectorAll(s)];
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const T = (en, fr) => window.Consigne ? Consigne.t(en, fr) : en;
+  let S = {}; try { S = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) {}
+  S.res = S.res || {};
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+  const done = id => { if (!S.res[id]) { S.res[id] = 1; save(); progress(); } };
+  function progress() { const n = Math.min(TOTAL, Object.keys(S.res).length); $("#pc").textContent = `${n} / ${TOTAL}`; $("#pcbar").style.width = (100 * n / TOTAL) + "%"; }
+
+  /* level */
+  const C = () => window.Classes;
+  const stars = () => { const v = C() && C().stars ? C().stars() : 1; if (v === null) return S.pv || 1; const k = C() && C().klass ? C().klass() : null; return (k && v > 1) ? v : (S.free || 1); };
+  const imposed = () => { const k = C() && C().klass ? C().klass() : null; return !!(k && !k.admin && C().stars() > 1); };
+  window.pageStars = stars;
+
+  /* voice */
+  function say(lines) {
+    try {
+      speechSynthesis.cancel();
+      const vs = speechSynthesis.getVoices(), v = vs.find(x => x.lang.replace("_", "-") === "en-GB") || vs.find(x => x.lang.startsWith("en"));
+      lines.forEach(t => { const u = new SpeechSynthesisUtterance(t); u.lang = "en-GB"; u.rate = .9; if (v) u.voice = v; speechSynthesis.speak(u); });
+    } catch (e) {}
+  }
+
+  /* matching: contractions and full forms are both fine */
+  const CONTR = [[/\bi've\b/g, "i have"], [/\bwe've\b/g, "we have"], [/\bthey've\b/g, "they have"], [/\byou've\b/g, "you have"], [/\bhaven't\b/g, "have not"], [/\bhasn't\b/g, "has not"], [/\bshe's\b/g, "she has"], [/\bhe's\b/g, "he has"], [/\bit's\b/g, "it has"], [/\bwhat's\b/g, "what is"], [/\bwhere's\b/g, "where is"], [/\bi'm\b/g, "i am"]];
+  function norm(t) {
+    t = String(t || "").toLowerCase().replace(/[’‘`]/g, "'");
+    CONTR.forEach(([r, v]) => { t = t.replace(r, v); });
+    return t.replace(/[^a-z0-9' ]+/g, " ").replace(/'/g, "").replace(/\s+/g, " ").trim().replace(/^(sorry|oh no|no|yes) /, "").replace(/^(sorry|oh no|no|yes) /, "");
+  }
+  function lev(a, b) { const m = a.length, n = b.length, d = Array.from({length: m + 1}, (_, i) => [i]); for (let j = 1; j <= n; j++) d[0][j] = j; for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); return d[m][n]; }
+  function near(got, want) {
+    const a = norm(got).split(" "), b = norm(want).split(" ");
+    if (!a[0] || a.length !== b.length) return false;
+    let slips = 0;
+    for (let i = 0; i < b.length; i++) { if (a[i] === b[i]) continue; if (b[i].length >= 5 && lev(a[i], b[i]) <= 1 && ++slips <= 1) continue; return false; }
+    return true;
+  }
+  const fb = (el, ok, en, fr) => { el.className = "fb " + (ok ? "good" : "bad"); el.innerHTML = fr ? T(en, fr) : en; };
+
+  /* ---------- Step 1 ---------- */
+  const LOOK = [
+    {id: "l1", e: "📓❌", t: "Where's your exercise book?", s: "Sorry, I've forgotten it at home.", fr: "Désolé, je l'ai oublié à la maison."},
+    {id: "l2", e: "📝⏳", t: "Can I see your homework?", s: "I'm sorry, I haven't finished it.", fr: "Je suis désolée, je ne l'ai pas fini."},
+    {id: "l3", e: "✏️❓", t: "Where's your pencil case?", s: "Oh no! I've lost it!", fr: "Oh non ! Je l'ai perdue !"},
+    {id: "l4", e: "🚌💥", t: "Why are you late?", s: "The bus has broken down.", fr: "Le bus est tombé en panne."},
+    {id: "l5", e: "🤕🦵", t: "What's the matter?", s: "I've hurt my knee.", fr: "Je me suis fait mal au genou."},
+    {id: "l6", e: "🎒🧾", t: "Have you got your late slip?", s: "No, I haven't. I've left it in my bag.", fr: "Non. Je l'ai laissé dans mon sac."}
+  ];
+  const hl = s => esc(s).replace(/\b(I've|I have|haven't|hasn't|has|have)\b( \w+)?/g, (m) => `<span class="pp">${m}</span>`);
+  function renderLook() {
+    $("#look").innerHTML = LOOK.map(c => `<div class="sc${S.res[c.id] ? " ok" : ""}" data-id="${c.id}">
+      <div class="emo" aria-hidden="true">${c.e}</div>
+      <p class="bub t">${esc(c.t)}</p>
+      <p class="bub s">${stars() < 3 ? `<span data-fr="${esc(c.fr)}">${hl(c.s)}</span>` : hl(c.s)}</p>
+      <button type="button" class="listen" data-say="${c.id}">▶ Listen</button></div>`).join("");
+  }
+  $("#look").addEventListener("click", e => {
+    const b = e.target.closest("[data-say]"); if (!b) return;
+    const c = LOOK.find(x => x.id === b.dataset.say); say([c.t, c.s]); done(c.id); b.closest(".sc").classList.add("ok");
+  });
+
+  /* ---------- Step 2 ---------- */
+  const THINK = [
+    {id: "k1", q: "In sentence a, do we know when?", fr: "Dans la phrase a, sait-on quand ?", o: ["Yes: yesterday", "No"], a: 0},
+    {id: "k2", q: "In sentence b, do we know when?", fr: "Dans la phrase b, sait-on quand ?", o: ["Yes", "No, and it's not important"], a: 1},
+    {id: "k3", q: "In sentence b, what is important?", fr: "Dans la phrase b, qu'est-ce qui compte ?", o: ["The result now: I haven't got my book", "The day it happened"], a: 0},
+    {id: "k4", q: "How do we make sentence b?", fr: "Comment construit-on la phrase b ?", o: ["have / has + past participle", "did + verb"], a: 0},
+    {id: "k5", q: "Which one is the negative?", fr: "Laquelle est la forme négative ?", o: ["I haven't finished my homework.", "I didn't finished my homework."], a: 0}
+  ];
+  function renderThink() {
+    const box = $("#think");
+    box.innerHTML = `<div class="two">
+        <div class="ex"><span class="tag2">a · 📅 yesterday</span><b>I <span class="ps">forgot</span> my exercise book yesterday.</b>${T("A finished time in the past.", "Un moment terminé du passé.")}</div>
+        <div class="ex"><span class="tag2">b · 👀 now</span><b>I<span class="pp">'ve forgotten</span> my exercise book!</b>${T("I haven't got it now: that's the problem.", "Je ne l'ai pas maintenant : c'est ça, le problème.")}</div>
+      </div>
+      ${THINK.map(k => `<div class="qrow" data-k="${k.id}"><p class="gapq">${T(esc(k.q), k.fr)}</p><div class="opts">${shuffle(k.o.map((o, i) => [o, i])).map(([o, i]) => `<button type="button" class="opt${S.res[k.id] && i === k.a ? " right" : ""}" data-i="${i}">${esc(o)}</button>`).join("")}</div></div>`).join("")}
+      <div class="rule" id="rule" ${THINK.every(k => S.res[k.id]) ? "" : "hidden"}>
+        <p><b>My rule</b></p>
+        <p>${T("To say what I see <b>now</b> (the result), I use <span class=\"pp\">have / has + past participle</span>: <i>I've forgotten, she has lost, I haven't finished</i>.", "Pour faire un constat (le résultat maintenant), j'utilise have / has + participe passé.")}</p>
+        <p>${T("With a time in the past (<i>yesterday, last week, on Monday</i>), I use the <span class=\"ps\">past simple</span>: <i>I forgot it yesterday</i>.", "Avec un moment passé précis, j'utilise le prétérit.")}</p>
+      </div>`;
+  }
+  $("#think").addEventListener("click", e => {
+    const b = e.target.closest(".opt"); if (!b) return;
+    const row = b.closest("[data-k]"), k = THINK.find(x => x.id === row.dataset.k);
+    if (+b.dataset.i === k.a) { $$(".opt", row).forEach(x => x.classList.remove("wrong")); b.classList.add("right"); done(k.id); if (THINK.every(x => S.res[x.id])) $("#rule").hidden = false; }
+    else b.classList.add("wrong");
+  });
+
+  /* ---------- Step 3 ---------- */
+  const VERBS = [
+    {id: "f1", v: "finish", p: "finished", ps: "finished", fr: "finir"},
+    {id: "f2", v: "miss", p: "missed", ps: "missed", fr: "rater"},
+    {id: "f3", v: "forget", p: "forgotten", ps: "forgot", fr: "oublier"},
+    {id: "f4", v: "lose", p: "lost", ps: "lost", fr: "perdre"},
+    {id: "f5", v: "break", p: "broken", ps: "broke", fr: "casser"},
+    {id: "f6", v: "do", p: "done", ps: "did", fr: "faire"},
+    {id: "f7", v: "leave", p: "left", ps: "left", fr: "laisser, partir"},
+    {id: "f8", v: "hurt", p: "hurt", ps: "hurt", fr: "faire mal, blesser"}
+  ];
+  const WRONG = {finish: "finishen", miss: "missen", forget: "forgetted", lose: "losed", break: "breaked", do: "doed", leave: "leaved", hurt: "hurted"};
+  function renderPart() {
+    const st = stars();
+    $("#part").innerHTML = VERBS.map(x => {
+      const ok = S.res[x.id];
+      const body = st >= 3
+        ? `<input class="typed${ok ? " right" : ""}" data-v="${x.id}" placeholder="past participle" autocomplete="off" autocapitalize="off" spellcheck="false" value="${ok ? x.p : ""}"><button type="button" class="btn" data-chk="${x.id}">Check</button>`
+        : `<div class="opts">${shuffle([...new Set([x.p, st >= 2 && x.ps !== x.p ? x.ps : x.v, WRONG[x.v]])]).map(o => `<button type="button" class="opt${ok && o === x.p ? " right" : ""}" data-o="${esc(o)}">${esc(o)}</button>`).join("")}</div>`;
+      return `<div class="vrow${ok ? " ok" : ""}" data-id="${x.id}"><b lang="en">to ${x.v}</b>${st < 3 ? `<small>${x.fr}</small>` : ""}${body}<p class="fb"></p></div>`;
+    }).join("");
+  }
+  $("#part").addEventListener("click", e => {
+    const row = e.target.closest(".vrow"); if (!row) return; const x = VERBS.find(v => v.id === row.dataset.id), f = $(".fb", row);
+    const o = e.target.closest(".opt"), c = e.target.closest("[data-chk]");
+    let got = null; if (o) got = o.dataset.o; else if (c) got = $("input", row).value.trim().toLowerCase(); else return;
+    if (got === x.p) { if (o) o.classList.add("right"); else $("input", row).className = "typed right"; row.classList.add("ok"); done(x.id); fb(f, true, `I have ${x.p} ✓`); }
+    else { if (o) o.classList.add("wrong"); else $("input", row).className = "typed wrong"; fb(f, false, got === x.ps && x.ps !== x.p ? `${got} is the past simple. The past participle?` : "Try again.", got === x.ps && x.ps !== x.p ? `${got}, c'est le prétérit. Et le participe passé ?` : "Essaie encore."); }
+  });
+  $("#part").addEventListener("keydown", e => { if (e.key === "Enter" && e.target.matches("input")) { e.preventDefault(); e.target.closest(".vrow").querySelector("[data-chk]").click(); } });
+
+  /* ---------- Step 4 ---------- */
+  const MAKE = [
+    {id: "m1", e: "📓❌", w: ["I", "have", "forgotten", "my", "exercise", "book"], trap: ["has", "forgot"]},
+    {id: "m2", e: "👧✏️❓", w: ["She", "has", "lost", "her", "pencil", "case"], trap: ["have", "losed"]},
+    {id: "m3", e: "👫📝⏳", w: ["We", "haven't", "finished", "our", "homework"], trap: ["didn't", "hasn't"]},
+    {id: "m4", e: "🚌💥", w: ["The", "bus", "has", "broken", "down"], trap: ["have", "broke"]},
+    {id: "m5", e: "👦🤕", w: ["He", "has", "hurt", "his", "knee"], trap: ["have", "hurted"]},
+    {id: "m6", e: "👥📄", w: ["They", "haven't", "done", "the", "exercise"], trap: ["did", "hasn't"]}
+  ];
+  const built = {};
+  function renderMake() {
+    const st = stars();
+    $("#mk-cons").outerHTML = st >= 3
+      ? `<p class="consigne" id="mk-cons" data-fr="Regarde l'image et écris la phrase avec have ou has.">Look at the picture and write the sentence. Use have or has.</p>`
+      : `<p class="consigne" id="mk-cons" data-fr="Regarde l'image et touche les mots dans l'ordre. Attention : have ou has ?">Look at the picture and tap the words in order. Be careful: have or has?</p>`;
+    $("#make").innerHTML = MAKE.map(m => {
+      const ok = S.res[m.id], want = m.w.join(" ") + ".";
+      if (ok) return `<div class="card ok"><div class="card-h"><span class="emo" aria-hidden="true" style="font-size:1.8rem">${m.e}</span><h3>${esc(want)}</h3><span class="done-tag">✓</span></div></div>`;
+      if (st >= 3) return `<div class="card" data-m="${m.id}"><div class="card-h"><span class="emo" aria-hidden="true" style="font-size:1.8rem">${m.e}</span><h3>${esc(m.w[0])} …</h3></div><input class="typed" placeholder="Write the sentence" autocomplete="off" spellcheck="false"><div class="actions"><button type="button" class="btn" data-mchk>Check</button></div><p class="fb"></p></div>`;
+      const tiles = shuffle(m.w.concat(st >= 2 ? m.trap : []));
+      built[m.id] = [];
+      return `<div class="card" data-m="${m.id}"><div class="card-h"><span class="emo" aria-hidden="true" style="font-size:1.8rem">${m.e}</span></div><div class="answer"></div><div class="tiles">${tiles.map((t, i) => `<button type="button" class="tile" data-t="${i}">${esc(t)}</button>`).join("")}</div><div class="actions"><button type="button" class="btn" data-mchk>Check</button><button type="button" class="btn lite" data-mclr>Clear</button></div><p class="fb"></p></div>`;
+    }).join("");
+  }
+  $("#make").addEventListener("click", e => {
+    const card = e.target.closest("[data-m]"); if (!card) return; const m = MAKE.find(x => x.id === card.dataset.m), f = $(".fb", card), want = m.w.join(" ");
+    const tile = e.target.closest(".tiles .tile");
+    if (tile) { const a = $(".answer", card), c = tile.cloneNode(true); c.dataset.from = tile.dataset.t; a.appendChild(c); tile.classList.add("used"); return; }
+    const back = e.target.closest(".answer .tile");
+    if (back) { $(`.tiles [data-t="${back.dataset.from}"]`, card).classList.remove("used"); back.remove(); return; }
+    if (e.target.closest("[data-mclr]")) { $$(".answer .tile", card).forEach(t => t.remove()); $$(".tiles .tile", card).forEach(t => t.classList.remove("used")); return; }
+    if (e.target.closest("[data-mchk]")) {
+      const inp = $("input", card), got = inp ? inp.value : $$(".answer .tile", card).map(t => t.textContent).join(" ");
+      if (near(got, want)) { done(m.id); say([want + "."]); renderMake(); }
+      else { fb(f, false, inp ? "Not yet: check have / has and the past participle." : "Not yet: check the order, have / has and the past participle.", "Pas encore : vérifie have / has et le participe passé."); if (inp) inp.className = "typed wrong"; else $(".answer", card).className = "answer wrong"; }
+    }
+  });
+
+  /* ---------- Step 5 ---------- */
+  const CHOOSE = [
+    {id: "p1", s: "Yesterday, I ___ my exercise book at home.", o: ["forgot", "have forgotten"], a: 0},
+    {id: "p2", s: "Oh no! I ___ my exercise book! I can't do the exercise.", o: ["forgot", "have forgotten"], a: 1},
+    {id: "p3", s: "Last week, the W14 ___ down.", o: ["broke", "has broken"], a: 0},
+    {id: "p4", s: "Look! The bus ___ down. We're going to be late!", o: ["broke", "has broken"], a: 1},
+    {id: "p5", s: "I ___ my homework on Sunday evening.", o: ["did", "have done"], a: 0},
+    {id: "p6", s: "Sorry, I ___ my homework. Can I give it to you tomorrow?", o: ["didn't finish", "haven't finished"], a: 1}
+  ];
+  function renderChoose() {
+    $("#choose").innerHTML = CHOOSE.map(c => `<div class="qrow" data-c="${c.id}"><p class="gapq">${esc(c.s).replace("___", S.res[c.id] ? `<b class="${c.a ? "pp" : "ps"}">${esc(c.o[c.a])}</b>` : "______")}</p><div class="opts">${c.o.map((o, i) => `<button type="button" class="opt${S.res[c.id] && i === c.a ? " right" : ""}" data-i="${i}">${esc(o)}</button>`).join("")}</div></div>`).join("");
+  }
+  $("#choose").addEventListener("click", e => {
+    const b = e.target.closest(".opt"); if (!b) return; const row = b.closest("[data-c]"), c = CHOOSE.find(x => x.id === row.dataset.c);
+    if (+b.dataset.i === c.a) { done(c.id); renderChoose(); } else b.classList.add("wrong");
+  });
+
+  /* ---------- Step 6 ---------- */
+  const TURN = [
+    {id: "s1", e: "📓❌", t: "Where's your exercise book?", start: "Sorry, I've …", ok: ["I have forgotten it", "I have forgotten it at home", "I have forgotten my exercise book", "I have forgotten my exercise book at home", "I have left it at home", "I have lost it"], model: "Sorry, I've forgotten it at home."},
+    {id: "s2", e: "📝⏳", t: "Where's your homework?", start: "Sorry, I haven't …", ok: ["I have not finished it", "I have not done it", "I have not finished my homework", "I have not done my homework", "I have forgotten it", "I have forgotten it at home"], model: "Sorry, I haven't finished it."},
+    {id: "s3", e: "👟🏠", t: "Where are your sports shoes?", start: "Oh no! I've …", ok: ["I have forgotten them", "I have left them at home", "I have forgotten them at home", "I have lost them", "I have forgotten my sports shoes", "I have left my sports shoes at home"], model: "Oh no! I've left them at home."},
+    {id: "s4", e: "🖊️💔", t: "Why aren't you writing?", start: "I've …", ok: ["I have lost my pen", "I have broken my pen", "I have forgotten my pen", "I have lost my pencil case", "I have forgotten my pencil case", "my pen has broken"], model: "I've broken my pen."}
+  ];
+  function renderTurn() {
+    const st = stars();
+    $("#turn").innerHTML = TURN.map(x => `<div class="sc${S.res[x.id] ? " ok" : ""}" data-s="${x.id}"><div class="emo" aria-hidden="true">${x.e}</div><p class="bub t">${esc(x.t)}</p>
+      ${st < 3 ? `<p class="starter">${esc(x.start)}</p>` : ""}
+      <input class="typed${S.res[x.id] ? " right" : ""}" placeholder="Your answer" autocomplete="off" spellcheck="false">
+      <div class="actions"><button type="button" class="btn" data-tchk>Check</button><button type="button" class="listen" data-tmod>▶ Model</button></div><p class="fb"></p></div>`).join("");
+  }
+  $("#turn").addEventListener("click", e => {
+    const card = e.target.closest("[data-s]"); if (!card) return; const x = TURN.find(v => v.id === card.dataset.s), f = $(".fb", card), inp = $("input", card);
+    if (e.target.closest("[data-tmod]")) { say([x.t, x.model]); return; }
+    if (!e.target.closest("[data-tchk]")) return;
+    if (x.ok.some(w => near(inp.value, w))) { inp.className = "typed right"; card.classList.add("ok"); done(x.id); fb(f, true, "Well done! Now listen to the model and say it."); }
+    else { inp.className = "typed wrong"; fb(f, false, "Use have / has + past participle (I've forgotten…, I haven't finished…).", "Utilise have / has + participe passé."); }
+  });
+  $("#turn").addEventListener("keydown", e => { if (e.key === "Enter" && e.target.matches("input")) { e.preventDefault(); e.target.closest("[data-s]").querySelector("[data-tchk]").click(); } });
+
+  /* ---------- level box ---------- */
+  function renderLevel() {
+    const k = C() && C().klass ? C().klass() : null, st = stars(), imp = imposed();
+    $$("[data-st]").forEach(b => { b.setAttribute("aria-pressed", +b.dataset.st === st); b.disabled = imp; });
+    $("#lvl-msg").innerHTML = k && k.admin ? "Mode professeur : choisissez le niveau à prévisualiser."
+      : imp ? T(`Your level, chosen by your teacher: ${"★".repeat(st)}.`, `Ton niveau, choisi par ton professeur : ${"★".repeat(st)}.`)
+      : T("Free level: choose your challenge. ★ choices · ★★ choices + traps · ★★★ you write.", "Niveau libre : choisis ton défi. ★ choix · ★★ choix et pièges · ★★★ tu écris toi-même.");
+  }
+  $("#lvl-box").addEventListener("click", e => {
+    const b = e.target.closest("[data-st]"); if (!b || b.disabled) return;
+    const k = C() && C().klass ? C().klass() : null;
+    if (k && k.admin) S.pv = +b.dataset.st; else S.free = +b.dataset.st;
+    save(); renderAll(true); document.dispatchEvent(new CustomEvent("level:change"));
+  });
+  let lastSig = null;
+  function renderAll(force) {
+    renderLevel();
+    const sig = String(stars()); if (!force && sig === lastSig) return; lastSig = sig;
+    renderLook(); renderThink(); renderPart(); renderMake(); renderChoose(); renderTurn(); progress();
+  }
+  if (C()) C().mountPicker($("#class-box"));
+  renderAll(true);
+  document.addEventListener("classes:ready", () => renderAll());
+  document.addEventListener("classes:change", () => renderAll());
+  try { speechSynthesis.getVoices(); } catch (e) {}
+})();
+</script>
+<script src="../assets/sequence.js" data-step="have" data-seq="late-and-absent-4e"></script>
+</body>
+</html>

@@ -77,12 +77,13 @@ code{background:var(--accent-soft);padding:1px 6px;border-radius:5px}
 <script>
 (async function () {
   const EVALS = {"ed-final": "Évaluation orale : le prétérit"};
-  const STEPS = [["note", "Fill in the note"], ["ed", "The sounds of -ed"], ["so", "Can you explain?"], ["bus", "Blame the bus!"], ["excuse", "Recap: Excuse Lab"]];
+  const STEPS5 = [["note", "Fill in the note"], ["ed", "The sounds of -ed"], ["so", "Can you explain?"], ["bus", "Blame the bus!"], ["excuse", "Recap: Excuse Lab"]];
+  const STEPS4 = [["note", "Fill in the note"], ["ed", "The sounds of -ed"], ["so", "Can you explain?"], ["have", "Oh no, I've forgotten it!"], ["bus", "Blame the bus! (4e)"], ["excuse", "Recap: Excuse Lab"]];
   const rows = document.getElementById("rows");
   try {
     const cfg = await (await fetch("../classes.json?v=" + Date.now(), {cache: "no-store"})).json();
     rows.innerHTML = cfg.classes.map(c => {
-      const s = c.sequences && c.sequences["late-and-absent"];
+      const v4 = c.level === "4e", s = c.sequences && c.sequences[v4 ? "late-and-absent-4e" : "late-and-absent"], STEPS = v4 ? STEPS4 : STEPS5;
       if (!s) return `<tr><td><b>${c.label}</b></td><td colspan="2"><span class="pill na">Pas de séquence en ligne pour la ${c.level}</span></td></tr>`;
       const isOn = (id, i) => Array.isArray(s.open) ? s.open.includes(id) : (typeof s.steps === "number" && i < s.steps);
       const steps = STEPS.map(([id, t], i) => {
@@ -92,7 +93,7 @@ code{background:var(--accent-soft);padding:1px 6px;border-radius:5px}
       }).join("");
       const ev = Object.entries(EVALS).map(([id, t]) => `<span class="pill ${(s.evals || []).includes(id) ? "on" : "off"}">${(s.evals || []).includes(id) ? "Débloquée" : "🔒 Verrouillée"} · ${t}</span>`).join("");
       const gr = (c.groups || []).map(g => "★".repeat(g.stars)).join(" · ");
-      return `<tr><td><b>${c.label}</b>${gr ? `<br><small style="color:var(--muted)">Groupes : ${gr}</small>` : ""}</td><td>${steps}</td><td>${ev}</td></tr>`;
+      return `<tr><td><b>${c.label}</b><br><small style="color:var(--muted)">Version ${c.level}</small>${gr ? `<br><small style="color:var(--muted)">Groupes : ${gr}</small>` : ""}</td><td>${steps}</td><td>${ev}</td></tr>`;
     }).join("");
   } catch (e) { rows.innerHTML = `<tr><td colspan="3">Impossible de lire classes.json.</td></tr>`; }
 })();

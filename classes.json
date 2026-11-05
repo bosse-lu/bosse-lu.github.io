@@ -1,5 +1,5 @@
 {
-  "_aide": "Réglages des classes. Pour chaque classe et chaque séquence : open = étapes ouvertes (identifiants : note, ed, so, bus, excuse) ; parts = ouverture partielle d'une étape (ex. \"note\": {\"dialogues\": [1]}) ; evals = évaluations débloquées (ex. \"ed-final\"). Sans réglage, tout est verrouillé. groups = codes de groupe d'une classe qui imposent un niveau (stars 2 = ★★, 3 = ★★★ ; le code de classe = niveau libre). admins = codes professeur (accès complet). Les codes ne sont jamais écrits ici, seulement leur empreinte.",
+  "_aide": "Réglages des classes. Pour chaque classe et chaque séquence : open = étapes ouvertes (5e « late-and-absent » : note, ed, so, bus, excuse ; 4e « late-and-absent-4e » : note, ed, so, have, bus, excuse) ; parts = ouverture partielle d'une étape (ex. \"note\": {\"dialogues\": [1]}) ; evals = évaluations débloquées (ex. \"ed-final\"). Sans réglage, tout est verrouillé. groups = codes de groupe d'une classe qui imposent un niveau (stars 2 = ★★, 3 = ★★★ ; le code de classe = niveau libre). admins = codes professeur (accès complet). Les codes ne sont jamais écrits ici, seulement leur empreinte.",
   "admins": [
     {
       "label": "M. Bosse",
@@ -86,6 +86,14 @@
           ],
           "parts": {},
           "evals": []
+        },
+        "late-and-absent-4e": {
+          "open": [
+            "note",
+            "ed"
+          ],
+          "parts": {},
+          "evals": []
         }
       },
       "groups": [
@@ -102,6 +110,14 @@
       "hash": "64ed8f8b328bfd8e7230339b6bee4a6b73775e0ec35fc375e9ea26ef1e046e06",
       "sequences": {
         "late-and-absent": {
+          "open": [
+            "note",
+            "ed"
+          ],
+          "parts": {},
+          "evals": []
+        },
+        "late-and-absent-4e": {
           "open": [
             "note",
             "ed"
@@ -128,6 +144,14 @@
       "hash": "e62834389b480475e5f64760b917a10f6502e5ba5b35309d47b544b4afa4d1f9",
       "sequences": {
         "late-and-absent": {
+          "open": [
+            "note",
+            "ed"
+          ],
+          "parts": {},
+          "evals": []
+        },
+        "late-and-absent-4e": {
           "open": [
             "note",
             "ed"
