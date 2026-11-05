@@ -79,7 +79,6 @@ header::after{content:"";display:block;clear:both}
 .hero::after{display:none}
 .intro{margin:0;display:flex;flex-direction:column;gap:8px}
 .intro-box{position:relative;border-radius:16px;overflow:hidden;background:#141a33;box-shadow:0 8px 28px rgba(20,26,51,.28);aspect-ratio:16/9}
-.intro-box.ig{aspect-ratio:auto;height:min(78vh,720px);background:var(--card)}
 .intro-box video,.intro-box iframe{display:block;width:100%;height:100%;border:0}
 .intro figcaption{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;font-size:.9rem;color:var(--muted)}
 .intro figcaption b{color:var(--ink);font-family:var(--display)}
@@ -87,6 +86,14 @@ header::after{content:"";display:block;clear:both}
 .orig-btn small{font-weight:400;color:var(--muted)}
 .orig-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .ig-note{margin:0;font-size:.8rem;color:var(--muted)}
+.orig{display:flex;flex-direction:column;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.orig[hidden]{display:none}
+.orig-top{display:flex;gap:12px;align-items:flex-start}
+.orig-ico{font-size:1.8rem;line-height:1}
+.orig-top b{display:block;font-family:var(--display);font-size:1.1rem}
+.orig-top span{color:var(--muted);font-size:.92rem}
+.orig .orig-btn{align-self:flex-start}
+.orig iframe{display:block;width:100%;height:min(80vh,680px);border:0;border-radius:12px;background:var(--paper)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media (max-width:760px){.hero{grid-template-columns:1fr;gap:18px}}
 </style>
@@ -104,10 +111,15 @@ header::after{content:"";display:block;clear:both}
       <div class="intro-box">
         <video id="intro-v" src="assets/video/presentation.mp4" poster="assets/video/presentation-poster.jpg" muted playsinline loop preload="auto" controls aria-describedby="intro-tr"></video>
       </div>
-      <figcaption>
-        <b>My job as your teacher</b>
-        <button type="button" class="orig-btn" id="orig-btn" hidden>▶ Watch the original video <small>(Instagram)</small></button>
-      </figcaption>
+      <figcaption><b>My job as your teacher</b></figcaption>
+      <div class="orig" id="orig" hidden>
+        <div class="orig-top">
+          <span class="orig-ico" aria-hidden="true">🏀</span>
+          <div><b>Watch the original</b><span>A basketball coach talks about his job: <i>“comfortable being uncomfortable”</i>.</span></div>
+        </div>
+        <button type="button" class="orig-btn" id="orig-btn">▶ Load the video <small>(Instagram)</small></button>
+        <p class="ig-note" data-fr="La vidéo vient d'Instagram : elle se charge seulement si tu cliques.">The video comes from Instagram: it loads only if you click.</p>
+      </div>
       <p id="intro-tr" class="sr">My job is to make you uncomfortable: new words, new sounds, speaking in English. It feels uncomfortable, and that's OK. Your job is to become comfortable being uncomfortable. Mistakes are OK. Step by step, I'm here to help. Welcome to English class.</p>
     </figure>
   </header>
@@ -244,33 +256,20 @@ header::after{content:"";display:block;clear:both}
 
 <script>
 /* Intro video: plays by itself, muted, unless the visitor prefers reduced motion.
-   The original Instagram video loads only on click (nothing is sent to Instagram before). */
+   Under it, the original Instagram video loads only on click (nothing is sent to Instagram before). */
 (function () {
   const IG = ""; // ← lien de la publication Instagram, ex. "https://www.instagram.com/reel/XXXXXXXX/"
   const v = document.getElementById("intro-v");
   const calm = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (calm) { v.removeAttribute("loop"); } else { v.autoplay = true; const p = v.play(); if (p && p.catch) p.catch(() => {}); }
-  const btn = document.getElementById("orig-btn");
   const m = IG.match(/instagram\.com\/(?:[\w.]+\/)?(p|reel|tv)\/([\w-]+)/);
   if (!m) return;
-  btn.hidden = false;
-  let ig = false; const box = document.querySelector(".intro-box"), mine = box.innerHTML;
-  btn.addEventListener("click", () => {
-    ig = !ig;
-    if (ig) {
-      box.querySelector("video").pause();
-      box.classList.add("ig");
-      box.innerHTML = `<iframe src="https://www.instagram.com/${m[1]}/${m[2]}/embed/" title="Original video on Instagram" loading="lazy" allowfullscreen></iframe>`;
-      btn.innerHTML = "← Back to my video";
-      const n = document.createElement("p"); n.className = "ig-note"; n.id = "ig-note";
-      n.textContent = "Video from Instagram: press ▶ to play it. Source: the account that posted it.";
-      box.after(n);
-    } else {
-      box.classList.remove("ig"); box.innerHTML = mine;
-      const nv = box.querySelector("video"); if (!calm) { nv.autoplay = true; nv.play().catch(() => {}); }
-      btn.innerHTML = "▶ Watch the original video <small>(Instagram)</small>";
-      const n = document.getElementById("ig-note"); if (n) n.remove();
-    }
+  const box = document.getElementById("orig"); box.hidden = false;
+  document.getElementById("orig-btn").addEventListener("click", e => {
+    const f = document.createElement("iframe");
+    f.src = `https://www.instagram.com/${m[1]}/${m[2]}/embed/`; f.title = "Original video on Instagram"; f.allowFullscreen = true;
+    e.currentTarget.replaceWith(f);
+    box.querySelector(".ig-note").textContent = "Press ▶ in the Instagram post to play it.";
   });
 })();
 </script>
