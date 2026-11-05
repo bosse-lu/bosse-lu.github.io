@@ -139,15 +139,10 @@ header::after{content:"";display:block;clear:both}
     </div>
     <div class="intro-txt">
       <span class="tag">Watch and listen · 🏀</span>
-      <p class="fr">« Mon rôle, pour tous ces jeunes, c'est de les mettre <span class="u">mal à l'aise</span>. Leur rôle, c'est d'apprendre à être <span class="c">à l'aise</span> quand ils sont <span class="u">mal à l'aise</span>. »</p>
       <div class="words"><span class="w c">comfortable<small>= à l'aise</small></span><span class="w u">uncomfortable<small>= mal à l'aise</small></span></div>
       <details class="script">
         <summary>📄 Script</summary>
         <p lang="en">My job, for all these kids, is to make them <span class="u">uncomfortable</span>. That means when I… I'm not coaching them how they are now. I'm coaching them where I see they need to go, and where they're capable of being, which means they've not been there, which means they're going to be <span class="u">uncomfortable</span> all the time. Their job is to learn to be <span class="c">comfortable</span> being <span class="u">uncomfortable</span>.</p>
-        <details class="script-fr">
-          <summary>🇫🇷 Traduction</summary>
-          <p lang="fr">Mon rôle, pour tous ces jeunes, c'est de les mettre <span class="u">mal à l'aise</span>. Ça veut dire que je ne les entraîne pas pour ce qu'ils sont aujourd'hui. Je les entraîne pour là où ils doivent aller, et pour ce qu'ils sont capables de devenir : ils n'y sont encore jamais allés, donc ils vont être <span class="u">mal à l'aise</span> tout le temps. Leur rôle, c'est d'apprendre à être <span class="c">à l'aise</span> quand ils sont <span class="u">mal à l'aise</span>.</p>
-        </details>
       </details>
       <p class="src"><b>Source :</b> Kentucky Wildcats TV, conférence de presse de l'entraîneur de basket de l'université du Kentucky.</p>
     </div>
@@ -294,9 +289,8 @@ header::after{content:"";display:block;clear:both}
   if (!m) { document.getElementById("intro").hidden = true; return; }
   const src = `https://www.instagram.com/${m[1]}/${m[2]}/embed/`;
   // The extract stops after "…comfortable being uncomfortable" (≈ 24.9 s into the post), in the pause
-  // before "We have to settle situations". Counted from the play tap, with about half a second for the
-  // video to start. Adjust here if needed.
-  const STOP = 25.8;
+  // before "We have to settle situations". Counted from the play tap, the video starts almost at once. Adjust here if needed.
+  const STOP = 25.1;
   let vp, f, timer;
   function end() {
     if (!vp) return;
