@@ -73,28 +73,21 @@ header::after{content:"";display:block;clear:both}
 .feat-prog .bar span{display:block;height:100%;width:0;background:var(--accent);border-radius:999px}
 .feat-prog .pc{font-size:.9rem;color:var(--muted);font-weight:700}
 @media (max-width:620px){.mini{grid-template-columns:repeat(2,1fr)}.explore{padding:14px}.feat-top{align-items:flex-start}.card-art.big{width:72px;height:72px}}
-/* Intro video, top right */
+/* Intro: the coach's video (Instagram), top right */
 .wrap{max-width:1000px}
-.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,500px);gap:28px;align-items:start}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:28px;align-items:start}
 .hero::after{display:none}
-.intro{margin:0;display:flex;flex-direction:column;gap:8px}
-.intro-box{position:relative;border-radius:16px;overflow:hidden;background:#141a33;box-shadow:0 8px 28px rgba(20,26,51,.28);aspect-ratio:16/9}
-.intro-box video,.intro-box iframe{display:block;width:100%;height:100%;border:0}
-.intro figcaption{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;font-size:.9rem;color:var(--muted)}
-.intro figcaption b{color:var(--ink);font-family:var(--display)}
-.orig-btn{font:inherit;font-weight:700;border-radius:10px;padding:7px 12px;cursor:pointer;border:1px solid var(--accent);background:var(--card);color:var(--accent)}
-.orig-btn small{font-weight:400;color:var(--muted)}
-.orig-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.ig-note{margin:0;font-size:.8rem;color:var(--muted)}
-.orig{display:flex;flex-direction:column;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
-.orig[hidden]{display:none}
-.orig-top{display:flex;gap:12px;align-items:flex-start}
-.orig-ico{font-size:1.8rem;line-height:1}
-.orig-top b{display:block;font-family:var(--display);font-size:1.1rem}
-.orig-top span{color:var(--muted);font-size:.92rem}
-.orig .orig-btn{align-self:flex-start}
-.orig iframe{display:block;width:100%;height:min(80vh,680px);border:0;border-radius:12px;background:var(--paper)}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.intro{margin:0}
+.orig{display:flex;flex-direction:column;gap:12px;background:#141a33;color:#f3f5fb;border-radius:18px;padding:20px 22px;box-shadow:0 8px 28px rgba(20,26,51,.28)}
+.orig .tag{background:#ffd23f;color:#141a33}
+.orig-q{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(1.35rem,3.6vw,1.75rem);line-height:1.2}
+.orig-q .c{color:#3ccf8e;white-space:nowrap}.orig-q .u{color:#ff6a4d;white-space:nowrap}
+.orig-who{margin:0;color:#c3c9e0;font-size:.95rem}
+.orig-btn{align-self:flex-start;font:inherit;font-size:1.05rem;font-weight:800;border-radius:12px;padding:11px 18px;cursor:pointer;border:0;background:#ffd23f;color:#141a33}
+.orig-btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.ig-note{margin:0;font-size:.8rem;color:#a9b0cc}
+.ig-note .cg-fr{color:#a9b0cc}
+.orig iframe{display:block;width:100%;height:min(82vh,720px);border:0;border-radius:12px;background:#fff}
 @media (max-width:760px){.hero{grid-template-columns:1fr;gap:18px}}
 </style>
 </head>
@@ -108,19 +101,13 @@ header::after{content:"";display:block;clear:both}
       <p class="lead">Des activités pour travailler ta prononciation en anglais : écoute, répète, enregistre-toi et compare.</p>
     </div>
     <figure class="intro" id="intro">
-      <div class="intro-box">
-        <video id="intro-v" src="assets/video/presentation.mp4" poster="assets/video/presentation-poster.jpg" muted playsinline loop preload="auto" controls aria-describedby="intro-tr"></video>
+      <div class="orig" id="orig">
+        <span class="tag">Watch and listen · 🏀</span>
+        <p class="orig-q">“My job is to make them <span class="u">uncomfortable</span>. Their job is to become <span class="c">comfortable</span> being <span class="u">uncomfortable</span>.”</p>
+        <p class="orig-who">A basketball coach talks about his job. And you: what is your job in the English class?</p>
+        <button type="button" class="orig-btn" id="orig-btn">▶ Watch the video</button>
+        <p class="ig-note" data-fr="La vidéo vient d'Instagram : elle se charge seulement si tu cliques.">The video comes from Instagram (Kentucky Wildcats TV, via @coach_mwooten). It loads only if you click.</p>
       </div>
-      <figcaption><b>My job as your teacher</b></figcaption>
-      <div class="orig" id="orig" hidden>
-        <div class="orig-top">
-          <span class="orig-ico" aria-hidden="true">🏀</span>
-          <div><b>Watch the original</b><span>A basketball coach talks about his job: <i>“comfortable being uncomfortable”</i>.</span></div>
-        </div>
-        <button type="button" class="orig-btn" id="orig-btn">▶ Load the video <small>(Instagram)</small></button>
-        <p class="ig-note" data-fr="La vidéo vient d'Instagram : elle se charge seulement si tu cliques.">The video comes from Instagram: it loads only if you click.</p>
-      </div>
-      <p id="intro-tr" class="sr">My job is to make you uncomfortable: new words, new sounds, speaking in English. It feels uncomfortable, and that's OK. Your job is to become comfortable being uncomfortable. Mistakes are OK. Step by step, I'm here to help. Welcome to English class.</p>
     </figure>
   </header>
 
@@ -255,21 +242,19 @@ header::after{content:"";display:block;clear:both}
 </script>
 
 <script>
-/* Intro video: plays by itself, muted, unless the visitor prefers reduced motion.
-   Under it, the original Instagram video loads only on click (nothing is sent to Instagram before). */
+/* Intro: the coach's video from Instagram. It loads only on click: nothing is sent to Instagram before
+   (Instagram does not allow an embedded post to start by itself anyway). */
 (function () {
-  const IG = ""; // ← lien de la publication Instagram, ex. "https://www.instagram.com/reel/XXXXXXXX/"
-  const v = document.getElementById("intro-v");
-  const calm = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (calm) { v.removeAttribute("loop"); } else { v.autoplay = true; const p = v.play(); if (p && p.catch) p.catch(() => {}); }
+  const IG = "https://www.instagram.com/reel/De0aJrJt9iZ/";
   const m = IG.match(/instagram\.com\/(?:[\w.]+\/)?(p|reel|tv)\/([\w-]+)/);
-  if (!m) return;
-  const box = document.getElementById("orig"); box.hidden = false;
-  document.getElementById("orig-btn").addEventListener("click", e => {
+  const btn = document.getElementById("orig-btn");
+  if (!m) { document.getElementById("intro").hidden = true; return; }
+  btn.addEventListener("click", () => {
     const f = document.createElement("iframe");
-    f.src = `https://www.instagram.com/${m[1]}/${m[2]}/embed/`; f.title = "Original video on Instagram"; f.allowFullscreen = true;
-    e.currentTarget.replaceWith(f);
-    box.querySelector(".ig-note").textContent = "Press ▶ in the Instagram post to play it.";
+    f.src = `https://www.instagram.com/${m[1]}/${m[2]}/embed/`; f.title = "The coach's video on Instagram"; f.allowFullscreen = true;
+    btn.replaceWith(f);
+    document.querySelector("#orig .ig-note").textContent = "Press ▶ in the video to play it. Source: Kentucky Wildcats TV, via Instagram @coach_mwooten.";
+    f.focus();
   });
 })();
 </script>
