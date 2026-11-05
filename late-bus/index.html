@@ -171,7 +171,9 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
 .glossbar{margin:0;min-height:2.6em;font-size:.95rem;background:var(--accent-soft);border-radius:10px;padding:9px 14px}
 .glossbar b{font-family:var(--display)}
 .step.first{border-top:none;padding-top:0}
-.glosslist{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px 18px!important;list-style:none;padding-left:0!important}
+.gloss-box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px}
+.gloss-box h2{font-family:var(--display);font-size:1.15rem;margin:0 0 8px}
+.glosslist{margin:0;display:grid!important;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px 18px!important;list-style:none;padding-left:0!important}
 .glosslist b{font-family:var(--display)}
 .labhead{display:flex;justify-content:flex-end;margin-bottom:-8px}
 .s3{font-family:var(--mono);font-size:1.25rem}
@@ -230,6 +232,11 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
     </article>
     <p class="glossbar" id="glossbar" aria-live="polite" data-fr="Touche une phrase pour l'écouter. Touche un mot souligné pour voir sa traduction.">Tap a sentence to hear it. Tap an underlined word to see its translation.</p>
 
+    <section class="gloss-box" aria-labelledby="gloss-t">
+      <h2 id="gloss-t">Glossary · difficult words</h2>
+      <ul class="glosslist" id="glosslist"></ul>
+    </section>
+
     <div class="card">
       <section class="step first">
         <h2><i>★</i>Your turn to read</h2>
@@ -248,10 +255,6 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
       </section>
     </div>
 
-    <details>
-      <summary>Glossary · difficult words</summary>
-      <ul class="glosslist" id="glosslist"></ul>
-    </details>
   </section>
 
   <!-- ============ LAB ============ -->
