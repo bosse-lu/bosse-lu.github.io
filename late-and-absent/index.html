@@ -84,6 +84,10 @@ code{font-size:.9em;background:var(--accent-soft);padding:1px 5px;border-radius:
 .pennant .flag{display:block;width:clamp(28px,8vw,44px);height:clamp(19px,5.3vw,29px);border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.28)}
 @media (prefers-reduced-motion:no-preference){.pennant{animation:sway 4s ease-in-out infinite alternate}.pennant:nth-child(2n){animation-delay:-2s}}
 @keyframes sway{to{transform:rotate(calc(var(--r) * -1))}}
+.final h2{margin-top:0}
+.final ul{margin:8px 0 0;padding-left:20px}
+.final li{margin:4px 0}
+.final a{color:var(--accent)}
 </style>
 </head>
 <body>
@@ -109,6 +113,16 @@ code{font-size:.9em;background:var(--accent-soft);padding:1px 5px;border-radius:
   <h2 class="sec" id="seq-evals-h">L'évaluation</h2>
   <ol class="steps" id="seq-evals" aria-label="Évaluation de la séquence"></ol>
 
+  <section class="box final" id="final-task" aria-labelledby="final-t">
+    <h2 id="final-t">🎭 La tâche finale · <span lang="en">Play it out</span></h2>
+    <p>À la fin de la séquence, tu joues une scène de retard ou d'absence, à deux ou avec ton professeur. Tu dois expliquer <b>la cause</b> (<i lang="en">because</i>) et <b>la conséquence</b> (<i lang="en">so</i>), au prétérit.</p>
+    <ul>
+      <li>Ton professeur te donne ta carte : une situation à jouer, à ton niveau.</li>
+      <li>Certains élèves découvriront leur situation le jour même et devront improviser.</li>
+      <li>Pour t'entraîner : l'<a href="../excuse-lab/">Excuse Lab</a> (écoute les vraies voix, enregistre-toi).</li>
+    </ul>
+  </section>
+
   <section class="box">
     <h2>À la fin de la séquence, je sais…</h2>
     <ul>
@@ -127,6 +141,7 @@ code{font-size:.9em;background:var(--accent-soft);padding:1px 5px;border-radius:
       <li>Les étapes suivent l'ordre de la séquence : l'écoute en autonomie des dialogues (Fill in the note : dialogues 1 à 3 en 5e, les 6 dialogues en 4e), le prétérit et -ed (avec le rythme et l'intonation des questions), la cause et la conséquence (Can you explain?, d'après le diaporama de la séance 2), le document authentique (Blame the bus!), puis le récapitulatif avec Excuse Lab (accent et rythme des répliques). Chaque étape reste verrouillée jusqu'à ce que vous l'ouvriez pour une classe ; votre code professeur ouvre tout sur votre appareil.</li>
       <li>La progression affichée est celle que chaque outil enregistre sur l'appareil de l'élève (items auto-évalués). Rien n'est envoyé en ligne : en salle informatique, elle dépend du poste et de la session utilisés.</li>
       <li><b>Classes et évaluations</b> : l'élève entre une fois le code de sa classe. Les évaluations restent verrouillées jusqu'à ce que vous demandiez leur déblocage pour une classe. Vous pouvez aussi n'ouvrir les étapes qu'une à une, au rythme de chaque classe. L'état de chaque classe est visible dans l'espace prof.</li>
+      <li>Tâche finale orale <i>Play it out</i> : cartes A2 et A1+ (interaction), textes adaptés à apprendre (en continu) et cartes d'improvisation dans le document « Tâche finale – Play it out (5e · 4e) ». Les élèves de 4e ont désormais leur propre version de la séquence : <code>late-and-absent-4e/</code>.</li>
       <li>Chaque outil garde son adresse : les liens déjà donnés continuent de fonctionner. Dans chaque outil, un fil d'Ariane ramène à cette page et des boutons mènent à l'étape précédente ou suivante.</li>
     </ul>
   </details>
