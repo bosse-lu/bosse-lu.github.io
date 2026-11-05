@@ -1,1 +1,90 @@
-[]
+[
+  {
+    "id": "2026-11-05-museum-bandicoots",
+    "date": "2026-11-05",
+    "level": "5e · 4e",
+    "topic": "Animals",
+    "country": "Australia",
+    "flag": "australia",
+    "emoji": "🐾",
+    "title": "Two \"new\" bandicoots found in museum drawers!",
+    "lead": "Australian scientists studied old animals in museums and found 2 species of bandicoot that nobody knew.",
+    "body": [
+      "A bandicoot is a small animal from Australia and New Guinea. It has a long nose, and the mother carries her babies in a pouch, like a kangaroo.",
+      "For 10 years, a team of Australian scientists studied hundreds of bandicoots in museum collections around the world. Some animals were more than 100 years old! The scientists measured their skulls and looked at their DNA.",
+      "They found 2 new species. The first one is the little brown bandicoot. It lived in South Australia, but it probably disappeared about 100 years ago. Nobody knew it was a different species!",
+      "The second one is the New Guinea brown bandicoot, and it is still alive today. Scientists thought it was a kind of northern brown bandicoot, but its DNA is different. Now there are 7 species of brown bandicoot. Museum drawers can still hide big surprises!"
+    ],
+    "keywords": [
+      [
+        "pouch",
+        "poche (ventrale)"
+      ],
+      [
+        "team",
+        "équipe"
+      ],
+      [
+        "measured",
+        "ont mesuré"
+      ],
+      [
+        "skulls",
+        "crânes"
+      ],
+      [
+        "species",
+        "espèce(s)"
+      ],
+      [
+        "disappeared",
+        "a disparu"
+      ],
+      [
+        "still alive",
+        "encore vivant"
+      ],
+      [
+        "drawers",
+        "tiroirs"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "How long did the scientists study the bandicoots?",
+        "options": [
+          "1 year",
+          "10 years",
+          "100 years"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Where did the little brown bandicoot live?",
+        "options": [
+          "In New Guinea",
+          "In South Australia",
+          "In Canada"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "How many species of brown bandicoot are there now?",
+        "options": [
+          "2",
+          "5",
+          "7"
+        ],
+        "answer": 2
+      }
+    ],
+    "turn": "Imagine you find a new animal in a museum drawer. Describe it! Start with: \"My new animal is called… It lives in… It has…\"",
+    "sources": [
+      {
+        "name": "The Conversation (Australia)",
+        "date": "1 November 2026",
+        "url": "https://theconversation.com/two-new-bandicoot-species-discovered-after-trawling-through-museum-drawers-295077"
+      }
+    ]
+  }
+]
