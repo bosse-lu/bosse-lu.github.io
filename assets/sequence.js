@@ -15,6 +15,9 @@
     ],
     // Steps in order. Each one stays locked until the teacher opens it for a class (classes.json → open).
     steps: [
+      {id: "warm", href: "whats-your-excuse/", art: "excuse", title: "Warm-up: What's your excuse?",
+        what: "Pour commencer : associe chaque excuse à une image (comme sur ta fiche, de A à L). Lis ou écoute, puis touche la bonne lettre.",
+        skills: ["Vocabulaire", "Excuses"], key: "warmup", total: 12},
       {id: "note", href: "fill-the-note/", art: "note", title: "Fill in the note",
         what: "Écoute les dialogues du collège en autonomie et remplis les billets : late slip, absence note ou permission note. 5e : dialogues 1 à 3 · 4e : les 6 dialogues.",
         skills: ["Compréhension orale", "Intonation", "because"], key: "fillnote",
@@ -44,6 +47,7 @@
     id: "late-and-absent-4e", title: "Late and absent", level: "4e", axis: "Axe 4 · École et loisirs", href: "late-and-absent-4e/",
     evals: SEQ5.evals,
     steps: [
+      S5("warm"),
       Object.assign({}, S5("note"), {total: () => 22, count: s => Object.keys(s.res || {}).length, what: "Écoute les six dialogues du collège en autonomie et remplis les billets : late slip, absence note ou permission note. Repère les questions et le question tag « weren't you? »."}),
       S5("ed"),
       S5("so"),

@@ -77,8 +77,8 @@ code{background:var(--accent-soft);padding:1px 6px;border-radius:5px}
 <script>
 (async function () {
   const EVALS = {"ed-final": "Évaluation orale : le prétérit"};
-  const STEPS5 = [["note", "Fill in the note"], ["ed", "The sounds of -ed"], ["so", "Can you explain?"], ["bus", "Blame the bus!"], ["excuse", "Recap: Excuse Lab"]];
-  const STEPS4 = [["note", "Fill in the note"], ["ed", "The sounds of -ed"], ["so", "Can you explain?"], ["have", "Oh no, I've forgotten it!"], ["bus", "Blame the bus! (4e)"], ["excuse", "Recap: Excuse Lab"]];
+  const STEPS5 = [["warm", "Warm-up: What's your excuse?"], ["note", "Fill in the note"], ["ed", "The sounds of -ed"], ["so", "Can you explain?"], ["bus", "Blame the bus!"], ["excuse", "Recap: Excuse Lab"]];
+  const STEPS4 = [["warm", "Warm-up: What's your excuse?"], ["note", "Fill in the note"], ["ed", "The sounds of -ed"], ["so", "Can you explain?"], ["have", "Oh no, I've forgotten it!"], ["bus", "Blame the bus! (4e)"], ["excuse", "Recap: Excuse Lab"]];
   const rows = document.getElementById("rows");
   try {
     const cfg = await (await fetch("../classes.json?v=" + Date.now(), {cache: "no-store"})).json();
