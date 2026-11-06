@@ -113,6 +113,8 @@ header::after{content:"";display:block;clear:both}
 .vp-bar{display:flex;flex-wrap:wrap;gap:8px}
 .vp-bar button{font:inherit;font-size:.9rem;font-weight:700;border-radius:10px;padding:7px 12px;cursor:pointer;border:1px solid #3a4370;background:none;color:#f3f5fb}
 .vp-bar button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.today{margin:2px 0 6px;font-family:var(--display);font-weight:800;font-size:clamp(1.05rem,3.4vw,1.3rem);color:var(--accent)}
+.today::before{content:"📅 "}
 </style>
 </head>
 <body>
@@ -121,6 +123,7 @@ header::after{content:"";display:block;clear:both}
   <header>
     <div class="hero-art" data-art="home" aria-hidden="true"></div>
     <p class="kicker">Collège Réeberg Néron · Anglais 5e · 4e</p>
+    <p class="today" id="today" lang="en"></p>
     <h1>English with <span>M. Bosse</span></h1>
     <p class="lead">Des activités pour travailler ta prononciation en anglais : écoute, répète, enregistre-toi et compare.</p>
   </header>
@@ -322,6 +325,16 @@ header::after{content:"";display:block;clear:both}
     });
     load();
   });
+})();
+</script>
+<script>
+/* Today's date, in English, as on the board: "Friday 6th November 2026" (the device's own date) */
+(function () {
+  const d = new Date(), n = d.getDate();
+  const th = (n % 100 >= 11 && n % 100 <= 13) ? "th" : ({1: "st", 2: "nd", 3: "rd"}[n % 10] || "th");
+  const day = d.toLocaleDateString("en-GB", {weekday: "long"}), month = d.toLocaleDateString("en-GB", {month: "long"});
+  const el = document.getElementById("today");
+  if (el) { el.textContent = `Today is ${day} ${n}${th} ${month} ${d.getFullYear()}`; el.setAttribute("title", d.toLocaleDateString("fr-FR", {weekday: "long", day: "numeric", month: "long", year: "numeric"})); }
 })();
 </script>
 <script src="assets/reset.js"></script>
