@@ -58,6 +58,7 @@ header::after{content:"";display:block;clear:both}
 .tool.feature{grid-column:1/-1;border:2px solid var(--accent);gap:14px}
 .feat-top{display:flex;gap:16px;align-items:center}
 .card-art.big{width:96px;height:96px;flex:none;margin:0}
+.doko-art{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#000;border-radius:12px;padding:5px;width:64px;height:64px;margin:0 0 4px}.doko-art img{width:100%;height:100%;object-fit:contain}
 .feat-txt{display:flex;flex-direction:column;gap:6px}
 .feature h2{font-size:clamp(1.7rem,6vw,2.2rem)}
 .mini{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:8px}
@@ -169,6 +170,13 @@ header::after{content:"";display:block;clear:both}
       <h2>My short stories</h2>
       <p>Une nouvelle en anglais pour chaque niveau : <i>The Lion and the Mouse</i> (5e) et <i>The Boy Who Cried Wolf</i> (4e). Lis-la et écoute-la.</p>
       <span class="go">Lire →</span>
+    </a>
+    <a class="tool" href="doko/">
+      <span class="card-art doko-art" aria-hidden="true"><img src="assets/doko/fire.png" alt=""><img src="assets/doko/water.png" alt=""><img src="assets/doko/earth.png" alt=""><img src="assets/doko/wood.png" alt=""></span>
+      <span class="tag">5e · 4e · Jeu · Quand tu veux</span>
+      <h2>DÒKÒ – quiz game</h2>
+      <p>Le jeu de M. Bosse : réponds plus vite que le chrono ! Seul (20 secondes par question) ou en équipes en classe. Thèmes de grammaire et de culture.</p>
+      <span class="go">Jouer →</span>
     </a>
   </section>
 

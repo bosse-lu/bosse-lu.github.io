@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>DÒKÒ – Quiz game – Collège Réeberg Néron</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+:root{--bg:#0d0f16;--panel:#171a26;--line:#2c3145;--ink:#f3f5fb;--muted:#a9b0cc;--accent:#ffd23f;--good:#2fbf71;--bad:#e5533d;--display:"Bricolage Grotesque","Trebuchet MS",sans-serif;--body:"Atkinson Hyperlegible",Verdana,sans-serif;
+  --fire:#e0301e;--water:#2c55d6;--earth:#c98a12;--wood:#3f9a2c}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.5 var(--body)}
+a{color:var(--accent)}
+.wrap{max-width:1040px;margin:0 auto;padding:16px 16px 48px;display:flex;flex-direction:column;gap:18px}
+.homelink{color:var(--muted);text-decoration:none;font-weight:700;font-size:.9rem;text-align:center}
+.homelink:hover{color:var(--ink)}
+header{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+header img{width:min(320px,70vw);filter:invert(1);mix-blend-mode:screen}
+header p{margin:0;color:var(--muted)}
+.fr{display:block;font-size:.85em;font-style:italic;color:var(--muted)}
+.fr::before{content:"🇫🇷 ";font-style:normal}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px}
+h2{font-family:var(--display);font-weight:800;margin:0 0 10px;font-size:1.3rem}
+.themes{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.th{display:flex;flex-direction:column;gap:4px;text-align:left;background:#20243a;border:2px solid var(--line);border-radius:14px;padding:14px;color:var(--ink);font:inherit;cursor:pointer}
+.th[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,210,63,.25)}
+.th b{font-family:var(--display);font-size:1.15rem}
+.th small{color:var(--muted)}
+.th .best{color:var(--accent);font-weight:700;font-size:.85rem}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.mode{text-align:left;background:#20243a;border:2px solid var(--line);border-radius:14px;padding:14px;color:var(--ink);font:inherit;cursor:pointer}
+.mode[aria-pressed="true"]{border-color:var(--accent)}
+.mode b{display:block;font-family:var(--display);font-size:1.1rem}
+.teams{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.teams button{display:flex;align-items:center;gap:6px;background:none;border:2px solid var(--line);border-radius:999px;padding:4px 12px 4px 4px;color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
+.teams button[aria-pressed="true"]{border-color:var(--accent);background:#2a2f49}
+.teams img{width:34px;height:34px}
+.go{align-self:center;font:800 1.3rem var(--display);background:var(--accent);color:#1b1d27;border:0;border-radius:999px;padding:14px 34px;cursor:pointer;box-shadow:0 6px 24px rgba(255,210,63,.3)}
+.go:disabled{opacity:.4;cursor:default}
+button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+details.rules summary{cursor:pointer;font-weight:700}
+details.rules li{margin:4px 0}
+.prof{color:var(--muted);font-size:.9rem}
+
+/* game */
+#game{display:none;flex-direction:column;gap:14px}
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.top .qn{font-family:var(--display);font-weight:800;color:var(--muted)}
+.scores{display:flex;flex-wrap:wrap;gap:8px}
+.sc{display:flex;align-items:center;gap:6px;background:#20243a;border:1px solid var(--line);border-radius:999px;padding:3px 12px 3px 3px;font-weight:800;font-family:var(--display);font-size:1.1rem}
+.sc img{width:30px;height:30px}
+.sc.solo{padding:6px 14px}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:16px;align-items:start}
+@media (max-width:820px){.stage{grid-template-columns:1fr}}
+.qbox{display:flex;flex-direction:column;gap:12px}
+.qhead{display:flex;gap:12px;align-items:center}
+.timer{position:relative;width:76px;height:76px;flex:none}
+.timer svg{width:76px;height:76px;transform:rotate(-90deg)}
+.timer circle{fill:none;stroke-width:8}
+.timer .bgc{stroke:#1d3a24}
+.timer .fg{stroke:#38e07b;stroke-linecap:round;transition:stroke-dashoffset .25s linear,stroke .25s}
+.timer.low .fg{stroke:var(--bad)}
+.timer span{position:absolute;inset:0;display:grid;place-items:center;font:800 1.5rem var(--display);color:#38e07b}
+.timer.low span{color:var(--bad)}
+.question{flex:1;background:linear-gradient(#4b5068,#2c3044);border-radius:14px;padding:14px 16px;font-family:var(--display);font-weight:800;font-size:clamp(1.2rem,3vw,1.6rem);line-height:1.2;text-align:center;position:relative}
+.question .num{position:absolute;right:-8px;top:-10px;width:34px;height:34px;border-radius:50%;background:#8a1220;border:2px solid #fff;display:grid;place-items:center;font-size:1rem}
+.opts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.opts li{background:#20243a;border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:1.1rem}
+.opts li b{font-family:var(--display);margin-right:6px}
+.opts li.right{background:#173d28;border-color:var(--good);color:#c6f6d8}
+.explain{border-left:6px solid var(--accent);background:#20243a;border-radius:12px;padding:12px 14px}
+.explain p{margin:0}
+.board{background:#000;border-radius:16px;padding:14px 12px 10px;display:flex;flex-direction:column;gap:8px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr)) 40px;gap:4px;align-items:center}
+.cell{position:relative;aspect-ratio:1;border:0;border-radius:6px;background:#fff;color:#9aa0b4;font:800 clamp(1rem,3.6vw,1.6rem) var(--display);cursor:pointer;display:grid;place-items:center;padding:0;overflow:hidden}
+.cell small{position:absolute;right:4px;top:2px;font-size:.55rem;color:#333}
+.cell img{width:92%;height:92%;object-fit:contain}
+.cell:disabled{cursor:default}
+.cell.off{background:#3a3d48;color:#5a5e6c}
+.cell.tok{background:transparent}
+.cell.tok.fire{background:var(--fire)}.cell.tok.water{background:var(--water)}.cell.tok.earth{background:var(--earth)}.cell.tok.wood{background:var(--wood)}.cell.tok.joker{background:#ddd}
+.cell.tok img{opacity:.55}
+.cell.tok.taken img{opacity:1}
+.cell .pick{position:absolute;bottom:2px;left:0;right:0;text-align:center;font-size:.8rem;color:#fff;text-shadow:0 1px 3px #000}
+.cell.win{outline:4px solid var(--good);outline-offset:-4px}
+.cell.lose{outline:4px solid var(--bad);outline-offset:-4px}
+.cell.answer{background:#c6f6d8;color:#0f5132}
+.pts{width:40px;height:40px;display:grid;place-items:center;font:800 1.2rem var(--display);color:#111;background:var(--accent);clip-path:polygon(50% 0,61% 27%,92% 10%,77% 40%,100% 50%,77% 60%,92% 90%,61% 73%,50% 100%,39% 73%,8% 90%,23% 60%,0 50%,23% 40%,8% 10%,39% 27%)}
+.sep{height:8px;border-radius:4px;background:linear-gradient(90deg,#1e3ba8,#e8a21a,#e0301e)}
+.brand{text-align:center;font:800 1.1rem var(--display);letter-spacing:.2em;color:#ddd}
+.who{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.who button{display:flex;align-items:center;gap:6px;background:#20243a;border:3px solid transparent;border-radius:999px;padding:3px 12px 3px 3px;color:var(--ink);font:inherit;font-weight:800;cursor:pointer}
+.who button[aria-pressed="true"]{border-color:var(--accent)}
+.who button:disabled{opacity:.45;cursor:default}
+.who img{width:36px;height:36px}
+.letters{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.letters button{width:44px;height:44px;border-radius:10px;border:0;font:800 1.2rem var(--display);cursor:pointer}
+.bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.btn{font:800 1.05rem var(--display);border-radius:999px;padding:10px 22px;border:2px solid var(--accent);background:none;color:var(--accent);cursor:pointer}
+.btn.main{background:var(--accent);color:#1b1d27}
+.msg{min-height:1.5em;text-align:center;font-weight:700}
+.msg.good{color:var(--good)}.msg.bad{color:var(--bad)}
+.sound{position:fixed;right:12px;bottom:12px;z-index:5;background:#20243a;border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:8px 12px;font:inherit;font-weight:700;cursor:pointer}
+/* end */
+#end{display:none;flex-direction:column;align-items:center;gap:14px;text-align:center}
+#end h2{font-size:2rem}
+.podium{display:flex;flex-direction:column;gap:8px;width:min(420px,100%)}
+.podium div{display:flex;align-items:center;gap:10px;background:#20243a;border-radius:14px;padding:8px 14px;font:800 1.2rem var(--display)}
+.podium img{width:44px;height:44px}
+.podium .r{width:30px;color:var(--accent)}
+.podium .p{margin-left:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="homelink" href="../">← Toutes les activités · Collège Réeberg Néron</a>
+
+  <header>
+    <img src="../assets/doko/logo.png" alt="DÒKÒ">
+    <p>The quiz game · Play in your free time! <span class="fr">Le jeu de quiz : joue quand tu veux !</span></p>
+  </header>
+
+  <section id="menu" class="wrap" style="padding:0">
+    <div class="panel">
+      <h2>1. Choose a theme</h2>
+      <div class="themes" id="themes"></div>
+    </div>
+    <div class="panel">
+      <h2>2. Choose a mode</h2>
+      <div class="modes">
+        <button type="button" class="mode" data-mode="solo" aria-pressed="true"><b>🙋 Solo</b>Answer before the end of the 20 seconds. One answer = 4 points, two answers = 2 points, a wrong answer = −1.<span class="fr">Réponds avant la fin des 20 secondes.</span></button>
+        <button type="button" class="mode" data-mode="class" aria-pressed="false"><b>👥 Class (one screen)</b>2 to 4 teams on the interactive board or the projector. The fastest team blocks its box!<span class="fr">En classe, sur un seul écran : 2 à 4 équipes.</span></button>
+      </div>
+      <div class="teams" id="teams" hidden></div>
+    </div>
+    <button type="button" class="go" id="go" disabled>▶ Play</button>
+    <details class="rules panel">
+      <summary>The rules · Les règles</summary>
+      <ul>
+        <li><b>Speed game:</b> you have 20 seconds (solo) or 25 seconds (class) to choose the right answer: one letter (A, B, C, D or E), or two letters (BC, DE, AB, CD, AE).</li>
+        <li><b>First row = 4 points</b> (one letter), <b>second row = 2 points</b> (two letters), <b>third row = 1 point</b> (your token: you choose a letter, even one that is already taken).</li>
+        <li><b>Class mode:</b> the fastest team blocks its box. The other teams must take the boxes that are left, on the same row or on the rows below.</li>
+        <li><b>A wrong answer costs 1 point.</b> No answer: 0.</li>
+        <li>Then the correction: the key point of the question is explained.</li>
+        <li>The player or the team with the most points wins!</li>
+      </ul>
+      <p class="fr">Jeu de rapidité : choisis la ou les bonnes réponses. 1re ligne 4 points, 2e ligne 2 points, 3e ligne 1 point. En classe, l'équipe la plus rapide bloque sa case. Chaque mauvaise réponse coûte 1 point.</p>
+    </details>
+    <p class="prof" lang="fr">Professeur : envoyez-moi une thématique (culture ou grammaire) et ses questions, je l'ajoute au jeu. Jeu créé par M. Bosse.</p>
+  </section>
+
+  <section id="game" aria-live="polite">
+    <div class="top">
+      <span class="qn" id="qn"></span>
+      <div class="scores" id="scores"></div>
+    </div>
+    <div class="stage">
+      <div class="qbox">
+        <div class="qhead">
+          <div class="timer" id="timer" role="timer" aria-label="Time left"><svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="34"/><circle class="fg" id="ring" cx="40" cy="40" r="34" stroke-dasharray="213.6" stroke-dashoffset="0"/></svg><span id="tsec">20</span></div>
+          <div class="question" id="question"></div>
+        </div>
+        <ul class="opts" id="opts"></ul>
+        <div class="explain" id="explain" hidden></div>
+      </div>
+      <div class="qbox">
+        <div class="who" id="who" hidden></div>
+        <div class="board" id="board"></div>
+        <div class="letters" id="letters" hidden></div>
+        <p class="msg" id="msg"></p>
+        <div class="bar" id="bar"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="end">
+    <h2>🏆 The end!</h2>
+    <div class="podium" id="podium"></div>
+    <p id="best"></p>
+    <div class="bar"><button type="button" class="btn main" id="again">↺ Play again</button><button type="button" class="btn" id="back">Choose another theme</button></div>
+  </section>
+</div>
+<button type="button" class="sound" id="sound" aria-pressed="false">🔇 Music</button>
+<audio id="music" src="../assets/doko/music.mp3" loop preload="none"></audio>
+<script src="themes.js"></script>
+<script>
+(function () {
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const IMG = "../assets/doko/", L = "ABCDE", PAIRS = ["BC", "DE", "AB", "CD", "AE"];
+  const TEAMS = [{id: "fire", n: "Fire"}, {id: "water", n: "Water"}, {id: "earth", n: "Earth"}, {id: "wood", n: "Wood"}];
+  const THEMES = window.DOKO_THEMES || [];
+  const store = {get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
+  let theme = null, mode = "solo", teams = ["fire", "water"], G = null;
+
+  /* ---------- menu ---------- */
+  function drawThemes() {
+    $("#themes").innerHTML = THEMES.map(t => {
+      const best = store.get("doko-best-" + t.id);
+      return `<button type="button" class="th" data-t="${t.id}" aria-pressed="${theme && theme.id === t.id}"><b>${t.emoji || "🎲"} ${esc(t.title)}</b><small>${esc(t.kind)} · ${esc(t.level)} · ${t.q.length} questions</small>${best !== null && best !== undefined ? `<span class="best">My best score: ${best}</span>` : ""}</button>`;
+    }).join("");
+  }
+  function drawTeams() {
+    $("#teams").innerHTML = `<b>Teams:</b>` + TEAMS.map(t => `<button type="button" data-team="${t.id}" aria-pressed="${teams.includes(t.id)}"><img src="${IMG}${t.id}.png" alt="">${t.n}</button>`).join("") + `<span class="fr">Choisis 2 à 4 équipes.</span>`;
+  }
+  const ready = () => { $("#go").disabled = !(theme && (mode === "solo" || teams.length >= 2)); };
+  $("#themes").addEventListener("click", e => { const b = e.target.closest("[data-t]"); if (!b) return; theme = THEMES.find(t => t.id === b.dataset.t); drawThemes(); ready(); });
+  $$(".mode").forEach(b => b.addEventListener("click", () => { mode = b.dataset.mode; $$(".mode").forEach(x => x.setAttribute("aria-pressed", x === b)); $("#teams").hidden = mode !== "class"; ready(); }));
+  $("#teams").addEventListener("click", e => {
+    const b = e.target.closest("[data-team]"); if (!b) return; const id = b.dataset.team;
+    if (teams.includes(id)) { if (teams.length > 2) teams = teams.filter(x => x !== id); } else teams.push(id);
+    teams = TEAMS.map(t => t.id).filter(x => teams.includes(x)); drawTeams(); ready();
+  });
+
+  /* ---------- sound ---------- */
+  let ac = null, musicOn = false;
+  function beep(f, d) { try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = f; g.gain.value = .08; o.connect(g); g.connect(ac.destination); o.start(); g.gain.exponentialRampToValueAtTime(.0001, ac.currentTime + d); o.stop(ac.currentTime + d); } catch (e) {} }
+  $("#sound").addEventListener("click", () => {
+    musicOn = !musicOn; const m = $("#music"); m.volume = .35;
+    if (musicOn) { const p = m.play(); if (p && p.catch) p.catch(() => {}); } else m.pause();
+    $("#sound").textContent = musicOn ? "🔊 Music" : "🔇 Music"; $("#sound").setAttribute("aria-pressed", musicOn);
+  });
+
+  /* ---------- game ---------- */
+  const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  function start() {
+    G = {qs: shuffle(theme.q), i: -1, time: mode === "solo" ? 20 : 25, score: {}, claims: {}, phase: "", pickFor: null, active: null};
+    (mode === "solo" ? ["me"] : teams).forEach(t => G.score[t] = 0);
+    $("#menu").style.display = "none"; $("#end").style.display = "none"; $("#game").style.display = "flex";
+    next();
+  }
+  $("#go").addEventListener("click", start);
+  $("#again").addEventListener("click", start);
+  $("#back").addEventListener("click", () => { $("#end").style.display = "none"; $("#menu").style.display = "flex"; drawThemes(); window.scrollTo(0, 0); });
+
+  const Q = () => G.qs[G.i];
+  const nOpts = () => Q().o.length;
+  const letterOk = l => L.indexOf(l) < nOpts();
+  function cellValue(c) { return c.length === 2 ? 2 : (c.startsWith("tok") ? 1 : 4); }
+  function isRight(c, pick) {
+    const a = L[Q().a];
+    if (c.startsWith("tok")) return pick === a;
+    return c.includes(a);
+  }
+  function next() {
+    G.i++;
+    if (G.i >= G.qs.length) return finish();
+    G.claims = {}; G.phase = "ask"; G.active = mode === "class" ? teams[0] : null; G.pickFor = null;
+    const q = Q();
+    $("#qn").textContent = `${theme.emoji || ""} ${theme.title} · Question ${G.i + 1} / ${G.qs.length}`;
+    $("#question").innerHTML = `${esc(q.q)}<span class="num">${G.i + 1}</span>`;
+    $("#opts").innerHTML = q.o.map((o, k) => `<li data-l="${L[k]}"><b>${L[k]}.</b>${esc(o)}</li>`).join("");
+    $("#explain").hidden = true; $("#msg").textContent = ""; $("#msg").className = "msg";
+    $("#letters").hidden = true;
+    drawBoard(); drawWho(); drawScores();
+    $("#bar").innerHTML = mode === "class" ? `<button type="button" class="btn" id="stop">⏹ Check now</button>` : "";
+    const st = $("#stop"); if (st) st.addEventListener("click", reveal);
+    runTimer(G.time, () => reveal());
+  }
+  let tmr = null;
+  function runTimer(sec, done) {
+    clearInterval(tmr); const end = Date.now() + sec * 1000, C = 213.6;
+    const tick = () => {
+      const left = Math.max(0, (end - Date.now()) / 1000), s = Math.ceil(left);
+      $("#tsec").textContent = s; $("#ring").style.strokeDashoffset = C * (1 - left / sec);
+      $("#timer").classList.toggle("low", s <= 5);
+      if (G.phase === "ask" && s <= 5 && s > 0 && s !== tick.last) { beep(880, .12); tick.last = s; }
+      if (left <= 0) { clearInterval(tmr); done(); }
+    };
+    tick(); tmr = setInterval(tick, 200);
+  }
+  function drawBoard() {
+    const tokCells = mode === "class" ? teams.map(t => "tok-" + t).concat(["tok-joker"]) : [];
+    const cell = c => {
+      const who = Object.keys(G.claims).find(t => G.claims[t].c === c), cl = who ? G.claims[who] : null;
+      if (c.startsWith("tok")) {
+        const t = c.slice(4);
+        return `<button type="button" class="cell tok ${t}${cl ? " taken" : ""}" data-c="${c}" aria-label="${t} token, 1 point"><img src="${IMG}${t}.png" alt="">${cl ? `<span class="pick">${esc(cl.pick || "?")}${t === "joker" ? " · " + who : ""}</span>` : ""}</button>`;
+      }
+      const off = ![...c].every(letterOk);
+      return `<button type="button" class="cell${off ? " off" : ""}" data-c="${c}" ${off ? "disabled" : ""} aria-label="${c}, ${cellValue(c)} points">${cl && who !== "me" ? `<img src="${IMG}${who}.png" alt="${who}">` : c}${c.length === 1 ? `<small>${c}</small>` : `<small>${c}</small>`}</button>`;
+    };
+    let h = `<div class="row">${[...L].map(cell).join("")}<span class="pts">4</span></div><div class="sep"></div><div class="row">${PAIRS.map(cell).join("")}<span class="pts">2</span></div>`;
+    if (mode === "class") {
+      const five = tokCells.concat(Array(5 - tokCells.length).fill(null));
+      h += `<div class="sep"></div><div class="row">${five.map(c => c ? cell(c) : `<span></span>`).join("")}<span class="pts">1</span></div>`;
+    }
+    $("#board").innerHTML = h + `<div class="brand">DÒKÒ</div>`;
+  }
+  function drawWho() {
+    if (mode !== "class") { $("#who").hidden = true; return; }
+    $("#who").hidden = false;
+    $("#who").innerHTML = `<b>Who plays?</b>` + teams.map(t => `<button type="button" data-w="${t}" aria-pressed="${G.active === t}" ${G.claims[t] ? "disabled" : ""}><img src="${IMG}${t}.png" alt="">${TEAMS.find(x => x.id === t).n}</button>`).join("");
+  }
+  function drawScores() {
+    $("#scores").innerHTML = mode === "solo" ? `<span class="sc solo">⭐ ${G.score.me} points</span>`
+      : teams.map(t => `<span class="sc"><img src="${IMG}${t}.png" alt="${t}">${G.score[t]}</span>`).join("");
+  }
+  $("#who").addEventListener("click", e => { const b = e.target.closest("[data-w]"); if (!b || G.phase !== "ask") return; G.active = b.dataset.w; drawWho(); });
+  $("#board").addEventListener("click", e => {
+    const b = e.target.closest("[data-c]"); if (!b || G.phase !== "ask") return;
+    const c = b.dataset.c;
+    if (mode === "solo") { G.claims.me = {c}; beep(520, .08); drawBoard(); reveal(); return; }
+    const t = G.active; if (!t || G.claims[t]) { say("Choose a team first.", "bad"); return; }
+    if (Object.values(G.claims).some(x => x.c === c)) { say("This box is taken! Choose another one.", "bad"); return; }
+    if (c.startsWith("tok")) {
+      const owner = c.slice(4);
+      if (owner !== "joker" && owner !== t) { say("This token belongs to another team.", "bad"); return; }
+      G.claims[t] = {c, pick: null}; G.pickFor = t; askLetter(t);
+    } else { G.claims[t] = {c}; say(`${cap(t)} takes ${c}!`, "good"); }
+    beep(520, .08);
+    const free = teams.find(x => !G.claims[x]); G.active = free || null;
+    drawBoard(); drawWho();
+    if (!free && !G.pickFor) reveal();
+  });
+  function askLetter(t) {
+    const box = $("#letters"); box.hidden = false;
+    box.innerHTML = `<b>${cap(t)}, which letter?</b>` + [...L].filter(letterOk).map(l => `<button type="button" data-p="${l}">${l}</button>`).join("");
+  }
+  $("#letters").addEventListener("click", e => {
+    const b = e.target.closest("[data-p]"); if (!b || !G.pickFor) return;
+    G.claims[G.pickFor].pick = b.dataset.p; G.pickFor = null; $("#letters").hidden = true; drawBoard();
+    if (teams.every(x => G.claims[x])) reveal();
+  });
+  const cap = t => t === "me" ? "You" : TEAMS.find(x => x.id === t).n;
+  const say = (m, k) => { $("#msg").textContent = m; $("#msg").className = "msg " + (k || ""); };
+  function reveal() {
+    if (G.phase !== "ask") return; G.phase = "show"; clearInterval(tmr);
+    if (G.pickFor) { delete G.claims[G.pickFor]; G.pickFor = null; $("#letters").hidden = true; }
+    const q = Q(), a = L[q.a];
+    $$("#opts li").forEach(li => li.classList.toggle("right", li.dataset.l === a));
+    drawBoard();
+    $$("#board .cell").forEach(b => { if (b.dataset.c === a) b.classList.add("answer"); });
+    const lines = [];
+    Object.entries(G.claims).forEach(([t, cl]) => {
+      const ok = isRight(cl.c, cl.pick), pts = ok ? cellValue(cl.c) : -1;
+      G.score[t] += pts;
+      const el = $(`#board [data-c="${cl.c}"]`); if (el) el.classList.add(ok ? "win" : "lose");
+      lines.push(`${cap(t)} ${ok ? "+" + pts : "−1"}`);
+    });
+    (mode === "solo" ? ["me"] : teams).forEach(t => { if (!G.claims[t]) lines.push(`${cap(t)}: no answer (0)`); });
+    const mine = G.claims.me;
+    if (mode === "solo") {
+      if (!mine) say("⏰ Time is up!", "bad"); else if (isRight(mine.c)) { say(`✔ Well done! +${cellValue(mine.c)} points`, "good"); beep(1040, .25); } else { say("✘ Not this time: −1 point", "bad"); beep(220, .3); }
+    } else say(lines.join(" · "), "");
+    $("#explain").hidden = false;
+    $("#explain").innerHTML = `<p><b>${a}. ${esc(q.o[q.a])}</b></p><p>${esc(q.why || "")}</p>${q.fr ? `<p class="fr">${esc(q.fr)}</p>` : ""}`;
+    drawScores();
+    $("#bar").innerHTML = `<button type="button" class="btn main" id="nx">${G.i + 1 < G.qs.length ? "Next question →" : "See the results 🏆"}</button>`;
+    $("#nx").addEventListener("click", next); $("#nx").focus();
+    // The correction lasts 25 seconds in class mode, then the next question starts by itself
+    if (mode === "class") runTimer(25, () => { if (G.phase === "show") next(); });
+    else { $("#tsec").textContent = "✓"; }
+  }
+  function finish() {
+    clearInterval(tmr); G.phase = "end";
+    $("#game").style.display = "none"; $("#end").style.display = "flex";
+    const list = Object.entries(G.score).sort((x, y) => y[1] - x[1]);
+    $("#podium").innerHTML = list.map(([t, p], i) => `<div><span class="r">${i + 1}</span>${t === "me" ? "⭐" : `<img src="${IMG}${t}.png" alt="">`}<span>${cap(t)}</span><span class="p">${p} pts</span></div>`).join("");
+    if (mode === "solo") {
+      const k = "doko-best-" + theme.id, best = store.get(k), max = G.qs.length * 4;
+      if (best === null || best === undefined || G.score.me > best) { store.set(k, G.score.me); $("#best").textContent = `New record! ${G.score.me} / ${max}`; }
+      else $("#best").textContent = `Your best score: ${best} / ${max}`;
+    } else $("#best").textContent = `${cap(list[0][0])} wins!`;
+    window.scrollTo(0, 0);
+  }
+
+  drawThemes(); drawTeams();
+  if (THEMES.length === 1) { theme = THEMES[0]; drawThemes(); }
+  ready();
+})();
+</script>
+</body>
+</html>
