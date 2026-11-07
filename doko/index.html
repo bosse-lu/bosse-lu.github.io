@@ -144,6 +144,56 @@ body.playing header{display:none}
 #end .big{width:120px;height:120px;border-radius:50%;animation:float 2.6s ease-in-out infinite}
 #end .score{font:800 2.4rem var(--display);color:var(--accent);margin:0}
 @media (prefers-reduced-motion:reduce){.mytoken,.tk img,.tokens .tk img,.cell img,#end .big{animation:none!important}.tk img,.cell{transition:none}}
+/* game choice */
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.gm{display:flex;flex-direction:column;gap:4px;align-items:flex-start;text-align:left;background:#20243a;border:3px solid var(--line);border-radius:16px;padding:14px;cursor:pointer}
+.gm .gi{font-size:2rem;line-height:1}
+.gm b{font-family:var(--display);font-size:1.2rem}
+.gm small{color:var(--muted)}
+.gm .best{color:var(--accent);font-weight:700;font-size:.85rem}
+.gm[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 4px rgba(255,210,63,.18)}
+h3.sub{font:800 1.05rem var(--display);margin:16px 0 8px}
+h3.sub .fr{font:italic 400 .8rem var(--body)}
+/* level, streak, joker */
+.lvl{display:inline-flex;align-items:center;gap:5px;font-size:.85rem;color:var(--ink)}
+.lvl i{width:12px;height:12px;border-radius:50%;display:inline-block}
+.lvl.l1 i{background:#2fbf71}.lvl.l2 i{background:#f2c230}.lvl.l3 i{background:#e5533d}
+.streak{font-size:.95rem;color:var(--accent)}
+.joker{margin-left:auto;display:flex;align-items:center;gap:6px;background:#2a2f49;border:2px solid #c9ccd8;border-radius:999px;padding:3px 12px 3px 3px;font-weight:800;cursor:pointer;flex:none}
+.joker img{width:34px;height:34px;border-radius:50%}
+.joker:disabled{opacity:.35;cursor:default}
+.opts li.gone{opacity:.3;text-decoration:line-through}
+.pop{position:fixed;left:50%;top:38%;z-index:30;transform:translate(-50%,-50%);font:800 clamp(1.6rem,6vw,2.6rem) var(--display);color:var(--accent);text-shadow:0 4px 18px rgba(0,0,0,.8);pointer-events:none;animation:pop 1.4s ease-out forwards;white-space:nowrap}
+@keyframes pop{0%{opacity:0;transform:translate(-50%,-30%) scale(.6)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}70%{opacity:1}100%{opacity:0;transform:translate(-50%,-90%) scale(1)}}
+.cell.power img{animation:power 1s ease-out 2,float 2.6s ease-in-out 2s infinite}
+@keyframes power{50%{transform:scale(1.25) rotate(20deg);filter:brightness(1.4) drop-shadow(0 0 12px #fff)}}
+/* recreate the situation: the scene */
+.scene{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 10px;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:14px;padding:12px}
+.scene .plus{font:800 1.6rem/1 var(--display)}
+.scene .pic{display:flex;flex-direction:column;align-items:center;gap:4px;position:relative}
+.scene .frame{background:#fff;border-radius:10px;padding:5px;width:120px;height:104px;display:flex;align-items:center;justify-content:center}
+.scene .frame img{max-width:100%;max-height:100%;object-fit:contain}
+.scene .frame.wide{width:auto;min-width:120px;padding:6px}
+.scene .frame.wide img{height:54px;max-width:170px}
+.scene .lab{font:800 .78rem var(--display);text-transform:uppercase;letter-spacing:.04em;color:var(--accent)}
+.scene .cap{font-size:.78rem;font-weight:700;text-align:center;max-width:10em}
+.scene .over{font:800 1.2rem var(--display);position:relative}
+.scene .over.no::after{content:"✗";position:absolute;left:50%;top:50%;transform:translate(-50%,-55%);color:var(--bad);font-size:2.2rem}
+.scene .qm{font:800 2.4rem/1 var(--display)}
+.scene .box{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#7b3fe4,#e53d8f);display:grid;place-items:center;font-size:2rem;box-shadow:0 0 18px rgba(229,61,143,.5)}
+.note{width:150px;background:#fff3b8;border:2px solid #e2b93b;border-radius:6px;padding:6px 8px;color:#1b1d27;font-family:Georgia,serif}
+.note b{display:block;text-align:center;font-size:.72rem;letter-spacing:.04em;margin-bottom:4px}
+.note .r{display:flex;gap:5px;font-size:.62rem;border-bottom:1px dotted #e2b93b;padding:1px 0;min-height:1.35em;align-items:flex-end}
+.note .r span{flex:none;width:4.6em}
+.note .r em{font-style:normal;font-weight:700;color:#c2141f;font-family:var(--body);font-size:.68rem;text-transform:uppercase}
+.opts.long li{font-size:1rem;padding:8px 12px}
+.sayit{flex-basis:100%;display:flex;flex-direction:column;align-items:center;gap:6px;background:#20243a;border:1px solid var(--line);border-radius:14px;padding:10px 12px;text-align:center}
+.sayit p{margin:0}
+.sayit .heard{font-size:.95rem}
+.sayit .w{display:inline-block;padding:0 4px;border-radius:4px;margin:1px}
+.sayit .w.ok{background:#173d28;color:#c6f6d8}.sayit .w.ko{background:#4a1d1d;color:#ffc9c9;text-decoration:line-through}
+@media (max-width:560px){.scene .frame{width:96px;height:84px}.note{width:124px}.scene .box{width:50px;height:50px}}
+@media (prefers-reduced-motion:reduce){.pop,.cell.power img{animation:none!important}.pop{opacity:0}}
 </style>
 </head>
 <body>
@@ -164,27 +214,36 @@ body.playing header{display:none}
       <div class="tokens intro" id="tokens"></div>
     </div>
     <div class="panel">
-      <h2>2. Choose your theme<span class="fr">Choisis ton thème.</span></h2>
-      <div class="themes" id="themes"></div>
+      <h2>2. Choose your game<span class="fr">Choisis ton jeu.</span></h2>
+      <div class="games" id="games">
+        <button type="button" class="gm" data-g="theme" aria-pressed="false"><span class="gi">📚</span><b>Choose your theme</b><small lang="fr">Choisis ton thème : vocabulaire, grammaire, culture.</small></button>
+        <button type="button" class="gm" data-g="recreate" aria-pressed="false"><span class="gi">🧩</span><b>Recreate the situation</b><small lang="fr">Recrée la situation : des images → la bonne phrase avec <i>because</i> ou <i>so</i>, puis dis-la !</small><span class="best" id="best-recreate"></span></button>
+      </div>
+      <div id="themebox" hidden>
+        <h3 class="sub">Choose your theme <span class="fr">Choisis ton thème.</span></h3>
+        <div class="themes" id="themes"></div>
+      </div>
     </div>
     <button type="button" class="go" id="go" disabled>▶ Play</button>
     <details class="rules panel">
       <summary>The rules · Les règles</summary>
       <ul>
-        <li>You have <b>20 seconds</b> for each question.</li>
+        <li><b>12 questions</b>, from easy 🟢 to medium 🟡 to difficult 🔴. You have <b>20 seconds</b> (25 seconds for <i>Recreate the situation</i>).</li>
         <li>Put your token on the right answer: drag it onto a box, or tap the box.</li>
-        <li><b>First row = 4 points:</b> you are sure, you choose one letter.</li>
-        <li><b>Second row = 2 points:</b> you hesitate, you choose two letters (BC, DE, AB, CD or AE).</li>
+        <li><b>First row = 4 points:</b> you are sure, you choose one letter. <b>Second row = 2 points:</b> you hesitate, you choose two letters.</li>
         <li><b>A wrong answer costs 1 point.</b> No answer: 0.</li>
-        <li>Then read the correction and try to beat your best score!</li>
+        <li>⚡ <b>Fast!</b> One letter, right, in less than 8 seconds: +1.</li>
+        <li>✨ <b>Element power:</b> 3 right answers in a row: +2.</li>
+        <li>⚛️ <b>Joker</b> (once per game): two wrong answers disappear.</li>
+        <li>🎤 <b>Say it!</b> (<i>Recreate the situation</i>, Chrome or Edge): say the right sentence aloud: +2.</li>
       </ul>
-      <p class="fr">20 secondes par question. Pose ton jeton sur la bonne réponse. 1re ligne : tu es sûr, 4 points. 2e ligne : tu hésites entre deux lettres, 2 points. Une mauvaise réponse fait perdre 1 point.</p>
+      <p class="fr">12 questions, de facile à difficile. 1re ligne : tu es sûr, 4 points. 2e ligne : tu hésites entre deux lettres, 2 points. Une erreur : −1. Bonus : rapidité (+1), 3 bonnes réponses d'affilée (+2), dire la phrase à voix haute (+2). Le Joker enlève deux mauvaises réponses, une fois par partie.</p>
     </details>
   </section>
 
   <section id="game" aria-live="polite">
     <div class="top">
-      <span class="qn"><img class="minilogo" src="../assets/doko/logo-doko.jpg" alt="DÒKÒ"><span id="qn"></span></span>
+      <span class="qn"><img class="minilogo" src="../assets/doko/logo-doko.jpg" alt="DÒKÒ"><span id="qn"></span> <span class="lvl" id="lvl"></span> <span class="streak" id="streak"></span></span>
       <span class="right-top"><span class="sc" id="score"></span><button type="button" class="sound" aria-pressed="false">🔇 Music</button></span>
     </div>
     <div class="stage">
@@ -193,6 +252,7 @@ body.playing header{display:none}
           <div class="timer" id="timer" role="timer" aria-label="Time left"><svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="34"/><circle class="fg" id="ring" cx="40" cy="40" r="34" stroke-dasharray="213.6" stroke-dashoffset="0"/></svg><span id="tsec">20</span></div>
           <div class="question" id="question"></div>
         </div>
+        <div class="scene" id="scene" hidden></div>
         <div class="qimg" id="qimg" hidden><img alt=""></div>
         <ul class="opts" id="opts"></ul>
         <div class="explain" id="explain" hidden></div>
@@ -201,6 +261,7 @@ body.playing header{display:none}
         <div class="hand" id="hand">
           <button type="button" class="mytoken" id="mytoken" aria-label="Your token"><img alt=""></button>
           <p>Put your token on the right answer! <span class="fr">Pose ton jeton sur la bonne réponse.</span></p>
+          <button type="button" class="joker" id="joker" title="Two wrong answers disappear (once per game)"><img src="../assets/doko/joker.png" alt="">Joker</button>
         </div>
         <div class="board" id="board"></div>
         <p class="msg" id="msg"></p>
@@ -214,6 +275,7 @@ body.playing header{display:none}
     <img class="big" id="endtok" alt="">
     <h2>The end!</h2>
     <p class="score" id="final"></p>
+    <p id="right"></p>
     <p id="best"></p>
     <div class="bar"><button type="button" class="btn main" id="again">↺ Play again</button><button type="button" class="btn" id="back">Change my token</button></div>
   </section>
@@ -225,25 +287,34 @@ body.playing header{display:none}
 (function () {
   const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
   const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-  const IMG = "../assets/doko/", PIC = "../assets/doko/pics/", L = "ABCDE", PAIRS = ["BC", "DE", "AB", "CD", "AE"], TIME = 20;
-  const TOK = [{id: "fire", n: "Fire", fr: "le feu", c: "#ff5a1f"}, {id: "water", n: "Water", fr: "l'eau", c: "#3d7bff"}, {id: "earth", n: "Earth", fr: "la terre", c: "#e8a21a"}, {id: "wood", n: "Wood", fr: "le bois", c: "#43c13a"}];
-  const THEMES = window.DOKO_THEMES || [];
+  const IMG = "../assets/doko/", PIC = "../assets/doko/pics/", L = "ABCDE", PAIRS = ["BC", "DE", "AB", "CD", "AE"];
+  const TOK = [{id: "fire", n: "Fire", fr: "le feu", c: "#ff5a1f", e: "🔥"}, {id: "water", n: "Water", fr: "l'eau", c: "#3d7bff", e: "💧"}, {id: "earth", n: "Earth", fr: "la terre", c: "#e8a21a", e: "🌾"}, {id: "wood", n: "Wood", fr: "le bois", c: "#43c13a", e: "🌳"}];
+  const THEMES = window.DOKO_THEMES || [], RECREATE = window.DOKO_RECREATE;
+  const LV = {1: ["easy", "facile"], 2: ["medium", "moyen"], 3: ["difficult", "difficile"]};
+  const PER_LEVEL = 4, FAST = 8;
   const store = {get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
-  let token = store.get("doko-token"), theme = THEMES.length === 1 ? THEMES[0] : null, G = null;
+  let token = store.get("doko-token"), game = null, theme = THEMES.length === 1 ? THEMES[0] : null, G = null;
   if (!TOK.some(t => t.id === token)) token = null;
+  // ?game=recreate (link from the lesson) or ?game=theme opens that game directly
+  try { const g = new URLSearchParams(location.search).get("game"); if (g === "recreate" && RECREATE) game = "recreate"; else if (g === "theme") game = "theme"; } catch (e) {}
+  const pack = () => game === "recreate" ? RECREATE : theme;
 
   /* ---------- menu ---------- */
   function drawMenu() {
     $("#tokens").innerHTML = TOK.map(t => `<button type="button" class="tk" data-tok="${t.id}" style="--c:${t.c}" aria-pressed="${token === t.id}"><img src="${IMG}${t.id}.png" alt="">${t.n}<small lang="fr">${t.fr}</small></button>`).join("");
     if (token) document.body.dataset.el = token; if (window.DokoFX) DokoFX.set(token);
+    $$(".gm").forEach(b => b.setAttribute("aria-pressed", b.dataset.g === game));
+    $("#themebox").hidden = game !== "theme";
+    const br = store.get("doko-best-recreate"); $("#best-recreate").textContent = typeof br === "number" ? `My best score: ${br}` : "";
     $("#themes").innerHTML = THEMES.map(t => {
       const best = store.get("doko-best-" + t.id);
-      return `<button type="button" class="th" data-t="${t.id}" aria-pressed="${!!theme && theme.id === t.id}"><b>${t.emoji || "🎲"} ${esc(t.title)}</b><small>${esc(t.kind)} · ${esc(t.level)} · ${t.q.length} questions</small>${typeof best === "number" ? `<span class="best">My best score: ${best} / ${t.q.length * 4}</span>` : ""}</button>`;
+      return `<button type="button" class="th" data-t="${t.id}" aria-pressed="${!!theme && theme.id === t.id}"><b>${t.emoji || "🎲"} ${esc(t.title)}</b><small>${esc(t.kind)} · ${esc(t.level)} · 12 questions</small>${typeof best === "number" ? `<span class="best">My best score: ${best}</span>` : ""}</button>`;
     }).join("");
-    $("#go").disabled = !(token && theme);
+    $("#go").disabled = !(token && pack());
     $("#go").innerHTML = token ? `<img src="${IMG}${token}.png" alt="">Play` : "▶ Play";
   }
   $("#tokens").addEventListener("click", e => { const b = e.target.closest("[data-tok]"); if (!b) return; token = b.dataset.tok; store.set("doko-token", token); drawMenu(); });
+  $("#games").addEventListener("click", e => { const b = e.target.closest("[data-g]"); if (!b) return; game = b.dataset.g; drawMenu(); });
   $("#themes").addEventListener("click", e => { const b = e.target.closest("[data-t]"); if (!b) return; theme = THEMES.find(t => t.id === b.dataset.t); drawMenu(); });
 
   /* ---------- sound ---------- */
@@ -258,11 +329,20 @@ body.playing header{display:none}
   document.addEventListener("pointerdown", firstTouch); document.addEventListener("keydown", firstTouch);
   music.addEventListener("play", soundBtns); soundBtns();
   if (musicOn) playMusic();
+  function speak(t) { try { speechSynthesis.cancel(); const vs = speechSynthesis.getVoices(), v = vs.find(x => x.lang.replace("_", "-") === "en-GB") || vs.find(x => x.lang.startsWith("en")); const u = new SpeechSynthesisUtterance(t); u.lang = "en-GB"; u.rate = .9; if (v) u.voice = v; speechSynthesis.speak(u); } catch (e) {} }
 
   /* ---------- game ---------- */
   const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  // 4 questions per level, easy first; the choices are mixed (the right one is followed)
+  function pick(list) {
+    return [1, 2, 3].flatMap(lv => shuffle(list.filter(q => (q.lv || 1) === lv)).slice(0, PER_LEVEL)).map(q => {
+      const order = shuffle(q.o.map((_, i) => i));
+      return Object.assign({}, q, {o: order.map(i => q.o[i]), a: order.indexOf(q.a), say: q.say || (q.scene && !q.say ? q.o[q.a] : null)});
+    });
+  }
   function start() {
-    G = {qs: shuffle(theme.q), i: -1, score: 0, cell: null, phase: ""};
+    const P = pack();
+    G = {qs: pick(P.q), i: -1, score: 0, right: 0, streak: 0, joker: true, cell: null, phase: "", time: P.time || 20};
     $("#mytoken img").src = IMG + token + ".png";
     $("#menu").style.display = "none"; $("#end").style.display = "none"; $("#game").style.display = "flex"; document.body.classList.add("playing");
     window.scrollTo(0, 0); next();
@@ -272,23 +352,45 @@ body.playing header{display:none}
   $("#back").addEventListener("click", () => { $("#end").style.display = "none"; $("#menu").style.display = "flex"; drawMenu(); window.scrollTo(0, 0); });
 
   const Q = () => G.qs[G.i];
-  const okLetter = l => L.indexOf(l) < Q().o.length;
+  const okLetter = l => L.indexOf(l) < Q().o.length && !(G.gone || []).includes(l);
+  const cellOk = c => c.length === 1 ? okLetter(c) : [...c].some(okLetter) && [...c].every(l => L.indexOf(l) < Q().o.length);
   const value = c => c.length === 2 ? 2 : 4;
   const isRight = c => c.includes(L[Q().a]);
+  function pop(t) { const d = document.createElement("div"); d.className = "pop"; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 1500); }
+  const noteHTML = (type, f) => {
+    const rows = type === "late" ? ["Name", "Late", "Reason", "Signed"] : ["Name", "Date", "Reason", "Signed"]; f = f || {};
+    return `<div class="note" lang="en"><b>${type === "late" ? "LATE SLIP" : "ABSENCE NOTE"}</b>${rows.map(r => `<div class="r"><span>${r} :</span>${f[r] ? `<em>${esc(f[r])}</em>` : ""}</div>`).join("")}</div>`;
+  };
+  function sceneHTML(parts) {
+    return parts.map((p, i) => {
+      let h;
+      if (p.q) h = `<span class="qm" aria-label="question">?</span>`;
+      else if (p.box) h = `<span class="box" aria-label="mystery box">❓</span>`;
+      else if (p.note) h = `<div class="pic">${noteHTML(p.note, p.f)}${p.cap ? `<span class="cap">${esc(p.cap)}</span>` : ""}</div>`;
+      else h = `<div class="pic">${p.lab ? `<span class="lab">${esc(p.lab)}</span>` : ""}${p.no ? `<span class="over no">${esc(p.no)}</span>` : p.verb ? `<span class="over">${esc(p.verb)}</span>` : ""}<span class="frame${p.wide ? " wide" : ""}"><img src="${PIC}${p.img}.png" alt=""></span>${p.cap ? `<span class="cap">${esc(p.cap)}</span>` : ""}</div>`;
+      const plus = i && !p.q && !p.box && !parts[i - 1].box ? '<span class="plus" aria-hidden="true">+</span>' : "";
+      return plus + h;
+    }).join("");
+  }
   function next() {
     G.i++;
     if (G.i >= G.qs.length) return finish();
-    G.cell = null; G.phase = "ask";
-    const q = Q();
-    $("#qn").textContent = `${theme.emoji || ""} ${theme.title} · ${G.i + 1} / ${G.qs.length}`;
-    $("#question").innerHTML = `${esc(q.q)}<span class="num">${G.i + 1}</span>`;
+    G.cell = null; G.phase = "ask"; G.gone = []; G.t0 = Date.now();
+    const q = Q(), P = pack();
+    $("#qn").textContent = `${P.emoji || ""} ${P.title} · ${G.i + 1} / ${G.qs.length}`;
+    const lv = q.lv || 1; $("#lvl").className = "lvl l" + lv; $("#lvl").innerHTML = `<i></i>${LV[lv][0]}`;
+    drawStreak();
+    $("#question").innerHTML = `${esc(q.q || "What happened? Choose the right sentence.")}<span class="num">${G.i + 1}</span>`;
+    $("#scene").hidden = !q.scene; if (q.scene) $("#scene").innerHTML = sceneHTML(q.scene);
     $("#qimg").hidden = !q.img; if (q.img) $("#qimg img").src = PIC + q.img + ".png";
-    $("#opts").innerHTML = q.o.map((o, k) => `<li data-l="${L[k]}"><b>${L[k]}.</b>${esc(o)}</li>`).join("");
+    $("#opts").className = "opts" + (q.o.some(o => o.length > 40) ? " long" : "");
+    $("#opts").innerHTML = q.o.map((o, k) => `<li data-l="${L[k]}" lang="en"><b>${L[k]}.</b>${esc(o)}</li>`).join("");
     $("#explain").hidden = true; $("#msg").textContent = ""; $("#msg").className = "msg"; $("#bar").innerHTML = "";
-    $("#hand").hidden = false; $("#mytoken").classList.remove("used");
+    $("#hand").hidden = false; $("#mytoken").classList.remove("used"); $("#joker").disabled = !G.joker;
     drawBoard(); drawScore();
-    runTimer(TIME, () => reveal());
+    runTimer(G.time, () => reveal());
   }
+  const drawStreak = () => { const t = TOK.find(x => x.id === token); $("#streak").textContent = G.streak > 0 ? `${t.e}×${G.streak}` : ""; };
   let tmr = null;
   function runTimer(sec, done) {
     clearInterval(tmr); const end = Date.now() + sec * 1000, C = 213.6; let last = null;
@@ -303,16 +405,26 @@ body.playing header{display:none}
   }
   function drawBoard() {
     const cell = c => {
-      const off = ![...c].every(okLetter), mine = G.cell === c;
+      const off = !cellOk(c), mine = G.cell === c;
       return `<button type="button" class="cell${off ? " off" : ""}${mine ? " has" : ""}" data-c="${c}" ${off ? "disabled" : ""} aria-label="${c}, ${value(c)} points">${mine ? `<img src="${IMG}${token}.png" alt="Your token" class="${G.anim || "idle"}">` : `<span class="lt">${c}</span>`}<small>${c}</small></button>`;
     };
     $("#board").innerHTML = `<div class="row">${[...L].map(cell).join("")}<span class="pts">4</span></div><div class="sep"></div><div class="row">${PAIRS.map(cell).join("")}<span class="pts">2</span></div><div class="brand">DÒKÒ</div>`;
   }
   const drawScore = () => { $("#score").innerHTML = `<img src="${IMG}${token}.png" alt="">${G.score} point${Math.abs(G.score) === 1 ? "" : "s"}`; };
+
+  // Joker: two wrong answers disappear, once per game
+  $("#joker").addEventListener("click", () => {
+    if (!G || G.phase !== "ask" || !G.joker) return;
+    const q = Q(), wrong = shuffle([...L.slice(0, q.o.length)].filter(l => l !== L[q.a])).slice(0, 2);
+    G.joker = false; G.gone = wrong; $("#joker").disabled = true; beep(660, .15);
+    $$("#opts li").forEach(li => li.classList.toggle("gone", wrong.includes(li.dataset.l)));
+    drawBoard(); pop("⚛️ Joker!");
+  });
+
   // The token falls into its box (as in the Keynote), then the correction appears
   function place(c, dragged) {
     if (G.phase !== "ask" || !c) return;
-    G.phase = "placing"; clearInterval(tmr);
+    G.phase = "placing"; G.took = (Date.now() - G.t0) / 1000; clearInterval(tmr);
     G.cell = c; $("#mytoken").classList.add("used");
     const still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
     G.anim = dragged ? "settle" : "drop"; drawBoard(); G.anim = null;
@@ -325,7 +437,7 @@ body.playing header{display:none}
   let ghost = null, over = null;
   const cellAt = (x, y) => { const el = document.elementFromPoint(x, y); const c = el && el.closest(".cell:not(:disabled)"); return c && $("#board").contains(c) ? c : null; };
   $("#mytoken").addEventListener("pointerdown", e => {
-    if (G.phase !== "ask") return; e.preventDefault();
+    if (!G || G.phase !== "ask") return; e.preventDefault();
     ghost = document.createElement("img"); ghost.className = "ghost"; ghost.src = IMG + token + ".png"; ghost.alt = ""; document.body.appendChild(ghost);
     $("#mytoken").classList.add("used"); move(e);
     try { $("#mytoken").setPointerCapture(e.pointerId); } catch (err) {}
@@ -350,29 +462,75 @@ body.playing header{display:none}
     $("#hand").hidden = true;
     drawBoard();
     $$("#board .cell").forEach(b => { if (b.dataset.c === a && b.dataset.c !== G.cell) b.classList.add("answer"); });
-    if (!G.cell) { $("#msg").textContent = "⏰ Time is up! 0 point"; $("#msg").className = "msg bad"; beep(220, .3); }
+    const msg = [];
+    if (!G.cell) { msg.push("⏰ Time is up! 0 point"); $("#msg").className = "msg bad"; beep(220, .3); G.streak = 0; }
     else {
-      const ok = isRight(G.cell), pts = ok ? value(G.cell) : -1; G.score += pts;
-      $(`#board [data-c="${G.cell}"]`).classList.add(ok ? "win" : "lose");
-      $("#msg").textContent = ok ? `✔ Well done! +${pts} points` : "✘ Not this time: −1 point";
-      $("#msg").className = "msg " + (ok ? "good" : "bad"); beep(ok ? 1040 : 220, .25);
+      const ok = isRight(G.cell), el = $(`#board [data-c="${G.cell}"]`);
+      el.classList.add(ok ? "win" : "lose");
+      if (ok) {
+        let pts = value(G.cell); G.right++; G.streak++;
+        msg.push(`✔ Well done! +${pts}`);
+        if (G.cell.length === 1 && G.took <= FAST) { pts += 1; msg.push("⚡ Fast! +1"); setTimeout(() => pop("⚡ Fast! +1"), 150); }
+        if (G.streak % 3 === 0) { pts += 2; msg.push("✨ Element power! +2"); el.classList.add("power"); setTimeout(() => pop(`${TOK.find(x => x.id === token).e} Element power! +2`), 700); }
+        G.score += pts; $("#msg").className = "msg good"; beep(1040, .25);
+      } else { G.score -= 1; G.streak = 0; msg.push("✘ Not this time: −1"); $("#msg").className = "msg bad"; beep(220, .25); }
     }
+    $("#msg").textContent = msg.join(" · ");
     $("#tsec").textContent = "✓";
     const pic = q.pic ? `<img src="${PIC}${q.pic}.png" alt="">` : "";
     $("#explain").hidden = false;
-    $("#explain").innerHTML = `${pic}<div><p class="ans">${a}. ${esc(q.o[q.a])}</p><p>${esc(q.why || "")}</p></div>`;
-    drawScore();
-    $("#bar").innerHTML = `<button type="button" class="btn main" id="nx">${G.i + 1 < G.qs.length ? "Next question →" : "See my score 🏆"}</button>`;
-    $("#nx").addEventListener("click", next); $("#nx").focus({preventScroll: true});
+    $("#explain").innerHTML = `${pic}<div><p class="ans">${a}. ${esc(q.o[q.a])}</p>${q.say && q.say !== q.o[q.a] ? `<p lang="en"><b>${esc(q.say)}</b></p>` : ""}<p>${esc(q.why || "")}</p></div>`;
+    drawScore(); drawStreak();
+    $("#bar").innerHTML = (q.say ? sayHTML() : "") + `<button type="button" class="btn main" id="nx">${G.i + 1 < G.qs.length ? "Next question →" : "See my score 🏆"}</button>`;
+    if (q.say) bindSay(q.say);
+    $("#nx").addEventListener("click", () => { try { speechSynthesis.cancel(); } catch (e) {} next(); }); $("#nx").focus({preventScroll: true});
   }
+
+  /* ---------- 🎤 Say it! (bonus +2, Chrome / Edge) ---------- */
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const CONTR = [[/\bi'm\b/g, "i am"], [/\bdidn't\b/g, "did not"], [/\bdad's\b/g, "dads"]];
+  const norm = t => { t = String(t || "").toLowerCase().replace(/[’‘`]/g, "'"); CONTR.forEach(([r, v]) => { t = t.replace(r, v); }); return t.replace(/[^a-z0-9' ]+/g, " ").replace(/'/g, "").replace(/\s+/g, " ").trim(); };
+  function match(txt, model) {
+    const a = norm(txt).split(" ").filter(Boolean), b = norm(model).split(" ");
+    const d = Array.from({length: a.length + 1}, () => new Array(b.length + 1).fill(0));
+    for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = a[i - 1] === b[j - 1] ? d[i - 1][j - 1] + 1 : Math.max(d[i - 1][j], d[i][j - 1]);
+    const ok = new Array(a.length).fill(false), found = new Array(b.length).fill(false); let i = a.length, j = b.length;
+    while (i && j) { if (a[i - 1] === b[j - 1]) { ok[i - 1] = found[j - 1] = true; i--; j--; } else if (d[i - 1][j] >= d[i][j - 1]) i--; else j--; }
+    const link = b.every((w, k) => !["because", "so"].includes(w) || found[k]);
+    return {ratio: d[a.length][b.length] / b.length, heard: a, ok, link};
+  }
+  const sayHTML = () => `<div class="sayit" id="sayit"><p><b>🎤 Say it! +2</b> <span class="fr">Dis la bonne phrase à voix haute.</span></p><div class="bar"><button type="button" class="btn" id="listen">🔊 Listen</button>${SR ? `<button type="button" class="btn main" id="rec">🎙️ Speak</button>` : ""}</div><div class="heard" id="heard" aria-live="polite">${SR ? "" : "<small>The microphone check works in Chrome or Edge. Listen and repeat!</small>"}</div></div>`;
+  function bindSay(model) {
+    $("#listen").addEventListener("click", () => speak(model));
+    if (!SR) return;
+    let tries = 0, busy = false, done = false;
+    $("#rec").addEventListener("click", e => {
+      if (busy || done) return; busy = true; const btn = e.currentTarget; btn.disabled = true; btn.textContent = "👂 Speak now…";
+      try { speechSynthesis.cancel(); } catch (err) {}
+      const r = new SR(); r.lang = "en-GB"; r.interimResults = false; r.maxAlternatives = 3;
+      r.onresult = ev => {
+        const best = [...ev.results[0]].map(x => match(x.transcript, model)).sort((x, y) => y.ratio - x.ratio)[0];
+        $("#heard").innerHTML = `I heard: ${best.heard.map((w, i) => `<span class="w ${best.ok[i] ? "ok" : "ko"}">${esc(w)}</span>`).join(" ") || "…"}`;
+        if (best.ratio >= .75 && best.link) { done = true; G.score += 2; drawScore(); pop("🎤 +2"); beep(1240, .25); $("#heard").insertAdjacentHTML("beforeend", `<p class="msg good">✔ Perfect! +2</p>`); return; }
+        tries++;
+        if (tries >= 2) { done = true; $("#heard").insertAdjacentHTML("beforeend", `<p class="msg bad">Not this time. Listen to the model 🔊</p>`); speak(model); return; }
+        $("#heard").insertAdjacentHTML("beforeend", `<p>Almost! Try again. <span class="fr">Presque ! Réessaie.</span></p>`);
+      };
+      r.onerror = ev => { $("#heard").textContent = ev.error === "no-speech" ? "I heard nothing. Try again." : ev.error === "not-allowed" ? "The microphone is blocked." : "The check failed. Try again."; };
+      r.onend = () => { busy = false; btn.disabled = done; btn.textContent = done ? "🎙️ Done" : "🎙️ Speak"; };
+      try { r.start(); } catch (err) { busy = false; btn.disabled = false; }
+    });
+  }
+
   function finish() {
     clearInterval(tmr); G.phase = "end";
     $("#game").style.display = "none"; $("#end").style.display = "flex"; document.body.classList.remove("playing");
-    const max = G.qs.length * 4, k = "doko-best-" + theme.id, best = store.get(k);
+    const P = pack(), k = "doko-best-" + P.id, best = store.get(k);
     $("#endtok").src = IMG + token + ".png";
-    $("#final").textContent = `${G.score} / ${max}`;
+    $("#final").textContent = `${G.score} points`;
+    $("#right").textContent = `${G.right} / ${G.qs.length} right answers`;
     if (typeof best !== "number" || G.score > best) { store.set(k, G.score); $("#best").textContent = typeof best === "number" ? "🎉 New record!" : "Your first score! Play again to beat it."; }
-    else $("#best").textContent = `Your best score: ${best} / ${max}`;
+    else $("#best").textContent = `Your best score: ${best} points`;
     window.scrollTo(0, 0);
   }
 
