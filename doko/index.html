@@ -16,7 +16,9 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.5 var(-
 .homelink{color:var(--muted);text-decoration:none;font-weight:700;font-size:.9rem;text-align:center}
 .homelink:hover{color:var(--ink)}
 header{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
-header img{width:min(300px,68vw);filter:invert(1);mix-blend-mode:screen}
+header img{display:block;width:min(560px,100%);height:auto;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.minilogo{height:40px;width:auto;border-radius:8px;vertical-align:middle;margin-right:8px}
+h2 .fr{font-family:var(--body);font-weight:400;font-size:.7em;margin-top:2px}
 header p{margin:0;color:var(--muted)}
 .fr{display:block;font-size:.85em;font-style:italic;color:var(--muted)}
 .fr::before{content:"🇫🇷 ";font-style:normal}
@@ -28,7 +30,10 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
 .tokens{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 @media (max-width:560px){.tokens{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .tk{display:flex;flex-direction:column;align-items:center;gap:6px;background:#20243a;border:3px solid var(--line);border-radius:16px;padding:12px 8px;cursor:pointer;font-family:var(--display);font-weight:800;font-size:1.1rem}
-.tk img{width:84px;height:84px;object-fit:contain;transition:transform .2s}
+.tk img{width:84px;height:84px;object-fit:contain;transition:transform .2s;border-radius:50%}
+.tokens.intro .tk img{animation:fall .8s cubic-bezier(.3,1.4,.5,1) both}
+.tokens.intro .tk:nth-child(2) img{animation-delay:.18s}.tokens.intro .tk:nth-child(3) img{animation-delay:.36s}.tokens.intro .tk:nth-child(4) img{animation-delay:.54s}
+@keyframes fall{0%{transform:translateY(-260px) rotate(-200deg);opacity:0}55%{opacity:1}75%{transform:translateY(8px) rotate(6deg)}100%{transform:none;opacity:1}}
 .tk[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 4px rgba(255,210,63,.22)}
 .tk[aria-pressed="true"] img{transform:scale(1.1) rotate(-6deg)}
 .themes{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
@@ -76,13 +81,20 @@ details.rules li{margin:4px 0}
 .row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr)) 40px;gap:4px;align-items:center}
 .cell{position:relative;aspect-ratio:1;border:0;border-radius:6px;background:#fff;color:#9aa0b4;font:800 clamp(1rem,3.6vw,1.6rem) var(--display);cursor:pointer;display:grid;place-items:center;padding:0;overflow:hidden;transition:transform .12s}
 .cell small{position:absolute;right:4px;top:2px;font-size:.55rem;color:#333}
-.cell img{width:92%;height:92%;object-fit:contain}
+.cell .lt{width:72%;aspect-ratio:1;border-radius:50%;border:2px solid #d9dbe3;display:grid;place-items:center;background:radial-gradient(#fff,#eef0f4)}
+.cell img{width:100%;height:100%;object-fit:contain;border-radius:50%}
+.cell.has{background:#000;overflow:visible;z-index:2}
+.cell.has small{display:none}
+.cell img.drop{animation:fall .7s cubic-bezier(.3,1.4,.5,1) both}
+.cell img.settle{animation:settle .35s ease-out both}
+@keyframes settle{0%{transform:scale(1.25)}60%{transform:scale(.92)}100%{transform:none}}
 .cell:disabled{cursor:default}
 .cell.off{background:#3a3d48;color:#5a5e6c}
 .cell.hover{transform:scale(1.08);box-shadow:0 0 0 4px var(--accent)}
-.cell.win{outline:5px solid var(--good);outline-offset:-5px}
-.cell.lose{outline:5px solid var(--bad);outline-offset:-5px}
+.cell.win img{box-shadow:0 0 0 4px var(--good),0 0 18px var(--good)}
+.cell.lose img{box-shadow:0 0 0 4px var(--bad),0 0 18px var(--bad)}
 .cell.answer{background:#c6f6d8;color:#0f5132}
+.cell.answer .lt{border-color:var(--good);background:#e6fbee}
 .pts{width:40px;height:40px;display:grid;place-items:center;font:800 1.2rem var(--display);color:#111;background:var(--accent);clip-path:polygon(50% 0,61% 27%,92% 10%,77% 40%,100% 50%,77% 60%,92% 90%,61% 73%,50% 100%,39% 73%,8% 90%,23% 60%,0 50%,23% 40%,8% 10%,39% 27%)}
 .sep{height:8px;border-radius:4px;background:linear-gradient(90deg,#1e3ba8,#e8a21a,#e0301e)}
 .brand{text-align:center;font:800 1.1rem var(--display);letter-spacing:.2em;color:#ddd}
@@ -106,7 +118,7 @@ body.playing header{display:none}
 #end h2{font-size:2rem;margin:0}
 #end .big{width:120px;height:120px}
 #end .score{font:800 2.4rem var(--display);color:var(--accent);margin:0}
-@media (prefers-reduced-motion:reduce){.mytoken{animation:none}.tk img,.cell{transition:none}}
+@media (prefers-reduced-motion:reduce){.mytoken,.tokens.intro .tk img,.cell img.drop,.cell img.settle{animation:none}.tk img,.cell{transition:none}}
 </style>
 </head>
 <body>
@@ -114,18 +126,17 @@ body.playing header{display:none}
   <a class="homelink" href="../">← Toutes les activités · Collège Réeberg Néron</a>
 
   <header>
-    <img src="../assets/doko/logo.png" alt="DÒKÒ">
+    <img src="../assets/doko/logo-doko.jpg" alt="DÒKÒ" width="1068" height="612">
     <p>The quiz game · Play in your free time! <span class="fr">Le jeu de quiz : joue quand tu veux !</span></p>
   </header>
 
   <section id="menu" class="wrap" style="padding:0">
     <div class="panel">
-      <h2>1. Choose your token</h2>
-      <div class="tokens" id="tokens"></div>
-      <span class="fr">Choisis ton jeton parmi les 4 éléments.</span>
+      <h2>1. Choose your token<span class="fr">Choisis ton jeton parmi les 4 éléments.</span></h2>
+      <div class="tokens intro" id="tokens"></div>
     </div>
     <div class="panel">
-      <h2>2. Choose a theme</h2>
+      <h2>2. Choose your theme<span class="fr">Choisis ton thème.</span></h2>
       <div class="themes" id="themes"></div>
     </div>
     <button type="button" class="go" id="go" disabled>▶ Play</button>
@@ -145,7 +156,7 @@ body.playing header{display:none}
 
   <section id="game" aria-live="polite">
     <div class="top">
-      <span class="qn" id="qn"></span>
+      <span class="qn"><img class="minilogo" src="../assets/doko/logo-doko.jpg" alt="DÒKÒ"><span id="qn"></span></span>
       <span class="right-top"><span class="sc" id="score"></span><button type="button" class="sound" id="sound" aria-pressed="false">🔇 Music</button></span>
     </div>
     <div class="stage">
@@ -171,6 +182,7 @@ body.playing header{display:none}
   </section>
 
   <section id="end">
+    <img src="../assets/doko/logo-doko.jpg" alt="DÒKÒ" style="width:min(360px,90%);height:auto;border-radius:14px">
     <img class="big" id="endtok" alt="">
     <h2>The end!</h2>
     <p class="score" id="final"></p>
@@ -184,7 +196,7 @@ body.playing header{display:none}
 (function () {
   const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
   const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-  const IMG = "../assets/doko/", PIC = "../assets/img/excuses/", L = "ABCDE", PAIRS = ["BC", "DE", "AB", "CD", "AE"], TIME = 20;
+  const IMG = "../assets/doko/", PIC = "../assets/doko/pics/", L = "ABCDE", PAIRS = ["BC", "DE", "AB", "CD", "AE"], TIME = 20;
   const TOK = [{id: "fire", n: "Fire"}, {id: "water", n: "Water"}, {id: "earth", n: "Earth"}, {id: "wood", n: "Wood"}];
   const THEMES = window.DOKO_THEMES || [];
   const store = {get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
@@ -258,14 +270,20 @@ body.playing header{display:none}
   function drawBoard() {
     const cell = c => {
       const off = ![...c].every(okLetter), mine = G.cell === c;
-      return `<button type="button" class="cell${off ? " off" : ""}" data-c="${c}" ${off ? "disabled" : ""} aria-label="${c}, ${value(c)} points">${mine ? `<img src="${IMG}${token}.png" alt="Your token">` : c}<small>${c}</small></button>`;
+      return `<button type="button" class="cell${off ? " off" : ""}${mine ? " has" : ""}" data-c="${c}" ${off ? "disabled" : ""} aria-label="${c}, ${value(c)} points">${mine ? `<img src="${IMG}${token}.png" alt="Your token"${G.anim ? ` class="${G.anim}"` : ""}>` : `<span class="lt">${c}</span>`}<small>${c}</small></button>`;
     };
     $("#board").innerHTML = `<div class="row">${[...L].map(cell).join("")}<span class="pts">4</span></div><div class="sep"></div><div class="row">${PAIRS.map(cell).join("")}<span class="pts">2</span></div><div class="brand">DÒKÒ</div>`;
   }
   const drawScore = () => { $("#score").innerHTML = `<img src="${IMG}${token}.png" alt="">${G.score} point${Math.abs(G.score) === 1 ? "" : "s"}`; };
-  function place(c) {
+  // The token falls into its box (as in the Keynote), then the correction appears
+  function place(c, dragged) {
     if (G.phase !== "ask" || !c) return;
-    G.cell = c; beep(520, .08); $("#mytoken").classList.add("used"); reveal();
+    G.phase = "placing"; clearInterval(tmr);
+    G.cell = c; $("#mytoken").classList.add("used");
+    const still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    G.anim = dragged ? "settle" : "drop"; drawBoard(); G.anim = null;
+    setTimeout(() => beep(520, .08), dragged ? 0 : 380);
+    setTimeout(reveal, still ? 50 : (dragged ? 380 : 750));
   }
   $("#board").addEventListener("click", e => { const b = e.target.closest(".cell:not(:disabled)"); if (b) place(b.dataset.c); });
 
@@ -286,13 +304,13 @@ body.playing header{display:none}
   function drop(e) {
     if (!ghost) return; ghost.remove(); ghost = null;
     const c = cellAt(e.clientX, e.clientY); if (over) over.classList.remove("hover"); over = null;
-    if (c) place(c.dataset.c); else $("#mytoken").classList.remove("used");
+    if (c) place(c.dataset.c, true); else $("#mytoken").classList.remove("used");
   }
   $("#mytoken").addEventListener("pointerup", drop);
   $("#mytoken").addEventListener("pointercancel", drop);
 
   function reveal() {
-    if (G.phase !== "ask") return; G.phase = "show"; clearInterval(tmr);
+    if (G.phase !== "ask" && G.phase !== "placing") return; G.phase = "show"; clearInterval(tmr);
     const q = Q(), a = L[q.a];
     $$("#opts li").forEach(li => li.classList.toggle("right", li.dataset.l === a));
     $("#hand").hidden = true;
@@ -325,6 +343,7 @@ body.playing header{display:none}
   }
 
   drawMenu();
+  setTimeout(() => $("#tokens").classList.remove("intro"), 1600);
 })();
 </script>
 </body>
