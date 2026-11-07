@@ -39,7 +39,9 @@ window.DOKO_THEMES = [
 ];
 
 window.DOKO_RECREATE = {
-  id: "recreate", title: "Recreate the situation", emoji: "🧩", time: 25,
+  // A quick evaluation out of 20: 10 situations (3 easy, 4 medium, 3 difficult), 10 seconds each,
+  // one letter right = 2 points, two letters with the right one = 1 point, no correction before the end.
+  id: "recreate", title: "Recreate the situation", emoji: "🧩", time: 10, eval: true, per: {1: 3, 2: 4, 3: 3},
   q: [
     {lv: 1, scene: [{img: "overslept"}, {note: "late"}], o: ["I overslept, so I'm late.", "I overslept, because I'm late.", "I oversleep, so I'm late.", "I'm late, so I overslept.", "I overslept, so I was absent."], a: 0, why: "Image puis billet : cause + so + conséquence. oversleep → overslept."},
     {lv: 1, scene: [{note: "late"}, {img: "bus"}], o: ["I'm late because I missed the bus.", "I'm late so I missed the bus.", "I'm late because I miss the bus.", "I missed the bus because I'm late.", "I was absent because I missed the bus."], a: 0, why: "Billet puis image : conséquence + because + cause."},

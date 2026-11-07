@@ -194,6 +194,18 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
 .sayit .w.ok{background:#173d28;color:#c6f6d8}.sayit .w.ko{background:#4a1d1d;color:#ffc9c9;text-decoration:line-through}
 @media (max-width:560px){.scene .frame{width:96px;height:84px}.note{width:124px}.scene .box{width:50px;height:50px}}
 @media (prefers-reduced-motion:reduce){.pop,.cell.power img{animation:none!important}.pop{opacity:0}}
+.gm .lock{font-weight:700;font-size:.85rem;color:#ffb4a8}
+.gm.locked{opacity:.6}
+.teacher summary{cursor:pointer;font-weight:700}
+.teacher{--card:#20243a;--paper:#0d0f16;--ink:#f3f5fb;--accent:#ffd23f;--muted:#a9b0cc;--line:#2c3145}
+.teacher .cl-box{margin-top:10px}
+.evalbadge{font:800 .8rem var(--display);background:#e5533d;color:#fff;border-radius:999px;padding:2px 10px}
+.review{width:min(720px,100%);text-align:left;display:flex;flex-direction:column;gap:8px}
+.review h3{font:800 1.2rem var(--display);margin:6px 0 0;text-align:center}
+.review .it{background:#20243a;border:1px solid var(--line);border-left:6px solid var(--bad);border-radius:12px;padding:8px 12px}
+.review .it.ok{border-left-color:var(--good)}.review .it.half{border-left-color:#f2c230}
+.review .it p{margin:0}
+.review .it .mine{color:var(--muted);font-size:.92rem}
 </style>
 </head>
 <body>
@@ -217,7 +229,7 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
       <h2>2. Choose your game<span class="fr">Choisis ton jeu.</span></h2>
       <div class="games" id="games">
         <button type="button" class="gm" data-g="theme" aria-pressed="false"><span class="gi">📚</span><b>Choose your theme</b><small lang="fr">Choisis ton thème : vocabulaire, grammaire, culture.</small></button>
-        <button type="button" class="gm" data-g="recreate" aria-pressed="false"><span class="gi">🧩</span><b>Recreate the situation</b><small lang="fr">Recrée la situation : des images → la bonne phrase avec <i>because</i> ou <i>so</i>, puis dis-la !</small><span class="best" id="best-recreate"></span></button>
+        <button type="button" class="gm" data-g="recreate" aria-pressed="false"><span class="gi">🧩</span><b>Recreate the situation</b><small lang="fr">Évaluation rapide sur 20 : 10 situations, 10 secondes chacune. Des images → la bonne phrase avec <i>because</i> ou <i>so</i>.</small><span class="lock" id="lock-recreate" hidden>🔒 Locked · <i lang="fr">bientôt ouvert par ton professeur</i></span><span class="best" id="best-recreate"></span></button>
       </div>
       <div id="themebox" hidden>
         <h3 class="sub">Choose your theme <span class="fr">Choisis ton thème.</span></h3>
@@ -238,6 +250,10 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
         <li>🎤 <b>Say it!</b> (<i>Recreate the situation</i>, Chrome or Edge): say the right sentence aloud: +2.</li>
       </ul>
       <p class="fr">12 questions, de facile à difficile. 1re ligne : tu es sûr, 4 points. 2e ligne : tu hésites entre deux lettres, 2 points. Une erreur : −1. Bonus : rapidité (+1), 3 bonnes réponses d'affilée (+2), dire la phrase à voix haute (+2). Le Joker enlève deux mauvaises réponses, une fois par partie.</p>
+    </details>
+    <details class="panel teacher">
+      <summary>🔑 Teacher · <span lang="fr">Professeur</span></summary>
+      <div id="cl-picker"></div>
     </details>
   </section>
 
@@ -271,11 +287,11 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
   </section>
 
   <section id="end">
-    <img src="../assets/doko/logo-doko.jpg" alt="DÒKÒ" style="width:min(360px,90%);height:auto;border-radius:14px">
     <img class="big" id="endtok" alt="">
     <h2>The end!</h2>
     <p class="score" id="final"></p>
     <p id="right"></p>
+    <div id="review" class="review" hidden></div>
     <p id="best"></p>
     <div class="bar"><button type="button" class="btn main" id="again">↺ Play again</button><button type="button" class="btn" id="back">Change my token</button></div>
   </section>
@@ -283,6 +299,7 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
 <audio id="music" src="../assets/doko/music.mp3" loop preload="metadata"></audio>
 <script src="../assets/doko/fx.js"></script>
 <script src="themes.js"></script>
+<script src="../assets/classes.js"></script>
 <script>
 (function () {
   const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
@@ -297,15 +314,20 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
   if (!TOK.some(t => t.id === token)) token = null;
   // ?game=recreate (link from the lesson) or ?game=theme opens that game directly
   try { const g = new URLSearchParams(location.search).get("game"); if (g === "recreate" && RECREATE) game = "recreate"; else if (g === "theme") game = "theme"; } catch (e) {}
-  const pack = () => game === "recreate" ? RECREATE : theme;
+  const pack = () => game === "recreate" ? (recreateOpen() ? RECREATE : null) : theme;
+  // Recreate the situation: an evaluation, locked for the learners until the teacher opens it
+  // (classes.json → evals: "doko-recreate"); the teacher code opens it on the device.
+  const C = () => window.Classes;
+  const recreateOpen = () => !!(C() && C().isReady() && (C().isAdmin() || C().evalOpen("late-and-absent", "doko-recreate") || C().evalOpen("late-and-absent-4e", "doko-recreate")));
 
   /* ---------- menu ---------- */
   function drawMenu() {
     $("#tokens").innerHTML = TOK.map(t => `<button type="button" class="tk" data-tok="${t.id}" style="--c:${t.c}" aria-pressed="${token === t.id}"><img src="${IMG}${t.id}.png" alt="">${t.n}<small lang="fr">${t.fr}</small></button>`).join("");
     if (token) document.body.dataset.el = token; if (window.DokoFX) DokoFX.set(token);
     $$(".gm").forEach(b => b.setAttribute("aria-pressed", b.dataset.g === game));
+    const lk = !recreateOpen(); $("#lock-recreate").hidden = !lk; $('[data-g="recreate"]').classList.toggle("locked", lk);
     $("#themebox").hidden = game !== "theme";
-    const br = store.get("doko-best-recreate"); $("#best-recreate").textContent = typeof br === "number" ? `My best score: ${br}` : "";
+    const br = store.get("doko-best-recreate"); $("#best-recreate").textContent = !lk && typeof br === "number" ? `My best mark: ${br} / 20` : "";
     $("#themes").innerHTML = THEMES.map(t => {
       const best = store.get("doko-best-" + t.id);
       return `<button type="button" class="th" data-t="${t.id}" aria-pressed="${!!theme && theme.id === t.id}"><b>${t.emoji || "🎲"} ${esc(t.title)}</b><small>${esc(t.kind)} · ${esc(t.level)} · 12 questions</small>${typeof best === "number" ? `<span class="best">My best score: ${best}</span>` : ""}</button>`;
@@ -315,6 +337,9 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
   }
   $("#tokens").addEventListener("click", e => { const b = e.target.closest("[data-tok]"); if (!b) return; token = b.dataset.tok; store.set("doko-token", token); drawMenu(); });
   $("#games").addEventListener("click", e => { const b = e.target.closest("[data-g]"); if (!b) return; game = b.dataset.g; drawMenu(); });
+  document.addEventListener("classes:ready", () => drawMenu());
+  document.addEventListener("classes:change", () => drawMenu());
+  if (window.Classes) Classes.mountPicker($("#cl-picker"), {noReset: true, title: "Teacher code", titleFr: "Code professeur", hint: "Le code professeur ouvre l'évaluation sur cet appareil."});
   $("#themes").addEventListener("click", e => { const b = e.target.closest("[data-t]"); if (!b) return; theme = THEMES.find(t => t.id === b.dataset.t); drawMenu(); });
 
   /* ---------- sound ---------- */
@@ -334,15 +359,17 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
   /* ---------- game ---------- */
   const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   // 4 questions per level, easy first; the choices are mixed (the right one is followed)
-  function pick(list) {
-    return [1, 2, 3].flatMap(lv => shuffle(list.filter(q => (q.lv || 1) === lv)).slice(0, PER_LEVEL)).map(q => {
+  function pick(list, per) {
+    return [1, 2, 3].flatMap(lv => shuffle(list.filter(q => (q.lv || 1) === lv)).slice(0, per ? per[lv] : PER_LEVEL)).map(q => {
       const order = shuffle(q.o.map((_, i) => i));
       return Object.assign({}, q, {o: order.map(i => q.o[i]), a: order.indexOf(q.a), say: q.say || (q.scene && !q.say ? q.o[q.a] : null)});
     });
   }
   function start() {
     const P = pack();
-    G = {qs: pick(P.q), i: -1, score: 0, right: 0, streak: 0, joker: true, cell: null, phase: "", time: P.time || 20};
+    if (!P) return;
+    G = {qs: pick(P.q, P.per), i: -1, score: 0, right: 0, streak: 0, joker: !P.eval, ev: !!P.eval, log: [], cell: null, phase: "", time: P.time || 20};
+    $("#joker").hidden = G.ev;
     $("#mytoken img").src = IMG + token + ".png";
     $("#menu").style.display = "none"; $("#end").style.display = "none"; $("#game").style.display = "flex"; document.body.classList.add("playing");
     window.scrollTo(0, 0); next();
@@ -377,7 +404,7 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
     if (G.i >= G.qs.length) return finish();
     G.cell = null; G.phase = "ask"; G.gone = []; G.t0 = Date.now();
     const q = Q(), P = pack();
-    $("#qn").textContent = `${P.emoji || ""} ${P.title} · ${G.i + 1} / ${G.qs.length}`;
+    $("#qn").innerHTML = `${esc((P.emoji || "") + " " + P.title)} · ${G.i + 1} / ${G.qs.length}${G.ev ? ' <span class="evalbadge">/20</span>' : ""}`;
     const lv = q.lv || 1; $("#lvl").className = "lvl l" + lv; $("#lvl").innerHTML = `<i></i>${LV[lv][0]}`;
     drawStreak();
     $("#question").innerHTML = `${esc(q.q || "What happened? Choose the right sentence.")}<span class="num">${G.i + 1}</span>`;
@@ -406,11 +433,12 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
   function drawBoard() {
     const cell = c => {
       const off = !cellOk(c), mine = G.cell === c;
-      return `<button type="button" class="cell${off ? " off" : ""}${mine ? " has" : ""}" data-c="${c}" ${off ? "disabled" : ""} aria-label="${c}, ${value(c)} points">${mine ? `<img src="${IMG}${token}.png" alt="Your token" class="${G.anim || "idle"}">` : `<span class="lt">${c}</span>`}<small>${c}</small></button>`;
+      return `<button type="button" class="cell${off ? " off" : ""}${mine ? " has" : ""}" data-c="${c}" ${off ? "disabled" : ""} aria-label="${c}, ${G.ev ? value(c) / 2 : value(c)} points">${mine ? `<img src="${IMG}${token}.png" alt="Your token" class="${G.anim || "idle"}">` : `<span class="lt">${c}</span>`}<small>${c}</small></button>`;
     };
-    $("#board").innerHTML = `<div class="row">${[...L].map(cell).join("")}<span class="pts">4</span></div><div class="sep"></div><div class="row">${PAIRS.map(cell).join("")}<span class="pts">2</span></div><div class="brand">DÒKÒ</div>`;
+    $("#board").innerHTML = `<div class="row">${[...L].map(cell).join("")}<span class="pts">${G.ev ? 2 : 4}</span></div><div class="sep"></div><div class="row">${PAIRS.map(cell).join("")}<span class="pts">${G.ev ? 1 : 2}</span></div><div class="brand">DÒKÒ</div>`;
   }
-  const drawScore = () => { $("#score").innerHTML = `<img src="${IMG}${token}.png" alt="">${G.score} point${Math.abs(G.score) === 1 ? "" : "s"}`; };
+  // During the evaluation the score stays hidden (no correction before the end)
+  const drawScore = () => { $("#score").innerHTML = `<img src="${IMG}${token}.png" alt="">` + (G.ev ? "Evaluation" : `${G.score} point${Math.abs(G.score) === 1 ? "" : "s"}`); };
 
   // Joker: two wrong answers disappear, once per game
   $("#joker").addEventListener("click", () => {
@@ -458,6 +486,17 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
   function reveal() {
     if (G.phase !== "ask" && G.phase !== "placing") return; G.phase = "show"; clearInterval(tmr);
     const q = Q(), a = L[q.a];
+    if (G.ev) {
+      // Evaluation: one letter right = 2, two letters with the right one = 1, wrong or no answer = 0; no correction now
+      const ok = !!G.cell && isRight(G.cell), pts = ok ? (G.cell.length === 1 ? 2 : 1) : 0;
+      G.score += pts; if (ok && G.cell.length === 1) G.right++;
+      G.log.push({q, cell: G.cell, pts});
+      $("#hand").hidden = true; drawBoard();
+      $("#msg").className = "msg"; $("#msg").textContent = G.cell ? "✓ Answer saved" : "⏰ Time is up!";
+      $("#tsec").textContent = "✓"; beep(G.cell ? 600 : 220, .12);
+      setTimeout(() => { if (G.phase === "show") next(); }, 900);
+      return;
+    }
     $$("#opts li").forEach(li => li.classList.toggle("right", li.dataset.l === a));
     $("#hand").hidden = true;
     drawBoard();
@@ -527,10 +566,15 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
     $("#game").style.display = "none"; $("#end").style.display = "flex"; document.body.classList.remove("playing");
     const P = pack(), k = "doko-best-" + P.id, best = store.get(k);
     $("#endtok").src = IMG + token + ".png";
-    $("#final").textContent = `${G.score} points`;
+    $("#final").textContent = G.ev ? `${G.score} / 20` : `${G.score} points`;
     $("#right").textContent = `${G.right} / ${G.qs.length} right answers`;
-    if (typeof best !== "number" || G.score > best) { store.set(k, G.score); $("#best").textContent = typeof best === "number" ? "🎉 New record!" : "Your first score! Play again to beat it."; }
-    else $("#best").textContent = `Your best score: ${best} points`;
+    $("#review").hidden = !G.ev;
+    if (G.ev) $("#review").innerHTML = `<h3>Correction</h3>` + G.log.map((r, i) => {
+      const mine = r.cell ? [...r.cell].map(l => r.q.o[L.indexOf(l)]).join(" / ") : "no answer";
+      return `<div class="it ${r.pts === 2 ? "ok" : r.pts === 1 ? "half" : ""}"><p><b>${i + 1}. ${esc(r.q.say && r.q.o[r.q.a].split(" ").length < 3 ? r.q.say : r.q.o[r.q.a])}</b> · ${r.pts} / 2</p>${r.pts === 2 ? "" : `<p class="mine" lang="en">Your answer: ${esc(mine)}</p>`}<p class="mine">${esc(r.q.why || "")}</p></div>`;
+    }).join("");
+    if (typeof best !== "number" || G.score > best) { store.set(k, G.score); $("#best").textContent = typeof best === "number" ? "🎉 New record!" : (G.ev ? "" : "Your first score! Play again to beat it."); }
+    else $("#best").textContent = G.ev ? `Your best mark: ${best} / 20` : `Your best score: ${best} points`;
     window.scrollTo(0, 0);
   }
 
