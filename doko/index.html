@@ -206,6 +206,14 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
 .review .it.ok{border-left-color:var(--good)}.review .it.half{border-left-color:#f2c230}
 .review .it p{margin:0}
 .review .it .mine{color:var(--muted);font-size:.92rem}
+.warn{border:2px solid var(--bad);max-width:680px;align-self:center;width:100%}
+.warn ul{padding-left:1.2em}
+.evres{font-weight:800;font-size:.9rem;color:#c6f6d8}
+.evres.left{color:#ffb4a8}
+.evadmin{margin-top:10px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.evadmin p{margin:0}
+body.exam .homelink{visibility:hidden}
+.leftmsg{color:#ffb4a8;font-weight:800;margin:0}
 </style>
 </head>
 <body>
@@ -229,7 +237,7 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
       <h2>2. Choose your game<span class="fr">Choisis ton jeu.</span></h2>
       <div class="games" id="games">
         <button type="button" class="gm" data-g="theme" aria-pressed="false"><span class="gi">📚</span><b>Choose your theme</b><small lang="fr">Choisis ton thème : vocabulaire, grammaire, culture.</small></button>
-        <button type="button" class="gm" data-g="recreate" aria-pressed="false"><span class="gi">🧩</span><b>Recreate the situation</b><small lang="fr">Évaluation rapide sur 20 : 10 situations, 10 secondes chacune. Des images → la bonne phrase avec <i>because</i> ou <i>so</i>.</small><span class="lock" id="lock-recreate" hidden>🔒 Locked · <i lang="fr">bientôt ouvert par ton professeur</i></span><span class="best" id="best-recreate"></span></button>
+        <button type="button" class="gm" data-g="recreate" aria-pressed="false"><span class="gi">🧩</span><b>Recreate the situation</b><small lang="fr">Évaluation sur 20 : 10 situations, 20 secondes chacune, une seule tentative. Des images → la bonne phrase avec <i>because</i> ou <i>so</i>.</small><span class="lock" id="lock-recreate" hidden>🔒 Locked · <i lang="fr">bientôt ouvert par ton professeur</i></span><span class="best" id="best-recreate"></span><span class="evres" id="evres" hidden></span></button>
       </div>
       <div id="themebox" hidden>
         <h3 class="sub">Choose your theme <span class="fr">Choisis ton thème.</span></h3>
@@ -240,21 +248,33 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
     <details class="rules panel">
       <summary>The rules · Les règles</summary>
       <ul>
-        <li><b>12 questions</b>, from easy 🟢 to medium 🟡 to difficult 🔴. You have <b>20 seconds</b> (25 seconds for <i>Recreate the situation</i>).</li>
+        <li><b>12 questions</b>, from easy 🟢 to medium 🟡 to difficult 🔴. You have <b>20 seconds</b> for each question.</li>
         <li>Put your token on the right answer: drag it onto a box, or tap the box.</li>
         <li><b>First row = 4 points:</b> you are sure, you choose one letter. <b>Second row = 2 points:</b> you hesitate, you choose two letters.</li>
         <li><b>A wrong answer costs 1 point.</b> No answer: 0.</li>
         <li>⚡ <b>Fast!</b> One letter, right, in less than 8 seconds: +1.</li>
         <li>✨ <b>Element power:</b> 3 right answers in a row: +2.</li>
         <li>⚛️ <b>Joker</b> (once per game): two wrong answers disappear.</li>
-        <li>🎤 <b>Say it!</b> (<i>Recreate the situation</i>, Chrome or Edge): say the right sentence aloud: +2.</li>
+        <li>🧩 <b>Recreate the situation</b> is an evaluation out of 20: one letter right = 2, two letters = 1, no bonus, one try only.</li>
       </ul>
-      <p class="fr">12 questions, de facile à difficile. 1re ligne : tu es sûr, 4 points. 2e ligne : tu hésites entre deux lettres, 2 points. Une erreur : −1. Bonus : rapidité (+1), 3 bonnes réponses d'affilée (+2), dire la phrase à voix haute (+2). Le Joker enlève deux mauvaises réponses, une fois par partie.</p>
+      <p class="fr">12 questions, de facile à difficile. 1re ligne : tu es sûr, 4 points. 2e ligne : tu hésites entre deux lettres, 2 points. Une erreur : −1. Bonus : rapidité (+1), 3 bonnes réponses d'affilée (+2). Le Joker enlève deux mauvaises réponses, une fois par partie. Recreate the situation est une évaluation sur 20, en une seule tentative.</p>
     </details>
     <details class="panel teacher">
       <summary>🔑 Teacher · <span lang="fr">Professeur</span></summary>
       <div id="cl-picker"></div>
+      <div id="evadmin" class="evadmin" hidden><p id="evadmin-st"></p><button type="button" class="btn" id="evreset">↺ Reset the evaluation on this device</button><p class="fr">Pour un ordinateur partagé : permet à l'élève suivant de passer l'évaluation.</p></div>
     </details>
+  </section>
+
+  <section id="warn" class="panel warn" hidden>
+    <h2>⚠️ Evaluation · <span lang="fr">Évaluation</span></h2>
+    <ul>
+      <li><b>One try only.</b> 10 situations, 20 seconds each.</li>
+      <li><b>Do not leave the page</b>: no other tab, no other app, no reload. If you leave, your mark is <b>0 / 20</b> and you cannot start again.</li>
+      <li>The correction comes at the end.</li>
+    </ul>
+    <p class="fr">Une seule tentative. Ne quitte pas la page (pas d'autre onglet, pas d'autre application, pas de rechargement) : toute sortie donne 0 / 20 et tu ne pourras pas recommencer. La correction arrive à la fin.</p>
+    <div class="bar"><button type="button" class="btn main" id="warn-go">I understand · Start</button><button type="button" class="btn" id="warn-no">Cancel</button></div>
   </section>
 
   <section id="game" aria-live="polite">
@@ -319,6 +339,24 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
   // (classes.json → evals: "doko-recreate"); the teacher code opens it on the device.
   const C = () => window.Classes;
   const recreateOpen = () => !!(C() && C().isReady() && (C().isAdmin() || C().evalOpen("late-and-absent", "doko-recreate") || C().evalOpen("late-and-absent-4e", "doko-recreate")));
+  const isAdmin = () => !!(C() && C().isReady() && C().isAdmin());
+  // One try per device. The attempt is saved in the browser storage AND in a cookie, so that
+  // "I am another student" (which clears the storage) does not open a second try; the teacher can reset it.
+  // st: "run" (in progress), "done" (finished), "left" (the learner left the page: 0 / 20).
+  const EVK = "doko-eval-recreate", CK = "doko_eval_recreate";
+  const evRead = () => {
+    let a = store.get(EVK), b = null;
+    try { const m = document.cookie.match(new RegExp("(?:^|; )" + CK + "=([^;]*)")); if (m) b = JSON.parse(decodeURIComponent(m[1])); } catch (e) {}
+    const rank = r => !r ? 0 : r.st === "run" ? 1 : 2;
+    return rank(b) > rank(a) ? b : a;
+  };
+  const evWrite = r => {
+    store.set(EVK, r);
+    try { document.cookie = r ? `${CK}=${encodeURIComponent(JSON.stringify(r))}; max-age=31536000; path=/; SameSite=Lax` : `${CK}=; max-age=0; path=/`; } catch (e) {}
+  };
+  // An attempt still "in progress" when the page opens = the page was closed or reloaded during the test: 0 / 20
+  (function () { const r = evRead(); if (r && r.st === "run") evWrite(Object.assign(r, {st: "left", score: 0, end: new Date().toISOString()})); })();
+  const fmtDate = iso => { try { return new Date(iso).toLocaleString("fr-FR", {day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"}); } catch (e) { return ""; } };
 
   /* ---------- menu ---------- */
   function drawMenu() {
@@ -327,12 +365,17 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
     $$(".gm").forEach(b => b.setAttribute("aria-pressed", b.dataset.g === game));
     const lk = !recreateOpen(); $("#lock-recreate").hidden = !lk; $('[data-g="recreate"]').classList.toggle("locked", lk);
     $("#themebox").hidden = game !== "theme";
-    const br = store.get("doko-best-recreate"); $("#best-recreate").textContent = !lk && typeof br === "number" ? `My best mark: ${br} / 20` : "";
+    $("#best-recreate").textContent = "";
+    const ev = evRead(), evDone = ev && ev.st !== "run";
+    $("#evres").hidden = !evDone || lk; $("#evres").className = "evres" + (ev && ev.st === "left" ? " left" : "");
+    if (evDone) $("#evres").textContent = ev.st === "left" ? `⛔ You left the evaluation: 0 / 20 · ${fmtDate(ev.end)}` : `✅ Done: ${ev.score} / 20 · ${fmtDate(ev.end)}`;
+    $("#evadmin").hidden = !isAdmin();
+    $("#evadmin-st").textContent = evDone ? `Sur cet appareil : ${ev.st === "left" ? "sortie, 0 / 20" : ev.score + " / 20"} (${fmtDate(ev.end)}).` : "Aucune tentative sur cet appareil.";
     $("#themes").innerHTML = THEMES.map(t => {
       const best = store.get("doko-best-" + t.id);
       return `<button type="button" class="th" data-t="${t.id}" aria-pressed="${!!theme && theme.id === t.id}"><b>${t.emoji || "🎲"} ${esc(t.title)}</b><small>${esc(t.kind)} · ${esc(t.level)} · 12 questions</small>${typeof best === "number" ? `<span class="best">My best score: ${best}</span>` : ""}</button>`;
     }).join("");
-    $("#go").disabled = !(token && pack());
+    $("#go").disabled = !(token && pack()) || (game === "recreate" && evDone && !isAdmin());
     $("#go").innerHTML = token ? `<img src="${IMG}${token}.png" alt="">Play` : "▶ Play";
   }
   $("#tokens").addEventListener("click", e => { const b = e.target.closest("[data-tok]"); if (!b) return; token = b.dataset.tok; store.set("doko-token", token); drawMenu(); });
@@ -365,17 +408,39 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
       return Object.assign({}, q, {o: order.map(i => q.o[i]), a: order.indexOf(q.a), say: q.say || (q.scene && !q.say ? q.o[q.a] : null)});
     });
   }
-  function start() {
+  function start(confirmed) {
     const P = pack();
     if (!P) return;
+    if (P.eval) {
+      const ev = evRead();
+      if (ev && ev.st !== "run" && !isAdmin()) { drawMenu(); return; }
+      if (confirmed !== true) { $("#menu").style.display = "none"; $("#end").style.display = "none"; $("#warn").hidden = false; window.scrollTo(0, 0); return; }
+      $("#warn").hidden = true;
+      evWrite({st: "run", start: new Date().toISOString(), cls: C() && C().klass() ? C().klass().label : ""});
+      document.body.classList.add("exam");
+    }
     G = {qs: pick(P.q, P.per), i: -1, score: 0, right: 0, streak: 0, joker: !P.eval, ev: !!P.eval, log: [], cell: null, phase: "", time: P.time || 20};
     $("#joker").hidden = G.ev;
     $("#mytoken img").src = IMG + token + ".png";
     $("#menu").style.display = "none"; $("#end").style.display = "none"; $("#game").style.display = "flex"; document.body.classList.add("playing");
     window.scrollTo(0, 0); next();
   }
-  $("#go").addEventListener("click", start);
-  $("#again").addEventListener("click", start);
+  $("#go").addEventListener("click", () => start());
+  $("#again").addEventListener("click", () => start());
+  $("#warn-go").addEventListener("click", () => start(true));
+  $("#warn-no").addEventListener("click", () => { $("#warn").hidden = true; $("#menu").style.display = "flex"; drawMenu(); });
+  $("#evreset").addEventListener("click", () => { if (!isAdmin()) return; evWrite(null); drawMenu(); });
+
+  /* Leaving the evaluation (other tab, other app, reload, closing): 0 / 20, no second try */
+  function leave() {
+    if (!G || !G.ev || G.phase === "end") return;
+    clearInterval(tmr); G.phase = "end"; G.left = true;
+    evWrite(Object.assign(evRead() || {}, {st: "left", score: 0, end: new Date().toISOString()}));
+    finish();
+  }
+  document.addEventListener("visibilitychange", () => { if (document.hidden) leave(); });
+  addEventListener("pagehide", leave);
+  addEventListener("beforeunload", e => { if (G && G.ev && G.phase !== "end") { e.preventDefault(); e.returnValue = ""; } });
   $("#back").addEventListener("click", () => { $("#end").style.display = "none"; $("#menu").style.display = "flex"; drawMenu(); window.scrollTo(0, 0); });
 
   const Q = () => G.qs[G.i];
@@ -563,16 +628,21 @@ h3.sub .fr{font:italic 400 .8rem var(--body)}
 
   function finish() {
     clearInterval(tmr); G.phase = "end";
-    $("#game").style.display = "none"; $("#end").style.display = "flex"; document.body.classList.remove("playing");
+    $("#game").style.display = "none"; $("#end").style.display = "flex"; document.body.classList.remove("playing", "exam");
+    if (G.ev) {
+      if (G.left) G.score = 0; else evWrite(Object.assign(evRead() || {}, {st: "done", score: G.score, end: new Date().toISOString()}));
+      $("#again").hidden = !isAdmin();
+    } else $("#again").hidden = false;
     const P = pack(), k = "doko-best-" + P.id, best = store.get(k);
     $("#endtok").src = IMG + token + ".png";
     $("#final").textContent = G.ev ? `${G.score} / 20` : `${G.score} points`;
-    $("#right").textContent = `${G.right} / ${G.qs.length} right answers`;
-    $("#review").hidden = !G.ev;
-    if (G.ev) $("#review").innerHTML = `<h3>Correction</h3>` + G.log.map((r, i) => {
+    $("#right").innerHTML = G.left ? `<p class="leftmsg">⛔ You left the evaluation: 0 / 20. You cannot start again.</p><p class="fr">Tu as quitté l'évaluation : 0 / 20. Tu ne peux pas recommencer.</p>` : `${G.right} / ${G.qs.length} right answers`;
+    $("#review").hidden = !G.ev || G.left;
+    if (G.ev && !G.left) $("#review").innerHTML = `<h3>Correction</h3>` + G.log.map((r, i) => {
       const mine = r.cell ? [...r.cell].map(l => r.q.o[L.indexOf(l)]).join(" / ") : "no answer";
       return `<div class="it ${r.pts === 2 ? "ok" : r.pts === 1 ? "half" : ""}"><p><b>${i + 1}. ${esc(r.q.say && r.q.o[r.q.a].split(" ").length < 3 ? r.q.say : r.q.o[r.q.a])}</b> · ${r.pts} / 2</p>${r.pts === 2 ? "" : `<p class="mine" lang="en">Your answer: ${esc(mine)}</p>`}<p class="mine">${esc(r.q.why || "")}</p></div>`;
     }).join("");
+    if (G.ev) { $("#best").textContent = isAdmin() ? "Mode professeur : vous pouvez recommencer." : ""; window.scrollTo(0, 0); return; }
     if (typeof best !== "number" || G.score > best) { store.set(k, G.score); $("#best").textContent = typeof best === "number" ? "🎉 New record!" : (G.ev ? "" : "Your first score! Play again to beat it."); }
     else $("#best").textContent = G.ev ? `Your best mark: ${best} / 20` : `Your best score: ${best} points`;
     window.scrollTo(0, 0);
