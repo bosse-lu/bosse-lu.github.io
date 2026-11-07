@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
 <style>
 /* Can you explain? — lesson 2 of Late and absent, from the teacher's animated slideshow.
-   Step 1 warm-up (revision with the pictures of lesson 1), step 2 recap of the notes, step 3 make excuses,
+   Step 1 warm-up (revision with the pictures of lesson 1), step 2 recap of the notes, step 3 explain why,
    step 4 think about the language (cause / consequence, inductive), step 5 recreate the situation, step 6 the game,
    step 7 homework. Cause = teal, consequence = red, as on the slides. Instructions in English; French help by level. */
 :root{
@@ -158,6 +158,8 @@ header::after{content:"";display:block;clear:both}
 
 /* think about it */
 .line3{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;width:100%;max-width:640px;margin:0 auto}
+.line3{position:relative}.line3[data-n]::before{content:attr(data-n);position:absolute;left:-14px;top:-12px;z-index:1;font:800 1.5rem/1 var(--display);color:var(--ink);background:var(--card);border-radius:50%}
+.opt.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
 .blk{border-radius:12px;padding:14px 10px;text-align:center;font-weight:700;color:#fff;font-size:1.08rem}
 .blk.ca{background:var(--cause)} .blk.co{background:var(--cons)}
 .blk.plain{background:var(--paper);color:var(--ink);border:2px dashed var(--line)}
@@ -249,8 +251,8 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   </section>
 
   <section class="act" aria-labelledby="h3s">
-    <div class="step-h"><span class="step-k">Step 3</span><h2 id="h3s"><em>Now it is your turn</em> : make excuses</h2></div>
-    <div class="instr"><p class="consigne" data-fr="Billet + image = une excuse. Mets les mots dans l'ordre des images. Dans la 2e, trouve où va le mot mystère ❓.">Note + picture = an excuse. Put the words in the order of the pictures. In number 2, where does the mystery word ❓ go?</p></div>
+    <div class="step-h"><span class="step-k">Step 3</span><h2 id="h3s"><em>Now it is your turn</em> : explain why</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Billet + image : explique pourquoi. Mets les mots dans l'ordre des images. Dans la 2e, trouve où va le mot mystère ❓.">Note + picture: explain why. Put the words in the order of the pictures. In number 2, where does the mystery word ❓ go?</p></div>
     <div id="make" class="act"></div>
   </section>
 
@@ -260,18 +262,18 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     <div id="recreate" class="act"></div>
   </section>
 
-  <section class="act" aria-labelledby="h7s">
-    <div class="step-h"><span class="step-k">Step 5</span><h2 id="h7s"><em>OK OK, now it's time to manipulate</em> · the game</h2></div>
-    <div class="instr"><p class="consigne" data-fr="25 secondes par carte. Ta phrase suit l'ordre des images. Les cartes difficiles rapportent plus de points. Partie 1 : écris. Partie 2 : dis la phrase, l'ordinateur vérifie.">25 seconds per card. Your sentence follows the order of the pictures. Difficult cards give more points. Part 1: write. Part 2: say it, the computer checks.</p></div>
-    <div class="legend-dots"><span><i class="dot g"></i>easy · 1 point</span><span><i class="dot y"></i>medium · 2 points</span><span><i class="dot r"></i>difficult · 3 points</span></div>
-    <div id="game" class="game"></div>
-  </section>
-
   <section class="act" aria-labelledby="h4s">
-    <div class="step-h"><span class="step-k">Step 6</span><h2 id="h4s"><em>Think</em> 🧠</h2></div>
+    <div class="step-h"><span class="step-k">Step 5</span><h2 id="h4s"><em>Think</em> 🧠</h2></div>
     <div class="instr"><p class="consigne" data-fr="Appuie sur ▶ Start et observe les deux phrases. Puis réponds aux questions : c'est toi qui trouves la règle.">Press <b>▶ Start</b> and look at the two sentences. Then answer the questions: you find the rule.</p>
       <button type="button" class="start" id="th-start"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>Start</button></div>
     <div id="think" class="card stage" hidden></div>
+  </section>
+
+  <section class="act" aria-labelledby="h7s">
+    <div class="step-h"><span class="step-k">Step 6</span><h2 id="h7s"><em>OK OK, now it's time to manipulate</em> · the game</h2></div>
+    <div class="instr"><p class="consigne" data-fr="15 secondes par carte, puis 15 secondes de correction. Ta phrase suit l'ordre des images. Les cartes difficiles rapportent plus de points. Partie 1 : écris. Partie 2 : dis la phrase, l'ordinateur vérifie.">15 seconds per card, then 15 seconds of correction. Your sentence follows the order of the pictures. Difficult cards give more points. Part 1: write. Part 2: say it, the computer checks.</p></div>
+    <div class="legend-dots"><span><i class="dot g"></i>easy · 1 point</span><span><i class="dot y"></i>medium · 2 points</span><span><i class="dot r"></i>difficult · 3 points</span></div>
+    <div id="game" class="game"></div>
   </section>
 
   <section class="act" aria-labelledby="h6s">
@@ -285,10 +287,10 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   <details class="prof" lang="fr">
     <summary>Notes pour le professeur</summary>
     <ul>
-      <li>Ordre de la séance : 1 <i>Warm-up · revision</i> (3 images de la séance 1) ; 2 <i>So, let's recap</i> (animation lancée par l'élève) ; 3 <i>Make excuses</i> (avec <i>because</i>, puis la boîte mystère ❓ qui cache <i>so</i>) ; 4 <i>Training session : recreate the situation</i> (3 situations, la boîte mystère cache <i>because</i> ou <i>so</i> selon l'ordre des images) ; 5 le jeu (6 cartes, écrit puis oral) ; 6 <i>Think 🧠</i> (réflexion sur la langue : les deux phrases inversées et colorées, quatre questions, puis la règle) ; 7 <i>Linking words</i> (court texte à trous avec <i>and, but, because, so</i> : <i>so</i> rejoint la famille des mots qui relient deux propositions).</li>
+      <li>Ordre de la séance : 1 <i>Warm-up · revision</i> (3 images de la séance 1) ; 2 <i>So, let's recap</i> (animation lancée par l'élève) ; 3 <i>Explain why</i> (avec <i>because</i>, puis la boîte mystère ❓ qui cache <i>so</i>) ; 4 <i>Training session : recreate the situation</i> (3 situations, la boîte mystère cache <i>because</i> ou <i>so</i> selon l'ordre des images) ; 5 <i>Think 🧠</i> (PRL : les deux phrases inversées et colorées ; même histoire ? oui ; même sens ? non ; cause et conséquence ; la phrase ① exprime la cause, la ② la conséquence ; grâce à quel outil : <i>because</i> → cause, <i>so</i> → conséquence ; puis la règle) ; 6 le jeu (6 cartes, écrit puis oral ; 15 secondes par carte, puis 15 secondes de correction avant la carte suivante) ; 7 <i>Linking words</i> (court texte à trous avec <i>and, but, because, so</i> : <i>so</i> rejoint la famille des mots qui relient deux propositions).</li>
       <li>Consignes en anglais. Groupe ★ (et niveau libre) : traduction française affichée dessous ; ★★ : bouton FR pour l'afficher ; ★★★ : anglais seul.</li>
-      <li><b>Le jeu</b> : 25 secondes par carte, score, pastilles verte / jaune / rouge (1, 2, 3 points). 1er temps à l'écrit : ★ mots à remettre dans l'ordre, ★★ mots + erreurs, ★★★ rédiger la phrase. 2e temps à l'oral : ★ mots dans le désordre avec une erreur, ★★ mots + erreurs, ★★★ l'image seule ; l'élève dit la phrase et la reconnaissance vocale (Chrome ou Edge, comme « Check my pronunciation » dans les Labs) la valide : au moins 3 mots sur 4 dans le bon ordre, avec because ou so. Deux essais, puis le modèle. Sans reconnaissance vocale : écoute du modèle et auto-validation. 6 cartes par partie.</li>
-      <li>Code couleur des diapos : cause en vert, conséquence en rouge, mot de liaison souligné. La phrase suit l'ordre des images : billet puis image → conséquence + <i>because</i> + cause (<i>I'm late because I overslept</i>) ; image puis billet → cause + <i>so</i> + conséquence (<i>I overslept, so I was absent</i>). Dans <i>Make excuses</i>, la 2e excuse cache <i>so</i> dans une boîte mystère ❓ : l'élève le découvre en manipulant, puis l'étape 4 fait formuler la règle.</li>
+      <li><b>Le jeu</b> : 15 secondes par carte, puis 15 secondes de correction (passage automatique à la carte suivante), score, pastilles verte / jaune / rouge (1, 2, 3 points). 1er temps à l'écrit : ★ mots à remettre dans l'ordre, ★★ mots + erreurs, ★★★ rédiger la phrase. 2e temps à l'oral : ★ mots dans le désordre avec une erreur, ★★ mots + erreurs, ★★★ l'image seule ; l'élève dit la phrase et la reconnaissance vocale (Chrome ou Edge, comme « Check my pronunciation » dans les Labs) la valide : au moins 3 mots sur 4 dans le bon ordre, avec because ou so. Deux essais, puis le modèle. Sans reconnaissance vocale : écoute du modèle et auto-validation. 6 cartes par partie.</li>
+      <li>Code couleur des diapos : cause en vert, conséquence en rouge, mot de liaison souligné. La phrase suit l'ordre des images : billet puis image → conséquence + <i>because</i> + cause (<i>I'm late because I overslept</i>) ; image puis billet → cause + <i>so</i> + conséquence (<i>I overslept, so I was absent</i>). Dans <i>Explain why</i>, la 2e phrase cache <i>so</i> dans une boîte mystère ❓ : l'élève le découvre en manipulant, puis l'étape 5 (<i>Think</i>) fait formuler la règle.</li>
     </ul>
   </details>
 </div>
@@ -394,10 +396,13 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     {id: "m2", scene: [{img: "overslept", alt: "oversleeping"}, {note: "abs"}], cause: ["I overslept"], cons: ["I was absent"], only: "so", mystery: true, x: ["I oversleep", "I'm absent"]}
   ];
   const THINK = [
-    {id: "k1", q: ["Do the two sentences tell the same story?", "Les deux phrases racontent-elles la même chose ?"], o: ["Yes", "No"], a: "Yes"},
-    {id: "k2", q: ["Look at the colours. Which part says <b>why</b>? (the cause)", "Regarde les couleurs. Quelle partie dit pourquoi ? (la cause)"], o: ["I overslept", "I'm late"], a: "I overslept"},
-    {id: "k3", q: ["What comes after <b>because</b>?", "Qu'est-ce qui vient après because ?"], o: ["the cause", "the consequence"], a: "the cause"},
-    {id: "k4", q: ["What comes after <b>so</b>?", "Qu'est-ce qui vient après so ?"], o: ["the cause", "the consequence"], a: "the consequence"}
+    {id: "k1", q: ["Do the two sentences tell the same story?", "Les deux phrases racontent-elles la même histoire ?"], o: ["Yes", "No"], a: "Yes"},
+    {id: "k2", q: ["Do they express the same thing (the same meaning)?", "Expriment-elles la même chose (le même sens) ?"], o: ["Yes", "No"], a: "No", fb: ["Look again: does each sentence put the same idea first?", "Regarde encore : chaque phrase met-elle en avant la même idée ?"]},
+    {id: "k3", q: ["What do they express? Choose the right answers.", "Qu'expriment-elles ? Choisis les bonnes réponses."], o: ["the cause", "the consequence", "the opposite"], a: ["the cause", "the consequence"], fb: ["Not quite. There are two right answers.", "Pas tout à fait. Il y a deux bonnes réponses."]},
+    {id: "k4", q: ["Sentence ① <i>I'm late because I overslept</i> expresses…", "La phrase ① exprime…"], o: ["the cause", "the consequence"], a: "the cause", fb: ["Look at the colours: what comes after <b>because</b>?", "Regarde les couleurs : qu'est-ce qui vient après because ?"]},
+    {id: "k5", q: ["Sentence ② <i>I overslept, so I'm late</i> expresses…", "La phrase ② exprime…"], o: ["the cause", "the consequence"], a: "the consequence", fb: ["Look at the colours: what comes after <b>so</b>?", "Regarde les couleurs : qu'est-ce qui vient après so ?"]},
+    {id: "k6", q: ["Thanks to which tool? The cause comes with…", "Grâce à quel outil ? La cause est introduite par…"], o: ["because", "so", "and", "but"], a: "because"},
+    {id: "k7", q: ["Thanks to which tool? The consequence comes with…", "Grâce à quel outil ? La conséquence est introduite par…"], o: ["because", "so", "and", "but"], a: "so"}
   ];
   const RECREATE = [
     {id: "t1", only: "so", mystery: "reveal", scene: [{img: "brokeleg", alt: "broken leg"}, {note: "abs"}], cause: ["I broke", "my leg"], cons: ["I was absent"], x: ["I break", "I breaked"]},
@@ -420,7 +425,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     ["He went to the office", "and", "he got a late slip."]
   ];
   const LINKS = {and: ["adds information", "ajoute une information"], but: ["shows a contrast", "montre une opposition"], because: ["gives the cause (why?)", "donne la cause (pourquoi ?)"], so: ["gives the consequence (the result)", "donne la conséquence (le résultat)"]};
-  const POINTS = {g: 1, y: 2, r: 3}, SECS = 25;
+  const POINTS = {g: 1, y: 2, r: 3}, SECS = 15, CORR = 15;
 
   /* ---------- progress ---------- */
   const IDS = [...WARM.map(w => w.id), "r1", "r2", "r3", ...MAKE.map(m => m.id), ...THINK.map(t => t.id), ...RECREATE.map(t => t.id), ...GAP.map((g, i) => "x" + (i + 1)), "g1", "g2"];
@@ -593,7 +598,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   function startThink() {
     const box = $("#think"); box.hidden = false;
     $("#th-start").className = "start again"; $("#th-start").innerHTML = "↺ Replay";
-    box.innerHTML = `<div class="line3" lang="en" id="s1"></div><div class="line3" lang="en" id="s2"></div><div id="qs"></div><div id="rl"></div>`;
+    box.innerHTML = `<div class="line3" lang="en" id="s1" data-n="①"></div><div class="line3" lang="en" id="s2" data-n="②"></div><div id="qs"></div><div id="rl"></div>`;
     const blocks = (el, parts, delay) => parts.forEach((p, i) => setTimeout(() => el.insertAdjacentHTML("beforeend", p), delay + i * 650));
     blocks($("#s1", box), ['<span class="blk co pop">I\'m late</span>', '<span class="kwd pop">because</span>', '<span class="blk ca pop">I overslept.</span>'], 100);
     blocks($("#s2", box), ['<span class="blk ca pop">I overslept,</span>', '<span class="kwd pop">so</span>', '<span class="blk co pop">I\'m late.</span>'], 2300);
@@ -601,20 +606,32 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     const askQ = () => {
       const q = THINK[qi];
       const row = document.createElement("div"); row.className = "qrow";
-      row.innerHTML = `<p class="consigne" data-fr="${esc(q.q[1])}">${q.q[0]}</p><div class="opts" lang="en">${q.o.map(o => `<button type="button" class="opt">${esc(o)}</button>`).join("")}</div><p class="fb" aria-live="polite"></p>`;
+      const multi = Array.isArray(q.a), fb = q.fb || ["Look at the colours again.", "Regarde encore les couleurs."];
+      row.innerHTML = `<p class="consigne" data-fr="${esc(q.q[1])}">${q.q[0]}</p><div class="opts" lang="en">${q.o.map(o => `<button type="button" class="opt"${multi ? ' aria-pressed="false"' : ""}>${esc(o)}</button>`).join("")}${multi ? `<button type="button" class="btn" data-check>Check</button>` : ""}</div><p class="fb" aria-live="polite"></p>`;
       $("#qs", box).appendChild(row);
+      const ok = () => { row.dataset.ok = "1"; $(".fb", row).textContent = ""; done(q.id); qi++; if (qi < THINK.length) setTimeout(askQ, 400); else setTimeout(showRule, 500); };
       row.addEventListener("click", e => {
-        const b = e.target.closest(".opt"); if (!b || row.dataset.ok) return;
-        if (b.textContent !== q.a) { b.classList.add("wrong"); fbSet($(".fb", row), "bad", "Look at the colours again.", "Regarde encore les couleurs."); return; }
-        b.classList.add("right"); row.dataset.ok = "1"; $(".fb", row).textContent = ""; done(q.id); qi++;
-        if (qi < THINK.length) setTimeout(askQ, 400); else setTimeout(showRule, 500);
+        if (row.dataset.ok) return;
+        if (multi) {
+          // Several right answers: the learner selects, then checks
+          const b = e.target.closest(".opt");
+          if (b) { b.classList.remove("wrong"); b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true"); b.classList.toggle("sel", b.getAttribute("aria-pressed") === "true"); return; }
+          if (!e.target.closest("[data-check]")) return;
+          const sel = $$(".opt", row).filter(x => x.getAttribute("aria-pressed") === "true").map(x => x.textContent);
+          if (sel.length === q.a.length && q.a.every(x => sel.includes(x))) { $$(".opt", row).forEach(x => { if (q.a.includes(x.textContent)) x.classList.add("right"); }); $("[data-check]", row).hidden = true; ok(); }
+          else { $$(".opt", row).forEach(x => { if (x.getAttribute("aria-pressed") === "true" && !q.a.includes(x.textContent)) x.classList.add("wrong"); }); fbSet($(".fb", row), "bad", fb[0], fb[1]); }
+          return;
+        }
+        const b = e.target.closest(".opt"); if (!b) return;
+        if (b.textContent !== q.a) { b.classList.add("wrong"); fbSet($(".fb", row), "bad", fb[0], fb[1]); return; }
+        b.classList.add("right"); ok();
       });
     };
     const showRule = () => {
       $("#rl", box).innerHTML = `<div class="rule-box"><b class="t">${T("Your rule", "Ta règle")}</b>
         <span lang="en"><b>because</b> + <span class="ca">the cause</span> (why?)</span>
         <span lang="en"><b>so</b> + <span class="co">the consequence</span> (the result)</span>
-        <span>${T("The two parts change places, but the story is the same.", "Les deux parties changent de place, mais l'histoire reste la même.")}</span></div>`;
+        <span>${T("Same story, but not the same meaning: sentence ① explains the cause (why?), sentence ② gives the consequence (the result).", "Même histoire, mais pas le même sens : la phrase ① explique la cause (pourquoi ?), la phrase ② donne la conséquence (le résultat).")}</span></div>`;
     };
     setTimeout(askQ, 4600);
   }
@@ -658,6 +675,13 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       if (won) { G.score += pts; G.wins++; $("#sc").textContent = G.score; card.classList.add("win"); } else card.classList.add("timeout");
       if (en) { const p = document.createElement("p"); fbSet(p, won ? "good" : "bad", en, fr); card.appendChild(p); }
       next.hidden = false; card.appendChild(next); $(".btn", next).focus();
+      // 15 seconds of correction on the same timer, then the next card comes by itself
+      let c = CORR; const fg = $("#tm .fg"), tm = $("#tm"), n = $("#tm-n"); tm.classList.remove("low"); tm.title = "Next card"; n.textContent = c; fg.style.strokeDashoffset = "0";
+      $(".btn", next).textContent = `Next card → (${c})`;
+      timerId = setInterval(() => {
+        c--; n.textContent = Math.max(0, c); fg.style.strokeDashoffset = String(169.6 * (1 - c / CORR)); $(".btn", next).textContent = `Next card → (${Math.max(0, c)})`;
+        if (c <= 0) { stopTimer(); try { speechSynthesis.cancel(); } catch (e) {} G.i++; nextCard(); }
+      }, 1000);
     };
     const fs = forms(it);
     if (G.phase === 1) {

@@ -28,7 +28,7 @@
         what: "Le prétérit : /t/, /d/ ou /ɪd/ ? Puis la négation (didn't) et les questions (Did…?), avec de vraies voix. Entraîne-toi, puis passe l'évaluation finale.",
         skills: ["Prétérit", "Prononciation"], key: "edlab5e-real", total: 19},
       {id: "so", href: "can-you-explain/", art: "so", title: "Can you explain?",
-        what: "Lesson 2: revise the excuses, recap the notes, find the rule (cause and consequence), recreate the situations, then play against the clock. Homework at the end.",
+        what: "Lesson 2: revise the excuses, recap the notes, explain why, recreate the situations, find the rule (cause and consequence), then play against the clock. Homework at the end.",
         skills: ["Cause / consequence", "Past simple", "Game"], key: "becauseso", total: 21},
       {id: "bus", href: "late-bus/", art: "bus", title: "Blame the bus!",
         what: "Un vrai article de presse britannique sur les retards à Londres. Lis-le, écoute-le, puis entraîne-toi sur ses verbes en -ed.",
