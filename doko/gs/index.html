@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>DÒKÒ – Grande section</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="../doko.css">
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="wrap">
+  <header>
+    <img src="../../assets/doko/logo-doko.jpg" alt="DÒKÒ" width="1068" height="612">
+    <p>Le jeu des nombres : compter et calculer !</p>
+    <ul class="elements" aria-label="Les éléments"><li><i>🔥</i>Feu</li><li><i>💧</i>Eau</li><li><i>🌾</i>Terre</li><li><i>🌳</i>Bois</li><li><i>🌬️</i>Vent</li></ul>
+  </header>
+  <section id="gate" class="panel gate">
+    <h2>🔒 Version privée</h2>
+    <p>Cette version s'ouvre avec le code professeur, en bas de la page.</p>
+  </section>
+
+  <section id="menu" class="wrap" style="padding:0">
+    <div class="musicrow"><button type="button" class="sound" aria-pressed="false">🔇 Musique</button><span>Musique d'ambiance</span></div>
+    <div class="panel">
+      <h2>1. Choisis ton jeton</h2>
+      <div class="tokens intro" id="tokens"></div>
+    </div>
+    <div class="panel">
+      <h2>2. Choisis ton thème</h2>
+      <div class="games" id="games" hidden>
+        <button type="button" class="gm" data-g="theme" aria-pressed="false"></button>
+        <button type="button" class="gm" data-g="recreate" aria-pressed="false"><span class="lock" id="lock-recreate" hidden></span><span class="best" id="best-recreate"></span><span class="evres" id="evres" hidden></span></button>
+      </div>
+      <div id="themebox">
+        <div class="themes" id="themes"></div>
+      </div>
+    </div>
+    <button type="button" class="go" id="go" disabled>▶ Jouer</button>
+    <details class="rules panel">
+      <summary>Les règles</summary>
+      <ul>
+        <li>Choisis ton jeton, puis le thème : <b>les nombres</b> ou <b>les calculs</b>.</li>
+        <li>La question est lue à voix haute (bouton 🔊 pour la réécouter). Tu as <b>30 secondes</b>.</li>
+        <li>Pose ton jeton sur la bonne réponse : <b>1re ligne = 4 points</b> (une réponse), <b>2e ligne = 2 points</b> (tu hésites entre deux).</li>
+        <li>Pas de point perdu si tu te trompes. Bonus : rapide (+1), 3 bonnes réponses d'affilée (+2). Le Joker enlève deux mauvaises réponses.</li>
+      </ul>
+    </details>
+  </section>
+
+  <details class="panel teacher" open>
+    <summary>🔑 Professeur</summary>
+    <div id="cl-picker"></div>
+    <div id="evadmin" class="evadmin" hidden><p id="evadmin-st"></p><button type="button" class="btn" id="evreset" hidden>↺</button></div>
+  </details>
+
+  <section id="warn" class="panel warn" hidden><button type="button" id="warn-go" hidden></button><button type="button" id="warn-no" hidden></button></section>
+
+  <section id="game" aria-live="polite">
+    <div class="top">
+      <span class="qn"><img class="minilogo" src="../../assets/doko/logo-doko.jpg" alt="DÒKÒ"><span id="qn"></span> <span class="lvl" id="lvl"></span> <span class="streak" id="streak"></span></span>
+      <span class="right-top"><span class="sc" id="score"></span><button type="button" class="sound" aria-pressed="false">🔇 Musique</button></span>
+    </div>
+    <div class="stage">
+      <div class="qbox">
+        <div class="qhead">
+          <div class="timer" id="timer" role="timer" aria-label="Temps restant"><svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="34"/><circle class="fg" id="ring" cx="40" cy="40" r="34" stroke-dasharray="213.6" stroke-dashoffset="0"/></svg><span id="tsec">20</span></div>
+          <div class="question" id="question"></div>
+        </div>
+        <div class="scene" id="scene" hidden></div>
+        <div class="qimg" id="qimg" hidden><img alt=""></div>
+        <ul class="opts" id="opts"></ul>
+        <div class="explain" id="explain" hidden></div>
+      </div>
+      <div class="qbox">
+        <div class="hand" id="hand">
+          <button type="button" class="mytoken" id="mytoken" aria-label="Ton jeton"><img alt=""></button>
+          <p>Pose ton jeton sur la bonne réponse !</p>
+          <button type="button" class="joker" id="joker" title="Deux mauvaises réponses disparaissent (une fois par partie)"><img src="../../assets/doko/joker.png" alt="">Joker</button>
+        </div>
+        <div class="board" id="board"></div>
+        <p class="msg" id="msg"></p>
+        <div class="bar" id="bar"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="end">
+    <img class="big" id="endtok" alt="">
+    <h2>C'est fini !</h2>
+    <p class="score" id="final"></p>
+    <p id="right"></p>
+    <div id="review" class="review" hidden></div>
+    <p id="best"></p>
+    <div class="bar"><button type="button" class="btn main" id="again">↺ Rejouer</button><button type="button" class="btn" id="back">Changer de jeton</button></div>
+  </section>
+</div>
+<audio id="music" src="../../assets/doko/music.mp3" loop preload="metadata"></audio>
+<script src="../../assets/doko/fx.js"></script>
+<script src="packs.js"></script>
+<script>
+window.DOKO_CONFIG = {lang: "fr", key: "doko-gs", themes: window.DOKO_GS, recreate: false, private: true, speak: "fr-FR", cellValues: true, wrong: 0,
+  per: {1: 4, 2: 3, 3: 3}, pickerHint: "Le code professeur ouvre cette version sur cet appareil."};
+</script>
+<script src="../../assets/classes.js"></script>
+<script src="../engine.js"></script>
+</body>
+</html>
