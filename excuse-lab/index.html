@@ -106,6 +106,10 @@ button:focus-visible,.upload:focus-within{outline:3px solid var(--accent);outlin
 .line.mine{background:var(--slip)}
 .line.now{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
 .line.mine.now .txt{font-weight:700}
+.into-ar{display:inline-grid;place-items:center;width:1.9em;height:1.6em;margin-left:6px;border-radius:7px;vertical-align:-.35em;color:var(--card);background:var(--accent)}
+.into-ar.up{background:var(--good)}
+.into-ar svg{width:1.15em;height:1.15em}
+.into-legend{font-size:.85rem;color:var(--muted);margin:0}
 .bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
 .bar>div{height:100%;width:0;background:var(--accent);transition:width .1s linear}
 .roles{display:flex;gap:8px;flex-wrap:wrap}
@@ -470,7 +474,8 @@ function renderPlay(){
       <h2><i>1</i>Choose your part</h2>
       <div class="roles">${d.roles.map(r=>`<button class="btn${role===r?" primary":""}" data-role="${r}">Je suis ${r==="Teacher"?"le professeur":r}</button>`).join("")}</div>
     </div>
-    <div class="script" id="script">${d.lines.map((l,i)=>`<div class="line${role===l.who?" mine":""}" id="L${i}"><span class="who">${l.who}</span><span class="txt">${l.t}</span></div>`).join("")}</div>
+    <p class="into-legend" data-fr="Les flèches montrent l'intonation des questions : ↘ la voix descend, ↗ la voix monte.">The arrows show the intonation of the questions: <b>↘</b> the voice goes down, <b>↗</b> the voice goes up.</p>
+    <div class="script" id="script">${d.lines.map((l,i)=>`<div class="line${role===l.who?" mine":""}" id="L${i}"><span class="who">${l.who}</span><span class="txt">${l.t}${l.into?`<span class="into-ar${l.into==="yn"?" up":""}" title="${l.into==="yn"?"The voice goes up":"The voice goes down"}" aria-label="${l.into==="yn"?"voice goes up":"voice goes down"}">${l.into==="yn"?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19L19 5M9 5h10v10"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l14 14M19 9v10H9"/></svg>'}</span>`:""}</span></div>`).join("")}</div>
     <div class="bar" aria-hidden="true"><div id="bar"></div></div>
     <section class="step">
       <h2><i>2</i>Act it out</h2>
