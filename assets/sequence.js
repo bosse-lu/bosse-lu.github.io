@@ -25,8 +25,8 @@
         total: s => s.lvl === "4e" ? 22 : 13,
         count: s => Object.keys(s.res || {}).filter(k => s.lvl === "4e" || !/^[lqw][456]$/.test(k)).length},
       {id: "so", href: "can-you-explain/", art: "so", title: "Can you explain?",
-        what: "Lesson 2: revise the excuses, recap the notes, explain why, recreate the situations, find the rule (cause and consequence), then play DÒKÒ. Homework at the end.",
-        skills: ["Cause / consequence", "Linking words", "Game"], key: "becauseso", total: 22},
+        what: "Lesson 2: warm up and assemble the notes, explain why, recreate the situations, find the rule (cause and consequence), then play DÒKÒ. Homework at the end.",
+        skills: ["Cause / consequence", "Linking words", "Game"], key: "becauseso", total: 19},
       {id: "bus", href: "late-bus/", art: "bus", title: "Blame the bus!",
         what: "Un vrai article de presse britannique sur les retards à Londres. Lis-le, écoute-le et repère les verbes au prétérit : c'est là que tu découvres le prétérit, puis tu l'étends à tous les verbes de la séquence. Ensuite, l'étape suivante t'entraîne à prononcer les verbes en -ed.",
         skills: ["Lecture", "Prétérit", "Royaume-Uni"], key: "latebus5e", total: 12},
@@ -49,7 +49,7 @@
     steps: [
       S5("warm"),
       Object.assign({}, S5("note"), {total: () => 22, count: s => Object.keys(s.res || {}).length, what: "Écoute les six dialogues du collège en autonomie et remplis les billets : late slip, absence note ou permission note. Repère les questions et le question tag « weren't you? »."}),
-      Object.assign({}, S5("so"), {total: 26, what: "Lesson 2: revise the excuses, assemble the notes, explain why, recreate the situations, find the rule (because / so, and the new tools because of + noun and That's why), the linking words, then play DÒKÒ. Homework at the end."}),
+      Object.assign({}, S5("so"), {total: 23, what: "Lesson 2: warm up and assemble the notes, explain why, recreate the situations, find the rule (because / so, and the new tools because of + noun and That's why), the linking words, then play DÒKÒ. Homework at the end."}),
       {id: "bus", href: "late-bus-4e/", art: "bus", title: "Blame the bus!",
         what: "Le vrai article de presse britannique. Lis-le, écoute-le et repère les verbes au prétérit : c'est là que tu découvres le prétérit, puis tu l'étends à tous les verbes de la séquence. Ensuite, l'étape suivante t'entraîne à prononcer les verbes en -ed.",
         skills: ["Lecture", "Prétérit", "Royaume-Uni"], key: "latebus4e", total: 16},
@@ -236,7 +236,9 @@
         const st = q && (q.steps.find(x => x.id === stepId) || null);
         other = {href: st ? st.href : q ? q.href : SEQ5.href, lvl: k.level};
       }
-      if (!other && isOpen(SEQ.steps[j], j)) return;
+      if (!other && isOpen(SEQ.steps[j], j)) { if (window.SEQ_FULL) window.SEQ_FULL(); return; }
+      // A page can open one part of itself without the whole step (Excuse Lab: the role play, reached from Fill in the note)
+      if (!other && window.SEQ_PARTIAL && window.SEQ_PARTIAL()) return;
       const d = document.createElement("div"); d.id = "seq-lock"; d.setAttribute("role", "dialog"); d.setAttribute("aria-modal", "true"); d.setAttribute("aria-labelledby", "seq-lock-t");
       d.innerHTML = other
         ? `<div><span style="font-size:2.4rem" aria-hidden="true">↪</span><b class="t" id="seq-lock-t">Your version is on another page</b><span data-fr="Ta version de cette étape est sur une autre page.">Your version of this step is on another page.</span><br><a class="back" href="${url(other.href)}">Go to my version →</a></div>`

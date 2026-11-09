@@ -134,6 +134,8 @@ body.nb-has .dlg>.player{top:70px}
 .tile.used{visibility:hidden}
 .answer .tile{background:var(--accent-soft);border-color:var(--accent)}
 .answer .tile.k{background:var(--mark);color:var(--onmark);border-color:var(--onmark)}
+.rp-go{display:inline-block;margin-top:4px;font-weight:700;color:var(--card);background:var(--accent);border-radius:12px;padding:11px 18px;text-decoration:none}
+.rp-go:hover{filter:brightness(1.08)}
 /* correction of Time to write: past verbs in red, boxed */
 .past{color:var(--bad);border:2px solid var(--bad);border-radius:5px;padding:0 4px;font-weight:700;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .model{margin:8px 0 0;font-family:var(--display);font-size:1.05rem;line-height:1.9}
@@ -210,6 +212,12 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     <div class="act-h"><i class="stp">Step 3</i><h2 id="h5a" lang="en">Sum up</h2><span class="fiche">Worksheet: activity 5</span></div>
     <p class="consigne" data-fr="Les questions du professeur : pour un retard ou pour une absence ? Puis trouve la règle.">The teacher's questions: late or absent? Then find the rule.</p>
     <div id="a5" class="act"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h6a">
+    <div class="act-h"><i class="stp">Go further</i><h2 id="h6a" lang="en">Role play: the intonation</h2></div>
+    <p class="consigne" data-fr="Joue le dialogue avec les vraies voix. Les flèches montrent l'intonation des questions : ↘ la voix descend, ↗ la voix monte. Joue le rôle du professeur !">Act out the dialogue with the real voices. The arrows show the intonation of the questions: ↘ the voice goes down, ↗ the voice goes up. Play the teacher!</p>
+    <a class="rp-go" href="../excuse-lab/?play=1">🎭 Open the role play →</a>
   </section>
 
   <div class="panel end" id="end" hidden>

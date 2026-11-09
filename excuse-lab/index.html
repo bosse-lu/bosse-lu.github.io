@@ -517,7 +517,7 @@ function render(){ renderTabs(); renderChips(); if(myAudioURL){URL.revokeObjectU
 /* ---------- events ---------- */
 document.addEventListener("click",async e=>{
   const t=e.target.closest("button"); if(!t) return;
-  if(t.classList.contains("tab")){ playing=false; stopAll(); state.tab=t.dataset.tab; role=null; save(); render(); return }
+  if(t.classList.contains("tab")){ if(playOnly&&t.dataset.tab!=="play") return; playing=false; stopAll(); state.tab=t.dataset.tab; role=null; save(); render(); return }
   if(t.classList.contains("chip")){ playing=false; stopAll(); state[idx()]=+t.dataset.k; role=null; save(); render(); return }
   if(t.dataset.r){ state.res[resKey(state[idx()])]=t.dataset.r; save(); renderChips(); document.querySelectorAll(".self .btn").forEach(b=>b.setAttribute("aria-pressed",b===t)); return }
   if(t.dataset.role){ role=t.dataset.role; renderPlay(); return }
@@ -541,6 +541,17 @@ document.addEventListener("click",async e=>{
 document.addEventListener("change",e=>{ if(e.target.id==="upload"&&e.target.files[0]) setMyAudio(URL.createObjectURL(e.target.files[0])); });
 ["vi","li","pi"].forEach((k,j)=>{ const n=[VERBS,LINES,DIALOGUES][j].length; if(!(state[k]>=0&&state[k]<n)) state[k]=0; });
 if(!["verbs","lines","play"].includes(state.tab)) state.tab="lines";
+/* Role play only: the link in Fill in the note (?play=1) opens the role play even while the step is locked */
+const PLAY_KEY="excuselab-play";
+let playOnly=false;
+try{ if(new URLSearchParams(location.search).has("play")){ localStorage.setItem(PLAY_KEY,"1"); state.tab="play"; } }catch(e){}
+function setPlayOnly(on){
+  playOnly=on;
+  ["verbs","lines"].forEach(t=>{ const b=document.getElementById("tab-"+t); if(b) b.hidden=on; });
+  if(on&&state.tab!=="play"){ playing=false; stopAll(); state.tab="play"; role=null; save(); render(); }
+}
+window.SEQ_PARTIAL=()=>{ let ok=false; try{ ok=localStorage.getItem(PLAY_KEY)==="1"; }catch(e){} if(ok) setPlayOnly(true); return ok; };
+window.SEQ_FULL=()=>{ if(playOnly) setPlayOnly(false); };
 render();
 </script>
 

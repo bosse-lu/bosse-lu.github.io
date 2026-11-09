@@ -125,6 +125,11 @@ header::after{content:"";display:block;clear:both}
 .bank{margin:0}.lk{font-weight:800;color:var(--accent)}
 .tile.mystery{background:var(--mark);color:var(--onmark);border:2px dashed var(--onmark);font-size:1.1rem;min-width:3em;box-shadow:0 3px 0 rgba(0,0,0,.15)}
 .answer .tile.mystery{background:var(--mark);border-color:var(--onmark)}
+.answer .tile.mystery.chosen{border-style:solid;font-size:1rem;font-weight:700}
+.mpick{display:inline-flex;gap:4px;align-items:center;background:var(--card);border:2px solid var(--onmark);border-radius:10px;padding:3px;box-shadow:0 3px 10px rgba(0,0,0,.15)}
+.mpick button{font:inherit;font-weight:700;border:1px solid var(--line);background:var(--accent-soft);color:inherit;border-radius:7px;padding:5px 10px;cursor:pointer}
+.mpick button:hover{border-color:var(--accent)}
+.mpick button.x{background:transparent;padding:5px 8px}
 .typed{font:inherit;font-family:var(--display);font-size:1.05rem;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%}
 .typed.right{border-color:var(--good);background:var(--good-soft)}
 .typed.wrong{border-color:var(--bad);background:var(--bad-soft)}
@@ -249,46 +254,40 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     <span class="bar" aria-hidden="true"><span id="pcbar"></span></span>
   </div>
 
-  <section class="act" aria-labelledby="h1s">
-    <div class="step-h"><span class="step-k">Step 1</span><h2 id="h1s"><em>Warm-up</em> · revision</h2></div>
-    <div class="instr"><p class="consigne" data-fr="Choisis une image. Regarde le moment et fais une phrase au prétérit.">Choose a picture. Look at the time and make a sentence in the past.</p></div>
-    <div id="warm" class="act"></div>
-  </section>
-
   <section class="act" aria-labelledby="h2s">
-    <div class="step-h"><span class="step-k">Step 2</span><h2 id="h2s" data-fr="Maintenant, assemblons !"><em>So now let's assemble</em></h2></div>
+    <div class="step-h"><span class="step-k">Step 1</span><h2 id="h2s" data-fr="Échauffement : assemblons !"><em>Warm-up</em> · let's assemble</h2></div>
     <div class="instr"><p class="consigne" data-fr="Appuie sur ▶ Start. Un billet apparaît : que dit l'élève qui le donne ? Choisis la bonne phrase.">Press <b>▶ Start</b>. A note appears: what does the student say? Choose the right sentence.</p>
       <button type="button" class="start" id="rc-start"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>Start</button></div>
     <div id="recap" class="card stage" hidden></div>
   </section>
 
   <section class="act" aria-labelledby="h3s">
-    <div class="step-h"><span class="step-k">Step 3</span><h2 id="h3s"><em>Now it is your turn</em> : explain why</h2></div>
+    <div class="step-h"><span class="step-k">Step 2</span><h2 id="h3s"><em>Now it is your turn</em> : explain why</h2></div>
     <div class="instr"><p class="consigne" data-fr="Billet + image : explique pourquoi. Mets les mots dans l'ordre des images. Dans la 2e, trouve où va le mot mystère ❓.">Note + picture: explain why. Put the words in the order of the pictures. In number 2, where does the mystery word ❓ go?</p></div>
     <div id="make" class="act"></div>
   </section>
 
   <section class="act" aria-labelledby="h5s">
-    <div class="step-h"><span class="step-k">Step 4</span><h2 id="h5s"><em>Training session</em> : recreate the situation</h2></div>
-    <div class="instr"><p class="consigne" data-fr="Image et billet : que s'est-il passé ? Mets les mots dans l'ordre des images. Que cache la boîte mystère ❓ ?">Picture and note: what happened? Put the words in the order of the pictures. What does the mystery box ❓ hide?</p></div>
+    <div class="step-h"><span class="step-k">Step 3</span><h2 id="h5s"><em>Training session</em> : recreate the situation</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Image et billet : que s'est-il passé ? Mets les mots dans l'ordre des images. Clique sur la boîte mystère ❓ pour choisir ce qu'elle cache : so ou because ?">Picture and note: what happened? Put the words in the order of the pictures. Click on the mystery box ❓ to choose what it hides: <b>so</b> or <b>because</b>?</p></div>
     <div id="recreate" class="act"></div>
   </section>
 
   <section class="act" aria-labelledby="h4s">
-    <div class="step-h"><span class="step-k">Step 5</span><h2 id="h4s" data-fr="As-tu compris ?"><em>Did you get it?</em> 🧠</h2></div>
+    <div class="step-h"><span class="step-k">Step 4</span><h2 id="h4s" data-fr="As-tu compris ?"><em>Did you get it?</em> 🧠</h2></div>
     <div class="instr"><p class="consigne" data-fr="Appuie sur ▶ Start et observe les deux phrases. Puis réponds aux questions : c'est toi qui trouves la règle.">Press <b>▶ Start</b> and look at the two sentences. Then answer the questions: you find the rule.</p>
       <button type="button" class="start" id="th-start"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>Start</button></div>
     <div id="think" class="card stage" hidden></div>
   </section>
 
   <section class="act" aria-labelledby="h6s">
-    <div class="step-h"><span class="step-k">Step 6</span><h2 id="h6s"><em>Linking words</em> · <span id="lw-list">and, but, because, so</span></h2></div>
+    <div class="step-h"><span class="step-k">Step 5</span><h2 id="h6s"><em>Linking words</em> · <span id="lw-list">and, but, because, so</span></h2></div>
     <div class="instr"><p class="consigne" data-fr="Maintenant que tu as manipulé ces deux outils, es-tu capable de les utiliser dans un contexte plus large, avec leur famille : but et and ? Let's go!">Now you have practised these two tools: can you use them in a longer text, with their family, <b>but</b> and <b>and</b>? Let's go!</p></div>
     <div id="gap" class="card"></div>
   </section>
 
   <section class="act" aria-labelledby="h7s">
-    <div class="step-h"><span class="step-k">Step 7</span><h2 id="h7s"><em>OK OK, now it's time to play</em> · DÒKÒ</h2></div>
+    <div class="step-h"><span class="step-k">Step 6</span><h2 id="h7s"><em>OK OK, now it's time to play</em> · DÒKÒ</h2></div>
     <div class="instr"><p class="consigne" data-fr="Joue à DÒKÒ : choisis ton jeton et pose-le sur la bonne réponse avant la fin du temps. Attention : à la moitié du temps, la 1re ligne se bloque ! L'entraînement « Recreate the situation » te prépare au contrôle sur 20 (ton professeur l'ouvre).">Play DÒKÒ: choose your token and put it on the right answer before the end of the time. Careful: at half time, row 1 is locked! The <b>Recreate the situation</b> training gets you ready for the test out of 20 (your teacher opens it).</p></div>
     <div class="card doko-go">
       <a class="start" href="../doko/?game=theme">▶ Play DÒKÒ</a>
@@ -296,13 +295,13 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     </div>
   </section>
 
-  <div class="panel"><p class="consigne" style="font-weight:400" data-fr="Sur ta fiche : écris tes réponses à chaque étape (Step 1 à 7). À la maison 🏠 : fais les exercices A et B de la leçon 2.">On your worksheet: write your answers for each step (Step 1 to 7). At home 🏠: do Homework A and B of lesson 2.</p></div>
+  <div class="panel"><p class="consigne" style="font-weight:400" data-fr="Sur ta fiche : écris tes réponses à chaque étape (Step 1 à 6). À la maison 🏠 : fais les exercices A et B de la leçon 2.">On your worksheet: write your answers for each step (Step 1 to 6). At home 🏠: do Homework A and B of lesson 2.</p></div>
 
   <details class="prof" lang="fr">
     <summary>Notes pour le professeur</summary>
     <ul>
       <li><b>Version 4e</b> (codes de 4e, ou bouton « 4e » en mode professeur) : mêmes étapes, plus exigeantes : prétérit avec négation et repères de temps (<i>I didn't catch the bus this morning</i>), billets plus riches (<i>because of the traffic jam</i>, <i>I've got a terrible headache</i>), phrases plus longues (deux causes reliées par <i>and</i>), deux questions de PRL en plus (<i>because of</i> + nom, <i>That's why</i> = <i>so</i>) et un texte à 6 trous avec <i>because of</i> et <i>That's why</i>.</li>
-      <li>Ordre de la séance : 1 <i>Warm-up · revision</i> (3 images de la séance 1) ; 2 <i>So now let's assemble</i> (animation lancée par l'élève : il choisit le début de la phrase, la raison s'écrit sur le billet, la classe devine la phrase entière à l'oral, puis « Show the sentence » la valide) ; 3 <i>Explain why</i> (avec <i>because</i>, puis la boîte mystère ❓ qui cache <i>so</i>) ; 4 <i>Training session : recreate the situation</i> (3 situations, la boîte mystère cache <i>because</i> ou <i>so</i> selon l'ordre des images) ; 5 <i>Did you get it? 🧠</i> (PRL : les deux phrases inversées et colorées ; même histoire ? oui ; même sens ? non ; cause et conséquence ; la phrase ① exprime la cause, la ② la conséquence ; grâce à quel outil : <i>because</i> → cause, <i>so</i> → conséquence ; puis la règle) ; 6 <i>Linking words</i> (court texte à trous avec <i>and, but, because, so</i> : <i>so</i> rejoint la famille des mots qui relient deux propositions) ; 7 DÒKÒ (lien vers le jeu en accès libre, et l'entraînement <i>Recreate the situation</i> : 6 situations, 2 par niveau, ouvert à la demande par classe).</li>
+      <li>Ordre de la séance : 1 <i>Warm-up · let's assemble</i> (animation lancée par l'élève : il choisit le début de la phrase, la raison s'écrit sur le billet, la classe devine la phrase entière à l'oral, puis « Show the sentence » la valide) ; 2 <i>Explain why</i> (avec <i>because</i>, puis la boîte mystère ❓ qui cache <i>so</i>) ; 3 <i>Training session : recreate the situation</i> (3 situations, l'élève clique sur la boîte mystère ❓ et choisit <i>because</i> ou <i>so</i> selon l'ordre des images) ; 4 <i>Did you get it? 🧠</i> (PRL : les deux phrases inversées et colorées ; même histoire ? oui ; même sens ? non ; cause et conséquence ; la phrase ① exprime la cause, la ② la conséquence ; grâce à quel outil : <i>because</i> → cause, <i>so</i> → conséquence ; puis la règle) ; 5 <i>Linking words</i> (court texte à trous avec <i>and, but, because, so</i> : <i>so</i> rejoint la famille des mots qui relient deux propositions) ; 6 DÒKÒ (lien vers le jeu en accès libre, et l'entraînement <i>Recreate the situation</i> : 6 situations, 2 par niveau, ouvert à la demande par classe).</li>
       <li>Consignes en anglais. Groupe ★ (et niveau libre) : traduction française affichée dessous ; ★★ : bouton FR pour l'afficher ; ★★★ : anglais seul.</li>
       <li><b>DÒKÒ</b> : nouvelle règle, la 1re ligne (une lettre, 4 points) se bloque à la moitié du temps ; il ne reste que les paires (2 points). L'entraînement et l'évaluation sur 20 se trouvent dans DÒKÒ et s'ouvrent à la demande.</li>
       <li>Code couleur des diapos : cause en vert, conséquence en rouge, mot de liaison souligné. La phrase suit l'ordre des images : billet puis image → conséquence + <i>because</i> + cause (<i>I'm late because I overslept</i>) ; image puis billet → cause + <i>so</i> + conséquence (<i>I overslept, so I was absent</i>). Dans <i>Explain why</i>, la 2e phrase cache <i>so</i> dans une boîte mystère ❓ : l'élève le découvre en manipulant, puis l'étape 5 (<i>Think</i>) fait formuler la règle.</li>
@@ -485,7 +484,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     const v4 = level() === "4e";
     [WARM, RECAP, MAKE, THINK, RECREATE, GAP, LINKS] = v4 ? [WARM_4, RECAP_4, MAKE_4, THINK_4, RECREATE_4, GAP_4, LINKS_4] : [WARM_5, RECAP_5, MAKE_5, THINK_5, RECREATE_5, GAP_5, LINKS_5];
     RP = v4 ? "R" : "r"; GX = v4 ? "X" : "x";
-    IDS = [...WARM.map(w => w.id), RP + "1", RP + "2", RP + "3", ...MAKE.map(m => m.id), ...THINK.map(t => t.id), ...RECREATE.map(t => t.id), ...GAP.map((g, i) => GX + (i + 1))];
+    IDS = [RP + "1", RP + "2", RP + "3", ...MAKE.map(m => m.id), ...THINK.map(t => t.id), ...RECREATE.map(t => t.id), ...GAP.map((g, i) => GX + (i + 1))];
   }
   function done(id) { if (!S.res[id]) { S.res[id] = 1; save(); } progress(); }
   function progress() { const n = IDS.filter(i => S.res[i]).length; $("#pc").textContent = `${n} / ${IDS.length}`; $("#pcbar").style.width = Math.round(100 * n / IDS.length) + "%"; }
@@ -510,7 +509,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     let tries = 0, solved = false, check;
     const win = f => {
       solved = true; said.innerHTML = pretty(it, f); said.hidden = false;
-      if (it.mystery === true) fbSet(fb, "good", "Well done! The mystery word is <b>so</b>. Why so and not because? Find out in Step 5.", "Bravo ! Le mot mystère est so. Pourquoi so et pas because ? Tu vas le découvrir à l'étape 5.");
+      if (it.mystery === true) fbSet(fb, "good", "Well done! The mystery word is <b>so</b>. Why so and not because? Find out in Step 4.", "Bravo ! Le mot mystère est so. Pourquoi so et pas because ? Tu vas le découvrir à l'étape 4.");
       else if (it.mystery) fbSet(fb, "good", `Well done! The mystery box hides <b>${hidden}</b>.`, `Bravo ! La boîte mystère cache ${hidden}.`);
       else fbSet(fb, "good", "Well done!");
       $$("button", act).forEach(b => b.hidden = true); opts.onWin && opts.onWin(f);
@@ -550,24 +549,44 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       tiles.addEventListener("click", e => {
         const t = e.target.closest(".tile"); if (!t || t.classList.contains("used") || solved) return;
         t.classList.add("used"); ans.classList.remove("wrong"); fb.textContent = "";
-        const b = document.createElement("button"); b.type = "button"; b.className = "tile" + (t.classList.contains("mystery") ? " mystery" : ""); b.dataset.i = t.dataset.i; b.textContent = t.textContent; ans.appendChild(b);
+        const b = document.createElement("button"); b.type = "button"; b.className = "tile" + (t.classList.contains("mystery") ? " mystery" : ""); b.dataset.i = t.dataset.i; b.textContent = t.textContent; closePick(); ans.appendChild(b);
+        if (choose && t.classList.contains("mystery")) openPick(b);
       });
+      // Training: the learner clicks the mystery box ❓ and chooses what it hides (so or because)
+      const choose = it.mystery === "reveal";
+      const closePick = () => { const p = $(".mpick", ans); if (p) p.remove(); };
+      const openPick = t => {
+        closePick();
+        const p = document.createElement("span"); p.className = "mpick"; p.setAttribute("role", "group"); p.setAttribute("aria-label", "Choose the mystery word");
+        p.innerHTML = `<button type="button" data-w="so">so</button><button type="button" data-w="because">because</button><button type="button" class="x" data-w="" aria-label="Remove">✕</button>`;
+        t.after(p); $("button", p).focus();
+      };
       ans.addEventListener("click", e => {
+        const pb = e.target.closest(".mpick button");
+        if (pb) {
+          const t = $(".mpick", ans).previousElementSibling;
+          if (pb.dataset.w) { t.dataset.w = pb.dataset.w; t.textContent = pb.dataset.w; t.classList.add("chosen"); closePick(); }
+          else { closePick(); $(`.tile[data-i="${t.dataset.i}"]`, tiles).classList.remove("used"); t.remove(); }
+          ans.classList.remove("wrong"); fb.textContent = ""; return;
+        }
         const t = e.target.closest("button.tile"); if (!t || solved) return;
+        if (choose && t.classList.contains("mystery")) { openPick(t); return; }
         $(`.tile[data-i="${t.dataset.i}"]`, tiles).classList.remove("used"); t.remove(); ans.classList.remove("wrong"); fb.textContent = "";
       });
       const [chk, clr] = $$(".btn", act);
-      clr.addEventListener("click", () => { ans.innerHTML = ""; $$(".tile", tiles).forEach(t => t.classList.remove("used")); ans.classList.remove("wrong"); fb.textContent = ""; });
+      clr.addEventListener("click", () => { closePick(); ans.innerHTML = ""; $$(".tile", tiles).forEach(t => t.classList.remove("used")); ans.classList.remove("wrong"); fb.textContent = ""; });
       check = () => {
         if (solved) return;
-        const got = $$("button.tile", ans).map(t => t.classList.contains("mystery") ? hidden : t.textContent);
+        const got = $$("button.tile", ans).map(t => t.classList.contains("mystery") ? (choose ? t.dataset.w || "?" : hidden) : t.textContent);
         if (!got.length) { fbSet(fb, "bad", "Tap the words first.", "Touche d'abord les étiquettes."); return; }
+        if (got.includes("?")) { fbSet(fb, "bad", "Click on ❓ and choose: so or because?", "Clique sur ❓ et choisis : so ou because ?"); return; }
         const f = fs.find(f => norm(got.join(" ")) === norm(joinF(f)));
         if (f) { ans.classList.add("right"); tiles.hidden = true; ans.hidden = true; win(f); return; }
         tries++; ans.classList.add("wrong");
         const trap = got.find(w => traps.includes(w)), hasK = got.includes("because") || got.includes("so");
         let en, fr;
         if (trap) { en = `“${trap}” is a trap. What's wrong?`; fr = `« ${trap} » est un piège. Qu'est-ce qui ne va pas ?`; }
+        else if (choose && fs.some(f => norm(got.map(w => (w === "so" || w === "because") ? hidden : w).join(" ")) === norm(joinF(f)))) { en = "Good order, but not the right word in the mystery box. Cause first → so. Consequence first → because."; fr = "Bon ordre, mais pas le bon mot dans la boîte mystère. La cause d'abord → so. La conséquence d'abord → because."; }
         else if (wrongOrder(got.join(" "))) { [en, fr] = orderMsg; }
         else if (it.mystery && got.length === base.length + 1) { en = "Follow the order of the pictures: start with the first picture. Where does the mystery box go?"; fr = "Suis l'ordre des images : commence par la première image. Où va la boîte mystère ?"; }
         else if (!it.k && !hasK) { en = "You need because or so."; fr = "Il manque because ou so."; }
@@ -589,7 +608,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   /* ---------- Step 1: warm-up, a strip of pictures like the slide ---------- */
   let warmSel = null;
   function renderWarm() {
-    const box = $("#warm"); box.innerHTML = "";
+    const box = $("#warm"); if (!box) return; box.innerHTML = "";
     const strip = document.createElement("div"); strip.className = "strip"; strip.setAttribute("role", "group"); strip.setAttribute("aria-label", "Pictures");
     strip.innerHTML = WARM.map(w => `<button type="button" class="wpick" data-id="${w.id}" aria-pressed="false">${S.res[w.id] ? '<span class="ok" aria-label="done">✓</span>' : ""}<span class="frame"><img src="${IMG(w.img)}" alt="${esc(WARM_ALT[w.id])}"></span><span class="pill">${esc(w.lab)}</span></button>`).join("");
     const area = document.createElement("div"); area.className = "card";
