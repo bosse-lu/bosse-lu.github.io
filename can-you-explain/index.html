@@ -208,6 +208,7 @@ details.prof summary{cursor:pointer;font-weight:700}
 details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.93rem}
 @media (max-width:560px){.line3{grid-template-columns:1fr}.kwd{padding:2px 0}.frame{width:112px;height:100px}.note{width:150px}.strip{gap:8px}.wpick{padding:6px}.wpick .frame{height:84px}.pill{font-size:.68rem;padding:3px 8px}}
 @media (prefers-reduced-motion:reduce){.rc,.pop,.qrow,.rule-box,.write{animation:none!important}.bar span{transition:none}.timer .fg{transition:none}}
+.step-h h2 > .cg-fr{font-size:.5em;margin-top:4px}
 </style>
 <script src="../assets/consigne.js"></script>
 </head>
@@ -244,7 +245,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   </section>
 
   <section class="act" aria-labelledby="h2s">
-    <div class="step-h"><span class="step-k">Step 2</span><h2 id="h2s"><em>So, let's recap</em></h2></div>
+    <div class="step-h"><span class="step-k">Step 2</span><h2 id="h2s" data-fr="Maintenant, assemblons !"><em>So now let's assemble</em></h2></div>
     <div class="instr"><p class="consigne" data-fr="Appuie sur ▶ Start. Un billet apparaît : que dit l'élève qui le donne ? Choisis la bonne phrase.">Press <b>▶ Start</b>. A note appears: what does the student say? Choose the right sentence.</p>
       <button type="button" class="start" id="rc-start"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>Start</button></div>
     <div id="recap" class="card stage" hidden></div>
@@ -287,7 +288,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   <details class="prof" lang="fr">
     <summary>Notes pour le professeur</summary>
     <ul>
-      <li>Ordre de la séance : 1 <i>Warm-up · revision</i> (3 images de la séance 1) ; 2 <i>So, let's recap</i> (animation lancée par l'élève) ; 3 <i>Explain why</i> (avec <i>because</i>, puis la boîte mystère ❓ qui cache <i>so</i>) ; 4 <i>Training session : recreate the situation</i> (3 situations, la boîte mystère cache <i>because</i> ou <i>so</i> selon l'ordre des images) ; 5 <i>Think 🧠</i> (PRL : les deux phrases inversées et colorées ; même histoire ? oui ; même sens ? non ; cause et conséquence ; la phrase ① exprime la cause, la ② la conséquence ; grâce à quel outil : <i>because</i> → cause, <i>so</i> → conséquence ; puis la règle) ; 6 le jeu (6 cartes, écrit puis oral ; 15 secondes par carte, puis 15 secondes de correction avant la carte suivante) ; 7 <i>Linking words</i> (court texte à trous avec <i>and, but, because, so</i> : <i>so</i> rejoint la famille des mots qui relient deux propositions).</li>
+      <li>Ordre de la séance : 1 <i>Warm-up · revision</i> (3 images de la séance 1) ; 2 <i>So now let's assemble</i> (animation lancée par l'élève) ; 3 <i>Explain why</i> (avec <i>because</i>, puis la boîte mystère ❓ qui cache <i>so</i>) ; 4 <i>Training session : recreate the situation</i> (3 situations, la boîte mystère cache <i>because</i> ou <i>so</i> selon l'ordre des images) ; 5 <i>Think 🧠</i> (PRL : les deux phrases inversées et colorées ; même histoire ? oui ; même sens ? non ; cause et conséquence ; la phrase ① exprime la cause, la ② la conséquence ; grâce à quel outil : <i>because</i> → cause, <i>so</i> → conséquence ; puis la règle) ; 6 le jeu (6 cartes, écrit puis oral ; 15 secondes par carte, puis 15 secondes de correction avant la carte suivante) ; 7 <i>Linking words</i> (court texte à trous avec <i>and, but, because, so</i> : <i>so</i> rejoint la famille des mots qui relient deux propositions).</li>
       <li>Consignes en anglais. Groupe ★ (et niveau libre) : traduction française affichée dessous ; ★★ : bouton FR pour l'afficher ; ★★★ : anglais seul.</li>
       <li><b>Le jeu</b> : 15 secondes par carte, puis 15 secondes de correction (passage automatique à la carte suivante), score, pastilles verte / jaune / rouge (1, 2, 3 points). 1er temps à l'écrit : ★ mots à remettre dans l'ordre, ★★ mots + erreurs, ★★★ rédiger la phrase. 2e temps à l'oral : ★ mots dans le désordre avec une erreur, ★★ mots + erreurs, ★★★ l'image seule ; l'élève dit la phrase et la reconnaissance vocale (Chrome ou Edge, comme « Check my pronunciation » dans les Labs) la valide : au moins 3 mots sur 4 dans le bon ordre, avec because ou so. Deux essais, puis le modèle. Sans reconnaissance vocale : écoute du modèle et auto-validation. 6 cartes par partie.</li>
       <li>Code couleur des diapos : cause en vert, conséquence en rouge, mot de liaison souligné. La phrase suit l'ordre des images : billet puis image → conséquence + <i>because</i> + cause (<i>I'm late because I overslept</i>) ; image puis billet → cause + <i>so</i> + conséquence (<i>I overslept, so I was absent</i>). Dans <i>Explain why</i>, la 2e phrase cache <i>so</i> dans une boîte mystère ❓ : l'élève le découvre en manipulant, puis l'étape 5 (<i>Think</i>) fait formuler la règle.</li>
