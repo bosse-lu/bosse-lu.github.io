@@ -49,13 +49,13 @@
     steps: [
       S5("warm"),
       Object.assign({}, S5("note"), {total: () => 22, count: s => Object.keys(s.res || {}).length, what: "Écoute les six dialogues du collège en autonomie et remplis les billets : late slip, absence note ou permission note. Repère les questions et le question tag « weren't you? »."}),
-      Object.assign({}, S5("so"), {total: 26, what: "Lesson 2 (4e version): revise the excuses, assemble the notes, explain why, recreate the situations, find the rule (because / so, and the new tools because of + noun and That's why), the linking words, then play DÒKÒ. Homework at the end."}),
-      {id: "bus", href: "late-bus-4e/", art: "bus", title: "Blame the bus! (4e)",
-        what: "Le vrai article de presse britannique, en version 4e. Lis-le, écoute-le et repère les verbes au prétérit : c'est là que tu découvres le prétérit, puis tu l'étends à tous les verbes de la séquence. Ensuite, l'étape suivante t'entraîne à prononcer les verbes en -ed.",
+      Object.assign({}, S5("so"), {total: 26, what: "Lesson 2: revise the excuses, assemble the notes, explain why, recreate the situations, find the rule (because / so, and the new tools because of + noun and That's why), the linking words, then play DÒKÒ. Homework at the end."}),
+      {id: "bus", href: "late-bus-4e/", art: "bus", title: "Blame the bus!",
+        what: "Le vrai article de presse britannique. Lis-le, écoute-le et repère les verbes au prétérit : c'est là que tu découvres le prétérit, puis tu l'étends à tous les verbes de la séquence. Ensuite, l'étape suivante t'entraîne à prononcer les verbes en -ed.",
         skills: ["Lecture", "Prétérit", "Royaume-Uni"], key: "latebus4e", total: 16},
       S5("ed"),
       {id: "have", href: "what-have-you-done/", art: "have", title: "Oh no, I've forgotten it!",
-        what: "Nouveau en 4e : have + participe passé pour faire un constat. « I've forgotten my exercise book », « I haven't finished my homework ». Observe, trouve la règle, puis entraîne-toi.",
+        what: "Nouveau : have + participe passé pour faire un constat. « I've forgotten my exercise book », « I haven't finished my homework ». Observe, trouve la règle, puis entraîne-toi.",
         skills: ["Present perfect", "Constat", "Participes passés"], key: "pp4e", total: 35},
       Object.assign({}, S5("excuse"), {what: "Pour finir la séquence : reprends toutes les excuses et les vraies voix des dialogues. Écoute, répète en respectant l'accent et le rythme, puis joue la scène. Ajoute un constat au present perfect dans ta scène !"})
     ]
@@ -90,9 +90,9 @@
   function hubBlock() {
     const k = klassNow();
     if (k && k.admin) return null;
-    if (SEQ.level === "4e" && !k) return {t: "Séquence réservée aux 4e", w: "Entre le code de ta classe de 4e, en haut de la page, pour voir les étapes."};
-    if (SEQ.level === "4e" && k.level !== "4e") return {t: "Séquence réservée aux 4e", w: `Ta classe est en ${k.level} : ta séquence est la version ${k.level}.`, href: SEQ5.href, go: "Ouvrir ma séquence"};
-    if (SEQ.level === "5e" && k && k.level === "4e") return {t: "Ta séquence est la version 4e", w: "Ta classe est en 4e : la séquence Late and absent a une version pour toi, avec du nouveau (le present perfect) et un article plus long.", href: SEQ4.href, go: "Ouvrir Late and absent · 4e"};
+    if (SEQ.level === "4e" && !k) return {t: "Entre le code de ta classe", w: "Entre le code de ta classe, en haut de la page, pour voir les étapes."};
+    if (SEQ.level === "4e" && k.level !== "4e") return {t: "Ta séquence est sur une autre page", w: "Cette page n'est pas la version de ta classe. Ta séquence Late and absent t'attend sur sa propre page.", href: SEQ5.href, go: "Ouvrir ma séquence"};
+    if (SEQ.level === "5e" && k && k.level === "4e") return {t: "Ta séquence est sur une autre page", w: "La séquence Late and absent a une version pour ta classe, avec du nouveau (le present perfect) et un article plus long.", href: SEQ4.href, go: "Ouvrir ma séquence"};
     return null;
   }
   function renderHub() {
@@ -168,8 +168,8 @@
   function renderFeature() {
     const q = is4e() ? SEQ4 : SEQ5, steps = all(q), pc = overall(steps);
     feat.setAttribute("href", url(q.href));
-    const tg = feat.querySelector(".tag"); if (tg) tg.textContent = `Séquence en cours · ${q.level}`;
-    const h = feat.querySelector("h2"); if (h) h.textContent = q.level === "4e" ? "Late and absent · 4e" : "Late and absent";
+    const tg = feat.querySelector(".tag"); if (tg) tg.textContent = "Séquence en cours";
+    const h = feat.querySelector("h2"); if (h) h.textContent = "Late and absent";
     const mini = feat.querySelector(".mini");
     if (mini) mini.innerHTML = steps.map((s, i) => `<span class="ms${s.p.done ? " ok" : ""}" title="${s.title}"><span class="ms-art" data-art="${s.art}" aria-hidden="true"></span><span class="ms-t">${i + 1}. ${s.title}${s.p.done ? " ✓" : ""}</span></span>`).join("");
     const b = feat.querySelector(".bar span"); if (b) b.style.width = pc + "%";
@@ -219,7 +219,7 @@
       const i = SEQ.steps.findIndex(x => x.id === stepId);
       if (i < 0) { SEQ = SEQS.find(q => q.steps.some(x => x.id === stepId)); }
       const j = SEQ.steps.findIndex(x => x.id === stepId);
-      bar.innerHTML = `<a href="${url("")}">Home</a><span class="sep">›</span><a href="${url(SEQ.href)}">← ${SEQ.title}${SEQ.level === "4e" ? " · 4e" : ""}</a><span class="stp">Step ${j + 1} / ${SEQ.steps.length}</span>`;
+      bar.innerHTML = `<a href="${url("")}">Home</a><span class="sep">›</span><a href="${url(SEQ.href)}">← ${SEQ.title}</a><span class="stp">Step ${j + 1} / ${SEQ.steps.length}</span>`;
       const prev = SEQ.steps[j - 1], next = SEQ.steps[j + 1];
       nav.innerHTML = (prev ? `<a href="${url(prev.href)}"><small>← Step ${j}</small><b>${prev.title}</b></a>` : `<a href="${url(SEQ.href)}"><small>←</small><b>The sequence</b></a>`)
         + (next ? `<a class="nx" href="${url(next.href)}"><small>Next step ${j + 2} →</small><b>${next.title}</b></a>` : `<a class="nx" href="${url(SEQ.href)}"><small>Last step done? →</small><b>Back to the sequence</b></a>`);
@@ -239,7 +239,7 @@
       if (!other && isOpen(SEQ.steps[j], j)) return;
       const d = document.createElement("div"); d.id = "seq-lock"; d.setAttribute("role", "dialog"); d.setAttribute("aria-modal", "true"); d.setAttribute("aria-labelledby", "seq-lock-t");
       d.innerHTML = other
-        ? `<div><span style="font-size:2.4rem" aria-hidden="true">↪</span><b class="t" id="seq-lock-t">This page is for ${SEQ.level} classes</b><span data-fr="Ta classe est en ${other.lvl} : ta version de cette étape est ailleurs.">Your class is in ${other.lvl}: your version of this step is on another page.</span><br><a class="back" href="${url(other.href)}">Go to my version →</a></div>`
+        ? `<div><span style="font-size:2.4rem" aria-hidden="true">↪</span><b class="t" id="seq-lock-t">Your version is on another page</b><span data-fr="Ta version de cette étape est sur une autre page.">Your version of this step is on another page.</span><br><a class="back" href="${url(other.href)}">Go to my version →</a></div>`
         : `<div><span style="font-size:2.4rem" aria-hidden="true">🔒</span><b class="t" id="seq-lock-t">Locked step</b>${k
         ? `<span data-fr="Cette étape n'est pas encore ouverte pour ta classe. Ton professeur l'ouvrira en classe, au bon moment.">This step is not open for your class yet. Your teacher will open it in class.</span>`
         : `<span data-fr="Entre le code de ta classe : seules les étapes ouvertes par ton professeur sont accessibles.">Enter your class code: you can only open the steps your teacher has opened.</span>`}

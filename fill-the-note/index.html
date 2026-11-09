@@ -134,6 +134,9 @@ body.nb-has .dlg>.player{top:70px}
 .tile.used{visibility:hidden}
 .answer .tile{background:var(--accent-soft);border-color:var(--accent)}
 .answer .tile.k{background:var(--mark);color:var(--onmark);border-color:var(--onmark)}
+/* correction of Time to write: past verbs in red, boxed */
+.past{color:var(--bad);border:2px solid var(--bad);border-radius:5px;padding:0 4px;font-weight:700;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.model{margin:8px 0 0;font-family:var(--display);font-size:1.05rem;line-height:1.9}
 
 /* bilan */
 .sortrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:6px 0;border-bottom:1px dashed var(--line)}
@@ -536,6 +539,9 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   }
 
   /* ---------- 2c. Rephrasing: one sentence with because ---------- */
+  // In the correction, the verbs in the past are shown in red, boxed
+  const PAST = /\b(was|were|had|overslept|missed)\b/g;
+  const pastHTML = t => esc(t).replace(PAST, '<span class="past">$1</span>');
   function partW(d) {
     const st = stars(), id = "w" + d.n;
     const models = [d.w.k, ...(d.w.alt || [])].map(k => k.join(" "));
@@ -546,13 +552,15 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       g.input.classList.add("long");
       const act = document.createElement("div"); act.className = "actions";
       act.innerHTML = `<button type="button" class="btn">Check</button><p class="fb" aria-live="polite"></p>`;
-      c.append(g.el, act);
+      const model = document.createElement("p"); model.className = "model"; model.setAttribute("lang", "en"); model.hidden = true;
+      const showModel = () => { model.innerHTML = pastHTML(models[0]); model.hidden = false; };
+      c.append(g.el, model, act);
       const fb = $(".fb", act), chk = $(".btn", act); let tries = 0;
-      if (S.res[id]) { g.solve(models[0]); chk.hidden = true; fb.className = "fb good"; fb.textContent = "✓"; }
+      if (S.res[id]) { g.solve(models[0]); showModel(); chk.hidden = true; fb.className = "fb good"; fb.textContent = "✓"; }
       chk.addEventListener("click", () => {
         const v = g.value();
         if (!v) { fb.className = "fb bad"; fb.textContent = "Write your sentence first."; return; }
-        if (g.mark()) { g.solve(models[0]); chk.hidden = true; fb.className = "fb good"; fb.textContent = "Well done! Copy the sentence on your worksheet."; done(id); setDone(c); return; }
+        if (g.mark()) { g.solve(models[0]); showModel(); chk.hidden = true; fb.className = "fb good"; fb.textContent = "Well done! Copy the sentence on your worksheet."; done(id); setDone(c); return; }
         tries++; fb.className = "fb bad";
         fb.textContent = !/\bbecause\b/i.test(v) ? "Your sentence needs because." : !norm(v).startsWith(norm(d.name)) ? `Start with the name: ${d.name}…` : "Almost: check the tense of the verb (present or past) and the words of the dialogue.";
         if (tries >= 2) fb.textContent += ` Model: “${models[0]}”`;
@@ -570,7 +578,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       act.innerHTML = `<button type="button" class="btn">Check</button><button type="button" class="btn lite">Clear</button><p class="fb" aria-live="polite"></p>`;
       c.append(ans, tiles, act);
       const fb = $(".fb", act), [chk, clr] = $$(".btn", act);
-      const solved = () => { ans.innerHTML = d.w.k.map(w => `<span class="tile${w === "because" ? " k" : ""}">${esc(w)}</span>`).join(""); ans.classList.add("right"); tiles.hidden = true; chk.hidden = clr.hidden = true; };
+      const solved = () => { ans.innerHTML = d.w.k.map(w => `<span class="tile${w === "because" ? " k" : ""}">${pastHTML(w)}</span>`).join(""); ans.classList.add("right"); tiles.hidden = true; chk.hidden = clr.hidden = true; };
       if (S.res[id]) { solved(); fb.className = "fb good"; fb.textContent = "✓"; }
       tiles.addEventListener("click", e => {
         const t = e.target.closest(".tile"); if (!t || t.classList.contains("used")) return;
