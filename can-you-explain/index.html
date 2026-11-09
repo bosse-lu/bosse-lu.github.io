@@ -9,7 +9,7 @@
 <style>
 /* Can you explain? — lesson 2 of Late and absent, from the teacher's animated slideshow.
    Step 1 warm-up (revision with the pictures of lesson 1), step 2 recap of the notes, step 3 explain why,
-   step 4 think about the language (cause / consequence, inductive), step 5 recreate the situation, step 6 the game,
+   step 4 think about the language (cause / consequence, inductive), step 5 recreate the situation, step 7 DÒKÒ,
    step 7 homework. Cause = teal, consequence = red, as on the slides. Instructions in English; French help by level. */
 :root{
   --paper:#f3f5fb; --card:#ffffff; --ink:#1b2340; --muted:#5b6380; --line:#d9ddea;
@@ -212,6 +212,10 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
 @media (max-width:560px){.line3{grid-template-columns:1fr}.kwd{padding:2px 0}.frame{width:112px;height:100px}.note{width:150px}.strip{gap:8px}.wpick{padding:6px}.wpick .frame{height:84px}.pill{font-size:.68rem;padding:3px 8px}}
 @media (prefers-reduced-motion:reduce){.rc,.pop,.qrow,.rule-box,.write{animation:none!important}.bar span{transition:none}.timer .fg{transition:none}}
 .step-h h2 > .cg-fr{font-size:.5em;margin-top:4px}
+.doko-go{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.doko-go a{text-decoration:none}
+.doko-go a.alt{background:var(--card);color:var(--ink);border:2px solid var(--ink)}
+.doko-go a.locked{opacity:.6}
 </style>
 <script src="../assets/consigne.js"></script>
 </head>
@@ -267,23 +271,25 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   </section>
 
   <section class="act" aria-labelledby="h4s">
-    <div class="step-h"><span class="step-k">Step 5</span><h2 id="h4s"><em>Think</em> 🧠</h2></div>
+    <div class="step-h"><span class="step-k">Step 5</span><h2 id="h4s" data-fr="As-tu compris ?"><em>Did you get it?</em> 🧠</h2></div>
     <div class="instr"><p class="consigne" data-fr="Appuie sur ▶ Start et observe les deux phrases. Puis réponds aux questions : c'est toi qui trouves la règle.">Press <b>▶ Start</b> and look at the two sentences. Then answer the questions: you find the rule.</p>
       <button type="button" class="start" id="th-start"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>Start</button></div>
     <div id="think" class="card stage" hidden></div>
   </section>
 
-  <section class="act" aria-labelledby="h7s">
-    <div class="step-h"><span class="step-k">Step 6</span><h2 id="h7s"><em>OK OK, now it's time to manipulate</em> · the game</h2></div>
-    <div class="instr"><p class="consigne" data-fr="15 secondes par carte, puis 15 secondes de correction. Ta phrase suit l'ordre des images. Les cartes difficiles rapportent plus de points. Partie 1 : écris. Partie 2 : dis la phrase, l'ordinateur vérifie.">15 seconds per card, then 15 seconds of correction. Your sentence follows the order of the pictures. Difficult cards give more points. Part 1: write. Part 2: say it, the computer checks.</p></div>
-    <div class="legend-dots"><span><i class="dot g"></i>easy · 1 point</span><span><i class="dot y"></i>medium · 2 points</span><span><i class="dot r"></i>difficult · 3 points</span></div>
-    <div id="game" class="game"></div>
-  </section>
-
   <section class="act" aria-labelledby="h6s">
-    <div class="step-h"><span class="step-k">Step 7</span><h2 id="h6s"><em>Linking words</em> · and, but, because, so</h2></div>
+    <div class="step-h"><span class="step-k">Step 6</span><h2 id="h6s"><em>Linking words</em> · and, but, because, so</h2></div>
     <div class="instr"><p class="consigne" data-fr="Maintenant que tu as manipulé ces deux outils, es-tu capable de les utiliser dans un contexte plus large, avec leur famille : but et and ? Let's go!">Now you have practised these two tools: can you use them in a longer text, with their family, <b>but</b> and <b>and</b>? Let's go!</p></div>
     <div id="gap" class="card"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h7s">
+    <div class="step-h"><span class="step-k">Step 7</span><h2 id="h7s"><em>OK OK, now it's time to play</em> · DÒKÒ</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Joue à DÒKÒ : choisis ton jeton et pose-le sur la bonne réponse avant la fin du temps. Attention : à la moitié du temps, la 1re ligne se bloque ! L'entraînement « Recreate the situation » te prépare au contrôle sur 20 (ton professeur l'ouvre).">Play DÒKÒ: choose your token and put it on the right answer before the end of the time. Careful: at half time, row 1 is locked! The <b>Recreate the situation</b> training gets you ready for the test out of 20 (your teacher opens it).</p></div>
+    <div class="card doko-go">
+      <a class="start" href="../doko/?game=theme">▶ Play DÒKÒ</a>
+      <a class="start alt" id="doko-train" href="../doko/?game=training">🏋️ Training: recreate the situation <span id="doko-train-st"></span></a>
+    </div>
   </section>
 
   <div class="panel"><p class="consigne" style="font-weight:400" data-fr="Sur ta fiche : écris tes réponses à chaque étape (Step 1 à 7). À la maison 🏠 : fais les exercices A et B de la leçon 2.">On your worksheet: write your answers for each step (Step 1 to 7). At home 🏠: do Homework A and B of lesson 2.</p></div>
@@ -291,9 +297,9 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   <details class="prof" lang="fr">
     <summary>Notes pour le professeur</summary>
     <ul>
-      <li>Ordre de la séance : 1 <i>Warm-up · revision</i> (3 images de la séance 1) ; 2 <i>So now let's assemble</i> (animation lancée par l'élève : il choisit le début de la phrase, la raison s'écrit sur le billet, la classe devine la phrase entière à l'oral, puis « Show the sentence » la valide) ; 3 <i>Explain why</i> (avec <i>because</i>, puis la boîte mystère ❓ qui cache <i>so</i>) ; 4 <i>Training session : recreate the situation</i> (3 situations, la boîte mystère cache <i>because</i> ou <i>so</i> selon l'ordre des images) ; 5 <i>Think 🧠</i> (PRL : les deux phrases inversées et colorées ; même histoire ? oui ; même sens ? non ; cause et conséquence ; la phrase ① exprime la cause, la ② la conséquence ; grâce à quel outil : <i>because</i> → cause, <i>so</i> → conséquence ; puis la règle) ; 6 le jeu (6 cartes, écrit puis oral ; 15 secondes par carte, puis 15 secondes de correction avant la carte suivante) ; 7 <i>Linking words</i> (court texte à trous avec <i>and, but, because, so</i> : <i>so</i> rejoint la famille des mots qui relient deux propositions).</li>
+      <li>Ordre de la séance : 1 <i>Warm-up · revision</i> (3 images de la séance 1) ; 2 <i>So now let's assemble</i> (animation lancée par l'élève : il choisit le début de la phrase, la raison s'écrit sur le billet, la classe devine la phrase entière à l'oral, puis « Show the sentence » la valide) ; 3 <i>Explain why</i> (avec <i>because</i>, puis la boîte mystère ❓ qui cache <i>so</i>) ; 4 <i>Training session : recreate the situation</i> (3 situations, la boîte mystère cache <i>because</i> ou <i>so</i> selon l'ordre des images) ; 5 <i>Did you get it? 🧠</i> (PRL : les deux phrases inversées et colorées ; même histoire ? oui ; même sens ? non ; cause et conséquence ; la phrase ① exprime la cause, la ② la conséquence ; grâce à quel outil : <i>because</i> → cause, <i>so</i> → conséquence ; puis la règle) ; 6 <i>Linking words</i> (court texte à trous avec <i>and, but, because, so</i> : <i>so</i> rejoint la famille des mots qui relient deux propositions) ; 7 DÒKÒ (lien vers le jeu en accès libre, et l'entraînement <i>Recreate the situation</i> : 6 situations, 2 par niveau, ouvert à la demande par classe).</li>
       <li>Consignes en anglais. Groupe ★ (et niveau libre) : traduction française affichée dessous ; ★★ : bouton FR pour l'afficher ; ★★★ : anglais seul.</li>
-      <li><b>Le jeu</b> : 15 secondes par carte, puis 15 secondes de correction (passage automatique à la carte suivante), score, pastilles verte / jaune / rouge (1, 2, 3 points). 1er temps à l'écrit : ★ mots à remettre dans l'ordre, ★★ mots + erreurs, ★★★ rédiger la phrase. 2e temps à l'oral : ★ mots dans le désordre avec une erreur, ★★ mots + erreurs, ★★★ l'image seule ; l'élève dit la phrase et la reconnaissance vocale (Chrome ou Edge, comme « Check my pronunciation » dans les Labs) la valide : au moins 3 mots sur 4 dans le bon ordre, avec because ou so. Deux essais, puis le modèle. Sans reconnaissance vocale : écoute du modèle et auto-validation. 6 cartes par partie.</li>
+      <li><b>DÒKÒ</b> : nouvelle règle, la 1re ligne (une lettre, 4 points) se bloque à la moitié du temps ; il ne reste que les paires (2 points). L'entraînement et l'évaluation sur 20 se trouvent dans DÒKÒ et s'ouvrent à la demande.</li>
       <li>Code couleur des diapos : cause en vert, conséquence en rouge, mot de liaison souligné. La phrase suit l'ordre des images : billet puis image → conséquence + <i>because</i> + cause (<i>I'm late because I overslept</i>) ; image puis billet → cause + <i>so</i> + conséquence (<i>I overslept, so I was absent</i>). Dans <i>Explain why</i>, la 2e phrase cache <i>so</i> dans une boîte mystère ❓ : l'élève le découvre en manipulant, puis l'étape 5 (<i>Think</i>) fait formuler la règle.</li>
     </ul>
   </details>
@@ -432,7 +438,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   const POINTS = {g: 1, y: 2, r: 3}, SECS = 15, CORR = 15;
 
   /* ---------- progress ---------- */
-  const IDS = [...WARM.map(w => w.id), "r1", "r2", "r3", ...MAKE.map(m => m.id), ...THINK.map(t => t.id), ...RECREATE.map(t => t.id), ...GAP.map((g, i) => "x" + (i + 1)), "g1", "g2"];
+  const IDS = [...WARM.map(w => w.id), "r1", "r2", "r3", ...MAKE.map(m => m.id), ...THINK.map(t => t.id), ...RECREATE.map(t => t.id), ...GAP.map((g, i) => "x" + (i + 1))];
   function done(id) { if (!S.res[id]) { S.res[id] = 1; save(); } progress(); }
   function progress() { const n = IDS.filter(i => S.res[i]).length; $("#pc").textContent = `${n} / ${IDS.length}`; $("#pcbar").style.width = Math.round(100 * n / IDS.length) + "%"; }
   function cardEl(title, id) {
@@ -650,7 +656,15 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     setTimeout(askQ, 4600);
   }
 
-  /* ---------- Step 6: the game ---------- */
+  /* ---------- Step 7: DÒKÒ (the game is on its own page); the training opens when the teacher allows it ---------- */
+  function dokoLink() {
+    const a = $("#doko-train"); if (!a) return;
+    const C = window.Classes, open = !!(C && C.isReady() && (C.isAdmin() || C.evalOpen("late-and-absent", "doko-training") || C.evalOpen("late-and-absent-4e", "doko-training")));
+    a.classList.toggle("locked", !open); $("#doko-train-st").textContent = open ? "" : "🔒";
+  }
+  document.addEventListener("classes:ready", dokoLink); document.addEventListener("classes:change", dokoLink);
+
+  /* ---------- (former step 6: the old card game, kept here but no longer shown) ---------- */
   let G = null, timerId = null;
   const voice = () => { try { const v = speechSynthesis.getVoices(); return v.find(x => /en[-_]GB/i.test(x.lang)) || v.find(x => /^en/i.test(x.lang)); } catch (e) { return null; } };
   function say(text) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "en-GB"; u.rate = .92; const v = voice(); if (v) u.voice = v; speechSynthesis.speak(u); } catch (e) {} }
@@ -832,7 +846,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     const sig = String(stars());
     if (!force && sig === lastSig) return;
     lastSig = sig;
-    renderWarm(); renderPairs("make", MAKE, true); renderPairs("recreate", RECREATE); renderGap(); renderGameIntro(); progress();
+    renderWarm(); renderPairs("make", MAKE, true); renderPairs("recreate", RECREATE); renderGap(); dokoLink(); progress();
   }
   if (C()) C().mountPicker($("#class-box"));
   renderAll(true);

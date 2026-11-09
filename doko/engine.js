@@ -17,29 +17,34 @@
   const THEMES = CFG.themes || window.DOKO_THEMES || [], RECREATE = CFG.recreate === false ? null : window.DOKO_RECREATE;
   const LV = {1: ["easy", "facile"], 2: ["medium", "moyen"], 3: ["difficult", "difficile"]};
   const PER_LEVEL = 4, FAST = 8, WRONG = CFG.wrong === undefined ? 1 : CFG.wrong, KEY = CFG.key || "doko";
+  const HALF = CFG.halfLock !== false;
   const S = FR ? {
     recQ: "Que s'est-il passé ? Choisis la bonne phrase.", best: n => `Mon meilleur score : ${n}`, play: "Jouer", pts: n => `${n} point${Math.abs(n) > 1 ? "s" : ""}`,
     timeUp: "⏰ Temps écoulé ! 0 point", well: n => `✔ Bravo ! +${n}`, fast: "⚡ Rapide ! +1", power: "Pouvoir de l'élément ! +2", wrong: n => n ? `✘ Pas cette fois : −${n}` : "✘ Pas cette fois…",
     next: "Question suivante →", see: "Voir mon score 🏆", right: (r, n) => `${r} / ${n} bonnes réponses`, record: "🎉 Nouveau record !", first: "Ton premier score ! Rejoue pour le battre.", yourBest: n => `Ton meilleur score : ${n} points`,
-    music: on => on ? "🔊 Musique" : "🔇 Musique", hear: "Écouter", lvl: lv => LV[lv][1]
+    music: on => on ? "🔊 Musique" : "🔇 Musique", hear: "Écouter", lvl: lv => LV[lv][1], locked: "🔒 Ligne 1 bloquée !"
   } : {
     recQ: "What happened? Choose the right sentence.", best: n => `My best score: ${n}`, play: "Play", pts: n => `${n} point${Math.abs(n) === 1 ? "" : "s"}`,
     timeUp: "⏰ Time is up! 0 point", well: n => `✔ Well done! +${n}`, fast: "⚡ Fast! +1", power: "Element power! +2", wrong: n => n ? `✘ Not this time: −${n}` : "✘ Not this time",
     next: "Next question →", see: "See my score 🏆", right: (r, n) => `${r} / ${n} right answers`, record: "🎉 New record!", first: "Your first score! Play again to beat it.", yourBest: n => `Your best score: ${n} points`,
-    music: on => on ? "🔊 Music" : "🔇 Music", hear: "Listen", lvl: lv => LV[lv][0]
+    music: on => on ? "🔊 Music" : "🔇 Music", hear: "Listen", lvl: lv => LV[lv][0], locked: "🔒 Row 1 locked!"
   };
   const store = {get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
   let token = store.get(KEY + "-token"), game = RECREATE ? null : "theme", theme = THEMES.length === 1 ? THEMES[0] : null, G = null;
   if (!RECREATE && $("#games")) $("#games").hidden = true;
   if (!TOK.some(t => t.id === token)) token = null;
   // ?game=recreate (link from the lesson) or ?game=theme opens that game directly
-  try { const g = new URLSearchParams(location.search).get("game"); if (g === "recreate" && RECREATE) game = "recreate"; else if (g === "theme") game = "theme"; } catch (e) {}
-  const pack = () => game === "recreate" ? (recreateOpen() ? RECREATE : null) : theme;
+  // Recreate the situation · training: 6 situations (2 per level) taken from the evaluation pool, scored like the evaluation
+  // (2 / 1 / 0) but with the correction after each answer, as many tries as you want; locked until the teacher opens it.
+  const TRAINING = RECREATE ? Object.assign({}, RECREATE, {id: "training", title: "Recreate the situation · training", eval: false, train: true, per: {1: 2, 2: 2, 3: 2}, time: 20}) : null;
+  try { const g = new URLSearchParams(location.search).get("game"); if (g === "recreate" && RECREATE) game = "recreate"; else if (g === "training" && TRAINING) game = "training"; else if (g === "theme") game = "theme"; } catch (e) {}
+  const pack = () => game === "recreate" ? (recreateOpen() ? RECREATE : null) : game === "training" ? (trainingOpen() ? TRAINING : null) : theme;
   // Recreate the situation: an evaluation, locked for the learners until the teacher opens it
   // (classes.json → evals: "doko-recreate"); the teacher code opens it on the device.
   const C = () => window.Classes;
   const recreateOpen = () => !!RECREATE && !!(C() && C().isReady() && (C().isAdmin() || C().evalOpen("late-and-absent", "doko-recreate") || C().evalOpen("late-and-absent-4e", "doko-recreate")));
   const isAdmin = () => !!(C() && C().isReady() && C().isAdmin());
+  const trainingOpen = () => !!TRAINING && !!(C() && C().isReady() && (C().isAdmin() || C().evalOpen("late-and-absent", "doko-training") || C().evalOpen("late-and-absent-4e", "doko-training")));
   // One try per device. The attempt is saved in the browser storage AND in a cookie, so that
   // "I am another student" (which clears the storage) does not open a second try; the teacher can reset it.
   // st: "run" (in progress), "done" (finished), "left" (the learner left the page: 0 / 20).
@@ -71,6 +76,7 @@
     if (token) document.body.dataset.el = token; if (window.DokoFX) DokoFX.set(token);
     $$(".gm").forEach(b => b.setAttribute("aria-pressed", b.dataset.g === game));
     const lk = !recreateOpen(); if ($("#lock-recreate")) { $("#lock-recreate").hidden = !lk; $('[data-g="recreate"]').classList.toggle("locked", lk); }
+    const lt = !trainingOpen(); if ($("#lock-training")) { $("#lock-training").hidden = !lt; $('[data-g="training"]').classList.toggle("locked", lt); const bt = store.get(KEY + "-best-training"); $("#best-training").textContent = !lt && typeof bt === "number" ? `My best score: ${bt} / 12` : ""; }
     $("#themebox").hidden = game !== "theme";
     $("#best-recreate").textContent = "";
     const ev = evRead(), evDone = ev && ev.st !== "run";
@@ -139,8 +145,8 @@
       evWrite({st: "run", start: new Date().toISOString(), cls: C() && C().klass() ? C().klass().label : ""});
       document.body.classList.add("exam");
     }
-    G = {qs: pick(P), i: -1, score: 0, right: 0, streak: 0, joker: !P.eval, ev: !!P.eval, log: [], cell: null, phase: "", time: P.time || 20};
-    $("#joker").hidden = G.ev;
+    G = {qs: pick(P), i: -1, score: 0, right: 0, streak: 0, joker: !P.eval && !P.train, ev: !!P.eval, tr: !!P.train, log: [], cell: null, phase: "", time: P.time || 20};
+    $("#joker").hidden = G.ev || G.tr;
     $("#mytoken img").src = IMG + token + ".png";
     $("#menu").style.display = "none"; $("#end").style.display = "none"; $("#game").style.display = "flex"; document.body.classList.add("playing");
     window.scrollTo(0, 0); next();
@@ -165,7 +171,7 @@
 
   const Q = () => G.qs[G.i];
   const okLetter = l => L.indexOf(l) < Q().o.length && !(G.gone || []).includes(l);
-  const cellOk = c => c.length === 1 ? okLetter(c) : [...c].some(okLetter) && [...c].every(l => L.indexOf(l) < Q().o.length);
+  const cellOk = c => c.length === 1 ? okLetter(c) && !G.rowLock : [...c].some(okLetter) && [...c].every(l => L.indexOf(l) < Q().o.length);
   const value = c => c.length === 2 ? 2 : 4;
   const isRight = c => c.includes(L[Q().a]);
   function pop(t) { const d = document.createElement("div"); d.className = "pop"; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 1500); }
@@ -187,7 +193,7 @@
   function next() {
     G.i++;
     if (G.i >= G.qs.length) return finish();
-    G.cell = null; G.phase = "ask"; G.gone = []; G.t0 = Date.now();
+    G.cell = null; G.phase = "ask"; G.gone = []; G.t0 = Date.now(); G.rowLock = false;
     const q = Q(), P = pack();
     $("#qn").innerHTML = `${esc((P.emoji || "") + " " + P.title)} · ${G.i + 1} / ${G.qs.length}${G.ev ? ' <span class="evalbadge">/20</span>' : ""}`;
     const lv = q.lv || 1; $("#lvl").className = "lvl l" + lv; $("#lvl").innerHTML = `<i></i>${S.lvl(lv)}`;
@@ -214,6 +220,8 @@
       $("#tsec").textContent = s; $("#ring").style.strokeDashoffset = C * (1 - left / sec);
       $("#timer").classList.toggle("low", s <= 5);
       if (s <= 5 && s > 0 && s !== last) { beep(880, .12); last = s; }
+      // New rule: at half time, row 1 (one letter) is locked; only the pairs (row 2) are left
+      if (HALF && G.phase === "ask" && !G.rowLock && left <= sec / 2 && left > 0) { G.rowLock = true; drawBoard(); pop(S.locked); beep(330, .2); }
       if (left <= 0) { clearInterval(tmr); done(); }
     };
     tick(); tmr = setInterval(tick, 200);
@@ -221,9 +229,9 @@
   function drawBoard() {
     const cell = c => {
       const off = !cellOk(c), mine = G.cell === c;
-      return `<button type="button" class="cell${off ? " off" : ""}${mine ? " has" : ""}" data-c="${c}" ${off ? "disabled" : ""} aria-label="${c}, ${G.ev ? value(c) / 2 : value(c)} points">${mine ? `<img src="${IMG}${token}.png" alt="Your token" class="${G.anim || "idle"}">` : CFG.cellValues ? `<span class="lt v${c.length > 1 ? " pair" : ""}">${[...c].map(l => esc(Q().o[L.indexOf(l)] || "")).join("<i>·</i>")}</span>` : `<span class="lt">${c}</span>`}<small>${c}</small></button>`;
+      return `<button type="button" class="cell${off ? " off" : ""}${mine ? " has" : ""}" data-c="${c}" ${off ? "disabled" : ""} aria-label="${c}, ${(G.ev || G.tr) ? value(c) / 2 : value(c)} points">${mine ? `<img src="${IMG}${token}.png" alt="Your token" class="${G.anim || "idle"}">` : CFG.cellValues ? `<span class="lt v${c.length > 1 ? " pair" : ""}">${[...c].map(l => esc(Q().o[L.indexOf(l)] || "")).join("<i>·</i>")}</span>` : `<span class="lt">${c}</span>`}<small>${c}</small></button>`;
     };
-    $("#board").innerHTML = `<div class="row">${[...L].map(cell).join("")}<span class="pts">${G.ev ? 2 : 4}</span></div><div class="sep"></div><div class="row">${PAIRS.map(cell).join("")}<span class="pts">${G.ev ? 1 : 2}</span></div><div class="brand">DÒKÒ</div>`;
+    $("#board").innerHTML = `<div class="row">${[...L].map(cell).join("")}<span class="pts">${G.rowLock ? "🔒" : (G.ev || G.tr) ? 2 : 4}</span></div><div class="sep"></div><div class="row">${PAIRS.map(cell).join("")}<span class="pts">${(G.ev || G.tr) ? 1 : 2}</span></div><div class="brand">DÒKÒ</div>`;
   }
   // During the evaluation the score stays hidden (no correction before the end)
   const drawScore = () => { $("#score").innerHTML = `<img src="${IMG}${token}.png" alt="">` + (G.ev ? "Evaluation" : S.pts(G.score)); };
@@ -295,12 +303,15 @@
       const ok = isRight(G.cell), el = $(`#board [data-c="${G.cell}"]`);
       el.classList.add(ok ? "win" : "lose");
       if (ok) {
-        let pts = value(G.cell); G.right++; G.streak++;
+        let pts = G.tr ? value(G.cell) / 2 : value(G.cell); G.right++; G.streak++;
         msg.push(S.well(pts));
+        if (G.tr) { G.score += pts; $("#msg").className = "msg good"; beep(1040, .25); }
+        else {
         if (G.cell.length === 1 && G.took <= FAST) { pts += 1; msg.push(S.fast); setTimeout(() => pop(S.fast), 150); }
         if (G.streak % 3 === 0) { pts += 2; msg.push("✨ " + S.power); el.classList.add("power"); setTimeout(() => pop(`${TOK.find(x => x.id === token).e} ${S.power}`), 700); }
         G.score += pts; $("#msg").className = "msg good"; beep(1040, .25);
-      } else { G.score -= WRONG; G.streak = 0; msg.push(S.wrong(WRONG)); $("#msg").className = "msg bad"; beep(220, .25); }
+        }
+      } else { const w = G.tr ? 0 : WRONG; G.score -= w; G.streak = 0; msg.push(S.wrong(w)); $("#msg").className = "msg bad"; beep(220, .25); }
     }
     $("#msg").textContent = msg.join(" · ");
     $("#tsec").textContent = "✓";
@@ -309,8 +320,9 @@
     $("#explain").innerHTML = `${pic}<div><p class="ans">${a}. ${esc(q.o[q.a])}</p>${q.say && q.say !== q.o[q.a] ? `<p lang="en"><b>${esc(q.say)}</b></p>` : ""}<p>${esc(q.why || "")}</p>${q.whyHtml || ""}</div>`;
     if (CFG.speak && (q.whySpeak || q.why)) setTimeout(() => speak(q.whySpeak || q.why, CFG.speak), 500);
     drawScore(); drawStreak();
-    $("#bar").innerHTML = (q.say ? sayHTML() : "") + `<button type="button" class="btn main" id="nx">${G.i + 1 < G.qs.length ? S.next : S.see}</button>`;
-    if (q.say) bindSay(q.say);
+    const sayOn = q.say && !G.tr;
+    $("#bar").innerHTML = (sayOn ? sayHTML() : "") + `<button type="button" class="btn main" id="nx">${G.i + 1 < G.qs.length ? S.next : S.see}</button>`;
+    if (sayOn) bindSay(q.say);
     $("#nx").addEventListener("click", () => { try { speechSynthesis.cancel(); } catch (e) {} next(); }); $("#nx").focus({preventScroll: true});
   }
 
@@ -359,7 +371,7 @@
     } else $("#again").hidden = false;
     const P = pack(), k = KEY + "-best-" + P.id, best = store.get(k);
     $("#endtok").src = IMG + token + ".png";
-    $("#final").textContent = G.ev ? `${G.score} / 20` : S.pts(G.score);
+    $("#final").textContent = G.ev ? `${G.score} / 20` : G.tr ? `${G.score} / ${G.qs.length * 2}` : S.pts(G.score);
     $("#right").innerHTML = G.left ? `<p class="leftmsg">⛔ You left the evaluation: 0 / 20. You cannot start again.</p><p class="fr">Tu as quitté l'évaluation : 0 / 20. Tu ne peux pas recommencer.</p>` : S.right(G.right, G.qs.length);
     $("#review").hidden = !G.ev || G.left;
     if (G.ev && !G.left) $("#review").innerHTML = `<h3>Correction</h3>` + G.log.map((r, i) => {
