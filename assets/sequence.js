@@ -50,13 +50,13 @@
       S5("warm"),
       Object.assign({}, S5("note"), {total: () => 22, count: s => Object.keys(s.res || {}).length, what: "Écoute les six dialogues du collège en autonomie et remplis les billets : late slip, absence note ou permission note. Repère les questions et le question tag « weren't you? »."}),
       Object.assign({}, S5("so"), {total: 26, what: "Lesson 2 (4e version): revise the excuses, assemble the notes, explain why, recreate the situations, find the rule (because / so, and the new tools because of + noun and That's why), the linking words, then play DÒKÒ. Homework at the end."}),
+      {id: "bus", href: "late-bus-4e/", art: "bus", title: "Blame the bus! (4e)",
+        what: "Le vrai article de presse britannique, en version 4e. Lis-le, écoute-le et repère les verbes au prétérit : c'est là que tu découvres le prétérit, puis tu l'étends à tous les verbes de la séquence. Ensuite, l'étape suivante t'entraîne à prononcer les verbes en -ed.",
+        skills: ["Lecture", "Prétérit", "Royaume-Uni"], key: "latebus4e", total: 16},
       S5("ed"),
       {id: "have", href: "what-have-you-done/", art: "have", title: "Oh no, I've forgotten it!",
         what: "Nouveau en 4e : have + participe passé pour faire un constat. « I've forgotten my exercise book », « I haven't finished my homework ». Observe, trouve la règle, puis entraîne-toi.",
         skills: ["Present perfect", "Constat", "Participes passés"], key: "pp4e", total: 35},
-      {id: "bus", href: "late-bus-4e/", art: "bus", title: "Blame the bus! (4e)",
-        what: "Le vrai article de presse britannique, en version 4e : plus long, avec le present perfect. Lis-le, écoute-le, puis entraîne-toi sur ses verbes en -ed.",
-        skills: ["Lecture", "Present perfect", "Royaume-Uni"], key: "latebus4e", total: 16},
       Object.assign({}, S5("excuse"), {what: "Pour finir la séquence : reprends toutes les excuses et les vraies voix des dialogues. Écoute, répète en respectant l'accent et le rythme, puis joue la scène. Ajoute un constat au present perfect dans ta scène !"})
     ]
   };
