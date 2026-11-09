@@ -237,6 +237,10 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       <button type="button" data-st="2" aria-pressed="false">★★ Practise</button>
       <button type="button" data-st="3" aria-pressed="false">★★★ Challenge</button>
     </span>
+    <span class="seg" role="group" aria-label="Class level" id="lv-seg">
+      <button type="button" data-lv="5e" aria-pressed="false">5e</button>
+      <button type="button" data-lv="4e" aria-pressed="false">4e</button>
+    </span>
     <p id="lvl-msg"></p>
   </div>
 
@@ -278,7 +282,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   </section>
 
   <section class="act" aria-labelledby="h6s">
-    <div class="step-h"><span class="step-k">Step 6</span><h2 id="h6s"><em>Linking words</em> · and, but, because, so</h2></div>
+    <div class="step-h"><span class="step-k">Step 6</span><h2 id="h6s"><em>Linking words</em> · <span id="lw-list">and, but, because, so</span></h2></div>
     <div class="instr"><p class="consigne" data-fr="Maintenant que tu as manipulé ces deux outils, es-tu capable de les utiliser dans un contexte plus large, avec leur famille : but et and ? Let's go!">Now you have practised these two tools: can you use them in a longer text, with their family, <b>but</b> and <b>and</b>? Let's go!</p></div>
     <div id="gap" class="card"></div>
   </section>
@@ -297,6 +301,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   <details class="prof" lang="fr">
     <summary>Notes pour le professeur</summary>
     <ul>
+      <li><b>Version 4e</b> (codes de 4e, ou bouton « 4e » en mode professeur) : mêmes étapes, plus exigeantes : prétérit avec négation et repères de temps (<i>I didn't catch the bus this morning</i>), billets plus riches (<i>because of the traffic jam</i>, <i>I've got a terrible headache</i>), phrases plus longues (deux causes reliées par <i>and</i>), deux questions de PRL en plus (<i>because of</i> + nom, <i>That's why</i> = <i>so</i>) et un texte à 6 trous avec <i>because of</i> et <i>That's why</i>.</li>
       <li>Ordre de la séance : 1 <i>Warm-up · revision</i> (3 images de la séance 1) ; 2 <i>So now let's assemble</i> (animation lancée par l'élève : il choisit le début de la phrase, la raison s'écrit sur le billet, la classe devine la phrase entière à l'oral, puis « Show the sentence » la valide) ; 3 <i>Explain why</i> (avec <i>because</i>, puis la boîte mystère ❓ qui cache <i>so</i>) ; 4 <i>Training session : recreate the situation</i> (3 situations, la boîte mystère cache <i>because</i> ou <i>so</i> selon l'ordre des images) ; 5 <i>Did you get it? 🧠</i> (PRL : les deux phrases inversées et colorées ; même histoire ? oui ; même sens ? non ; cause et conséquence ; la phrase ① exprime la cause, la ② la conséquence ; grâce à quel outil : <i>because</i> → cause, <i>so</i> → conséquence ; puis la règle) ; 6 <i>Linking words</i> (court texte à trous avec <i>and, but, because, so</i> : <i>so</i> rejoint la famille des mots qui relient deux propositions) ; 7 DÒKÒ (lien vers le jeu en accès libre, et l'entraînement <i>Recreate the situation</i> : 6 situations, 2 par niveau, ouvert à la demande par classe).</li>
       <li>Consignes en anglais. Groupe ★ (et niveau libre) : traduction française affichée dessous ; ★★ : bouton FR pour l'afficher ; ★★★ : anglais seul.</li>
       <li><b>DÒKÒ</b> : nouvelle règle, la 1re ligne (une lettre, 4 points) se bloque à la moitié du temps ; il ne reste que les paires (2 points). L'entraînement et l'évaluation sur 20 se trouvent dans DÒKÒ et s'ouvrent à la demande.</li>
@@ -390,22 +395,22 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   const sceneHTML = (parts, eq) => `<div class="scene">${parts.map((p, i) => (i && !p.q && !p.kw && !parts[i - 1].kw ? '<span class="plus" aria-hidden="true">+</span>' : "") + partHTML(p)).join("")}${eq ? '<span class="eq" aria-hidden="true">=</span><span class="q-mark">?</span>' : ""}</div>`;
 
   /* ---------- content (from the lesson 2 slides; pictures of lesson 1 for the revision) ---------- */
-  const WARM = [
+  const WARM_5 = [
     {id: "w1", img: "dentist", alt: "dentist", lab: "On Tuesday morning", k: ["I went", "to the dentist", "on Tuesday morning"], x: ["I go", "I goed"], alt2: [["on Tuesday morning", "I went", "to the dentist"]]},
     {id: "w2", img: "bus", alt: "missing the bus", lab: "This morning", k: ["I missed", "the bus", "this morning"], x: ["I miss", "I missd"], alt2: [["this morning", "I missed", "the bus"]]},
     {id: "w3", img: "flu", alt: "ill in bed", lab: "The day before yesterday", k: ["I had", "the flu", "the day before yesterday"], x: ["I have", "I haved"], alt2: [["the day before yesterday", "I had", "the flu"]]}
   ].map(w => Object.assign(w, {alt: w.alt2}));
   const WARM_ALT = {w1: "dentist", w2: "missing the bus", w3: "ill in bed"};
-  const RECAP = [
+  const RECAP_5 = [
     {type: "late", say: "I'm late", field: "Reason", red: "Missed the bus", sent: "I'm late because I missed the bus."},
     {type: "abs", say: "I was absent", field: "Reason", red: "Broke my leg", sent: "I was absent because I broke my leg."},
     {type: "perm", say: "Can I…?", field: "Permission", red: "Go to the nurse", sent: "Can I go to the nurse, please?"}
   ];
-  const MAKE = [
+  const MAKE_5 = [
     {id: "m1", scene: [{note: "late"}, {img: "overslept", alt: "oversleeping"}], cause: ["I overslept"], cons: ["I'm late"], pre: "Sorry,", only: "because", x: ["I oversleep", "I was absent"]},
     {id: "m2", scene: [{img: "overslept", alt: "oversleeping"}, {note: "abs"}], cause: ["I overslept"], cons: ["I was absent"], only: "so", mystery: true, x: ["I oversleep", "I'm absent"]}
   ];
-  const THINK = [
+  const THINK_5 = [
     {id: "k1", q: ["Do the two sentences tell the same story?", "Les deux phrases racontent-elles la même histoire ?"], o: ["Yes", "No"], a: "Yes"},
     {id: "k2", q: ["Do they express the same thing (the same meaning)?", "Expriment-elles la même chose (le même sens) ?"], o: ["Yes", "No"], a: "No", fb: ["Look again: does each sentence put the same idea first?", "Regarde encore : chaque phrase met-elle en avant la même idée ?"]},
     {id: "k3", q: ["What do they express? Choose the right answers.", "Qu'expriment-elles ? Choisis les bonnes réponses."], o: ["the cause", "the consequence", "the opposite"], a: ["the cause", "the consequence"], fb: ["Not quite. There are two right answers.", "Pas tout à fait. Il y a deux bonnes réponses."]},
@@ -414,7 +419,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     {id: "k6", q: ["Thanks to which tool? The cause comes with…", "Grâce à quel outil ? La cause est introduite par…"], o: ["because", "so", "and", "but"], a: "because"},
     {id: "k7", q: ["Thanks to which tool? The consequence comes with…", "Grâce à quel outil ? La conséquence est introduite par…"], o: ["because", "so", "and", "but"], a: "so"}
   ];
-  const RECREATE = [
+  const RECREATE_5 = [
     {id: "t1", only: "so", mystery: "reveal", scene: [{img: "brokeleg", alt: "broken leg"}, {note: "abs"}], cause: ["I broke", "my leg"], cons: ["I was absent"], x: ["I break", "I breaked"]},
     {id: "t2", only: "because", mystery: "reveal", scene: [{note: "abs", f: {Date: "Yesterday"}}, {img: "dentist", alt: "dentist"}], cause: ["I went", "to the dentist"], cons: ["I was absent", "yesterday"], x: ["I go", "I'm absent"]},
     {id: "t3", only: "so", mystery: "reveal", scene: [{img: "wrist", alt: "twisted wrist", lab: "Two days ago"}, {note: "abs", f: {Date: "Yesterday"}}], cause: ["I twisted", "my wrist", "two days ago"], cons: ["I was absent", "yesterday"], x: ["I twist", "I'm absent"]}
@@ -428,17 +433,60 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     {dot: "r", only: "because", scene: [{verb: "STAY", img: "house", alt: "home", lab: "Yesterday"}, {img: "sorethroat", alt: "sore throat"}], cause: ["I had", "a sore throat"], cons: ["I stayed", "at home", "yesterday"], x: ["I stay", "I have"]}
   ];
   // Step 7: Leo's bad day, with the four linking words (each one once)
-  const GAP = [
+  const GAP_5 = [
     ["Monday was a bad day for Leo. He overslept,", "so", "he missed the bus."],
     ["His mum drove (🚗) him to school,", "but", "he was still late."],
     ["Leo said to the teacher: “I'm late", "because", "I overslept.”"],
     ["He went to the office", "and", "he got a late slip."]
   ];
-  const LINKS = {and: ["adds information", "ajoute une information"], but: ["shows a contrast", "montre une opposition"], because: ["gives the cause (why?)", "donne la cause (pourquoi ?)"], so: ["gives the consequence (the result)", "donne la conséquence (le résultat)"]};
+  const LINKS_5 = {and: ["adds information", "ajoute une information"], but: ["shows a contrast", "montre une opposition"], because: ["gives the cause (why?)", "donne la cause (pourquoi ?)"], so: ["gives the consequence (the result)", "donne la conséquence (le résultat)"]};
   const POINTS = {g: 1, y: 2, r: 3}, SECS = 15, CORR = 15;
 
   /* ---------- progress ---------- */
-  const IDS = [...WARM.map(w => w.id), "r1", "r2", "r3", ...MAKE.map(m => m.id), ...THINK.map(t => t.id), ...RECREATE.map(t => t.id), ...GAP.map((g, i) => "x" + (i + 1))];
+  /* ---------- 4e version: same lesson, harder (A2): negations and time markers, "because of" + noun, "that's why", longer sentences ---------- */
+  const WARM_4 = [
+    {id: "w4", img: "dentist", alt: "dentist", lab: "Last Friday afternoon", k: ["I had", "a dentist's appointment", "last Friday afternoon"], x: ["I have", "I haved"], alt2: [["last Friday afternoon", "I had", "a dentist's appointment"]]},
+    {id: "w5", img: "bus", alt: "missing the bus", lab: "This morning", k: ["I didn't catch", "the bus", "this morning"], x: ["I didn't caught", "I don't catch"], alt2: [["this morning", "I didn't catch", "the bus"]]},
+    {id: "w6", img: "flu", alt: "ill in bed", lab: "Two days ago", k: ["I was", "in bed with the flu", "two days ago"], x: ["I were", "I am"], alt2: [["two days ago", "I was", "in bed with the flu"]]}
+  ].map(w => Object.assign(w, {alt: w.alt2}));
+  const RECAP_4 = [
+    {type: "late", say: "I'm late", field: "Reason", red: "Traffic jam", sent: "I'm late because of the traffic jam."},
+    {type: "abs", say: "I was absent", field: "Reason", red: "Doctor's appointment", sent: "I was absent yesterday because I had a doctor's appointment."},
+    {type: "perm", say: "Can I…?", field: "Permission", red: "Go to the nurse – headache", sent: "Can I go to the nurse, please? I've got a terrible headache."}
+  ];
+  const MAKE_4 = [
+    {id: "m3", scene: [{note: "late"}, {img: "car", alt: "broken-down car"}], cause: ["my mum's car", "broke down"], cons: ["I'm late"], pre: "Sorry,", only: "because", x: ["breaked down", "I was absent"]},
+    {id: "m4", scene: [{img: "flu", alt: "ill in bed", lab: "Last week"}, {note: "abs"}], cause: ["I had", "the flu", "last week"], cons: ["I didn't come", "to school"], only: "so", mystery: true, x: ["I didn't came", "I have"]}
+  ];
+  const THINK_4 = THINK_5.concat([
+    {id: "k8", q: ["New! Complete: <i>I'm late because ___ the traffic jam.</i>", "Nouveau ! Complète : I'm late because ___ the traffic jam."], o: ["of", "so", "and", "—"], a: "of", fb: ["Before a noun (the traffic jam), we say <b>because of</b>.", "Devant un nom (the traffic jam), on dit because of."]},
+    {id: "k9", q: ["New! Which one can replace <b>so</b>? <i>I overslept, so I'm late.</i>", "Nouveau ! Lequel peut remplacer so ?"], o: ["That's why", "Because", "But", "And"], a: "That's why", fb: ["Which one gives the consequence, like so?", "Lequel donne la conséquence, comme so ?"]}
+  ]);
+  const RECREATE_4 = [
+    {id: "t4", only: "so", mystery: "reveal", scene: [{img: "sorethroat", alt: "sore throat", lab: "On Monday"}, {no: "COME", img: "school", alt: "school", wide: 1}], cause: ["I had", "a sore throat", "on Monday"], cons: ["I didn't come", "to school"], x: ["I didn't came", "I have"]},
+    {id: "t5", only: "because", mystery: "reveal", scene: [{note: "abs", f: {Date: "Yesterday"}}, {img: "dentist", alt: "dentist"}], cause: ["I had", "a dentist's appointment"], cons: ["I was absent", "yesterday"], x: ["I have", "I were absent"]},
+    {id: "t6", only: "because", mystery: "reveal", scene: [{note: "late"}, {img: "overslept", alt: "oversleeping"}, {img: "bus", alt: "missing the bus"}], cause: ["I overslept", "and", "I missed the bus"], cons: ["I'm late"], x: ["I oversleep", "but"]}
+  ];
+  // Leo's terrible day, with six linking words (each one once)
+  const GAP_4 = [
+    ["Last Monday, Leo's alarm didn't ring,", "so", "he overslept."],
+    ["He ran to the bus stop,", "but", "he missed the bus."],
+    ["He couldn't ride his bike", "because of", "the rain."],
+    ["His mum drove (🚗) him to school", "and", "she wrote a note for the teacher."],
+    ["Leo said: “I'm late", "because", "I overslept.”"],
+    ["He didn't have a late slip.", "That's why", "he got a detention."]
+  ];
+  const LINKS_4 = Object.assign({}, LINKS_5, {"because of": ["+ a noun: gives the cause", "+ un nom : donne la cause"], "That's why": ["gives the consequence (= so)", "donne la conséquence (= so)"]});
+
+  // 5e or 4e: the class level (a 4e code), otherwise the choice of the teacher / of a learner without a code
+  function level() { const k = C() && C().klass ? C().klass() : null; if (k && !k.admin && (k.level === "5e" || k.level === "4e")) return k.level; return S.lvl === "4e" ? "4e" : "5e"; }
+  let WARM, RECAP, MAKE, THINK, RECREATE, GAP, LINKS, IDS, RP, GX;
+  function useLevel() {
+    const v4 = level() === "4e";
+    [WARM, RECAP, MAKE, THINK, RECREATE, GAP, LINKS] = v4 ? [WARM_4, RECAP_4, MAKE_4, THINK_4, RECREATE_4, GAP_4, LINKS_4] : [WARM_5, RECAP_5, MAKE_5, THINK_5, RECREATE_5, GAP_5, LINKS_5];
+    RP = v4 ? "R" : "r"; GX = v4 ? "X" : "x";
+    IDS = [...WARM.map(w => w.id), RP + "1", RP + "2", RP + "3", ...MAKE.map(m => m.id), ...THINK.map(t => t.id), ...RECREATE.map(t => t.id), ...GAP.map((g, i) => GX + (i + 1))];
+  }
   function done(id) { if (!S.res[id]) { S.res[id] = 1; save(); } progress(); }
   function progress() { const n = IDS.filter(i => S.res[i]).length; $("#pc").textContent = `${n} / ${IDS.length}`; $("#pcbar").style.width = Math.round(100 * n / IDS.length) + "%"; }
   function cardEl(title, id) {
@@ -462,7 +510,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     let tries = 0, solved = false, check;
     const win = f => {
       solved = true; said.innerHTML = pretty(it, f); said.hidden = false;
-      if (it.mystery === true) fbSet(fb, "good", "Well done! The mystery word is <b>so</b>. Why so and not because? Find out in Step 6.", "Bravo ! Le mot mystère est so. Pourquoi so et pas because ? Tu vas le découvrir à l'étape 6.");
+      if (it.mystery === true) fbSet(fb, "good", "Well done! The mystery word is <b>so</b>. Why so and not because? Find out in Step 5.", "Bravo ! Le mot mystère est so. Pourquoi so et pas because ? Tu vas le découvrir à l'étape 5.");
       else if (it.mystery) fbSet(fb, "good", `Well done! The mystery box hides <b>${hidden}</b>.`, `Bravo ! La boîte mystère cache ${hidden}.`);
       else fbSet(fb, "good", "Well done!");
       $$("button", act).forEach(b => b.hidden = true); opts.onWin && opts.onWin(f);
@@ -581,7 +629,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       if (e.target.closest("[data-reveal]")) {
         const i = step, r = RECAP[i], rc = $(`.rc[data-i="${i}"]`, wrap);
         $(".sent", rc).textContent = r.sent; $(".sent", rc).classList.add("shown");
-        done("r" + (i + 1)); step++;
+        done(RP + (i + 1)); step++;
         ask.innerHTML = step < RECAP.length ? `<button type="button" class="btn" data-next>Next note →</button>` : "";
         if (step >= RECAP.length) setTimeout(finishAll, 900);
         return;
@@ -650,7 +698,9 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     const showRule = () => {
       $("#rl", box).innerHTML = `<div class="rule-box"><b class="t">${T("Your rule", "Ta règle")}</b>
         <span lang="en"><b>because</b> + <span class="ca">the cause</span> (why?)</span>
-        <span lang="en"><b>so</b> + <span class="co">the consequence</span> (the result)</span>
+        <span lang="en"><b>so</b> + <span class="co">the consequence</span> (the result)</span>${level() === "4e" ? `
+        <span lang="en"><b>because of</b> + a noun: <span class="ca">because of the traffic jam</span></span>
+        <span lang="en"><b>That's why</b> = <b>so</b>: <span class="co">That's why I'm late.</span></span>` : ""}
         <span>${T("Same story, but not the same meaning: sentence ① explains the cause (why?), sentence ② gives the consequence (the result).", "Même histoire, mais pas le même sens : la phrase ① explique la cause (pourquoi ?), la phrase ② donne la conséquence (le résultat).")}</span></div>`;
     };
     setTimeout(askQ, 4600);
@@ -802,9 +852,9 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   /* ---------- Step 7: homework ---------- */
   function renderGap() {
     const box = $("#gap"); box.innerHTML = "";
-    const allDone = GAP.every((g, i) => S.res["x" + (i + 1)]);
+    const allDone = GAP.every((g, i) => S.res[GX + (i + 1)]);
     box.innerHTML = `<p class="bank" lang="en"><b>Word bank:</b> ${Object.keys(LINKS).map(w => `<span class="lk">${w}</span>`).join(" · ")} <span style="color:var(--muted)">(×1)</span></p>
-      <div class="story" lang="en">${GAP.map((g, i) => `${esc(g[0])} <select class="gsel" data-i="${i}" aria-label="Gap ${i + 1}"><option value="">…</option>${Object.keys(LINKS).map(w => `<option${S.res["x" + (i + 1)] && w === g[1] ? " selected" : ""}>${w}</option>`).join("")}</select> ${esc(g[2])}`).join(" ")}</div>
+      <div class="story" lang="en">${GAP.map((g, i) => `${esc(g[0])} <select class="gsel" data-i="${i}" aria-label="Gap ${i + 1}"><option value="">…</option>${Object.keys(LINKS).map(w => `<option${S.res[GX + (i + 1)] && w === g[1] ? " selected" : ""}>${w}</option>`).join("")}</select> ${esc(g[2])}`).join(" ")}</div>
       <div class="actions"><button type="button" class="btn">Check</button><p class="fb" aria-live="polite"></p></div>
       <div id="family"></div>`;
     const showFamily = () => {
@@ -812,13 +862,13 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
         ${Object.entries(LINKS).map(([w, [en, fr]]) => `<span lang="en"><b class="lk">${w}</b> ${T(en, fr)}</span>`).join("")}
         <span>${T("They all join two parts of a sentence. <b>so</b> is one of the family!", "Ils relient tous deux parties d'une phrase. so fait partie de la famille !")}</span></div>`;
     };
-    $$(".gsel", box).forEach(sel => { if (S.res["x" + (+sel.dataset.i + 1)]) { sel.classList.add("right"); sel.disabled = true; } });
+    $$(".gsel", box).forEach(sel => { if (S.res[GX + (+sel.dataset.i + 1)]) { sel.classList.add("right"); sel.disabled = true; } });
     if (allDone) { $(".btn", box).hidden = true; showFamily(); }
     $(".btn", box).addEventListener("click", () => {
       const sels = $$(".gsel", box), fb = $(".fb", box);
       if (sels.some(x => !x.value)) { fbSet(fb, "bad", "Fill in every gap first.", "Complète d'abord tous les trous."); return; }
       let ok = 0;
-      sels.forEach(x => { const i = +x.dataset.i, r = x.value === GAP[i][1]; x.classList.toggle("right", r); x.classList.toggle("wrong", !r); if (r) { ok++; x.disabled = true; done("x" + (i + 1)); } });
+      sels.forEach(x => { const i = +x.dataset.i, r = x.value === GAP[i][1]; x.classList.toggle("right", r); x.classList.toggle("wrong", !r); if (r) { ok++; x.disabled = true; done(GX + (i + 1)); } });
       if (ok === sels.length) { fbSet(fb, "good", "Well done!"); $(".btn", box).hidden = true; showFamily(); }
       else fbSet(fb, "bad", `${ok} / ${sels.length}: read the red sentences again.`, `${ok} / ${sels.length} : relis les phrases en rouge.`);
     });
@@ -828,7 +878,9 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   function renderLevel() {
     const k = C() && C().klass ? C().klass() : null, st = stars(), imp = imposed();
     $$("[data-st]").forEach(b => { b.setAttribute("aria-pressed", +b.dataset.st === st); b.disabled = imp; });
-    $("#lvl-msg").innerHTML = k && k.admin ? "Mode professeur : choisissez le niveau à prévisualiser."
+    const lv = level(), fixed = !!(k && !k.admin && (k.level === "5e" || k.level === "4e"));
+    $$("[data-lv]").forEach(b => { b.setAttribute("aria-pressed", b.dataset.lv === lv); b.disabled = fixed; });
+    $("#lvl-msg").innerHTML = k && k.admin ? "Mode professeur : choisissez la version (5e / 4e) et le niveau à prévisualiser."
       : imp ? T(`Your level, chosen by your teacher: ${"★".repeat(st)}.`, `Ton niveau, choisi par ton professeur : ${"★".repeat(st)}.`)
       : T("Free level: choose your challenge. ★ words · ★★ words + traps · ★★★ you write.", "Niveau libre : choisis ton défi. ★ étiquettes · ★★ étiquettes et pièges · ★★★ tu écris toi-même.");
   }
@@ -838,14 +890,21 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     if (k && k.admin) S.pv = +b.dataset.st; else S.free = +b.dataset.st;
     save(); renderAll(true); document.dispatchEvent(new CustomEvent("level:change"));
   });
+  $("#lv-seg").addEventListener("click", e => {
+    const b = e.target.closest("[data-lv]"); if (!b || b.disabled) return;
+    S.lvl = b.dataset.lv; save(); renderAll(true);
+  });
   $("#rc-start").addEventListener("click", startRecap);
   $("#th-start").addEventListener("click", startThink);
   let lastSig = null;
   function renderAll(force) {
     renderLevel();
-    const sig = String(stars());
+    const sig = stars() + "|" + level();
     if (!force && sig === lastSig) return;
-    lastSig = sig;
+    const lvChanged = lastSig !== null && lastSig.split("|")[1] !== level();
+    lastSig = sig; useLevel();
+    if (lvChanged) { $("#recap").hidden = true; $("#recap").innerHTML = ""; const th = $("#think"); if (th) { th.hidden = true; th.innerHTML = ""; } }
+    $("#lw-list").textContent = Object.keys(LINKS).join(", ");
     renderWarm(); renderPairs("make", MAKE, true); renderPairs("recreate", RECREATE); renderGap(); dokoLink(); progress();
   }
   if (C()) C().mountPicker($("#class-box"));

@@ -49,7 +49,7 @@
     steps: [
       S5("warm"),
       Object.assign({}, S5("note"), {total: () => 22, count: s => Object.keys(s.res || {}).length, what: "Écoute les six dialogues du collège en autonomie et remplis les billets : late slip, absence note ou permission note. Repère les questions et le question tag « weren't you? »."}),
-      S5("so"),
+      Object.assign({}, S5("so"), {total: 26, what: "Lesson 2 (4e version): revise the excuses, assemble the notes, explain why, recreate the situations, find the rule (because / so, and the new tools because of + noun and That's why), the linking words, then play DÒKÒ. Homework at the end."}),
       S5("ed"),
       {id: "have", href: "what-have-you-done/", art: "have", title: "Oh no, I've forgotten it!",
         what: "Nouveau en 4e : have + participe passé pour faire un constat. « I've forgotten my exercise book », « I haven't finished my homework ». Observe, trouve la règle, puis entraîne-toi.",
