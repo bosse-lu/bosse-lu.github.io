@@ -150,6 +150,9 @@ header::after{content:"";display:block;clear:both}
 .rc .pill{min-height:1.9em}
 .rc .pill:empty{visibility:hidden}
 .rc .sent{font-family:var(--display);font-size:.98rem;text-align:center;margin:0;min-height:1.5em}
+.rc .sent.shown{animation:pop-in .5s ease-out;color:var(--ink)}
+@keyframes pop-in{0%{transform:scale(.8);opacity:0}100%{transform:none;opacity:1}}
+#rc-ask [data-reveal],#rc-ask [data-next]{margin-top:8px}
 .write{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;animation:typing 1.1s steps(20,end) both}
 @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
 @keyframes typing{from{max-width:0}to{max-width:14em}}
@@ -288,7 +291,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   <details class="prof" lang="fr">
     <summary>Notes pour le professeur</summary>
     <ul>
-      <li>Ordre de la séance : 1 <i>Warm-up · revision</i> (3 images de la séance 1) ; 2 <i>So now let's assemble</i> (animation lancée par l'élève) ; 3 <i>Explain why</i> (avec <i>because</i>, puis la boîte mystère ❓ qui cache <i>so</i>) ; 4 <i>Training session : recreate the situation</i> (3 situations, la boîte mystère cache <i>because</i> ou <i>so</i> selon l'ordre des images) ; 5 <i>Think 🧠</i> (PRL : les deux phrases inversées et colorées ; même histoire ? oui ; même sens ? non ; cause et conséquence ; la phrase ① exprime la cause, la ② la conséquence ; grâce à quel outil : <i>because</i> → cause, <i>so</i> → conséquence ; puis la règle) ; 6 le jeu (6 cartes, écrit puis oral ; 15 secondes par carte, puis 15 secondes de correction avant la carte suivante) ; 7 <i>Linking words</i> (court texte à trous avec <i>and, but, because, so</i> : <i>so</i> rejoint la famille des mots qui relient deux propositions).</li>
+      <li>Ordre de la séance : 1 <i>Warm-up · revision</i> (3 images de la séance 1) ; 2 <i>So now let's assemble</i> (animation lancée par l'élève : il choisit le début de la phrase, la raison s'écrit sur le billet, la classe devine la phrase entière à l'oral, puis « Show the sentence » la valide) ; 3 <i>Explain why</i> (avec <i>because</i>, puis la boîte mystère ❓ qui cache <i>so</i>) ; 4 <i>Training session : recreate the situation</i> (3 situations, la boîte mystère cache <i>because</i> ou <i>so</i> selon l'ordre des images) ; 5 <i>Think 🧠</i> (PRL : les deux phrases inversées et colorées ; même histoire ? oui ; même sens ? non ; cause et conséquence ; la phrase ① exprime la cause, la ② la conséquence ; grâce à quel outil : <i>because</i> → cause, <i>so</i> → conséquence ; puis la règle) ; 6 le jeu (6 cartes, écrit puis oral ; 15 secondes par carte, puis 15 secondes de correction avant la carte suivante) ; 7 <i>Linking words</i> (court texte à trous avec <i>and, but, because, so</i> : <i>so</i> rejoint la famille des mots qui relient deux propositions).</li>
       <li>Consignes en anglais. Groupe ★ (et niveau libre) : traduction française affichée dessous ; ★★ : bouton FR pour l'afficher ; ★★★ : anglais seul.</li>
       <li><b>Le jeu</b> : 15 secondes par carte, puis 15 secondes de correction (passage automatique à la carte suivante), score, pastilles verte / jaune / rouge (1, 2, 3 points). 1er temps à l'écrit : ★ mots à remettre dans l'ordre, ★★ mots + erreurs, ★★★ rédiger la phrase. 2e temps à l'oral : ★ mots dans le désordre avec une erreur, ★★ mots + erreurs, ★★★ l'image seule ; l'élève dit la phrase et la reconnaissance vocale (Chrome ou Edge, comme « Check my pronunciation » dans les Labs) la valide : au moins 3 mots sur 4 dans le bon ordre, avec because ou so. Deux essais, puis le modèle. Sans reconnaissance vocale : écoute du modèle et auto-validation. 6 cartes par partie.</li>
       <li>Code couleur des diapos : cause en vert, conséquence en rouge, mot de liaison souligné. La phrase suit l'ordre des images : billet puis image → conséquence + <i>because</i> + cause (<i>I'm late because I overslept</i>) ; image puis billet → cause + <i>so</i> + conséquence (<i>I overslept, so I was absent</i>). Dans <i>Explain why</i>, la 2e phrase cache <i>so</i> dans une boîte mystère ❓ : l'élève le découvre en manipulant, puis l'étape 5 (<i>Think</i>) fait formuler la règle.</li>
@@ -566,19 +569,29 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       wrap.insertAdjacentHTML("beforeend", `<div class="rc" data-i="${i}"><div class="rc-note">${noteHTML(r.type, {}, "big")}</div><span class="pill"></span><p class="sent" lang="en"></p></div>`);
       ask.innerHTML = `${T("What does the student say?", "Que dit l'élève qui donne ce billet ?", "p").replace("<p ", '<p class="consigne" ')}<div class="opts" role="group">${shuffle(RECAP.map(x => x.say)).map(t => `<button type="button" class="opt">${esc(t)}</button>`).join("")}</div><p class="fb" aria-live="polite"></p>`;
     };
+    const finishAll = () => { ask.innerHTML = `<p class="fb good">${T("Well done! Late slip → I'm late · Absence note → I was absent · Permission note → Can I…?", "Bravo ! Late slip → I'm late · Absence note → I was absent · Permission note → Can I…?")}</p>`; };
     ask.addEventListener("click", e => {
+      // 3. The class has guessed the sentence: show it, then go on to the next note
+      if (e.target.closest("[data-reveal]")) {
+        const i = step, r = RECAP[i], rc = $(`.rc[data-i="${i}"]`, wrap);
+        $(".sent", rc).textContent = r.sent; $(".sent", rc).classList.add("shown");
+        done("r" + (i + 1)); step++;
+        ask.innerHTML = step < RECAP.length ? `<button type="button" class="btn" data-next>Next note →</button>` : "";
+        if (step >= RECAP.length) setTimeout(finishAll, 900);
+        return;
+      }
+      if (e.target.closest("[data-next]")) { ask.innerHTML = ""; show(step); return; }
+      // 1. Which sentence starts? (I'm late / I was absent / Can I…?)
       const b = e.target.closest(".opt"); if (!b || step >= RECAP.length) return;
       const r = RECAP[step], fb = $(".fb", ask);
       if (b.textContent !== r.say) { b.classList.add("wrong"); fbSet(fb, "bad", "Try again! Look at the title of the note.", "Essaie encore ! Regarde le titre du billet."); return; }
       const rc = $(`.rc[data-i="${step}"]`, wrap);
       $(".pill", rc).textContent = r.say;
+      // 2. The reason is written on the note; the learners guess the whole sentence aloud before it is shown
       const row = $$(".row", rc).find(x => x.firstChild.textContent.startsWith(r.field));
       row.insertAdjacentHTML("beforeend", `<em class="write">${esc(r.red)}</em>`);
-      setTimeout(() => { $(".sent", rc).textContent = r.sent; }, 1100);
-      done("r" + (step + 1)); step++;
-      ask.innerHTML = "";
-      if (step < RECAP.length) setTimeout(() => show(step), 1500);
-      else setTimeout(() => { ask.innerHTML = `<p class="fb good">${T("Well done! Late slip → I'm late · Absence note → I was absent · Permission note → Can I…?", "Bravo ! Late slip → I'm late · Absence note → I was absent · Permission note → Can I…?")}</p>`; }, 1300);
+      $(".sent", rc).textContent = r.type === "perm" ? "Can I … ?" : r.say + " … ?";
+      ask.innerHTML = `${T("Now make the whole sentence. Say it aloud!", "Maintenant, fais la phrase entière. Dis-la à voix haute !", "p").replace("<p ", '<p class="consigne" ')}<button type="button" class="btn" data-reveal>👀 Show the sentence</button>`;
     });
     show(0);
   }
