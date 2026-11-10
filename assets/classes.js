@@ -28,8 +28,10 @@
     if (!cfg) await ready;
     if (!window.crypto || !crypto.subtle) return null;
     const h = await sha("bosse-lu:" + norm(code));
-    if (cfg.admins.find(x => x.hash === h)) {
-      cur = {id: "PROF", admin: true}; try { localStorage.setItem(LS, JSON.stringify(cur)); } catch (e) {}
+    const adm = cfg.admins.find(x => x.hash === h);
+    if (adm) {
+      // A visit code (role "visit", e.g. for an inspector) opens everything like the teacher code, under its own name
+      cur = adm.role === "visit" ? {id: "PROF", admin: true, role: "visit"} : {id: "PROF", admin: true}; try { localStorage.setItem(LS, JSON.stringify(cur)); } catch (e) {}
       fire("classes:change"); return ADMIN;
     }
     let c = cfg.classes.find(x => x.hash === h), stars = 1;
@@ -80,7 +82,8 @@
       const c = klass();
       el.className = "cl-box";
       if (c && c.admin) {
-        el.innerHTML = `<span class="cl-ico" aria-hidden="true">🔑</span><span>Mode professeur :</span><span class="cl-badge">accès complet</span><button type="button" class="lite" data-cl="leave">Quitter le mode professeur</button><p class="cl-msg">Sur cet appareil, toutes les étapes et toutes les évaluations sont ouvertes, quels que soient les réglages des classes.</p>`;
+        const visit = cur && cur.role === "visit";
+        el.innerHTML = `<span class="cl-ico" aria-hidden="true">${visit ? "🔎" : "🔑"}</span><span>${visit ? "Mode visite" : "Mode professeur"} :</span><span class="cl-badge">accès complet</span><button type="button" class="lite" data-cl="leave">${visit ? "Quitter le mode visite" : "Quitter le mode professeur"}</button><p class="cl-msg">Sur cet appareil, toutes les étapes et toutes les évaluations sont ouvertes, quels que soient les réglages des classes.</p>`;
       } else if (c) {
         el.innerHTML = `<span class="cl-ico" aria-hidden="true">🏫</span><span>My class:</span><span class="cl-badge">${c.label}${stars() > 1 ? " · " + "★".repeat(stars()) : ""}</span><button type="button" class="lite" data-cl="leave">Change class</button>${opts.noReset ? "" : RESET}${opts.note ? `<p class="cl-msg">${opts.note(c)}</p>` : ""}`;
       } else {

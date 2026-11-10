@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Late and absent – Présentation de la démarche</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Visit page for the academic inspector: the approach of the sequence, the digital tools at the service of speaking, and a guided tour */
+:root{--paper:#f3f5fb;--card:#fff;--ink:#1b2340;--muted:#5b6380;--line:#d9ddea;--accent:#2f4fd8;--accent-soft:#e3e8ff;--good:#1f8a55;--good-soft:#dff3e8;--bad:#c2412d;--bad-soft:#fbe5df;--sun:#ffd23f;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;--body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#11152a;--card:#1a1f37;--ink:#e8ebf7;--muted:#9aa1bd;--line:#2d3456;--accent:#8ea2ff;--accent-soft:#262e57;--good:#4cc38a;--good-soft:#173a2b;--bad:#f0785f;--bad-soft:#3d2120;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#11152a;--card:#1a1f37;--ink:#e8ebf7;--muted:#9aa1bd;--line:#2d3456;--accent:#8ea2ff;--accent-soft:#262e57;--good:#4cc38a;--good-soft:#173a2b;--bad:#f0785f;--bad-soft:#3d2120;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.55;padding:24px max(16px,env(safe-area-inset-left,0px)) 56px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+a{color:var(--accent)}
+.homelink{font-weight:600;font-size:14px;color:inherit;opacity:.75;text-decoration:none;align-self:center}
+.kick{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:0}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,7vw,3rem);line-height:1.02;margin:6px 0 0}
+h1 span{color:var(--accent)}
+.lead{color:var(--muted);margin:10px 0 0;font-size:1.05rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.card h2{font-family:var(--display);font-size:1.3rem;margin:0 0 10px;line-height:1.2}
+.card h2 small{display:block;font-family:var(--body);font-size:.8rem;font-weight:400;color:var(--muted);margin-top:2px}
+.prob{border-left:6px solid var(--sun)}
+.prob p{margin:0;font-size:1.08rem}
+p{margin:0 0 10px}p:last-child{margin-bottom:0}
+ol,ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
+.tablewrap{overflow-x:auto;margin:0 -4px}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.94rem}
+th,td{text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+td.n{font-family:var(--display);font-weight:800;font-size:1.1rem;color:var(--accent);width:2.2em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.tool{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--paper)}
+.tool b{display:block;font-family:var(--display);font-size:1.02rem;margin-bottom:3px}
+.tool p{margin:0;font-size:.93rem}
+.tour li b a{font-weight:700}
+.pill{display:inline-block;font-size:.78rem;font-weight:700;padding:1px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);margin-left:4px;white-space:nowrap}
+.note{font-size:.88rem;color:var(--muted)}
+.foot{text-align:center;font-size:.85rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="homelink" href="../">← Accueil du site</a>
+
+  <header>
+    <p class="kick">Anglais LV1 · cycle 4 · M. Bosse · Collège Réeberg Néron</p>
+    <h1>Late and <span>absent</span> : présentation de la démarche</h1>
+    <p class="lead">Cette page présente la séquence en ligne et son fonctionnement. Elle accompagne le code de visite qui vous a été remis.</p>
+  </header>
+
+  <section class="card">
+    <h2>1. Entrer le code de visite<small>Une seule fois sur cet appareil</small></h2>
+    <div id="class-box" class="cl-box" aria-live="polite"></div>
+    <p class="note" style="margin-top:10px">Le code ouvre toutes les étapes et toutes les évaluations des deux versions (5e et 4e), quels que soient les réglages des classes. Vous voyez le site tel que les élèves le verront une fois tout débloqué, avec en plus les notes destinées au professeur. Il ne donne accès à aucune donnée d'élève : il n'y a pas de comptes, et les réponses restent sur l'appareil de chaque élève.</p>
+  </section>
+
+  <section class="card prob">
+    <h2>La problématique</h2>
+    <p>Comment l'outil numérique peut-il être mis au service de l'expression orale de manière pertinente et authentique ? Concrètement : en quoi le numérique et des documents authentiques permettent-ils à des collégiens de travailler en autonomie la compréhension et l'expression orales, dans une situation de communication réelle (justifier un retard ou une absence), et de faire de la phonologie un levier de progrès ?</p>
+  </section>
+
+  <section class="card">
+    <h2>2. La séquence en un coup d'œil<small>Axe 4 · École et loisirs · 7 séances, évaluations comprises · une version 5e et une version 4e</small></h2>
+    <p><b>Tâche finale · Act out the scene</b> : en binôme, jouer une scène de retard, d'absence ou de permission (l'un joue le professeur, l'autre l'élève), en exprimant la cause et la conséquence.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Séance</th><th>Contenu</th><th>Ce que fait l'élève</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td><b>What's your excuse?</b> · <a href="../whats-your-excuse/">Warm-up</a> et <a href="../fill-the-note/">Fill in the note</a></td><td>Il écoute des dialogues enregistrés par de vraies voix, remplit le bon billet (<i>late slip</i>, <i>absence note</i>, <i>permission note</i>), repère la question du professeur et son intonation, puis écrit la phrase avec <i>because</i>.</td></tr>
+        <tr><td class="n">2</td><td><b>Can you explain?</b> · <a href="../can-you-explain/">la page</a></td><td>Il passe du billet à la phrase, recrée des situations en choisissant <i>because</i> ou <i>so</i>, puis construit lui-même la règle cause / conséquence. Jeu DÒKÒ en fin de parcours.</td></tr>
+        <tr><td class="n">3</td><td><b>Late for school? Blame the bus!</b> · <a href="../late-bus/">5e</a> · <a href="../late-bus-4e/">4e</a> · <a href="../ed-sounds/">The sounds of -ed</a></td><td>Il lit un article de presse britannique (adapté), y repère le prétérit, l'étend aux verbes de la séquence, puis travaille la prononciation de -ed (/t/, /d/, /ɪd/) en s'enregistrant.</td></tr>
+        <tr><td class="n">4–5</td><td><b>Tâches intermédiaires</b> (4e : d'abord <a href="../what-have-you-done/">Oh no, I've forgotten it!</a>)</td><td><i>Recreate the situation</i> : confrontation orale 1 contre 1, en jeu de rapidité ; présentation de diapo.</td></tr>
+        <tr><td class="n">6</td><td><b>Recap: Excuse Lab</b> · <a href="../excuse-lab/">la page</a></td><td>Il répète avec les vraies voix, s'enregistre et se compare, puis joue la scène face à l'enregistrement (<i>Role play</i>), en suivant les flèches d'intonation.</td></tr>
+        <tr><td class="n">7</td><td><b>Évaluations</b></td><td><i>Speaking test</i> (lecture au prétérit, /10, sur le site) · <a href="../doko/">DÒKÒ</a> <i>Recreate the situation</i> (/20) · <i>Act out the scene</i> (tâche finale, en classe).</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note" style="margin-top:10px">Pages d'entrée des élèves : <a href="../late-and-absent/">version 5e</a> · <a href="../late-and-absent-4e/">version 4e</a>. Chaque étape a aussi sa fiche papier : l'élève fait l'activité sur le site et garde une trace écrite.</p>
+  </section>
+
+  <section class="card">
+    <h2>3. Ce que le numérique apporte à l'oral</h2>
+    <div class="grid">
+      <div class="tool"><b>🎧 Des voix authentiques</b><p>Les dialogues sont enregistrés par de vraies voix, avec un compteur d'écoutes et un ralenti selon le niveau. L'élève réécoute autant qu'il en a besoin, à son rythme.</p></div>
+      <div class="tool"><b>🎙️ S'enregistrer, se comparer</b><p>L'élève s'enregistre, se réécoute à côté du modèle et s'auto-évalue. Le temps de parole de chacun augmente, sans le regard du groupe.</p></div>
+      <div class="tool"><b>↗ ↘ L'intonation rendue visible</b><p>Dans le <i>Role play</i>, une flèche suit chaque question : la voix monte pour une question fermée, descend pour une question en <i>Wh-</i>. L'élève joue le professeur face aux voix enregistrées.</p></div>
+      <div class="tool"><b>✅ Correction immédiate et indices</b><p>Chaque réponse est corrigée sur le champ, avec un indice ciblé plutôt que la solution : l'ordre des images, le mot de liaison, le temps du verbe.</p></div>
+      <div class="tool"><b>🎮 Le jeu au service de la rapidité</b><p>DÒKÒ et la confrontation 1 contre 1 entraînent à produire vite une phrase juste, ce qui prépare l'interaction réelle de la tâche finale.</p></div>
+      <div class="tool"><b>🧠 Construire la règle</b><p>L'élève découvre la règle par l'observation (<i>Did you get it?</i>) avant de la formuler : le numérique guide le raisonnement, la règle reste la sienne.</p></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>4. Différenciation et autonomie</h2>
+    <ul>
+      <li><b>Trois niveaux pour la même activité</b> : ★ <i>Discover</i> (consignes en français, écoutes libres, ralenti, étiquettes), ★★ <i>Practise</i> (français sur demande, écoutes limitées), ★★★ <i>Challenge</i> (anglais seul, réponses tapées, moins d'écoutes).</li>
+      <li><b>Des codes de groupe</b> : en plus du code de classe, un code ★★ ou ★★★ impose le niveau à certains élèves ; les autres choisissent le leur.</li>
+      <li><b>Une ouverture progressive</b> : chaque étape reste verrouillée jusqu'à ce que je l'ouvre pour une classe, parfois dialogue par dialogue. Chaque classe avance à son rythme, et les élèves voient où ils en sont.</li>
+      <li><b>Les consignes</b> sont en anglais ; la ligne en français s'affiche en ★, reste à la demande (bouton FR) en ★★ et disparaît en ★★★.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>5. Un parcours de 10 minutes pour découvrir le site</h2>
+    <ol class="tour">
+      <li><b><a href="../fill-the-note/">Fill in the note</a></b> <span class="pill">3 min</span> : choisissez le niveau ★★★ puis le dialogue 2. Écoutez, remplissez le billet, puis <i>Time to write</i> : à la correction, les verbes au passé s'affichent en rouge et encadrés.</li>
+      <li><b><a href="../excuse-lab/">Excuse Lab</a></b> <span class="pill">2 min</span> : onglet <i>Role play</i>, « Je suis le professeur » puis Commencer. Dites les questions avec l'intonation indiquée par les flèches.</li>
+      <li><b><a href="../can-you-explain/">Can you explain?</a></b> <span class="pill">2 min</span> : Step 3 <i>Training session</i>. Assemblez la phrase dans l'ordre des images, cliquez sur la boîte mystère ❓ et choisissez <i>so</i> ou <i>because</i>.</li>
+      <li><b><a href="../ed-sounds/">The sounds of -ed</a></b> <span class="pill">2 min</span> : écoutez le modèle, enregistrez-vous, lancez la vérification automatique, puis évaluez vous-même votre terminaison -ed (/t/, /d/ ou /ɪd/).</li>
+      <li><b><a href="../doko/">DÒKÒ</a></b> <span class="pill">1 min</span> : une partie de <i>Choose your theme</i>.</li>
+    </ol>
+    <p class="note" style="margin-top:10px">Le site fonctionne sur ordinateur, tablette et téléphone. Pour les activités enregistrées, autorisez le micro quand le navigateur le demande.</p>
+  </section>
+
+  <section class="card">
+    <h2>6. Données et confidentialité</h2>
+    <ul>
+      <li>Aucun compte, aucune inscription, aucun outil de mesure d'audience. Le site est une suite de pages statiques.</li>
+      <li>Les réponses et les enregistrements restent dans le navigateur de l'appareil utilisé ; le site ne les envoie à aucun serveur. Seule exception : la vérification automatique de la prononciation utilise la reconnaissance vocale intégrée au navigateur, qui peut passer par le service de son éditeur. Pour l'évaluation, l'élève télécharge son enregistrement et le dépose lui-même sur Pronote.</li>
+      <li>Les codes de classe ne figurent nulle part en clair : le site ne garde que leur empreinte chiffrée.</li>
+    </ul>
+  </section>
+
+  <p class="foot">bosse-lu.github.io · Collège Réeberg Néron · M. Bosse</p>
+</div>
+<script src="../assets/reset.js"></script>
+<script src="../assets/classes.js"></script>
+<script>if (window.Classes) Classes.mountPicker(document.getElementById("class-box"), {title: "Code de visite", titleFr: "Code de visite", hint: "Saisissez le code qui vous a été remis. Il reste sur cet appareil jusqu'à ce que vous quittiez le mode visite.", noReset: true});</script>
+</body>
+</html>

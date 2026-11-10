@@ -1,9 +1,14 @@
 {
-  "_aide": "Réglages des classes. Pour chaque classe et chaque séquence : open = étapes ouvertes (5e « late-and-absent » : warm, note, ed, so, bus, excuse ; 4e « late-and-absent-4e » : warm, note, ed, so, have, bus, excuse) ; parts = ouverture partielle d'une étape (ex. \"note\": {\"dialogues\": [1]}) ; evals = évaluations débloquées (ex. \"ed-final\"). Sans réglage, tout est verrouillé. groups = codes de groupe d'une classe qui imposent un niveau (stars 2 = ★★, 3 = ★★★ ; le code de classe = niveau libre). admins = codes professeur (accès complet). Les codes ne sont jamais écrits ici, seulement leur empreinte.",
+  "_aide": "Réglages des classes. Pour chaque classe et chaque séquence : open = étapes ouvertes (5e « late-and-absent » : warm, note, ed, so, bus, excuse ; 4e « late-and-absent-4e » : warm, note, ed, so, have, bus, excuse) ; parts = ouverture partielle d'une étape (ex. \"note\": {\"dialogues\": [1]}) ; evals = évaluations débloquées (ex. \"ed-final\"). Sans réglage, tout est verrouillé. groups = codes de groupe d'une classe qui imposent un niveau (stars 2 = ★★, 3 = ★★★ ; le code de classe = niveau libre). admins = codes professeur (accès complet) ; role \"visit\" = code de visite (inspection), même accès, affiché « Mode visite ». Les codes ne sont jamais écrits ici, seulement leur empreinte.",
   "admins": [
     {
       "label": "M. Bosse",
       "hash": "d4a6f2ac5776ef11b8ed1981a2e23901a118158a1f9ef1bb744dcfd06b676ace"
+    },
+    {
+      "label": "Inspection",
+      "role": "visit",
+      "hash": "84f2ece28f14f4546262d9a95ad3ffd05ecad858726da3b9d06a349750c8c098"
     }
   ],
   "classes": [
