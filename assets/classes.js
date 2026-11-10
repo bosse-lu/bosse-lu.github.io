@@ -17,10 +17,14 @@
   const fire = n => document.dispatchEvent(new CustomEvent(n));
   const ready = fetch(new URL("classes.json", base).href + "?v=" + Date.now(), {cache: "no-store"})
     .then(r => r.json()).catch(() => ({classes: []}))
-    .then(j => { cfg = j; cfg.admins = cfg.admins || []; if (cur && !cur.admin && !cfg.classes.find(c => c.id === cur.id)) cur = null; fire("classes:ready"); return cfg; });
+    .then(j => { cfg = j; cfg.admins = cfg.admins || []; if (cur && cur.visit && !cfg.admins.some(a => a.hash === cur.vh)) cur = null; else if (cur && !cur.admin && !cur.visit && !cfg.classes.find(c => c.id === cur.id)) cur = null; fire("classes:ready"); return cfg; });
 
   const ADMIN = {id: "PROF", label: "Professeur", level: null, admin: true, sequences: {}};
-  const klass = () => (cur && cfg) ? (cur.admin ? ADMIN : (cfg.classes.find(c => c.id === cur.id) || null)) : null;
+  // Visit code (role "visit", e.g. an inspector): everything open, but only in one level's sequence (5e by default)
+  const VISIT_SEQ = {"5e": "late-and-absent", "4e": "late-and-absent-4e"};
+  const visitClass = () => ({id: "VISIT", label: "Visite · " + (cur.level || "5e"), level: cur.level || "5e", visit: true, sequences: {}});
+  const klass = () => (cur && cfg) ? (cur.admin ? ADMIN : cur.visit ? visitClass() : (cfg.classes.find(c => c.id === cur.id) || null)) : null;
+  const visitSeq = seq => !!(cur && cur.visit && VISIT_SEQ[cur.level || "5e"] === seq);
   const isAdmin = () => !!(klass() && klass().admin);
   // Imposed level: 1 = free (class code), 2 = ★★, 3 = ★★★ (group code). null for the teacher (free preview).
   const stars = () => { const k = klass(); if (!k) return 1; if (k.admin) return null; return (cur && cur.stars) || 1; };
@@ -30,9 +34,8 @@
     const h = await sha("bosse-lu:" + norm(code));
     const adm = cfg.admins.find(x => x.hash === h);
     if (adm) {
-      // A visit code (role "visit", e.g. for an inspector) opens everything like the teacher code, under its own name
-      cur = adm.role === "visit" ? {id: "PROF", admin: true, role: "visit"} : {id: "PROF", admin: true}; try { localStorage.setItem(LS, JSON.stringify(cur)); } catch (e) {}
-      fire("classes:change"); return ADMIN;
+      cur = adm.role === "visit" ? {id: "VISIT", visit: true, level: adm.level || "5e", vh: h} : {id: "PROF", admin: true}; try { localStorage.setItem(LS, JSON.stringify(cur)); } catch (e) {}
+      fire("classes:change"); return klass();
     }
     let c = cfg.classes.find(x => x.hash === h), stars = 1;
     if (!c) {
@@ -46,16 +49,17 @@
   }
   function leave() { cur = null; try { localStorage.removeItem(LS); } catch (e) {} fire("classes:change"); }
   const seqConf = seq => { const c = klass(); return (c && c.sequences && c.sequences[seq]) || null; };
-  const evalOpen = (seq, id) => { if (isAdmin()) return true; const s = seqConf(seq); return !!(s && (s.evals || []).includes(id)); };
+  const evalOpen = (seq, id) => { if (isAdmin()) return true; if (cur && cur.visit) return visitSeq(seq); const s = seqConf(seq); return !!(s && (s.evals || []).includes(id)); };
   // A step is open only if the teacher opened it for the learner's class ("open": [ids]; old format "steps": n = the first n).
   const stepOpen = (seq, id, index) => {
     if (isAdmin()) return true;
+    if (cur && cur.visit) return visitSeq(seq);
     const s = seqConf(seq); if (!s) return false;
     if (Array.isArray(s.open)) return s.open.includes(id);
     return typeof s.steps === "number" ? index < s.steps : false;
   };
   // Partial opening of a step, e.g. {dialogues: [1]} ; null = the whole step.
-  const part = (seq, id) => { if (isAdmin()) return null; const s = seqConf(seq); return (s && s.parts && s.parts[id]) || null; };
+  const part = (seq, id) => { if (isAdmin() || (cur && cur.visit)) return null; const s = seqConf(seq); return (s && s.parts && s.parts[id]) || null; };
 
   const st = document.createElement("style");
   st.textContent = `
@@ -82,8 +86,9 @@
       const c = klass();
       el.className = "cl-box";
       if (c && c.admin) {
-        const visit = cur && cur.role === "visit";
-        el.innerHTML = `<span class="cl-ico" aria-hidden="true">${visit ? "🔎" : "🔑"}</span><span>${visit ? "Mode visite" : "Mode professeur"} :</span><span class="cl-badge">accès complet</span><button type="button" class="lite" data-cl="leave">${visit ? "Quitter le mode visite" : "Quitter le mode professeur"}</button><p class="cl-msg">Sur cet appareil, toutes les étapes et toutes les évaluations sont ouvertes, quels que soient les réglages des classes.</p>`;
+        el.innerHTML = `<span class="cl-ico" aria-hidden="true">🔑</span><span>Mode professeur :</span><span class="cl-badge">accès complet</span><button type="button" class="lite" data-cl="leave">Quitter le mode professeur</button><p class="cl-msg">Sur cet appareil, toutes les étapes et toutes les évaluations sont ouvertes, quels que soient les réglages des classes.</p>`;
+      } else if (c && c.visit) {
+        el.innerHTML = `<span class="cl-ico" aria-hidden="true">🔎</span><span>Mode visite :</span><span class="cl-badge">contenus de ${c.level}</span><button type="button" class="lite" data-cl="leave">Quitter le mode visite</button><p class="cl-msg">Sur cet appareil, toutes les étapes et toutes les évaluations de la séquence ${c.level} sont ouvertes, quels que soient les réglages des classes. Les autres versions restent fermées.</p>`;
       } else if (c) {
         el.innerHTML = `<span class="cl-ico" aria-hidden="true">🏫</span><span>My class:</span><span class="cl-badge">${c.label}${stars() > 1 ? " · " + "★".repeat(stars()) : ""}</span><button type="button" class="lite" data-cl="leave">Change class</button>${opts.noReset ? "" : RESET}${opts.note ? `<p class="cl-msg">${opts.note(c)}</p>` : ""}`;
       } else {
