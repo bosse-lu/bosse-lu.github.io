@@ -56,6 +56,10 @@ ul,ol{margin:6px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:4p
 .lock{display:flex;gap:10px;align-items:flex-start;background:var(--paper);border:1px dashed var(--line);border-radius:12px;padding:12px 14px}
 .lock b{display:block}
 .mine{font-weight:700;color:var(--accent)}
+.bl{display:inline-block;min-width:80px;border-bottom:2px dotted var(--muted);height:1.1em;vertical-align:baseline}
+/* Blanks of the gap scenes: the learner fills them in on the page (kept on this device) */
+input.gap{font:inherit;font-weight:700;color:var(--accent);width:9.5em;max-width:60vw;border:0;border-bottom:2px solid var(--accent);background:var(--accent-soft);border-radius:6px 6px 0 0;padding:1px 6px;margin:0 2px}
+input.gap:focus{outline:3px solid var(--accent);outline-offset:1px}
 .foot{text-align:center;font-size:.85rem;color:var(--muted)}
 </style>
 </head>
@@ -135,7 +139,23 @@ ul,ol{margin:6px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:4p
     $("#lead").textContent = w.all ? `Version ${w.lv} : toutes les évaluations, et la tâche finale pour chaque groupe (cliquez sur un groupe).` : "Toutes les évaluations de la séquence, et ta tâche finale selon ton groupe.";
     const D = window.EVAL_DATA[w.lv];
     box.innerHTML = D.tests.map(e => test(e, w)).join("") + final(D.final, w);
+    gaps(w);
     if (location.hash === "#final" && !draw.done) { draw.done = true; setTimeout(() => { const f = $("#final"); if (f) f.scrollIntoView(); }, 50); }
+  }
+  // The blanks of the gap scenes become fields to fill in; what the learner types stays on this device
+  const GAP_KEY = "evals-gaps";
+  let G = {}; try { G = JSON.parse(localStorage.getItem(GAP_KEY) || "{}"); } catch (e) {}
+  function gaps(w) {
+    document.querySelectorAll("#final .box").forEach((bx, si) => {
+      const scene = (bx.closest(".act").querySelector("h3") || {}).textContent || String(si);
+      bx.querySelectorAll(".bl").forEach((sp, i) => {
+        const id = `${w.lv}|${scene}|${i}`, inp = document.createElement("input");
+        inp.type = "text"; inp.className = "gap"; inp.lang = "en"; inp.autocomplete = "off"; inp.spellcheck = false;
+        inp.setAttribute("aria-label", `${scene} : trou ${i + 1}`); inp.value = G[id] || "";
+        inp.addEventListener("input", () => { G[id] = inp.value; try { localStorage.setItem(GAP_KEY, JSON.stringify(G)); } catch (e) {} });
+        sp.replaceWith(inp);
+      });
+    });
   }
   document.addEventListener("click", e => {
     const t = e.target.closest("[data-tab]"); if (t) { tab = +t.dataset.tab; save(); draw(); const f = $("#final"); if (f) f.scrollIntoView({block: "start"}); return; }
