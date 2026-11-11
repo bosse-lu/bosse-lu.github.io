@@ -1,5 +1,103 @@
 [
   {
+    "id": "2026-11-10-man-utd-villa-eight-goals",
+    "date": "2026-11-10",
+    "level": "4e",
+    "topic": "Premier League",
+    "country": "England",
+    "flag": "england",
+    "emoji": "🤯",
+    "title": "Eight goals at Old Trafford! Man United 4-4 Aston Villa",
+    "lead": "Manchester United were 2-0 down and then 4-2 down against Aston Villa, but they came back twice to draw 4-4.",
+    "body": [
+      "On Sunday 8 November 2026, Manchester United played Aston Villa at Old Trafford. It was one of the craziest matches of the season, with 8 goals!",
+      "Villa started very fast. Alysson scored in the first minute, and Nicolas Jackson scored a second goal less than 4 minutes later. But United fought back: Bruno Fernandes scored a penalty, and Youri Tielemans equalised just before half-time. 2-2!",
+      "After the break, Villa scored twice again: a penalty by John McGinn and a volley by Leon Goretzka. It was 4-2 to Villa. Then, in stoppage time, Joshua Zirkzee scored for United. Finally, in the sixth added minute, Patrick Dorgu headed in a corner from Fernandes. 4-4!",
+      "According to the statistics website Opta, no team in the Premier League has ever come back from two goals down twice in the same match. But United are still in the relegation zone, in 18th place, so they haven't escaped danger yet."
+    ],
+    "keywords": [
+      [
+        "fought back",
+        "ont réagi, sont revenus"
+      ],
+      [
+        "equalised",
+        "a égalisé"
+      ],
+      [
+        "volley",
+        "reprise de volée"
+      ],
+      [
+        "stoppage time",
+        "temps additionnel"
+      ],
+      [
+        "headed in",
+        "a marqué de la tête"
+      ],
+      [
+        "corner",
+        "corner"
+      ],
+      [
+        "relegation zone",
+        "zone de relégation"
+      ],
+      [
+        "escaped",
+        "échappé à"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "What was the score at half-time?",
+        "options": [
+          "2-0",
+          "2-2",
+          "4-2"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Who scored United's last goal?",
+        "options": [
+          "Patrick Dorgu",
+          "Bruno Fernandes",
+          "Leon Goretzka"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Where are Manchester United in the table after this match?",
+        "options": [
+          "1st",
+          "10th",
+          "18th"
+        ],
+        "answer": 2
+      }
+    ],
+    "turn": "Your turn! Have you ever played or watched a crazy match? Write 2 or 3 sentences: \"I remember a match when … The score was … because …\"",
+    "sources": [
+      {
+        "name": "Al Jazeera / AFP (Qatar)",
+        "date": "8 November 2026",
+        "url": "https://www.aljazeera.com/sports/2026/11/8/man-united-earn-4-4-draw-against-aston-villa-but-remain-in-relegation-zone"
+      },
+      {
+        "name": "Opta Analyst (UK)",
+        "date": "8 November 2026",
+        "url": "https://theanalyst.com/articles/manchester-united-4-4-aston-villa-stats-premier-league-11-2026"
+      },
+      {
+        "name": "Aston Villa FC (UK)",
+        "date": "8 November 2026",
+        "url": "https://www.avfc.co.uk/news/2026/november/08/report-manchester-united-4-4-aston-villa"
+      }
+    ]
+  },
+  {
     "id": "2026-11-08-shaw-hat-trick-city-top",
     "date": "2026-11-08",
     "level": "4e",
