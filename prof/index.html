@@ -60,7 +60,7 @@ code{background:var(--accent-soft);padding:1px 6px;border-radius:5px}
           <li><code>"open": ["note", "ed"]</code> = étapes ouvertes (<code>note</code> Fill in the note, <code>so</code> Can you explain?, <code>ed</code> Les sons de -ed, <code>bus</code> Blame the bus!, <code>excuse</code> Recap: Excuse Lab) ; <code>"open": []</code> = tout verrouillé ;</li>
           <li><code>"groups"</code> = codes de groupe de la classe qui imposent un niveau (★★ ou ★★★). Les élèves sans code de groupe gardent le niveau libre. Pour créer ou changer un groupe, demandez-le à Claude ;</li>
           <li><code>"parts": {"note": {"dialogues": [1]}}</code> = dans Fill in the note, seul le dialogue 1 est ouvert (sans cette ligne, toute l'étape est ouverte) ;</li>
-          <li><code>"evals": ["ed-final"]</code> = évaluation orale du prétérit débloquée ; <code>"evals": []</code> = tout verrouillé.</li>
+          <li><code>"evals": ["ed-final"]</code> = évaluation orale du prétérit débloquée ; <code>"act-out"</code> = tâche finale (chaque élève voit sur la <a href="../evaluations/">page des évaluations</a> la préparation de son groupe : ★ groupe 1, ★★ groupe 2, ★★★ groupe 3) ; <code>"evals": []</code> = tout verrouillé.</li>
         </ul>
         Enregistrez avec « Commit changes ».</li>
     </ol>
@@ -80,7 +80,7 @@ code{background:var(--accent-soft);padding:1px 6px;border-radius:5px}
 </div>
 <script>
 (async function () {
-  const EVALS = {"ed-final": "Évaluation orale : le prétérit"};
+  const EVALS = {"ed-final": "Évaluation orale : le prétérit", "act-out": "Tâche finale : Act out the scene"};
   const STEPS5 = [["warm", "Warm-up: What's your excuse?"], ["note", "Fill in the note"], ["so", "Can you explain?"], ["bus", "Blame the bus!"], ["ed", "The sounds of -ed"], ["excuse", "Recap: Excuse Lab"]];
   const STEPS4 = [["warm", "Warm-up: What's your excuse?"], ["note", "Fill in the note"], ["so", "Can you explain?"], ["bus", "Blame the bus! (4e)"], ["ed", "The sounds of -ed"], ["have", "Oh no, I've forgotten it!"], ["excuse", "Recap: Excuse Lab"]];
   const rows = document.getElementById("rows");

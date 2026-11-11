@@ -11,7 +11,9 @@
     // Evaluations stay locked until the teacher unlocks them for a class (classes.json → evals)
     evals: [
       {id: "ed-final", href: "ed-sounds/#eval", art: "ed", title: "Évaluation orale : le prétérit",
-        what: "Lis un court texte au prétérit à voix haute, enregistre-toi, puis rends le fichier sur Pronote."}
+        what: "Lis un court texte au prétérit à voix haute, enregistre-toi, puis rends le fichier sur Pronote."},
+      {id: "act-out", href: "evaluations/#final", art: "excuse", title: "Tâche finale : Act out the scene",
+        what: "En binôme, joue une scène de retard, d'absence ou de permission. Ta préparation dépend de ton groupe : retrouve-la, avec toutes les évaluations, sur la page des évaluations."}
     ],
     // Steps in order. Each one stays locked until the teacher opens it for a class (classes.json → open).
     steps: [
