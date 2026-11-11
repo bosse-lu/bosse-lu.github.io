@@ -1,5 +1,98 @@
 [
   {
+    "id": "2026-11-10-goodbye-swift",
+    "date": "2026-11-10",
+    "level": "4e",
+    "topic": "Space",
+    "country": "USA",
+    "flag": "usa",
+    "emoji": "🔭",
+    "title": "Goodbye, Swift! A space telescope falls to Earth",
+    "lead": "After 22 years in space, NASA's Swift telescope has come back to Earth and burned up in the sky.",
+    "body": [
+      "On Wednesday 4 November 2026, an old NASA space telescope called Swift fell back to Earth. Most of it burned up in the sky over Indonesia. This was the end of a very long mission: Swift spent 22 years in space!",
+      "Swift went into space in 2004. Its engineers designed it for only 2 years, but it has worked for more than 10 times longer. Its job was to watch gamma-ray bursts, the most powerful explosions in the universe. When a burst happened, Swift turned very quickly to observe it.",
+      "During its long life, Swift spotted more than 2,000 of these bursts and more than 1,400 exploding stars. Scientists have used its data in about 7,000 studies.",
+      "But Swift slowly lost height, because the thin air at the top of our atmosphere slowed it down. In 2026, NASA tried to rescue it with a robot spacecraft, but the robot broke down, so the plan failed. Swift's mission is over now, but its discoveries will help scientists for many years."
+    ],
+    "keywords": [
+      [
+        "burned up",
+        "a brûlé entièrement, s'est consumé"
+      ],
+      [
+        "engineers",
+        "ingénieurs"
+      ],
+      [
+        "designed",
+        "ont conçu"
+      ],
+      [
+        "bursts",
+        "sursauts, explosions soudaines"
+      ],
+      [
+        "spotted",
+        "a repéré"
+      ],
+      [
+        "height",
+        "hauteur, altitude"
+      ],
+      [
+        "rescue",
+        "sauver, secourir"
+      ],
+      [
+        "broke down",
+        "est tombé en panne"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "How long did the engineers plan Swift's mission to last?",
+        "options": [
+          "2 years",
+          "10 years",
+          "22 years"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Where did Swift fall back to Earth?",
+        "options": [
+          "Over Australia",
+          "Over Indonesia",
+          "Over the USA"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "What happened to the robot spacecraft?",
+        "options": [
+          "It saved Swift",
+          "It brought Swift back to the USA",
+          "It broke down"
+        ],
+        "answer": 2
+      }
+    ],
+    "turn": "Imagine you are an engineer on the Swift team. Say or write 3 sentences about Swift's last day: Swift has worked for 22 years, so I feel… My favourite discovery is… Goodbye, Swift, because…",
+    "sources": [
+      {
+        "name": "Spaceflight Now (USA)",
+        "date": "3 November 2026",
+        "url": "https://spaceflightnow.com/2026/11/03/nasas-neil-gehrels-swift-observatory-to-burn-up-this-week-after-two-decades-in-space/"
+      },
+      {
+        "name": "Popular Science (USA)",
+        "date": "4 November 2026",
+        "url": "https://www.popsci.com/science/nasa-swift-observatory-falling-to-earth-estimate/"
+      }
+    ]
+  },
+  {
     "id": "2026-11-08-new-york-marathon",
     "date": "2026-11-08",
     "level": "5e",
