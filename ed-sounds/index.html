@@ -253,7 +253,7 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
 const T=(en,fr)=>window.Consigne?Consigne.t(en,fr):en;
 const ITEMS = [
   {g:"Verbes", w:"liked", stem:"lik", end:"ed", a:"t", base:"like", ctx:"s-liked", ctxT:"He liked his house.", ipa:"/laɪkt/", fr:"aimer", why:"like finit par le son /k/, un son sourd. Le e muet ne compte pas : c'est le son qui décide.", whyEn:"like ends with the sound /k/, a voiceless sound. The silent e does not count: the sound decides."},
-  {g:"Verbes", w:"played", stem:"play", end:"ed", a:"d", base:"play", ctx:"s-played", ctxT:"He played the music.", ipa:"/pleɪd/", fr:"jouer", why:"play finit par une voyelle, un son sonore.", whyEn:"play ends with a vowel, a voiced sound."},
+  {g:"Verbes", w:"played", stem:"play", end:"ed", a:"d", base:"play", ctx:"s-played", ctxT:"He played the music.", ipa:"/pleɪd/", fr:"jouer", why:"On écoute le son, pas la lettre : play se termine par le son /eɪ/ (on entend « plé-i »). Le y final s'écrit comme une consonne, mais on entend une voyelle : c'est un son sonore.", whyEn:"Listen to the sound, not the letter: play ends with the sound /eɪ/. The final y looks like a consonant, but you hear a vowel: it is a voiced sound."},
   {g:"Verbes", w:"wanted", stem:"want", end:"ed", a:"id", base:"want", ctx:"s-wanted", ctxT:"He wanted a new car.", ipa:"/ˈwɒn.tɪd/", fr:"vouloir", why:"want finit par le son /t/.", whyEn:"want ends with the sound /t/."},
   {g:"Verbes", w:"stopped", stem:"stop", end:"ped", a:"t", base:"stop", ctx:"s-stopped", ctxT:"The clock stopped.", ipa:"/stɒpt/", fr:"s'arrêter", why:"stop finit par le son /p/, un son sourd. On double le p à l'écrit, pas à l'oral.", whyEn:"stop ends with the sound /p/, a voiceless sound. We double the p in writing, not when we speak."},
   {g:"Verbes", w:"tried", stem:"tri", end:"ed", a:"d", base:"try", ctx:"s-tried", ctxT:"He tried to relax.", ipa:"/traɪd/", fr:"essayer", why:"try finit par le son /aɪ/, une voyelle, donc un son sonore. À l'écrit, le y devient i.", whyEn:"try ends with the sound /aɪ/, a vowel, so a voiced sound. In writing, y becomes i."},
@@ -279,7 +279,7 @@ const isT=it=>!!it.kind;
 const SND={t:"/t/",d:"/d/",id:"/ɪd/"};
 const RULE={
   t:T("<strong class='t'>/t/</strong> after a <strong>voiceless</strong> sound (p, k, f, s, ch, sh, tch): no extra syllable.", "/t/ après un son sourd (p, k, f, s, ch, sh, tch) : pas de syllabe en plus."),
-  d:T("<strong class='d'>/d/</strong> after a <strong>voiced</strong> sound (vowel, b, g, v, z, l, m, n, r): no extra syllable.", "/d/ après un son sonore (voyelle, b, g, v, z, l, m, n, r) : pas de syllabe en plus."),
+  d:T("<strong class='d'>/d/</strong> after a <strong>voiced</strong> sound: a vowel sound (play, try) or /b/ /g/ /v/ /z/ /l/ /m/ /n/ /r/. No extra syllable.", "/d/ après un son sonore : un son voyelle (play, try) ou /b/ /g/ /v/ /z/ /l/ /m/ /n/ /r/. Pas de syllabe en plus."),
   id:T("<strong class='id'>/ɪd/</strong> after the sound <strong>/t/ or /d/</strong>: one extra syllable.", "/ɪd/ après le son /t/ ou /d/ : une syllabe en plus.")
 };
 const KEY="edlab5e-real";
