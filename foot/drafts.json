@@ -1,1 +1,95 @@
-[]
+[
+  {
+    "id": "2026-11-12-man-city-first-european-win",
+    "date": "2026-11-12",
+    "level": "4e",
+    "topic": "Women's football",
+    "country": "England",
+    "flag": "england",
+    "emoji": "🌟",
+    "title": "Fujino scores twice as Man City win 4-1 in Italy",
+    "lead": "After three draws, Manchester City have finally won a match in the Women's Champions League, with a 4-1 victory against Inter Milan.",
+    "body": [
+      "On Tuesday 10 November 2026, Manchester City Women played Inter Milan in the Women's Champions League. Before this game, City had drawn their first 3 matches in the competition, so they really needed a win.",
+      "It started badly for the English team. Elisa Bartoli scored for Inter after 24 minutes. But Aoba Fujino replied with a goal in the 33rd minute, and she scored again just before half-time. 2-1 to City!",
+      "In the second half, City kept attacking. Kerstin Casparij, the captain on the night, made it 3-1, and Grace Clinton scored a fourth goal after a cross from Lauren Hemp. City had 21 shots in the match.",
+      "Thanks to this first win, City have climbed to 7th place. On the same evening, another English team, Chelsea, were frustrated: they drew 0-0 in Sweden against BK Häcken, but they are still 3rd in the table."
+    ],
+    "keywords": [
+      [
+        "drawn",
+        "fait match nul"
+      ],
+      [
+        "replied",
+        "a répondu"
+      ],
+      [
+        "half-time",
+        "la mi-temps"
+      ],
+      [
+        "kept attacking",
+        "ont continué à attaquer"
+      ],
+      [
+        "cross",
+        "centre"
+      ],
+      [
+        "shots",
+        "tirs"
+      ],
+      [
+        "climbed",
+        "sont montées"
+      ],
+      [
+        "frustrated",
+        "frustrées, déçues"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "Who scored first in the match?",
+        "options": [
+          "Aoba Fujino",
+          "Elisa Bartoli",
+          "Grace Clinton"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "How many goals did Aoba Fujino score?",
+        "options": [
+          "1",
+          "2",
+          "3"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "What was the score between BK Häcken and Chelsea?",
+        "options": [
+          "0-0",
+          "1-1",
+          "4-1"
+        ],
+        "answer": 0
+      }
+    ],
+    "turn": "Your turn! Imagine you are Aoba Fujino after the match. Write 2 or 3 sentences: \"I'm so happy because … My first goal was … Now we want to …\"",
+    "sources": [
+      {
+        "name": "Arab News / AFP (Saudi Arabia)",
+        "date": "11 November 2026",
+        "url": "https://www.arabnews.com/football/chelsea-frustrated-by-hacken-in-womens-champions-league-man-city-win-3011089"
+      },
+      {
+        "name": "Sky Sports (UK)",
+        "date": "10 November 2026",
+        "url": "https://www.skysports.com/football/inter-milan-women-vs-manchester-city-women/578260"
+      }
+    ]
+  }
+]
