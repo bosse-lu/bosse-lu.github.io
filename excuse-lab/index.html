@@ -315,16 +315,20 @@ const plain=h=>h.replace(/<[^>]+>/g,"");
 
 /* ---------- audio ---------- */
 let current=null;
-function stopAll(){ if(current){current.pause();current=null} try{speechSynthesis.cancel()}catch(e){} }
+// Stopping a clip also settles the promise waiting for it, so a scene stopped halfway really ends (and its recording is saved)
+function stopAll(){ if(current){ const a=current; current=null; a.pause(); if(a._done) a._done(); } try{speechSynthesis.cancel()}catch(e){} }
 function playClip(id, rate=1){
   return new Promise(res=>{
     stopAll();
     const a=new Audio(CLIPS[id]); a.playbackRate=rate; a.preservesPitch=true; a.mozPreservesPitch=true; a.webkitPreservesPitch=true;
-    current=a; a.onended=()=>{current=null;res()}; a.onerror=()=>res();
+    current=a; a._done=res; a.onended=()=>{current=null;res()}; a.onerror=()=>res();
     a.play().catch(()=>res());
   });
 }
-function clipDuration(id){ return new Promise(res=>{const a=new Audio(CLIPS[id]); a.onloadedmetadata=()=>res(a.duration||2); a.onerror=()=>res(2);}); }
+// Length of a line (to time the learner's turn). Some browsers (iPhone) never load it without playing: fall back after 1.5 s
+function clipDuration(id){ return new Promise(res=>{ let done=false; const end=v=>{ if(!done){done=true;res(v)} };
+  const a=new Audio(); a.preload="metadata"; a.onloadedmetadata=()=>end(isFinite(a.duration)&&a.duration>0?a.duration:2.5); a.onerror=()=>end(2.5);
+  a.src=CLIPS[id]; try{a.load()}catch(e){} setTimeout(()=>end(2.5),1500); }); }
 let voices=[]; function loadVoices(){try{voices=speechSynthesis.getVoices()}catch(e){}}
 if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices;}
 function tts(text, rate=0.9){
@@ -339,6 +343,8 @@ function tts(text, rate=0.9){
 
 /* ---------- recording ---------- */
 let rec=null,chunks=[],myAudioURL=null,recStream=null;
+// "Record the scene" is ticked by default (the learner can untick it; the choice is kept on this device)
+let recPref=true; try{ recPref=localStorage.getItem("excuselab-recscene")!=="0"; }catch(e){}
 async function startRec(){
   recStream=await navigator.mediaDevices.getUserMedia({audio:true});
   chunks=[]; rec=new MediaRecorder(recStream); rec.ondataavailable=e=>chunks.push(e.data); rec.start();
@@ -350,7 +356,7 @@ async function toggleRecord(btn){
   try{await startRec()}catch(e){showFallback("The microphone is not available here.");return}
   btn.classList.add("on"); btn.innerHTML=ico.stop+"Stop";
 }
-function setMyAudio(url){ if(myAudioURL) URL.revokeObjectURL(myAudioURL); myAudioURL=url; ["#playMine","#compare"].forEach(s=>{const b=$(s); if(b) b.disabled=false}); }
+function setMyAudio(url){ if(myAudioURL) URL.revokeObjectURL(myAudioURL); myAudioURL=url; ["#playMine","#compare"].forEach(s=>{const b=$(s); if(b) b.disabled=false}); const h=$("#mineHint"); if(h) h.hidden=true; }
 function playMine(){ return new Promise(res=>{ if(!myAudioURL){res();return} stopAll(); const a=new Audio(myAudioURL); current=a; a.onended=()=>{current=null;res()}; a.play().catch(res); }); }
 function showFallback(msg){ const f=$("#fallback"); if(!f) return; f.hidden=false; $("#fallbackMsg").textContent=msg+" Record yourself with your phone's voice recorder, then import the file."; }
 
@@ -482,10 +488,11 @@ function renderPlay(){
       <div class="row">
         <button class="btn primary" id="go" ${role?"":"disabled"}>${ico.play}Commencer</button>
         <button class="btn" id="halt" disabled>${ico.stop}Stop</button>
-        <label class="btn" style="font-weight:700"><input type="checkbox" id="recScene"> Record the scene</label>
+        <label class="btn" style="font-weight:700"><input type="checkbox" id="recScene" ${recPref?"checked":""}> 🎙️ Record the scene</label>
       </div>
       <p class="hint" id="playHint">${role?T("When your line lights up in yellow, say it. The blue bar shows the time left.","Quand ta réplique s'allume en jaune, dis-la. La barre bleue montre le temps qu'il te reste."):T("Choose your part first.","Choisis d'abord ton rôle.")}</p>
-      <div class="row"><button class="btn" id="playMine" disabled>${ico.play}Play my scene back</button></div>
+      <div class="row"><button class="btn" id="playMine" ${myAudioURL?"":"disabled"}>${ico.play}Play my scene back</button></div>
+      <p class="hint" id="mineHint" ${myAudioURL?"hidden":""}>${T("To play your scene back, tick “Record the scene”, then press Start and act it out to the end (or press Stop).","Pour réécouter ta scène : coche « Record the scene », appuie sur Commencer et joue la scène jusqu'au bout (ou appuie sur Stop).")}</p>
     </section>
     <div class="nav"><button class="btn" id="prev" ${state.pi===0?"disabled":""}>← Previous dialogue</button><button class="btn" id="next" ${state.pi===DIALOGUES.length-1?"disabled":""}>Next dialogue →</button></div>`;
 }
@@ -538,7 +545,8 @@ document.addEventListener("click",async e=>{
     case "next": playing=false; stopAll(); state[idx()]++; role=null; save(); render(); break;
   }
 });
-document.addEventListener("change",e=>{ if(e.target.id==="upload"&&e.target.files[0]) setMyAudio(URL.createObjectURL(e.target.files[0])); });
+document.addEventListener("change",e=>{ if(e.target.id==="upload"&&e.target.files[0]) setMyAudio(URL.createObjectURL(e.target.files[0]));
+  if(e.target.id==="recScene"){ recPref=e.target.checked; try{localStorage.setItem("excuselab-recscene",recPref?"1":"0")}catch(x){} } });
 ["vi","li","pi"].forEach((k,j)=>{ const n=[VERBS,LINES,DIALOGUES][j].length; if(!(state[k]>=0&&state[k]<n)) state[k]=0; });
 if(!["verbs","lines","play"].includes(state.tab)) state.tab="lines";
 /* Role play only: the link in Fill in the note (?play=1) opens the role play even while the step is locked */
