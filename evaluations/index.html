@@ -56,6 +56,12 @@ ul,ol{margin:6px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:4p
 .lock{display:flex;gap:10px;align-items:flex-start;background:var(--paper);border:1px dashed var(--line);border-radius:12px;padding:12px 14px}
 .lock b{display:block}
 .mine{font-weight:700;color:var(--accent)}
+.handin{border:2px dashed var(--accent);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--accent-soft)}
+.handin h3{font-family:var(--display);margin:0;font-size:1.1rem}
+.handin p{margin:0;font-size:.93rem}
+.handin label{display:flex;flex-direction:column;gap:4px;font-weight:700;font-size:.93rem}
+.handin select,.handin textarea{font:inherit;font-weight:400;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--card);color:var(--ink)}
+.handin textarea{min-height:150px;resize:vertical}
 .bl{display:inline-block;min-width:80px;border-bottom:2px dotted var(--muted);height:1.1em;vertical-align:baseline}
 /* Blanks of the gap scenes: the learner fills them in on the page (kept on this device) */
 input.gap{font:inherit;font-weight:700;color:var(--accent);width:9.5em;max-width:60vw;border:0;border-bottom:2px solid var(--accent);background:var(--accent-soft);border-radius:6px 6px 0 0;padding:1px 6px;margin:0 2px}
@@ -77,6 +83,7 @@ input.gap:focus{outline:3px solid var(--accent);outline-offset:1px}
   <p class="foot">bosse-lu.github.io · Collège Réeberg Néron · M. Bosse</p>
 </div>
 <script src="../assets/consigne.js"></script>
+<script src="../assets/export-pdf.js"></script>
 <script src="data.js"></script>
 <script src="../assets/reset.js"></script>
 <script src="../assets/classes.js"></script>
@@ -139,7 +146,7 @@ input.gap:focus{outline:3px solid var(--accent);outline-offset:1px}
     $("#lead").textContent = w.all ? `Version ${w.lv} : toutes les évaluations, et la tâche finale pour chaque groupe (cliquez sur un groupe).` : "Toutes les évaluations de la séquence, et ta tâche finale selon ton groupe.";
     const D = window.EVAL_DATA[w.lv];
     box.innerHTML = D.tests.map(e => test(e, w)).join("") + final(D.final, w);
-    gaps(w);
+    gaps(w); handIn(w);
     if (location.hash === "#final" && !draw.done) { draw.done = true; setTimeout(() => { const f = $("#final"); if (f) f.scrollIntoView(); }, 50); }
   }
   // The blanks of the gap scenes become fields to fill in; what the learner types stays on this device
@@ -156,6 +163,75 @@ input.gap:focus{outline:3px solid var(--accent);outline-offset:1px}
         sp.replaceWith(inp);
       });
     });
+  }
+  /* ---------- Hand in on Pronote: the group 1 scene filled in, or the group 2 preparation, as a PDF ---------- */
+  const PREP_KEY = "evals-prep";
+  let P = {}; try { P = JSON.parse(localStorage.getItem(PREP_KEY) || "{}"); } catch (e) {}
+  const savePrep = () => { try { localStorage.setItem(PREP_KEY, JSON.stringify(P)); } catch (e) {} };
+  // Text of an element as paragraphs of styled runs (bold, italic); the fields give what the learner typed
+  function paras(el) {
+    const out = []; let cur = [];
+    const push = () => { if (cur.some(r => r[0].trim())) out.push(cur); cur = []; };
+    (function walk(n, st) {
+      if (n.nodeType === 3) { const t = n.textContent.replace(/\s+/g, " "); if (t) cur.push([t, st]); return; }
+      if (n.nodeType !== 1) return;
+      const tag = n.tagName;
+      if (tag === "BR") return push();
+      if (tag === "INPUT") { cur.push([n.value.trim() ? " " + n.value.trim() + " " : " ________ ", "B"]); return; }
+      if (tag === "TABLE") { push(); n.querySelectorAll("tr").forEach(tr => { const c = [...tr.children].map(td => td.textContent.trim()).filter(Boolean); if (c.length) out.push([[c.join("   ·   "), tr.querySelector("th") ? "B" : "R"]]); }); return; }
+      if (tag === "BUTTON") return;
+      if (n.classList.contains("cg-fr")) { push(); cur.push([n.textContent.trim(), "I"]); push(); return; }
+      const block = /^(P|LI|DIV|H3|UL|OL|SECTION)$/.test(tag); if (block) push();
+      const s2 = (tag === "B" || tag === "STRONG") ? (st.includes("I") ? "BI" : "B") : (tag === "I" || tag === "EM") ? (st.includes("B") ? "BI" : "I") : st;
+      if (tag === "LI") cur.push(["•  ", "R"]);
+      n.childNodes.forEach(c => walk(c, s2));
+      if (block) push();
+    })(el, "R");
+    push(); return out.map(r => r.map(([t, st]) => [t.replace(/ {2,}/g, " "), st]));
+  }
+  function putActs(d, acts) {
+    acts.forEach(a => {
+      d.h(a.querySelector("h3").textContent, 13);
+      [...a.children].filter(c => c.tagName !== "H3").forEach(c => paras(c).forEach(r => d.p(r, {size: 11, lead: 1.5, gap: 3})));
+    });
+  }
+  function handIn(w) {
+    const fin = $("#final"); if (!fin || !window.ExportPDF) return;
+    const g = w.all ? (tab === 1 ? 1 : tab === 2 ? 2 : 0) : (C().evalOpen(SEQ[w.lv], "act-out") ? w.group : 0);
+    if (g !== 1 && g !== 2) return;
+    const acts = [...fin.querySelectorAll(".act")], grid = acts.find(a => /Grille/.test(a.querySelector("h3").textContent));
+    const box = document.createElement("section"); box.className = "handin";
+    if (g === 1) {
+      box.innerHTML = `<h3>📄 Rendre ma scène sur Pronote</h3><p>Complète les trous ci-dessus, puis télécharge ta scène en PDF et dépose-la sur Pronote.</p>`;
+      box.appendChild(ExportPDF.button("📄 Ma scène complétée en PDF", () => ({
+        title: "Act out the scene · Groupe 1", file: "Act-out-the-scene_Groupe-1",
+        intro: "Ta scène complétée se télécharge en PDF. Dépose-la ensuite sur Pronote.",
+        build(d) { d.h("Act out the scene · Groupe 1 · " + w.lv, 16); putActs(d, acts.filter(a => a !== grid)); if (grid) putActs(d, [grid]); }
+      })));
+    } else {
+      const sits = acts.filter(a => /^Situation/.test(a.querySelector("h3").textContent)), key = w.lv;
+      const cur = P[key] || {sit: 0, text: ""};
+      box.innerHTML = `<h3>✍️ Ma préparation · à rendre sur Pronote</h3>
+        <label>Ma situation<select id="prep-sit">${sits.map((a, i) => `<option value="${i}"${i === +cur.sit ? " selected" : ""}>${a.querySelector("h3").textContent}</option>`).join("")}</select></label>
+        <label>Mes mots-clés et mon dialogue (en anglais)<textarea id="prep-text" lang="en" placeholder="Teacher: … / Me: …"></textarea></label>
+        <p>Ce que tu écris reste sur cet appareil. Télécharge-le en PDF pour le déposer sur Pronote.</p>`;
+      const ta = box.querySelector("#prep-text"), sel = box.querySelector("#prep-sit"); ta.value = cur.text || "";
+      ta.addEventListener("input", () => { P[key] = {sit: +sel.value, text: ta.value}; savePrep(); });
+      sel.addEventListener("change", () => { P[key] = {sit: +sel.value, text: ta.value}; savePrep(); });
+      box.appendChild(ExportPDF.button("📄 Ma préparation en PDF", () => ({
+        title: "Act out the scene · Groupe 2", file: "Act-out-the-scene_Groupe-2",
+        intro: "Ta situation et ta préparation se téléchargent en PDF. Dépose-les ensuite sur Pronote.",
+        build(d) {
+          d.h("Act out the scene · Groupe 2 · " + w.lv, 16);
+          putActs(d, [sits[+sel.value]].filter(Boolean));
+          d.h("Mes mots-clés et mon dialogue", 13);
+          const t = ta.value.trim();
+          if (t) t.split(/\n/).forEach(l => d.p(l || " ", {size: 11.5, lead: 1.55, gap: 2})); else d.lines(10);
+          if (grid) putActs(d, [grid]);
+        }
+      })));
+    }
+    fin.appendChild(box);
   }
   document.addEventListener("click", e => {
     const t = e.target.closest("[data-tab]"); if (t) { tab = +t.dataset.tab; save(); draw(); const f = $("#final"); if (f) f.scrollIntoView({block: "start"}); return; }

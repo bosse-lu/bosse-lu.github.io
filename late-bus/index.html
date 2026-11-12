@@ -711,5 +711,27 @@ showTab(state.tab === "lab" ? "lab" : "read");
 <script src="../assets/reset.js"></script>
 <script src="../assets/classes.js"></script>
 <script src="../assets/sequence.js" data-step="bus" data-seq="late-and-absent"></script>
+<script src="../assets/export-pdf.js"></script>
+<script>
+/* The article as a PDF to annotate (wide margin, numbered lines), to hand in on Pronote */
+(function () {
+  const at = document.getElementById("paper"); if (!at || !window.ExportPDF || typeof TEXT === "undefined") return;
+  const strip = s => s.replace(/\[([^|\]]+)\|[^\]]+\]/g, "$1"), gl = [];
+  TEXT.flat().forEach(s => s.replace(/\[([^|\]]+)\|([^\]]+)\]/g, (m, a, b) => { gl.push([a, b]); return m; }));
+  const title = "Late for school? Blame the bus!", by = (document.querySelector("#paper .byline") || {}).textContent || "";
+  const box = document.createElement("p"); box.style.cssText = "margin:12px 0 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center";
+  box.appendChild(ExportPDF.button("📄 Le texte en PDF, pour l'annoter", {
+    title, file: "Blame-the-bus", annotate: true,
+    intro: "Le texte se télécharge en PDF, avec les lignes numérotées et une marge pour tes notes. Annote-le (surligne, entoure les verbes au prétérit…), puis dépose-le sur Pronote si ton professeur le demande.",
+    build(d) {
+      d.h(title, 17); if (by) d.p([[by, "I"]], {size: 10, gray: true, gap: 10});
+      TEXT.forEach((p, i) => d.p([[`[${i + 1}]  `, "B"], [strip(p.join(" ")), "R"]], {size: 12.5, lead: 2.05, numbered: true, gap: 10}));
+      d.h("Glossary · difficult words", 13);
+      gl.forEach(([a, b]) => d.p([[a, "B"], [" = " + b, "R"]], {size: 10.5, gap: 1}));
+    }}));
+  const s = document.createElement("span"); s.style.cssText = "font-size:.88rem;color:var(--muted)"; s.textContent = "Lignes numérotées, marge pour tes notes.";
+  box.appendChild(s); at.after(box);
+})();
+</script>
 </body>
 </html>

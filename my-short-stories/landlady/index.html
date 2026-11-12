@@ -217,5 +217,34 @@ h3{font-family:var(--display);font-size:1.05rem;margin:4px 0 0}
 <script src="../../assets/flagtips.js"></script>
 <script src="../../assets/newbadge.js"></script>
 <script src="../../assets/classes.js"></script>
+<script src="../../assets/export-pdf.js"></script>
+<script>
+/* The worksheet as a PDF (words, questions with answer lines, clue hunt, your ending), to annotate and hand in on Pronote.
+   The text of the story stays on the paper sheet. */
+(function () {
+  if (!window.ExportPDF) return;
+  const parts = [...document.querySelectorAll("section.part, section.write")], head = document.querySelector("header");
+  const title = (document.querySelector("h1") || {}).textContent || "The Landlady";
+  const t = el => (el ? el.textContent.replace(/\s+/g, " ").trim() : "");
+  const box = document.createElement("p"); box.style.cssText = "margin:10px 0 0";
+  box.appendChild(ExportPDF.button("📄 La fiche en PDF, pour l'annoter", {
+    title, file: "The-Landlady_fiche", annotate: true,
+    intro: "Les mots difficiles, les questions (avec des lignes pour répondre), la chasse aux indices et ta fin de l'histoire se téléchargent en PDF. Le texte de la nouvelle reste sur ta feuille. Annote le PDF, puis dépose-le sur Pronote si ton professeur le demande.",
+    build(d) {
+      d.h(title + " · Roald Dahl", 17);
+      parts.forEach(sec => {
+        const h = sec.querySelector("h2"), lines = sec.querySelector(".lines");
+        d.h(t(h) + (lines ? "  (" + t(lines) + ")" : ""), 13.5);
+        const words = [...sec.querySelectorAll(".words li")];
+        if (words.length) { d.p([["Difficult words", "B"]], {size: 10.5, gap: 1}); words.forEach(li => { const b = t(li.querySelector("b")); d.p([[b, "B"], [t(li).slice(b.length), "R"]], {size: 10, gap: 0, indent: 10}); }); d.space(4); }
+        const qs = [...sec.querySelectorAll(".qs > li")];
+        qs.forEach((li, i) => { const c = li.cloneNode(true); c.querySelectorAll("details").forEach(x => x.remove()); d.p([[(i + 1) + ".  ", "B"], [t(c), "R"]], {size: 11, gap: 0}); d.lines(2, 20); });
+        const hint = sec.querySelector(":scope > .hint, :scope > p");
+        if (!qs.length && hint) { d.p(t(hint), {size: 11, gap: 2}); d.lines(sec.classList.contains("write") ? 12 : 6, 22); }
+      });
+    }}));
+  head.after(box);
+})();
+</script>
 </body>
 </html>
