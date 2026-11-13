@@ -14,6 +14,17 @@
   const ROOT = document.currentScript && document.currentScript.src ? new URL("../assets/doko/", document.currentScript.src).href : "../assets/doko/";
   const IMG = ROOT, PIC = ROOT + "pics/", L = "ABCDE", PAIRS = ["BC", "DE", "AB", "CD", "AE"];
   const TOK = [{id: "fire", n: "Fire", fr: "le feu", f: "Feu", c: "#ff5a1f", e: "🔥"}, {id: "water", n: "Water", fr: "l'eau", f: "Eau", c: "#3d7bff", e: "💧"}, {id: "earth", n: "Earth", fr: "la terre", f: "Terre", c: "#e8a21a", e: "🌾"}, {id: "wood", n: "Wood", fr: "le bois", f: "Bois", c: "#43c13a", e: "🌳"}];
+  // CFG.tokenLevels: each token is a game of its own difficulty (theme games only: the evaluation and its training do not change).
+  // 🌳 Wood the easiest → 🔥 Fire the hardest: more difficult questions, less time, a wrong answer costs more, no joker.
+  const TOKLV = CFG.tokenLevels ? {
+    wood: {per: {1: 8, 2: 4, 3: 0}, time: 25, wrong: 0, joker: true, n: "Easy", f: "Facile", st: 1},
+    earth: {per: {1: 4, 2: 4, 3: 4}, time: 20, wrong: 1, joker: true, n: "Medium", f: "Moyen", st: 2},
+    water: {per: {1: 2, 2: 4, 3: 6}, time: 15, wrong: 1, joker: true, n: "Hard", f: "Difficile", st: 3},
+    fire: {per: {1: 0, 2: 4, 3: 8}, time: 10, wrong: 2, joker: false, n: "Extreme", f: "Extrême", st: 4}
+  } : null;
+  const TOKS = TOKLV ? ["wood", "earth", "water", "fire"].map(id => TOK.find(t => t.id === id)) : TOK;
+  const tokSet = P => TOKLV && token && P && !P.eval && !P.train ? TOKLV[token] : null;
+  const bestKey = P => KEY + "-best-" + P.id + (tokSet(P) ? "-" + token : "");
   const THEMES = CFG.themes || window.DOKO_THEMES || [], RECREATE = CFG.recreate === false ? null : window.DOKO_RECREATE;
   const LV = {1: ["easy", "facile"], 2: ["medium", "moyen"], 3: ["difficult", "difficile"]};
   const PER_LEVEL = 4, FAST = 8, WRONG = CFG.wrong === undefined ? 1 : CFG.wrong, KEY = CFG.key || "doko";
@@ -72,7 +83,8 @@
       if (!ok) { $("#menu").style.display = "none"; return; }
       if ((!G || G.phase === "end" || G.phase === "") && $("#end").style.display !== "flex") $("#menu").style.display = "flex";
     }
-    $("#tokens").innerHTML = TOK.map(t => `<button type="button" class="tk" data-tok="${t.id}" style="--c:${t.c}" aria-pressed="${token === t.id}"><img src="${IMG}${t.id}.png" alt="">${FR ? t.f : t.n}${FR ? "" : `<small lang="fr">${t.fr}</small>`}</button>`).join("");
+    $("#tokens").innerHTML = TOKS.map(t => { const d = TOKLV && TOKLV[t.id]; return `<button type="button" class="tk" data-tok="${t.id}" style="--c:${t.c}" aria-pressed="${token === t.id}"><img src="${IMG}${t.id}.png" alt="">${FR ? t.f : t.n}${FR ? "" : `<small lang="fr">${t.fr}</small>`}${d ? `<span class="diff" aria-label="${d.n}"><i>${"★".repeat(d.st)}${"☆".repeat(4 - d.st)}</i>${d.n}<small lang="fr">${d.f} · ${d.time} s</small></span>` : ""}</button>`; }).join("");
+    $("#tokens").classList.toggle("nolv", !!TOKLV && (game === "recreate" || game === "training"));
     if (token) document.body.dataset.el = token; if (window.DokoFX) DokoFX.set(token);
     $$(".gm").forEach(b => b.setAttribute("aria-pressed", b.dataset.g === game));
     const lk = !recreateOpen(); if ($("#lock-recreate")) { $("#lock-recreate").hidden = !lk; $('[data-g="recreate"]').classList.toggle("locked", lk); }
@@ -85,7 +97,7 @@
     $("#evadmin").hidden = !isAdmin() || !RECREATE;
     $("#evadmin-st").textContent = evDone ? `Sur cet appareil : ${ev.st === "left" ? "sortie, 0 / 20" : ev.score + " / 20"} (${fmtDate(ev.end)}).` : "Aucune tentative sur cet appareil.";
     $("#themes").innerHTML = THEMES.map(t => {
-      const best = store.get(KEY + "-best-" + t.id), per = t.per || CFG.per, nq = per ? per[1] + per[2] + per[3] : 3 * PER_LEVEL;
+      const ts = tokSet(t), best = store.get(bestKey(t)), per = ts ? ts.per : t.per || CFG.per, nq = per ? per[1] + per[2] + per[3] : 3 * PER_LEVEL;
       return `<button type="button" class="th" data-t="${t.id}" aria-pressed="${!!theme && theme.id === t.id}"><b>${t.emoji || "🎲"} ${esc(t.title)}</b><small>${esc(t.kind)} · ${esc(t.level)} · ${nq} questions</small>${typeof best === "number" ? `<span class="best">${S.best(best)}</span>` : ""}</button>`;
     }).join("");
     $("#go").disabled = !(token && pack()) || (game === "recreate" && evDone && !isAdmin());
@@ -120,7 +132,7 @@
   const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   // 4 questions per level, easy first; the choices are mixed (the right one is followed)
   function pick(P) {
-    const per = P.per || CFG.per;
+    const ts = tokSet(P), per = ts ? ts.per : P.per || CFG.per;
     const take = lv => {
       const n = per ? per[lv] : PER_LEVEL;
       if (!P.gen) return shuffle((P.q || []).filter(q => (q.lv || 1) === lv)).slice(0, n);
@@ -145,8 +157,9 @@
       evWrite({st: "run", start: new Date().toISOString(), cls: C() && C().klass() ? C().klass().label : ""});
       document.body.classList.add("exam");
     }
-    G = {qs: pick(P), i: -1, score: 0, right: 0, streak: 0, joker: !P.eval && !P.train, ev: !!P.eval, tr: !!P.train, log: [], cell: null, phase: "", time: P.time || 20};
-    $("#joker").hidden = G.ev || G.tr;
+    const ts = tokSet(P);
+    G = {qs: pick(P), i: -1, score: 0, right: 0, streak: 0, joker: !P.eval && !P.train && (!ts || ts.joker), ev: !!P.eval, tr: !!P.train, log: [], cell: null, phase: "", time: ts ? ts.time : P.time || 20, wrong: ts ? ts.wrong : WRONG};
+    $("#joker").hidden = G.ev || G.tr || (ts && !ts.joker);
     $("#mytoken img").src = IMG + token + ".png";
     $("#menu").style.display = "none"; $("#end").style.display = "none"; $("#game").style.display = "flex"; document.body.classList.add("playing");
     window.scrollTo(0, 0); next();
@@ -195,7 +208,8 @@
     if (G.i >= G.qs.length) return finish();
     G.cell = null; G.phase = "ask"; G.gone = []; G.t0 = Date.now(); G.rowLock = false;
     const q = Q(), P = pack();
-    $("#qn").innerHTML = `${esc((P.emoji || "") + " " + P.title)} · ${G.i + 1} / ${G.qs.length}${G.ev ? ' <span class="evalbadge">/20</span>' : ""}`;
+    const ts = tokSet(P);
+    $("#qn").innerHTML = `${esc((P.emoji || "") + " " + P.title)}${ts ? ` · ${TOK.find(t => t.id === token).e} ${FR ? ts.f : ts.n}` : ""} · ${G.i + 1} / ${G.qs.length}${G.ev ? ' <span class="evalbadge">/20</span>' : ""}`;
     const lv = q.lv || 1; $("#lvl").className = "lvl l" + lv; $("#lvl").innerHTML = `<i></i>${S.lvl(lv)}`;
     drawStreak();
     $("#question").innerHTML = `${esc(q.q || S.recQ)}${CFG.speak ? `<button type="button" class="hear" aria-label="${S.hear}">🔊</button>` : ""}<span class="num">${G.i + 1}</span>`;
@@ -311,7 +325,7 @@
         if (G.streak % 3 === 0) { pts += 2; msg.push("✨ " + S.power); el.classList.add("power"); setTimeout(() => pop(`${TOK.find(x => x.id === token).e} ${S.power}`), 700); }
         G.score += pts; $("#msg").className = "msg good"; beep(1040, .25);
         }
-      } else { const w = G.tr ? 0 : WRONG; G.score -= w; G.streak = 0; msg.push(S.wrong(w)); $("#msg").className = "msg bad"; beep(220, .25); }
+      } else { const w = G.tr ? 0 : G.wrong; G.score -= w; G.streak = 0; msg.push(S.wrong(w)); $("#msg").className = "msg bad"; beep(220, .25); }
     }
     $("#msg").textContent = msg.join(" · ");
     $("#tsec").textContent = "✓";
@@ -369,7 +383,7 @@
       if (G.left) G.score = 0; else evWrite(Object.assign(evRead() || {}, {st: "done", score: G.score, end: new Date().toISOString()}));
       $("#again").hidden = !isAdmin();
     } else $("#again").hidden = false;
-    const P = pack(), k = KEY + "-best-" + P.id, best = store.get(k);
+    const P = pack(), k = bestKey(P), best = store.get(k);
     $("#endtok").src = IMG + token + ".png";
     $("#final").textContent = G.ev ? `${G.score} / 20` : G.tr ? `${G.score} / ${G.qs.length * 2}` : S.pts(G.score);
     $("#right").innerHTML = G.left ? `<p class="leftmsg">⛔ You left the evaluation: 0 / 20. You cannot start again.</p><p class="fr">Tu as quitté l'évaluation : 0 / 20. Tu ne peux pas recommencer.</p>` : S.right(G.right, G.qs.length);

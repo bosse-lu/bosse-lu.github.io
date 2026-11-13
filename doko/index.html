@@ -22,7 +22,7 @@
   <section id="menu" class="wrap" style="padding:0">
     <div class="musicrow"><button type="button" class="sound" aria-pressed="false">🔇 Music</button><span>Ambient music · <i>musique d'ambiance</i></span></div>
     <div class="panel">
-      <h2>1. Choose your token<span class="fr">Choisis ton jeton parmi les 4 éléments.</span></h2>
+      <h2>1. Choose your token = your level<span class="fr">Chaque jeton est un jeu, du plus facile 🌳 au plus difficile 🔥. Pour l'évaluation, le jeton ne change rien.</span></h2>
       <div class="tokens intro" id="tokens"></div>
     </div>
     <div class="panel">
@@ -41,17 +41,18 @@
     <details class="rules panel">
       <summary>The rules · Les règles</summary>
       <ul>
-        <li><b>12 questions</b>, from easy 🟢 to medium 🟡 to difficult 🔴. You have <b>20 seconds</b> for each question.</li>
+        <li><b>Your token is your level.</b> 🌳 Wood: easy questions, 25 seconds, no point lost. 🌾 Earth: medium, 20 seconds. 💧 Water: harder, 15 seconds. 🔥 <b>Fire: the hardest</b>, difficult questions, 10 seconds, a wrong answer costs 2 points, no joker!</li>
+        <li><b>12 questions</b>, from easy 🟢 to medium 🟡 to difficult 🔴.</li>
         <li>Put your token on the right answer: drag it onto a box, or tap the box.</li>
-        <li>🔒 <b>At half time, row 1 is locked</b>: after 10 seconds, you can only choose two letters (row 2).</li>
+        <li>🔒 <b>At half time, row 1 is locked</b>: then you can only choose two letters (row 2).</li>
         <li><b>First row = 4 points:</b> you are sure, you choose one letter. <b>Second row = 2 points:</b> you hesitate, you choose two letters.</li>
-        <li><b>A wrong answer costs 1 point.</b> No answer: 0.</li>
+        <li><b>A wrong answer costs 1 point</b> (🌳 Wood: 0, 🔥 Fire: 2). No answer: 0.</li>
         <li>⚡ <b>Fast!</b> One letter, right, in less than 8 seconds: +1.</li>
         <li>✨ <b>Element power:</b> 3 right answers in a row: +2.</li>
-        <li>⚛️ <b>Joker</b> (once per game): two wrong answers disappear.</li>
+        <li>⚛️ <b>Joker</b> (once per game, not with 🔥 Fire): two wrong answers disappear.</li>
         <li>🧩 <b>Recreate the situation</b> is an evaluation out of 20: one letter right = 2, two letters = 1, no bonus, one try only.</li>
       </ul>
-      <p class="fr">12 questions, de facile à difficile. 1re ligne : tu es sûr, 4 points, mais elle se bloque à la moitié du temps. 2e ligne : tu hésites entre deux lettres, 2 points. Une erreur : −1. Bonus : rapidité (+1), 3 bonnes réponses d'affilée (+2). Le Joker enlève deux mauvaises réponses, une fois par partie. Recreate the situation est une évaluation sur 20, en une seule tentative.</p>
+      <p class="fr">Ton jeton est ton niveau : 🌳 Bois, facile (25 s, pas de point perdu) ; 🌾 Terre, moyen (20 s) ; 💧 Eau, difficile (15 s) ; 🔥 Feu, le plus dur (10 s, questions difficiles, −2 par erreur, pas de Joker). 12 questions, de facile à difficile. 1re ligne : tu es sûr, 4 points, mais elle se bloque à la moitié du temps. 2e ligne : tu hésites entre deux lettres, 2 points. Une erreur : −1 (Bois : 0, Feu : −2). Bonus : rapidité (+1), 3 bonnes réponses d'affilée (+2). Le Joker enlève deux mauvaises réponses, une fois par partie (pas avec le Feu). Recreate the situation est une évaluation sur 20, en une seule tentative.</p>
     </details>
     <details class="panel teacher">
       <summary>🔑 Teacher · <span lang="fr">Professeur</span></summary>
@@ -112,6 +113,7 @@
 </div>
 <audio id="music" src="../assets/doko/music.mp3" loop preload="metadata"></audio>
 <script src="../assets/doko/fx.js"></script>
+<script>window.DOKO_CONFIG = {tokenLevels: true};</script>
 <script src="themes.js"></script>
 <script src="../assets/classes.js"></script>
 <script src="engine.js"></script>

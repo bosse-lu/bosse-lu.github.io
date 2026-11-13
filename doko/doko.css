@@ -42,6 +42,13 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
 @media (max-width:560px){.tokens{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .tk{display:flex;flex-direction:column;align-items:center;gap:4px;background:#20243a;border:3px solid var(--line);border-radius:16px;padding:12px 8px;cursor:pointer;font-family:var(--display);font-weight:800;font-size:1.1rem;transition:border-color .2s,box-shadow .2s}
 .tk small{font:italic 400 .8rem var(--body);color:var(--muted)}
+/* Each token = a difficulty level (theme games) */
+.tk .diff{display:flex;flex-direction:column;align-items:center;gap:1px;margin-top:4px;padding-top:6px;border-top:1px dashed var(--line);width:100%;font-size:.92rem;color:var(--c)}
+.tk .diff i{font-style:normal;letter-spacing:.08em;font-size:.95rem}
+.tk .diff small{font-size:.75rem}
+.tk[data-tok="fire"] .diff{font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.tk[data-tok="fire"] .diff small{text-transform:none;letter-spacing:0}
+.tokens.nolv .diff{display:none}
 .tk img{width:84px;height:84px;object-fit:contain;transition:transform .2s;border-radius:50%}
 .tokens.intro .tk img{animation:fall .8s cubic-bezier(.3,1.4,.5,1) both}
 .tokens.intro .tk:nth-child(2) img{animation-delay:.18s}.tokens.intro .tk:nth-child(3) img{animation-delay:.36s}.tokens.intro .tk:nth-child(4) img{animation-delay:.54s}
