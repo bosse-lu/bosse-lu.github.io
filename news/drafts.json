@@ -1,1 +1,100 @@
-[]
+[
+  {
+    "id": "2026-11-15-children-in-need",
+    "date": "2026-11-15",
+    "level": "5e",
+    "topic": "Culture",
+    "country": "UK",
+    "flag": "uk",
+    "emoji": "🐻",
+    "title": "Children in Need: a big night to help children",
+    "lead": "On 13 November 2026, a TV show in the UK raised more than £38 million for children and young people.",
+    "body": [
+      "On Friday 13 November 2026, BBC Children in Need had its big TV show. It was live from Salford, in the north-west of England. Children in Need is a charity. It gives money to projects for children and young people in the UK.",
+      "There were songs, dances and funny surprises. People at home gave money by phone or online. At the end of the night, the total was £38,720,170!",
+      "Before the show, Owain Wyn Evans, a radio presenter, did a big challenge. He cycled nearly 400 miles in 5 days, from Glasgow in Scotland to Cardiff in Wales. He went through the 4 nations of the UK: Scotland, Northern Ireland, England and Wales.",
+      "The star of the charity is Pudsey, a yellow bear with a spotty bandana on his eye. Every year, a lot of schools have a Pudsey day: pupils wear yellow or spots and give some money."
+    ],
+    "keywords": [
+      [
+        "live",
+        "en direct"
+      ],
+      [
+        "charity",
+        "association caritative"
+      ],
+      [
+        "gave",
+        "ont donné"
+      ],
+      [
+        "total",
+        "total, somme finale"
+      ],
+      [
+        "challenge",
+        "défi"
+      ],
+      [
+        "cycled",
+        "a fait du vélo, a pédalé"
+      ],
+      [
+        "miles",
+        "miles (1 mile = 1,6 km)"
+      ],
+      [
+        "spotty",
+        "à pois"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "Where was the TV show?",
+        "options": [
+          "In London",
+          "In Cardiff",
+          "In Salford"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "How far did Owain Wyn Evans cycle?",
+        "options": [
+          "Nearly 400 miles",
+          "About 40 miles",
+          "More than 4,000 miles"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Who is Pudsey?",
+        "options": [
+          "A radio presenter",
+          "A yellow bear",
+          "A singer"
+        ],
+        "answer": 1
+      }
+    ],
+    "turn": "Imagine a Pudsey day at your school. What can you do to help? On Pudsey day, I can wear… I can sell… I want to help…",
+    "sources": [
+      {
+        "name": "BBC Children in Need, official website (UK)",
+        "date": "14 November 2026",
+        "url": "https://www.bbcchildreninneed.co.uk/"
+      },
+      {
+        "name": "BBC Children in Need – Owain's 4 Nations Cycle Challenge (UK)",
+        "date": "11 November 2026",
+        "url": "https://www.bbcchildreninneed.co.uk/shows/owains-4-nations-cycle-challenge/"
+      },
+      {
+        "name": "CultureCues (UK)",
+        "date": "14 November 2026",
+        "url": "https://culturecues.co.uk/bbc-children-in-need-2026/"
+      }
+    ]
+  }
+]
