@@ -77,6 +77,10 @@
   const triesUsed = () => { let a = +store.get(TRK) || 0, b = 0; try { const m = document.cookie.match(new RegExp("(?:^|; )" + TCK + "=(\\d+)")); if (m) b = +m[1]; } catch (e) {} return Math.max(a, b); };
   const setTries = n => { store.set(TRK, n); try { document.cookie = n ? `${TCK}=${n}; max-age=31536000; path=/; SameSite=Lax` : `${TCK}=; max-age=0; path=/`; } catch (e) {} };
   const triesLeft = () => isAdmin() ? TRY_MAX : Math.max(0, TRY_MAX - triesUsed());
+  // Tries allowed for the evaluation (1, or more when the class allows it); finished tries are kept in r.prev
+  const evMax = () => C() && C().isReady() && C().evalTries ? Math.max(C().evalTries("late-and-absent", "doko-recreate"), C().evalTries("late-and-absent-4e", "doko-recreate")) : 1;
+  const evList = r => !r ? [] : [...(r.prev || []), ...(r.st !== "run" ? [{st: r.st, score: r.st === "left" ? 0 : r.score, end: r.end}] : [])];
+  const evCanRetry = r => !!r && r.st !== "run" && evList(r).length < evMax();
   // An attempt still "in progress" when the page opens = the page was closed or reloaded during the test: 0 / 20
   (function () { const r = evRead(); if (r && r.st === "run") evWrite(Object.assign(r, {st: "left", score: 0, end: new Date().toISOString()})); })();
   const fmtDate = iso => { try { return new Date(iso).toLocaleString("fr-FR", {day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"}); } catch (e) { return ""; } };
@@ -100,14 +104,19 @@
     $("#best-recreate").textContent = "";
     const ev = evRead(), evDone = ev && ev.st !== "run";
     $("#evres").hidden = !evDone || lk; $("#evres").className = "evres" + (ev && ev.st === "left" ? " left" : "");
-    if (evDone) $("#evres").textContent = ev.st === "left" ? `⛔ You left the evaluation: 0 / 20 · ${fmtDate(ev.end)}` : `✅ Done: ${ev.score} / 20 · ${fmtDate(ev.end)}`;
+    if (evDone) {
+      const all = evList(ev), one = r => r.st === "left" ? `⛔ left: 0 / 20` : `${r.score} / 20`;
+      $("#evres").textContent = all.length > 1 || evMax() > 1
+        ? all.map((r, i) => `Try ${i + 1}: ${one(r)}`).join(" · ") + (evCanRetry(ev) ? ` · You can try once more (${all.length + 1} / ${evMax()}).` : "")
+        : ev.st === "left" ? `⛔ You left the evaluation: 0 / 20 · ${fmtDate(ev.end)}` : `✅ Done: ${ev.score} / 20 · ${fmtDate(ev.end)}`;
+    }
     $("#evadmin").hidden = !isAdmin() || !RECREATE;
-    $("#evadmin-st").textContent = (evDone ? `Sur cet appareil : ${ev.st === "left" ? "sortie, 0 / 20" : ev.score + " / 20"} (${fmtDate(ev.end)}).` : "Aucune tentative d'évaluation sur cet appareil.") + ` Entraînement : ${triesUsed()} / ${TRY_MAX} essais utilisés.`;
+    $("#evadmin-st").textContent = (evDone ? `Sur cet appareil : ${evList(ev).map((r, i) => `essai ${i + 1} : ${r.st === "left" ? "sortie, 0 / 20" : r.score + " / 20"}`).join(" · ")} (${fmtDate(ev.end)}).` : "Aucune tentative d'évaluation sur cet appareil.") + ` Entraînement : ${triesUsed()} / ${TRY_MAX} essais utilisés.`;
     $("#themes").innerHTML = THEMES.map(t => {
       const ts = tokSet(t), best = store.get(bestKey(t)), per = ts ? ts.per : t.per || CFG.per, nq = per ? per[1] + per[2] + per[3] : 3 * PER_LEVEL;
       return `<button type="button" class="th" data-t="${t.id}" aria-pressed="${!!theme && theme.id === t.id}"><b>${t.emoji || "🎲"} ${esc(t.title)}</b><small>${esc(t.kind)} · ${esc(t.level)} · ${nq} questions</small>${typeof best === "number" ? `<span class="best">${S.best(best)}</span>` : ""}</button>`;
     }).join("");
-    $("#go").disabled = !(token && pack()) || (game === "recreate" && evDone && !isAdmin()) || (game === "training" && !triesLeft());
+    $("#go").disabled = !(token && pack()) || (game === "recreate" && evDone && !isAdmin() && !evCanRetry(ev)) || (game === "training" && !triesLeft());
     $("#go").innerHTML = token ? `<img src="${IMG}${token}.png" alt="">${S.play}` : "▶ " + S.play;
   }
   $("#tokens").addEventListener("click", e => { const b = e.target.closest("[data-tok]"); if (!b) return; token = b.dataset.tok; store.set(KEY + "-token", token); drawMenu(); });
@@ -163,10 +172,10 @@
     }
     if (P.eval) {
       const ev = evRead();
-      if (ev && ev.st !== "run" && !isAdmin()) { drawMenu(); return; }
+      if (ev && ev.st !== "run" && !isAdmin() && !evCanRetry(ev)) { drawMenu(); return; }
       if (confirmed !== true) { $("#menu").style.display = "none"; $("#end").style.display = "none"; $("#warn").hidden = false; window.scrollTo(0, 0); return; }
       $("#warn").hidden = true;
-      evWrite({st: "run", start: new Date().toISOString(), cls: C() && C().klass() ? C().klass().label : ""});
+      evWrite({st: "run", start: new Date().toISOString(), cls: C() && C().klass() ? C().klass().label : "", prev: ev && ev.st !== "run" ? evList(ev) : []});
       document.body.classList.add("exam");
     }
     const ts = tokSet(P);
@@ -410,8 +419,11 @@
     $("#endtok").src = IMG + token + ".png";
     $("#final").textContent = G.ev ? `${G.score} / 20` : G.tr ? `${G.score} / ${G.qs.length * 2}` : S.pts(G.score);
     $("#right").innerHTML = G.left ? `<p class="leftmsg">⛔ You left the evaluation: 0 / 20. You cannot start again.</p><p class="fr">Tu as quitté l'évaluation : 0 / 20. Tu ne peux pas recommencer.</p>` : S.right(G.right, G.qs.length);
-    $("#review").hidden = !G.ev || G.left;
-    if (G.ev && !G.left) $("#review").innerHTML = `<h3>Correction</h3>` + G.log.map((r, i) => {
+    // With a try left, the correction waits for the last try (otherwise the answers could be learnt)
+    const retry = G.ev && !isAdmin() && evCanRetry(evRead());
+    $("#review").hidden = !G.ev || G.left || retry;
+    if (retry) $("#right").innerHTML += `<p class="fr">You have one more try. The correction will come after your last try. · Il te reste un essai : la correction viendra après ton dernier essai.</p>`;
+    if (G.ev && !G.left && !retry) $("#review").innerHTML = `<h3>Correction</h3>` + G.log.map((r, i) => {
       const mine = r.cell ? [...r.cell].map(l => r.q.o[L.indexOf(l)]).join(" / ") : "no answer";
       return `<div class="it ${r.pts === 2 ? "ok" : r.pts === 1 ? "half" : ""}"><p><b>${i + 1}. ${esc(r.q.say && r.q.o[r.q.a].split(" ").length < 3 ? r.q.say : r.q.o[r.q.a])}</b> · ${r.pts} / 2</p>${r.pts === 2 ? "" : `<p class="mine" lang="en">Your answer: ${esc(mine)}</p>`}<p class="mine">${esc(r.q.why || "")}</p></div>`;
     }).join("");
