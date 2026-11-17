@@ -184,5 +184,98 @@
         "url": "https://sports.yahoo.com/articles/england-made-statement-beating-world-225501725.html"
       }
     ]
+  },
+  {
+    "id": "2026-11-17-wales-portugal-thriller",
+    "date": "2026-11-17",
+    "level": "4e",
+    "topic": "Nations League",
+    "country": "Wales",
+    "flag": "uk",
+    "emoji": "🐉",
+    "title": "Five goals in Cardiff, but Portugal beat Wales",
+    "lead": "Wales scored twice against Portugal, but the Portuguese came back and won 3-2 in an exciting Nations League match.",
+    "body": [
+      "On Tuesday 17 November 2026, Wales played Portugal at the Cardiff City Stadium. It was their last match in the Nations League group, and the Welsh fans hoped for a big win at home.",
+      "Bruno Fernandes scored first for Portugal after 11 minutes with a powerful shot. But just 2 minutes later, David Brooks equalised for Wales. Then, in the 40th minute, Sorba Thomas made it 2-1. The fans were so happy! But just before half-time, Pedro Neto scored for Portugal: 2-2.",
+      "In the second half, Carlos Forbs came on as a substitute, and he scored the winner in the 70th minute. 4 minutes later, Neto got a second yellow card, so Portugal had only 10 players. Wales attacked a lot, but they couldn't score again.",
+      "Portugal have finished first in the group. Wales have finished last, so next year they will play a play-off to stay in League A."
+    ],
+    "keywords": [
+      [
+        "hoped",
+        "espéraient"
+      ],
+      [
+        "powerful shot",
+        "tir puissant"
+      ],
+      [
+        "equalised",
+        "a égalisé"
+      ],
+      [
+        "half-time",
+        "la mi-temps"
+      ],
+      [
+        "substitute",
+        "remplaçant"
+      ],
+      [
+        "winner",
+        "le but de la victoire"
+      ],
+      [
+        "second yellow card",
+        "deuxième carton jaune"
+      ],
+      [
+        "play-off",
+        "un match de barrage"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "Who scored the first goal of the match?",
+        "options": [
+          "David Brooks",
+          "Bruno Fernandes",
+          "Carlos Forbs"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "What was the score at half-time?",
+        "options": [
+          "2-1 to Wales",
+          "1-1",
+          "2-2"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "Why did Portugal finish the match with 10 players?",
+        "options": [
+          "Neto got a second yellow card",
+          "A player was injured",
+          "Forbs got a red card"
+        ],
+        "answer": 0
+      }
+    ],
+    "turn": "Your turn! You are a Welsh fan at the stadium. Tell a friend about the match in 3 sentences: \"First, Portugal … Then Wales … I was sad because …\"",
+    "sources": [
+      {
+        "name": "Sky Sports (UK)",
+        "date": "17 November 2026",
+        "url": "https://www.skysports.com/football/wales-vs-portugal/554136"
+      },
+      {
+        "name": "101 Great Goals (UK)",
+        "date": "17 November 2026",
+        "url": "https://www.101greatgoals.com/match-reports/wales-2-3-portugal-report-result-goals/"
+      }
+    ]
   }
 ]
