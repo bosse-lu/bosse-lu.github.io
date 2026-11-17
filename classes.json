@@ -27,7 +27,10 @@
             "ed"
           ],
           "parts": {},
-          "evals": []
+          "evals": [
+            "doko-training",
+            "doko-recreate"
+          ]
         }
       },
       "groups": [
