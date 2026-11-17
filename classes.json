@@ -28,8 +28,7 @@
           ],
           "parts": {},
           "evals": [
-            "doko-training",
-            "doko-recreate"
+            "doko-training"
           ]
         }
       },
@@ -54,7 +53,10 @@
             "ed"
           ],
           "parts": {},
-          "evals": []
+          "evals": [
+            "doko-training",
+            "doko-recreate"
+          ]
         }
       },
       "groups": [
