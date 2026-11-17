@@ -184,10 +184,18 @@
           "open": [
             "warm",
             "note",
+            "so",
             "ed"
           ],
           "parts": {},
-          "evals": []
+          "evals": [],
+          "nocheck": {
+            "so": [
+              "training",
+              "think",
+              "links"
+            ]
+          }
         }
       },
       "groups": [
