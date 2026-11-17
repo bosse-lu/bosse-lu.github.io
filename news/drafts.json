@@ -96,5 +96,102 @@
         "url": "https://culturecues.co.uk/bbc-children-in-need-2026/"
       }
     ]
+  },
+  {
+    "id": "2026-11-17-baby-sea-turtles-california",
+    "date": "2026-11-17",
+    "level": "4e",
+    "topic": "Nature",
+    "country": "USA",
+    "flag": "usa",
+    "emoji": "🐢",
+    "title": "Baby sea turtles make history in California",
+    "lead": "For the first time, baby sea turtles from nests on the US West Coast have gone into the Pacific Ocean.",
+    "body": [
+      "In September 2026, people found something surprising on 2 beaches in Southern California: sea turtle nests! Scientists say it was the first time that sea turtles laid eggs naturally on the West Coast of the USA. The mums were olive ridleys, one of the smallest kinds of sea turtle.",
+      "But the beaches were not safe because big storms were coming. So, on 25 September, experts moved about 200 eggs to the Aquarium of the Pacific, in Long Beach. They put the eggs in sand, in a special warm room, and they waited for about 2 months.",
+      "Some of the eggs hatched, and the aquarium has released more than 50 hatchlings into the ocean. It happened at night on 14 and 15 November, at Seal Beach and Huntington Beach.",
+      "Life is hard for baby sea turtles: only about 1 in 1,000 becomes an adult. Scientists think that warmer ocean water may be one reason why the turtles came so far north."
+    ],
+    "keywords": [
+      [
+        "nests",
+        "nids"
+      ],
+      [
+        "laid",
+        "ont pondu"
+      ],
+      [
+        "kinds",
+        "espèces, sortes"
+      ],
+      [
+        "safe",
+        "en sécurité"
+      ],
+      [
+        "storms",
+        "tempêtes"
+      ],
+      [
+        "hatched",
+        "ont éclos"
+      ],
+      [
+        "released",
+        "relâché"
+      ],
+      [
+        "hatchlings",
+        "bébés tortues (qui viennent d'éclore)"
+      ],
+      [
+        "so far north",
+        "si loin au nord"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "Where did people find the sea turtle nests?",
+        "options": [
+          "In Florida",
+          "In Southern California",
+          "In Mexico"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Why did experts move the eggs to the aquarium?",
+        "options": [
+          "Because big storms were coming",
+          "Because the eggs were too cold",
+          "Because the beaches were too small"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "How many baby sea turtles become adults?",
+        "options": [
+          "About 1 in 10",
+          "About 1 in 100",
+          "About 1 in 1,000"
+        ],
+        "answer": 2
+      }
+    ],
+    "turn": "Imagine you are on Seal Beach on the night of 14 November. Describe what you see and how you feel: It's dark and… The baby turtles are… They have never… I feel… because…",
+    "sources": [
+      {
+        "name": "AccuWeather (USA)",
+        "date": "16 November 2026",
+        "url": "https://www.accuweather.com/en/weather-news/sea-turtle-hatchlings-make-history-with-first-releases-on-us-west-coast/1959156"
+      },
+      {
+        "name": "LA Magazine (USA)",
+        "date": "16 November 2026",
+        "url": "https://lamag.com/animals/sea-turtle-hatchlings-released-into-ocean-after-historic-southern-california-nesting"
+      }
+    ]
   }
 ]
