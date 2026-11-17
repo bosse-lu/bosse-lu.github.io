@@ -81,6 +81,15 @@
   const evMax = () => C() && C().isReady() && C().evalTries ? Math.max(C().evalTries("late-and-absent", "doko-recreate"), C().evalTries("late-and-absent-4e", "doko-recreate")) : 1;
   const evList = r => !r ? [] : [...(r.prev || []), ...(r.st !== "run" ? [{st: r.st, score: r.st === "left" ? 0 : r.score, end: r.end}] : [])];
   const evCanRetry = r => !!r && r.st !== "run" && evList(r).length < evMax();
+  // The teacher can give everyone a fresh start (classes.json "reset"): earlier tries are kept aside, shown as "Before"
+  const EVOLD = "doko-eval-recreate-old";
+  function evApplyReset() {
+    if (!C() || !C().isReady() || !C().evalReset) return;
+    const d = [C().evalReset("late-and-absent", "doko-recreate"), C().evalReset("late-and-absent-4e", "doko-recreate")].filter(Boolean).sort().pop();
+    const r = evRead(); if (!d || !r || r.st === "run") return;
+    const first = (r.prev && r.prev[0] && r.prev[0].end) || r.start || r.end || "";
+    if (first && first < new Date(d).toISOString()) { store.set(EVOLD, [...(store.get(EVOLD) || []), ...evList(r)]); evWrite(null); }
+  }
   // An attempt still "in progress" when the page opens = the page was closed or reloaded during the test: 0 / 20
   (function () { const r = evRead(); if (r && r.st === "run") evWrite(Object.assign(r, {st: "left", score: 0, end: new Date().toISOString()})); })();
   const fmtDate = iso => { try { return new Date(iso).toLocaleString("fr-FR", {day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"}); } catch (e) { return ""; } };
@@ -102,13 +111,17 @@
     const lt = !trainingOpen(); if ($("#lock-training")) { $("#lock-training").hidden = !lt; $('[data-g="training"]').classList.toggle("locked", lt); const bt = store.get(KEY + "-best-training"); $("#best-training").textContent = lt ? "" : [`Tries left: ${triesLeft()} / ${TRY_MAX}`, typeof bt === "number" ? `My best score: ${bt} / 12` : ""].filter(Boolean).join(" · "); }
     $("#themebox").hidden = game !== "theme";
     $("#best-recreate").textContent = "";
+    evApplyReset();
     const ev = evRead(), evDone = ev && ev.st !== "run";
     $("#evres").hidden = !evDone || lk; $("#evres").className = "evres" + (ev && ev.st === "left" ? " left" : "");
+    const old = store.get(EVOLD) || [];
+    if (!evDone && old.length && !lk) { $("#evres").hidden = false; $("#evres").textContent = `Before: ${old.map(r => r.st === "left" ? "0 / 20" : r.score + " / 20").join(" · ")} · New try open!`; }
     if (evDone) {
       const all = evList(ev), one = r => r.st === "left" ? `⛔ left: 0 / 20` : `${r.score} / 20`;
       $("#evres").textContent = all.length > 1 || evMax() > 1
         ? all.map((r, i) => `Try ${i + 1}: ${one(r)}`).join(" · ") + (evCanRetry(ev) ? ` · You can try once more (${all.length + 1} / ${evMax()}).` : "")
         : ev.st === "left" ? `⛔ You left the evaluation: 0 / 20 · ${fmtDate(ev.end)}` : `✅ Done: ${ev.score} / 20 · ${fmtDate(ev.end)}`;
+      if (old.length) $("#evres").textContent += ` · Before: ${old.map(r => r.st === "left" ? "0 / 20" : r.score + " / 20").join(" · ")}`;
     }
     $("#evadmin").hidden = !isAdmin() || !RECREATE;
     $("#evadmin-st").textContent = (evDone ? `Sur cet appareil : ${evList(ev).map((r, i) => `essai ${i + 1} : ${r.st === "left" ? "sortie, 0 / 20" : r.score + " / 20"}`).join(" · ")} (${fmtDate(ev.end)}).` : "Aucune tentative d'évaluation sur cet appareil.") + ` Entraînement : ${triesUsed()} / ${TRY_MAX} essais utilisés.`;
@@ -171,6 +184,7 @@
       setTries(triesUsed() + 1);
     }
     if (P.eval) {
+      evApplyReset();
       const ev = evRead();
       if (ev && ev.st !== "run" && !isAdmin() && !evCanRetry(ev)) { drawMenu(); return; }
       if (confirmed !== true) { $("#menu").style.display = "none"; $("#end").style.display = "none"; $("#warn").hidden = false; window.scrollTo(0, 0); return; }
@@ -189,7 +203,7 @@
   $("#again").addEventListener("click", () => start());
   $("#warn-go").addEventListener("click", () => start(true));
   $("#warn-no").addEventListener("click", () => { $("#warn").hidden = true; $("#menu").style.display = "flex"; drawMenu(); });
-  $("#evreset").addEventListener("click", () => { if (!isAdmin()) return; evWrite(null); setTries(0); drawMenu(); });
+  $("#evreset").addEventListener("click", () => { if (!isAdmin()) return; evWrite(null); store.set(EVOLD, null); setTries(0); drawMenu(); });
 
   /* Leaving the evaluation (other tab, other app, reload, closing): 0 / 20, no second try */
   function leave() {
