@@ -27,7 +27,7 @@
     o = o || {};
     this.W = 595.28; this.H = 841.89;
     this.ml = o.annotate ? 62 : 56; this.mr = o.annotate ? 170 : 56; this.mt = 64; this.mb = 58;
-    this.annotate = !!o.annotate; this.head = clean(o.head || ""); this.pages = []; this.n = 0; this.newPage();
+    this.annotate = !!o.annotate; this.head = clean(o.head || ""); this.pages = []; this.n = 0; this.imgs = []; this.newPage();
   }
   Doc.prototype.newPage = function () {
     this.ops = []; this.pages.push(this.ops); this.y = this.H - this.mt;
@@ -69,6 +69,30 @@
     for (let i = 0; i < k; i++) { this.need(gap); this.y -= gap; this.ops.push(`0.75 G 0.5 w ${this.ml.toFixed(2)} ${this.y.toFixed(2)} m ${(this.W - this.mr).toFixed(2)} ${this.y.toFixed(2)} l S 0 G`); }
     this.y -= 6;
   };
+  // A row of pictures and labelled frames, all the same height: parts = [{img}, {box: "LATE SLIP"}, {sym: "+"}]
+  Doc.prototype.row = function (parts, h) {
+    h = h || 70; const top = parts.some(pt => pt.lab) ? 12 : 0; this.need(h + top + 10); this.y -= h + top;
+    let x = this.ml;
+    parts.forEach(pt => {
+      if (pt.sym) { this.txt(x + 4, this.y + h / 2 - 6, pt.sym, "B", 16); x += 24; return; }
+      if (pt.img) {
+        let k = this.imgs.indexOf(pt.img); if (k < 0) { this.imgs.push(pt.img); k = this.imgs.length - 1; }
+        const w = h * pt.img.w / pt.img.h;
+        this.ops.push(`q ${w.toFixed(2)} 0 0 ${h} ${x.toFixed(2)} ${this.y.toFixed(2)} cm /Im${k + 1} Do Q`);
+        if (pt.lab) this.txt(x, this.y + h + 3, pt.lab, "I", 8, 0.35);
+        if (pt.no) this.txt(x + 4, this.y + 4, "NOT: " + pt.no, "B", 9);
+        x += w + 8; return;
+      }
+      if (pt.box) {
+        const w = 92;
+        this.ops.push(`0.4 G 1 w ${x.toFixed(2)} ${this.y.toFixed(2)} ${w} ${h} re S 0 G`);
+        this.txt(x + 8, this.y + h - 18, pt.box, "B", 10);
+        (pt.lines || []).forEach((l, i) => this.txt(x + 8, this.y + h - 32 - i * 11, l, "R", 8, 0.3));
+        x += w + 8;
+      }
+    });
+    this.y -= 10;
+  };
   Doc.prototype.rule = function () { this.need(14); this.y -= 7; this.ops.push(`0.8 G 0.6 w ${this.ml} ${this.y.toFixed(2)} m ${(this.W - this.mr).toFixed(2)} ${this.y.toFixed(2)} l S 0 G`); this.y -= 7; };
   Doc.prototype.bytes = function () {
     const N = this.pages.length;
@@ -80,7 +104,8 @@
     const objs = []; const add = s => { objs.push(s); return objs.length; };
     const cat = add(null), pagesId = add(null);
     const fonts = ["Helvetica", "Helvetica-Bold", "Helvetica-Oblique", "Helvetica-BoldOblique"].map(b => add(`<< /Type /Font /Subtype /Type1 /BaseFont /${b} /Encoding /WinAnsiEncoding >>`));
-    const res = `<< /Font << /F1 ${fonts[0]} 0 R /F2 ${fonts[1]} 0 R /F3 ${fonts[2]} 0 R /F4 ${fonts[3]} 0 R >> >>`;
+    const ims = this.imgs.map(im => add(`<< /Type /XObject /Subtype /Image /Width ${im.w} /Height ${im.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${im.data.length} >>\nstream\n${im.data}\nendstream`));
+    const res = `<< /Font << /F1 ${fonts[0]} 0 R /F2 ${fonts[1]} 0 R /F3 ${fonts[2]} 0 R /F4 ${fonts[3]} 0 R >>${ims.length ? ` /XObject << ${ims.map((n, i) => `/Im${i + 1} ${n} 0 R`).join(" ")} >>` : ""} >>`;
     const kids = this.pages.map(ops => { const s = ops.join("\n"); const c = add(`<< /Length ${s.length} >>\nstream\n${s}\nendstream`); return add(`<< /Type /Page /Parent ${pagesId} 0 R /MediaBox [0 0 ${this.W} ${this.H}] /Resources ${res} /Contents ${c} 0 R >>`); });
     objs[cat - 1] = `<< /Type /Catalog /Pages ${pagesId} 0 R >>`;
     objs[pagesId - 1] = `<< /Type /Pages /Kids [${kids.map(k => k + " 0 R").join(" ")}] /Count ${kids.length} >>`;
@@ -134,14 +159,27 @@
       try { localStorage.setItem(LS, JSON.stringify(w)); } catch (e) {}
       const d = new Date(), date = d.toLocaleDateString("fr-FR");
       const doc = new Doc({annotate: o.annotate, head: `${w.name}${w.cls ? " · " + w.cls : ""} · ${date} · ${o.title}`});
-      o.build(doc, w);
+      Promise.resolve(o.build(doc, w)).then(() => {
       const blob = new Blob([doc.bytes()], {type: "application/pdf"}), url = URL.createObjectURL(blob);
       const a = document.createElement("a"); a.href = url; a.download = `${o.file}_${safe(w.name) || "eleve"}.pdf`; document.body.appendChild(a); a.click(); a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 60000);
-      msg.className = "xp-msg xp-ok"; msg.textContent = "✓ Le PDF est téléchargé. Dépose-le sur Pronote."; b.textContent = "Télécharger à nouveau";
+      msg.className = "xp-msg xp-ok"; msg.textContent = o.done || "✓ Le PDF est téléchargé. Dépose-le sur Pronote."; b.textContent = "Télécharger à nouveau";
+      });
     });
   }
   // A ready-made button: ExportPDF.button(label, options) -> <button>
   function button(label, o) { css(); const b = document.createElement("button"); b.type = "button"; b.className = "xp-btn"; b.textContent = label; b.addEventListener("click", () => open(typeof o === "function" ? o() : o)); return b; }
-  window.ExportPDF = {open, button, Doc, clean};
+  // A picture of the site as a JPEG for the PDF (white background): Promise<{data, w, h}> or null
+  function picture(url, max) {
+    return new Promise(res => {
+      const im = new Image();
+      im.onload = () => { try {
+        const k = Math.min(1, (max || 360) / Math.max(im.naturalWidth, im.naturalHeight)), w = Math.max(1, Math.round(im.naturalWidth * k)), h = Math.max(1, Math.round(im.naturalHeight * k));
+        const c = document.createElement("canvas"); c.width = w; c.height = h; const g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, w, h); g.drawImage(im, 0, 0, w, h);
+        res({data: atob(c.toDataURL("image/jpeg", .85).split(",")[1]), w, h});
+      } catch (e) { res(null); } };
+      im.onerror = () => res(null); im.src = url;
+    });
+  }
+  window.ExportPDF = {open, button, Doc, clean, picture};
 })();

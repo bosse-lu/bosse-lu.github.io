@@ -688,7 +688,8 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       c.insertAdjacentHTML("beforeend", sceneHTML(it.scene, true));
       const hw = boxId === "recreate" && noCheck("training");
       const b = builder(it, {oneConn, hw, onSave: t => { hwSave(it.id, t); done(it.id); setDone(c); }, onWin: () => { done(it.id); setDone(c); }});
-      if (S.res[it.id]) { if (hw && hwGet(it.id)) b.showSaved(hwGet(it.id)); else b.showDone(); }
+      // Homework: never show the model sentence (the correction), only what the learner saved
+      if (S.res[it.id]) { if (!hw) b.showDone(); else if (hwGet(it.id)) b.showSaved(hwGet(it.id)); }
       c.appendChild(b); box.appendChild(c);
     });
   }
@@ -940,8 +941,34 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     if (!window.ExportPDF || !(noCheck("training") || noCheck("think") || noCheck("links"))) { const o = $("#hw-pdf"); if (o) o.remove(); return; }
     if ($("#hw-pdf")) return;
     const p = document.createElement("div"); p.id = "hw-pdf"; p.className = "panel"; p.style.cssText = "display:flex;flex-direction:column;gap:8px";
-    p.innerHTML = `<p class="consigne" style="font-weight:700;margin:0" data-fr="Devoir : quand tu as fini les étapes 3, 4 et 5, télécharge tes réponses en PDF et dépose-les sur Pronote.">Homework: when you finish steps 3, 4 and 5, download your answers as a PDF and hand them in on Pronote.</p>`;
-    p.appendChild(ExportPDF.button("📄 Mon devoir en PDF (Steps 3, 4 et 5)", () => ({
+    p.innerHTML = `<p class="consigne" style="font-weight:700;margin:0" data-fr="Devoir à la maison : fais les étapes 3, 4 et 5 sur le site (ou sur la fiche sans réponses), puis télécharge tes réponses en PDF et dépose-les sur Pronote.">Homework: do steps 3, 4 and 5 on the website (or on the sheet without answers), then download your answers as a PDF and hand them in on Pronote.</p>`;
+    // 1. The homework sheet, without any answer, to do at home (on paper or on the PDF)
+    p.appendChild(ExportPDF.button("📄 Le devoir en PDF, sans réponses", () => ({
+      title: "Can you explain? · Homework sheet", file: "Can-you-explain_devoir-vierge", done: "✓ Le devoir est téléchargé. Fais-le à la maison.",
+      intro: "La fiche du devoir (étapes 3, 4 et 5), sans les réponses, se télécharge en PDF : fais-la à la maison, sur papier ou sur le PDF.",
+      async build(d) {
+        const v4 = level() === "4e", pics = {};
+        await Promise.all([...new Set(RECREATE.flatMap(it => it.scene.filter(x => x.img).map(x => x.img)))].map(async n => { pics[n] = await ExportPDF.picture(IMG(n)); }));
+        const part = x => x.note ? {box: x.note === "late" ? "LATE SLIP" : "ABSENCE NOTE", lines: Object.entries(x.f || {}).map(([k, v]) => k + ": " + v)} : pics[x.img] ? {img: pics[x.img], lab: x.lab, no: x.no} : {box: x.alt || x.img};
+        d.h("Can you explain? · Homework · " + level(), 16);
+        d.h("Step 3 · Training session: recreate the situation", 13);
+        d.p("Pictures and notes: what happened? Write one sentence in the order of the pictures, with because or so.", {size: 11, gap: 2});
+        d.p([["Images et billets : que s'est-il passé ? Écris une phrase dans l'ordre des images, avec because ou so.", "I"]], {size: 10, gray: true, gap: 6});
+        RECREATE.forEach((it, i) => { d.p([[(i + 1) + ".", "B"]], {size: 11, gap: 0}); d.row(it.scene.flatMap((x, j) => j ? [{sym: "+"}, part(x)] : [part(x)]), 64); d.lines(2, 22); });
+        d.h("Step 4 · Did you get it?", 13);
+        d.p([["(1) ", "B"], ["I'm late because I overslept.", "I"], ["     (2) ", "B"], ["I overslept, so I'm late.", "I"]], {size: 11.5, gap: 6});
+        THINK.forEach((q, i) => { d.p([[(i + 1) + ". " + q.q[0].replace(/<[^>]+>/g, "").replace(/①/g, "(1)").replace(/②/g, "(2)"), "R"]], {size: 11, gap: 0}); d.p(q.o.map(o => ["[  ] " + o + "      ", "R"]), {size: 11, indent: 14, gap: 5}); });
+        d.p([["My rule:", "B"]], {size: 11, gap: 2});
+        d.p("because + ______________________________", {size: 11, indent: 14, lead: 1.8, gap: 0});
+        d.p("so + ______________________________", {size: 11, indent: 14, lead: 1.8, gap: v4 ? 0 : 8});
+        if (v4) { d.p("because of + ______________________________", {size: 11, indent: 14, lead: 1.8, gap: 0}); d.p("That's why = ____________", {size: 11, indent: 14, lead: 1.8, gap: 8}); }
+        d.h("Step 5 · Linking words", 13);
+        d.p([["Word bank (use each word once): ", "B"], [Object.keys(LINKS).join(" · "), "R"]], {size: 11, gap: 6});
+        d.p(GAP.flatMap(x => [[x[0] + " ", "R"], ["____________", "B"], [" " + x[2] + " ", "R"]]), {size: 11.5, lead: 1.9, gap: 8});
+      }
+    })));
+    // 2. The learner's own answers on the site, to hand in on Pronote
+    p.appendChild(ExportPDF.button("📄 Mes réponses en PDF, pour Pronote", () => ({
       title: "Can you explain? · Homework", file: "Can-you-explain_devoir",
       intro: "Tes réponses des étapes 3, 4 et 5 se téléchargent en PDF. Dépose-le ensuite sur Pronote.",
       build(d) {
