@@ -313,6 +313,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
 <script src="../assets/flagtips.js"></script>
 <script src="../assets/reset.js"></script>
 <script src="../assets/classes.js"></script>
+<script src="../assets/export-pdf.js"></script>
 <script>
 (function () {
   const KEY = "becauseso";
@@ -487,6 +488,11 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     IDS = [RP + "1", RP + "2", RP + "3", ...MAKE.map(m => m.id), ...THINK.map(t => t.id), ...RECREATE.map(t => t.id), ...GAP.map((g, i) => GX + (i + 1))];
   }
   function done(id) { if (!S.res[id]) { S.res[id] = 1; save(); } progress(); }
+  // Homework (TICE) without auto-correction for some classes: the answers are saved, not corrected (classes.json "nocheck")
+  const noCheck = part => !!(C() && C().isReady() && C().noCheck && C().noCheck(level() === "4e" ? "late-and-absent-4e" : "late-and-absent", "so", part));
+  S.hw = S.hw || {};
+  const hwSave = (k, v) => { S.hw[level() + "-" + k] = v; save(); };
+  const hwGet = k => S.hw[level() + "-" + k];
   function progress() { const n = IDS.filter(i => S.res[i]).length; $("#pc").textContent = `${n} / ${IDS.length}`; $("#pcbar").style.width = Math.round(100 * n / IDS.length) + "%"; }
   function cardEl(title, id) {
     const c = document.createElement("div"); c.className = "card" + (id && S.res[id] ? " ok" : "");
@@ -694,11 +700,24 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       const q = THINK[qi];
       const row = document.createElement("div"); row.className = "qrow";
       const multi = Array.isArray(q.a), fb = q.fb || ["Look at the colours again.", "Regarde encore les couleurs."];
-      row.innerHTML = `<p class="consigne" data-fr="${esc(q.q[1])}">${q.q[0]}</p><div class="opts" lang="en">${q.o.map(o => `<button type="button" class="opt"${multi ? ' aria-pressed="false"' : ""}>${esc(o)}</button>`).join("")}${multi ? `<button type="button" class="btn" data-check>Check</button>` : ""}</div><p class="fb" aria-live="polite"></p>`;
+      const hw = noCheck("think");
+      row.innerHTML = `<p class="consigne" data-fr="${esc(q.q[1])}">${q.q[0]}</p><div class="opts" lang="en">${q.o.map(o => `<button type="button" class="opt"${multi ? ' aria-pressed="false"' : ""}>${esc(o)}</button>`).join("")}${multi ? `<button type="button" class="btn" data-check>${hw ? "Save" : "Check"}</button>` : ""}</div><p class="fb" aria-live="polite"></p>`;
       $("#qs", box).appendChild(row);
       const ok = () => { row.dataset.ok = "1"; $(".fb", row).textContent = ""; done(q.id); qi++; if (qi < THINK.length) setTimeout(askQ, 400); else setTimeout(showRule, 500); };
       row.addEventListener("click", e => {
         if (row.dataset.ok) return;
+        if (hw) {
+          // Homework: the answer is saved as it is, without right / wrong
+          const b = e.target.closest(".opt");
+          if (multi) {
+            if (b) { b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true"); b.classList.toggle("sel", b.getAttribute("aria-pressed") === "true"); return; }
+            if (!e.target.closest("[data-check]")) return;
+            const sel = $$(".opt", row).filter(x => x.getAttribute("aria-pressed") === "true").map(x => x.textContent);
+            if (!sel.length) { fbSet($(".fb", row), "bad", "Choose at least one answer.", "Choisis au moins une réponse."); return; }
+            hwSave(q.id, sel); $("[data-check]", row).hidden = true;
+          } else { if (!b) return; b.classList.add("sel"); hwSave(q.id, b.textContent); }
+          $$(".opt", row).forEach(x => x.disabled = true); ok(); return;
+        }
         if (multi) {
           // Several right answers: the learner selects, then checks
           const b = e.target.closest(".opt");
@@ -715,6 +734,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       });
     };
     const showRule = () => {
+      if (noCheck("think")) { $("#rl", box).innerHTML = `<div class="rule-box"><b class="t">✓ ${T("Your answers are saved", "Tes réponses sont enregistrées")}</b><span>${T("Now write the rule on your worksheet: because + …, so + … Your teacher will correct it.", "Écris maintenant la règle sur ta fiche : because + …, so + … Ton professeur la corrigera.")}</span></div>`; hwBox(); return; }
       $("#rl", box).innerHTML = `<div class="rule-box"><b class="t">${T("Your rule", "Ta règle")}</b>
         <span lang="en"><b>because</b> + <span class="ca">the cause</span> (why?)</span>
         <span lang="en"><b>so</b> + <span class="co">the consequence</span> (the result)</span>${level() === "4e" ? `
@@ -871,6 +891,8 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   /* ---------- Step 7: homework ---------- */
   function renderGap() {
     const box = $("#gap"); box.innerHTML = "";
+    hwBox();
+    if (noCheck("links")) return renderGapHw();
     const allDone = GAP.every((g, i) => S.res[GX + (i + 1)]);
     box.innerHTML = `<p class="bank" lang="en"><b>Word bank:</b> ${Object.keys(LINKS).map(w => `<span class="lk">${w}</span>`).join(" · ")} <span style="color:var(--muted)">(×1)</span></p>
       <div class="story" lang="en">${GAP.map((g, i) => `${esc(g[0])} <select class="gsel" data-i="${i}" aria-label="Gap ${i + 1}"><option value="">…</option>${Object.keys(LINKS).map(w => `<option${S.res[GX + (i + 1)] && w === g[1] ? " selected" : ""}>${w}</option>`).join("")}</select> ${esc(g[2])}`).join(" ")}</div>
@@ -891,6 +913,48 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       if (ok === sels.length) { fbSet(fb, "good", "Well done!"); $(".btn", box).hidden = true; showFamily(); }
       else fbSet(fb, "bad", `${ok} / ${sels.length}: read the red sentences again.`, `${ok} / ${sels.length} : relis les phrases en rouge.`);
     });
+  }
+
+  // Linking words as homework: the choices are saved, not corrected
+  function renderGapHw() {
+    const box = $("#gap"), saved = hwGet("gap") || [];
+    box.innerHTML = `<p class="bank" lang="en"><b>Word bank:</b> ${Object.keys(LINKS).map(w => `<span class="lk">${w}</span>`).join(" · ")} <span style="color:var(--muted)">(×1)</span></p>
+      <div class="story" lang="en">${GAP.map((g, i) => `${esc(g[0])} <select class="gsel" data-i="${i}" aria-label="Gap ${i + 1}"><option value="">…</option>${Object.keys(LINKS).map(w => `<option${saved[i] === w ? " selected" : ""}>${w}</option>`).join("")}</select> ${esc(g[2])}`).join(" ")}</div>
+      <div class="actions"><button type="button" class="btn">Save my answers</button><p class="fb" aria-live="polite"></p></div>`;
+    $(".btn", box).addEventListener("click", () => {
+      const sels = $$(".gsel", box), fb = $(".fb", box);
+      if (sels.some(x => !x.value)) { fbSet(fb, "bad", "Fill in every gap first.", "Complète d'abord tous les trous."); return; }
+      hwSave("gap", sels.map(x => x.value)); sels.forEach((x, i) => done(GX + (i + 1)));
+      fbSet(fb, "good", "✓ Saved. Your teacher will correct it.", "✓ Enregistré. Ton professeur le corrigera."); hwBox();
+    });
+    hwBox();
+  }
+  // Homework: hand the answers in on Pronote as a PDF
+  function hwBox() {
+    if (!window.ExportPDF || !(noCheck("think") || noCheck("links") || noCheck("doko"))) { const o = $("#hw-pdf"); if (o) o.remove(); return; }
+    if ($("#hw-pdf")) return;
+    const p = document.createElement("div"); p.id = "hw-pdf"; p.className = "panel"; p.style.cssText = "display:flex;flex-direction:column;gap:8px";
+    p.innerHTML = `<p class="consigne" style="font-weight:700;margin:0" data-fr="Devoir : quand tu as fini les étapes 4, 5 et 6, télécharge tes réponses en PDF et dépose-les sur Pronote.">Homework: when you finish steps 4, 5 and 6, download your answers as a PDF and hand them in on Pronote.</p>`;
+    p.appendChild(ExportPDF.button("📄 Mon devoir en PDF (Steps 4, 5 et 6)", () => ({
+      title: "Can you explain? · Homework", file: "Can-you-explain_devoir",
+      intro: "Tes réponses des étapes 4, 5 et 6 se téléchargent en PDF. Dépose-le ensuite sur Pronote.",
+      build(d) {
+        d.h("Can you explain? · Homework · " + level(), 16);
+        d.h("Step 4 · Did you get it?", 13);
+        d.p([["① ", "B"], ["I'm late because I overslept.", "I"], ["    ② ", "B"], ["I overslept, so I'm late.", "I"]], {size: 11, gap: 6});
+        THINK.forEach((q, i) => { const a = hwGet(q.id); d.p([[(i + 1) + ". " + q.q[0].replace(/<[^>]+>/g, ""), "R"]], {size: 11, gap: 0}); d.p([["→ " + (a ? (Array.isArray(a) ? a.join(" + ") : a) : "(no answer)"), "B"]], {size: 11, indent: 14, gap: 5}); });
+        d.p([["My rule: ", "B"], ["because + ____________________      so + ____________________", "R"]], {size: 11, gap: 10});
+        d.h("Step 5 · Linking words", 13);
+        const g = hwGet("gap") || [];
+        d.p(GAP.flatMap((x, i) => [[x[0] + " ", "R"], [g[i] ? `[${g[i]}]` : "[ ______ ]", "B"], [" " + x[2] + " ", "R"]]), {size: 11.5, lead: 1.7, gap: 10});
+        d.h("Step 6 · DÒKÒ", 13);
+        let best = []; try { for (let k = 0; k < localStorage.length; k++) { const key = localStorage.key(k); if (/^doko-best-/.test(key) && !/recreate|training/.test(key)) best.push([key, JSON.parse(localStorage.getItem(key))]); } } catch (e) {}
+        const tk = {wood: "Wood (easy)", earth: "Earth (medium)", water: "Water (hard)", fire: "Fire (extreme)"};
+        if (best.length) best.forEach(([k, v]) => { const t = (k.match(/-(wood|earth|water|fire)$/) || [])[1]; d.p([[`My best score${t ? " · " + tk[t] : ""}: `, "R"], [String(v) + " points", "B"]], {size: 11, gap: 2}); });
+        else d.p("My best score: ________ points", {size: 11});
+      }
+    })));
+    const last = $("#h7s").closest("section"); last.after(p);
   }
 
   /* ---------- level box ---------- */

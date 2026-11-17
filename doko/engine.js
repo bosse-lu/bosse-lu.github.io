@@ -55,6 +55,8 @@
   const C = () => window.Classes;
   const recreateOpen = () => !!RECREATE && !!(C() && C().isReady() && (C().isAdmin() || C().evalOpen("late-and-absent", "doko-recreate") || C().evalOpen("late-and-absent-4e", "doko-recreate")));
   const isAdmin = () => !!(C() && C().isReady() && C().isAdmin());
+  // Homework without auto-correction (classes.json "nocheck": {"so": ["doko"]}): theme games save the answers, the score comes at the end
+  const hwMode = () => !!(C() && C().isReady() && C().noCheck && (C().noCheck("late-and-absent", "so", "doko") || C().noCheck("late-and-absent-4e", "so", "doko")));
   const trainingOpen = () => !!TRAINING && !!(C() && C().isReady() && (C().isAdmin() || C().evalOpen("late-and-absent", "doko-training") || C().evalOpen("late-and-absent-4e", "doko-training")));
   // One try per device. The attempt is saved in the browser storage AND in a cookie, so that
   // "I am another student" (which clears the storage) does not open a second try; the teacher can reset it.
@@ -158,7 +160,7 @@
       document.body.classList.add("exam");
     }
     const ts = tokSet(P);
-    G = {qs: pick(P), i: -1, score: 0, right: 0, streak: 0, joker: !P.eval && !P.train && (!ts || ts.joker), ev: !!P.eval, tr: !!P.train, log: [], cell: null, phase: "", time: ts ? ts.time : P.time || 20, wrong: ts ? ts.wrong : WRONG};
+    G = {qs: pick(P), i: -1, score: 0, right: 0, streak: 0, joker: !P.eval && !P.train && (!ts || ts.joker), ev: !!P.eval, tr: !!P.train, log: [], cell: null, phase: "", time: ts ? ts.time : P.time || 20, wrong: ts ? ts.wrong : WRONG, hw: !P.eval && !P.train && hwMode()};
     $("#joker").hidden = G.ev || G.tr || (ts && !ts.joker);
     $("#mytoken img").src = IMG + token + ".png";
     $("#menu").style.display = "none"; $("#end").style.display = "none"; $("#game").style.display = "flex"; document.body.classList.add("playing");
@@ -225,7 +227,7 @@
     drawBoard(); drawScore();
     runTimer(G.time, () => reveal());
   }
-  const drawStreak = () => { const t = TOK.find(x => x.id === token); $("#streak").textContent = G.streak > 0 ? `${t.e}×${G.streak}` : ""; };
+  const drawStreak = () => { const t = TOK.find(x => x.id === token); $("#streak").textContent = G.streak > 0 && !G.hw ? `${t.e}×${G.streak}` : ""; };
   let tmr = null;
   function runTimer(sec, done) {
     clearInterval(tmr); const end = Date.now() + sec * 1000, C = 213.6; let last = null;
@@ -248,7 +250,7 @@
     $("#board").innerHTML = `<div class="row">${[...L].map(cell).join("")}<span class="pts">${G.rowLock ? "🔒" : (G.ev || G.tr) ? 2 : 4}</span></div><div class="sep"></div><div class="row">${PAIRS.map(cell).join("")}<span class="pts">${(G.ev || G.tr) ? 1 : 2}</span></div><div class="brand">DÒKÒ</div>`;
   }
   // During the evaluation the score stays hidden (no correction before the end)
-  const drawScore = () => { $("#score").innerHTML = `<img src="${IMG}${token}.png" alt="">` + (G.ev ? "Evaluation" : S.pts(G.score)); };
+  const drawScore = () => { $("#score").innerHTML = `<img src="${IMG}${token}.png" alt="">` + (G.ev ? "Evaluation" : G.hw ? "Homework" : S.pts(G.score)); };
 
   // Joker: two wrong answers disappear, once per game
   $("#joker").addEventListener("click", () => {
@@ -301,6 +303,17 @@
       const ok = !!G.cell && isRight(G.cell), pts = ok ? (G.cell.length === 1 ? 2 : 1) : 0;
       G.score += pts; if (ok && G.cell.length === 1) G.right++;
       G.log.push({q, cell: G.cell, pts});
+      $("#hand").hidden = true; drawBoard();
+      $("#msg").className = "msg"; $("#msg").textContent = G.cell ? "✓ Answer saved" : "⏰ Time is up!";
+      $("#tsec").textContent = "✓"; beep(G.cell ? 600 : 220, .12);
+      setTimeout(() => { if (G.phase === "show") next(); }, 900);
+      return;
+    }
+    if (G.hw) {
+      // Homework: scored as usual but nothing is shown until the end (no right answer, no explanation)
+      if (!G.cell) G.streak = 0;
+      else if (isRight(G.cell)) { let pts = value(G.cell); G.right++; G.streak++; if (G.cell.length === 1 && G.took <= FAST) pts += 1; if (G.streak % 3 === 0) pts += 2; G.score += pts; }
+      else { G.score -= G.wrong; G.streak = 0; }
       $("#hand").hidden = true; drawBoard();
       $("#msg").className = "msg"; $("#msg").textContent = G.cell ? "✓ Answer saved" : "⏰ Time is up!";
       $("#tsec").textContent = "✓"; beep(G.cell ? 600 : 220, .12);

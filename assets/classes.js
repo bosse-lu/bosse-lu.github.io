@@ -59,6 +59,8 @@
     return typeof s.steps === "number" ? index < s.steps : false;
   };
   // Partial opening of a step, e.g. {dialogues: [1]} ; null = the whole step.
+  // Homework without auto-correction: "nocheck": {"so": ["think", "links", "doko"]} in a class's sequence
+  const noCheck = (seq, step, part) => { if (isAdmin() || (cur && cur.visit)) return false; const s = seqConf(seq), n = s && s.nocheck && s.nocheck[step]; return !!(n && (n === true || n.includes(part))); };
   const part = (seq, id) => { if (isAdmin() || (cur && cur.visit)) return null; const s = seqConf(seq); return (s && s.parts && s.parts[id]) || null; };
 
   const st = document.createElement("style");
@@ -111,5 +113,5 @@
     document.addEventListener("classes:change", () => draw());
   }
 
-  window.Classes = {ready, klass, join, leave, evalOpen, stepOpen, part, isAdmin, stars, mountPicker, isReady: () => !!cfg};
+  window.Classes = {ready, klass, join, leave, evalOpen, stepOpen, part, noCheck, isAdmin, stars, mountPicker, isReady: () => !!cfg};
 })();
