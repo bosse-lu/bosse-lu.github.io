@@ -1,5 +1,5 @@
 {
-  "_aide": "Réglages des classes. Pour chaque classe et chaque séquence : open = étapes ouvertes (5e « late-and-absent » : warm, note, ed, so, bus, excuse ; 4e « late-and-absent-4e » : warm, note, ed, so, have, bus, excuse) ; parts = ouverture partielle d'une étape (ex. \"note\": {\"dialogues\": [1]}) ; evals = évaluations débloquées (ex. \"ed-final\"). Sans réglage, tout est verrouillé. groups = codes de groupe d'une classe qui imposent un niveau (stars 2 = ★★, 3 = ★★★ ; le code de classe = niveau libre). admins = codes professeur (accès complet) ; role \"visit\" = code de visite (inspection) : tout est ouvert, mais seulement dans la séquence du niveau indiqué (level \"5e\"), affiché « Mode visite ». Les codes ne sont jamais écrits ici, seulement leur empreinte. nocheck = devoir sans autocorrection, par étape : {\"so\": [\"think\", \"links\", \"doko\"]} = Can you explain?, steps 4 (Did you get it?), 5 (Linking words) et 6 (DÒKÒ) : les réponses sont enregistrées, pas corrigées, et l'élève peut les rendre en PDF.",
+  "_aide": "Réglages des classes. Pour chaque classe et chaque séquence : open = étapes ouvertes (5e « late-and-absent » : warm, note, ed, so, bus, excuse ; 4e « late-and-absent-4e » : warm, note, ed, so, have, bus, excuse) ; parts = ouverture partielle d'une étape (ex. \"note\": {\"dialogues\": [1]}) ; evals = évaluations débloquées (ex. \"ed-final\"). Sans réglage, tout est verrouillé. groups = codes de groupe d'une classe qui imposent un niveau (stars 2 = ★★, 3 = ★★★ ; le code de classe = niveau libre). admins = codes professeur (accès complet) ; role \"visit\" = code de visite (inspection) : tout est ouvert, mais seulement dans la séquence du niveau indiqué (level \"5e\"), affiché « Mode visite ». Les codes ne sont jamais écrits ici, seulement leur empreinte. nocheck = devoir sans autocorrection, par étape : {\"so\": [\"training\", \"think\", \"links\"]} = Can you explain?, steps 3 (Training session), 4 (Did you get it?) et 5 (Linking words) ; \"doko\" = step 6 (DÒKÒ) : les réponses sont enregistrées, pas corrigées, et l'élève peut les rendre en PDF.",
   "admins": [
     {
       "label": "M. Bosse",
@@ -147,9 +147,9 @@
           "evals": [],
           "nocheck": {
             "so": [
+              "training",
               "think",
-              "links",
-              "doko"
+              "links"
             ]
           }
         }

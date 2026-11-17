@@ -513,6 +513,8 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     const act = document.createElement("div"); act.className = "actions";
     const fb = document.createElement("p"); fb.className = "fb"; fb.setAttribute("aria-live", "polite");
     let tries = 0, solved = false, check;
+    // Homework (no auto-correction): the sentence is saved as written, without right / wrong
+    const saveHw = txt => { solved = true; said.innerHTML = "✓ " + esc(txt); said.hidden = false; fbSet(fb, "good", "Saved. Your teacher will correct it.", "Enregistré. Ton professeur le corrigera."); $$("button", act).forEach(b => b.hidden = true); $$(".tiles,.answer", el).forEach(x => x.hidden = true); $$("input", el).forEach(x => x.readOnly = true); opts.onSave(txt); };
     const win = f => {
       solved = true; said.innerHTML = pretty(it, f); said.hidden = false;
       if (it.mystery === true) fbSet(fb, "good", "Well done! The mystery word is <b>so</b>. Why so and not because? Find out in Step 4.", "Bravo ! Le mot mystère est so. Pourquoi so et pas because ? Tu vas le découvrir à l'étape 4.");
@@ -524,7 +526,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     if (st === 3) {
       const inp = document.createElement("input"); inp.type = "text"; inp.className = "typed"; inp.setAttribute("lang", "en"); inp.autocomplete = "off"; inp.spellcheck = false;
       inp.placeholder = it.question ? "Write the question…" : "Write the sentence…";
-      act.innerHTML = `<button type="button" class="btn">Check</button>`;
+      act.innerHTML = `<button type="button" class="btn">${opts.hw ? "Save" : "Check"}</button>`;
       el.append(inp, act, fb, said);
       inp.addEventListener("input", () => inp.classList.remove("right", "wrong"));
       inp.addEventListener("keydown", e => { if (e.key === "Enter") check(); });
@@ -532,6 +534,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
         if (solved) return;
         const v = inp.value;
         if (!v.trim()) { fbSet(fb, "bad", "Write your answer first."); return; }
+        if (opts.hw) return saveHw(v.trim());
         const f = fs.find(f => near(v, joinF(f)) || (it.question && near(v.replace(/,?\s*kelyan\b/i, ""), joinF(f))));
         if (f) { inp.classList.add("right"); inp.readOnly = true; win(f); return; }
         tries++; inp.classList.add("wrong");
@@ -550,7 +553,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       const ans = document.createElement("div"); ans.className = "answer"; ans.setAttribute("lang", "en"); ans.setAttribute("aria-label", "Your sentence");
       const tiles = document.createElement("div"); tiles.className = "tiles"; tiles.setAttribute("lang", "en");
       tiles.innerHTML = words.map((w, i) => `<button type="button" class="tile${conn.includes(w) ? " kw" : ""}${w === "?" ? " mystery" : ""}" data-i="${i}" ${w === "?" ? 'aria-label="mystery word"' : ""}>${w === "?" ? "❓" : esc(w)}</button>`).join("");
-      act.innerHTML = `<button type="button" class="btn">Check</button><button type="button" class="btn lite">Clear</button>`;
+      act.innerHTML = `<button type="button" class="btn">${opts.hw ? "Save" : "Check"}</button><button type="button" class="btn lite">Clear</button>`;
       el.append(ans, tiles, act, fb, said);
       tiles.addEventListener("click", e => {
         const t = e.target.closest(".tile"); if (!t || t.classList.contains("used") || solved) return;
@@ -586,6 +589,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
         const got = $$("button.tile", ans).map(t => t.classList.contains("mystery") ? (choose ? t.dataset.w || "?" : hidden) : t.textContent);
         if (!got.length) { fbSet(fb, "bad", "Tap the words first.", "Touche d'abord les étiquettes."); return; }
         if (got.includes("?")) { fbSet(fb, "bad", "Click on ❓ and choose: so or because?", "Clique sur ❓ et choisis : so ou because ?"); return; }
+        if (opts.hw) return saveHw(cap1(got.join(" ").replace(/\s+([,.?!])/g, "$1")));
         const f = fs.find(f => norm(got.join(" ")) === norm(joinF(f)));
         if (f) { ans.classList.add("right"); tiles.hidden = true; ans.hidden = true; win(f); return; }
         tries++; ans.classList.add("wrong");
@@ -607,6 +611,7 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
       el.focusFirst = () => { const t = $(".tile", tiles); if (t) t.focus(); };
     }
     el.reveal = () => { if (solved) return; solved = true; said.innerHTML = pretty(it, fs[0]); said.hidden = false; $$("button", act).forEach(b => b.hidden = true); $$(".tiles,.answer", el).forEach(x => x.hidden = true); $$("input", el).forEach(x => x.readOnly = true); };
+    el.showSaved = txt => { solved = true; said.innerHTML = "✓ " + esc(txt || ""); said.hidden = false; $$(".tiles,.answer,input,.actions", el).forEach(x => x.hidden = true); };
     el.showDone = () => { solved = true; said.innerHTML = pretty(it, fs[0]); said.hidden = false; $$(".tiles,.answer,input,.actions", el).forEach(x => x.hidden = true); };
     return el;
   }
@@ -681,8 +686,9 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     list.forEach((it, i) => {
       const c = cardEl(`${i + 1}.`, it.id);
       c.insertAdjacentHTML("beforeend", sceneHTML(it.scene, true));
-      const b = builder(it, {oneConn, onWin: () => { done(it.id); setDone(c); }});
-      if (S.res[it.id]) b.showDone();
+      const hw = boxId === "recreate" && noCheck("training");
+      const b = builder(it, {oneConn, hw, onSave: t => { hwSave(it.id, t); done(it.id); setDone(c); }, onWin: () => { done(it.id); setDone(c); }});
+      if (S.res[it.id]) { if (hw && hwGet(it.id)) b.showSaved(hwGet(it.id)); else b.showDone(); }
       c.appendChild(b); box.appendChild(c);
     });
   }
@@ -931,15 +937,17 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
   }
   // Homework: hand the answers in on Pronote as a PDF
   function hwBox() {
-    if (!window.ExportPDF || !(noCheck("think") || noCheck("links") || noCheck("doko"))) { const o = $("#hw-pdf"); if (o) o.remove(); return; }
+    if (!window.ExportPDF || !(noCheck("training") || noCheck("think") || noCheck("links"))) { const o = $("#hw-pdf"); if (o) o.remove(); return; }
     if ($("#hw-pdf")) return;
     const p = document.createElement("div"); p.id = "hw-pdf"; p.className = "panel"; p.style.cssText = "display:flex;flex-direction:column;gap:8px";
-    p.innerHTML = `<p class="consigne" style="font-weight:700;margin:0" data-fr="Devoir : quand tu as fini les étapes 4, 5 et 6, télécharge tes réponses en PDF et dépose-les sur Pronote.">Homework: when you finish steps 4, 5 and 6, download your answers as a PDF and hand them in on Pronote.</p>`;
-    p.appendChild(ExportPDF.button("📄 Mon devoir en PDF (Steps 4, 5 et 6)", () => ({
+    p.innerHTML = `<p class="consigne" style="font-weight:700;margin:0" data-fr="Devoir : quand tu as fini les étapes 3, 4 et 5, télécharge tes réponses en PDF et dépose-les sur Pronote.">Homework: when you finish steps 3, 4 and 5, download your answers as a PDF and hand them in on Pronote.</p>`;
+    p.appendChild(ExportPDF.button("📄 Mon devoir en PDF (Steps 3, 4 et 5)", () => ({
       title: "Can you explain? · Homework", file: "Can-you-explain_devoir",
-      intro: "Tes réponses des étapes 4, 5 et 6 se téléchargent en PDF. Dépose-le ensuite sur Pronote.",
+      intro: "Tes réponses des étapes 3, 4 et 5 se téléchargent en PDF. Dépose-le ensuite sur Pronote.",
       build(d) {
         d.h("Can you explain? · Homework · " + level(), 16);
+        d.h("Step 3 · Training session: recreate the situation", 13);
+        RECREATE.forEach((it, i) => { const a = hwGet(it.id); d.p([[(i + 1) + ".  ", "B"], [a || "(no answer)", a ? "R" : "I"]], {size: 11.5, gap: 4}); });
         d.h("Step 4 · Did you get it?", 13);
         d.p([["① ", "B"], ["I'm late because I overslept.", "I"], ["    ② ", "B"], ["I overslept, so I'm late.", "I"]], {size: 11, gap: 6});
         THINK.forEach((q, i) => { const a = hwGet(q.id); d.p([[(i + 1) + ". " + q.q[0].replace(/<[^>]+>/g, ""), "R"]], {size: 11, gap: 0}); d.p([["→ " + (a ? (Array.isArray(a) ? a.join(" + ") : a) : "(no answer)"), "B"]], {size: 11, indent: 14, gap: 5}); });
@@ -947,11 +955,6 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
         d.h("Step 5 · Linking words", 13);
         const g = hwGet("gap") || [];
         d.p(GAP.flatMap((x, i) => [[x[0] + " ", "R"], [g[i] ? `[${g[i]}]` : "[ ______ ]", "B"], [" " + x[2] + " ", "R"]]), {size: 11.5, lead: 1.7, gap: 10});
-        d.h("Step 6 · DÒKÒ", 13);
-        let best = []; try { for (let k = 0; k < localStorage.length; k++) { const key = localStorage.key(k); if (/^doko-best-/.test(key) && !/recreate|training/.test(key)) best.push([key, JSON.parse(localStorage.getItem(key))]); } } catch (e) {}
-        const tk = {wood: "Wood (easy)", earth: "Earth (medium)", water: "Water (hard)", fire: "Fire (extreme)"};
-        if (best.length) best.forEach(([k, v]) => { const t = (k.match(/-(wood|earth|water|fire)$/) || [])[1]; d.p([[`My best score${t ? " · " + tk[t] : ""}: `, "R"], [String(v) + " points", "B"]], {size: 11, gap: 2}); });
-        else d.p("My best score: ________ points", {size: 11});
       }
     })));
     const last = $("#h7s").closest("section"); last.after(p);
