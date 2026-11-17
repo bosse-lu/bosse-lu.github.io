@@ -29,7 +29,7 @@
       <h2>2. Choose your game<span class="fr">Choisis ton jeu.</span></h2>
       <div class="games" id="games">
         <button type="button" class="gm" data-g="theme" aria-pressed="false"><span class="gi">📚</span><b>Choose your theme</b><small lang="fr">Choisis ton thème : vocabulaire, grammaire, culture.</small></button>
-        <button type="button" class="gm" data-g="training" aria-pressed="false"><span class="gi">🏋️</span><b>Recreate the situation · training</b><small lang="fr">Entraînement au contrôle sur 20 : 6 situations (2 🟢, 2 🟡, 2 🔴), 20 secondes, correction après chaque réponse. Rejoue autant que tu veux.</small><span class="lock" id="lock-training" hidden>🔒 Locked · <i lang="fr">bientôt ouvert par ton professeur</i></span><span class="best" id="best-training"></span></button>
+        <button type="button" class="gm" data-g="training" aria-pressed="false"><span class="gi">🏋️</span><b>Recreate the situation · training</b><small lang="fr">Entraînement au contrôle sur 20 : 6 situations (2 🟢, 2 🟡, 2 🔴), 20 secondes, correction après chaque réponse. 3 essais.</small><span class="lock" id="lock-training" hidden>🔒 Locked · <i lang="fr">bientôt ouvert par ton professeur</i></span><span class="best" id="best-training"></span></button>
         <button type="button" class="gm" data-g="recreate" aria-pressed="false"><span class="gi">🧩</span><b>Recreate the situation</b><small lang="fr">Évaluation sur 20 : 10 situations, 20 secondes chacune, une seule tentative. Des images → la bonne phrase avec <i>because</i> ou <i>so</i>.</small><span class="lock" id="lock-recreate" hidden>🔒 Locked · <i lang="fr">bientôt ouvert par ton professeur</i></span><span class="best" id="best-recreate"></span><span class="evres" id="evres" hidden></span></button>
       </div>
       <div id="themebox" hidden>
@@ -57,7 +57,7 @@
     <details class="panel teacher">
       <summary>🔑 Teacher · <span lang="fr">Professeur</span></summary>
       <div id="cl-picker"></div>
-      <div id="evadmin" class="evadmin" hidden><p id="evadmin-st"></p><button type="button" class="btn" id="evreset">↺ Reset the evaluation on this device</button><p class="fr">Pour un ordinateur partagé : permet à l'élève suivant de passer l'évaluation.</p><p>Autres versions : <a href="gs/">DÒKÒ Grande section (privée)</a> · <a href="cm1/">DÒKÒ CM1</a></p></div>
+      <div id="evadmin" class="evadmin" hidden><p id="evadmin-st"></p><button type="button" class="btn" id="evreset">↺ Reset the evaluation and the training tries on this device</button><p class="fr">Pour un ordinateur partagé : permet à l'élève suivant de passer l'évaluation.</p><p>Autres versions : <a href="gs/">DÒKÒ Grande section (privée)</a> · <a href="cm1/">DÒKÒ CM1</a></p></div>
     </details>
   </section>
 
@@ -111,7 +111,7 @@
     <div class="bar"><button type="button" class="btn main" id="again">↺ Play again</button><button type="button" class="btn" id="back">Change my token</button></div>
   </section>
 </div>
-<audio id="music" src="../assets/doko/music-afrobeat.mp3" loop preload="metadata"></audio>
+<audio id="music" src="../assets/doko/music-afrohouse.mp3" loop preload="metadata"></audio>
 <script src="../assets/doko/fx.js"></script>
 <script>window.DOKO_CONFIG = {tokenLevels: true};</script>
 <script src="themes.js"></script>

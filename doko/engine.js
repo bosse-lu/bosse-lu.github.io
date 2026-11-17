@@ -46,7 +46,7 @@
   if (!TOK.some(t => t.id === token)) token = null;
   // ?game=recreate (link from the lesson) or ?game=theme opens that game directly
   // Recreate the situation · training: 6 situations (2 per level) taken from the evaluation pool, scored like the evaluation
-  // (2 / 1 / 0) but with the correction after each answer, as many tries as you want; locked until the teacher opens it.
+  // (2 / 1 / 0) but with the correction after each answer, 3 tries per device; locked until the teacher opens it.
   const TRAINING = RECREATE ? Object.assign({}, RECREATE, {id: "training", title: "Recreate the situation · training", eval: false, train: true, per: {1: 2, 2: 2, 3: 2}, time: 20}) : null;
   try { const g = new URLSearchParams(location.search).get("game"); if (g === "recreate" && RECREATE) game = "recreate"; else if (g === "training" && TRAINING) game = "training"; else if (g === "theme") game = "theme"; } catch (e) {}
   const pack = () => game === "recreate" ? (recreateOpen() ? RECREATE : null) : game === "training" ? (trainingOpen() ? TRAINING : null) : theme;
@@ -72,6 +72,11 @@
     store.set(EVK, r);
     try { document.cookie = r ? `${CK}=${encodeURIComponent(JSON.stringify(r))}; max-age=31536000; path=/; SameSite=Lax` : `${CK}=; max-age=0; path=/`; } catch (e) {}
   };
+  // Recreate the situation · training: 3 tries per device (kept in the storage AND a cookie, like the evaluation)
+  const TRY_MAX = 3, TRK = "doko-train-tries", TCK = "doko_train_tries";
+  const triesUsed = () => { let a = +store.get(TRK) || 0, b = 0; try { const m = document.cookie.match(new RegExp("(?:^|; )" + TCK + "=(\\d+)")); if (m) b = +m[1]; } catch (e) {} return Math.max(a, b); };
+  const setTries = n => { store.set(TRK, n); try { document.cookie = n ? `${TCK}=${n}; max-age=31536000; path=/; SameSite=Lax` : `${TCK}=; max-age=0; path=/`; } catch (e) {} };
+  const triesLeft = () => isAdmin() ? TRY_MAX : Math.max(0, TRY_MAX - triesUsed());
   // An attempt still "in progress" when the page opens = the page was closed or reloaded during the test: 0 / 20
   (function () { const r = evRead(); if (r && r.st === "run") evWrite(Object.assign(r, {st: "left", score: 0, end: new Date().toISOString()})); })();
   const fmtDate = iso => { try { return new Date(iso).toLocaleString("fr-FR", {day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"}); } catch (e) { return ""; } };
@@ -90,19 +95,19 @@
     if (token) document.body.dataset.el = token; if (window.DokoFX) DokoFX.set(token);
     $$(".gm").forEach(b => b.setAttribute("aria-pressed", b.dataset.g === game));
     const lk = !recreateOpen(); if ($("#lock-recreate")) { $("#lock-recreate").hidden = !lk; $('[data-g="recreate"]').classList.toggle("locked", lk); }
-    const lt = !trainingOpen(); if ($("#lock-training")) { $("#lock-training").hidden = !lt; $('[data-g="training"]').classList.toggle("locked", lt); const bt = store.get(KEY + "-best-training"); $("#best-training").textContent = !lt && typeof bt === "number" ? `My best score: ${bt} / 12` : ""; }
+    const lt = !trainingOpen(); if ($("#lock-training")) { $("#lock-training").hidden = !lt; $('[data-g="training"]').classList.toggle("locked", lt); const bt = store.get(KEY + "-best-training"); $("#best-training").textContent = lt ? "" : [`Tries left: ${triesLeft()} / ${TRY_MAX}`, typeof bt === "number" ? `My best score: ${bt} / 12` : ""].filter(Boolean).join(" · "); }
     $("#themebox").hidden = game !== "theme";
     $("#best-recreate").textContent = "";
     const ev = evRead(), evDone = ev && ev.st !== "run";
     $("#evres").hidden = !evDone || lk; $("#evres").className = "evres" + (ev && ev.st === "left" ? " left" : "");
     if (evDone) $("#evres").textContent = ev.st === "left" ? `⛔ You left the evaluation: 0 / 20 · ${fmtDate(ev.end)}` : `✅ Done: ${ev.score} / 20 · ${fmtDate(ev.end)}`;
     $("#evadmin").hidden = !isAdmin() || !RECREATE;
-    $("#evadmin-st").textContent = evDone ? `Sur cet appareil : ${ev.st === "left" ? "sortie, 0 / 20" : ev.score + " / 20"} (${fmtDate(ev.end)}).` : "Aucune tentative sur cet appareil.";
+    $("#evadmin-st").textContent = (evDone ? `Sur cet appareil : ${ev.st === "left" ? "sortie, 0 / 20" : ev.score + " / 20"} (${fmtDate(ev.end)}).` : "Aucune tentative d'évaluation sur cet appareil.") + ` Entraînement : ${triesUsed()} / ${TRY_MAX} essais utilisés.`;
     $("#themes").innerHTML = THEMES.map(t => {
       const ts = tokSet(t), best = store.get(bestKey(t)), per = ts ? ts.per : t.per || CFG.per, nq = per ? per[1] + per[2] + per[3] : 3 * PER_LEVEL;
       return `<button type="button" class="th" data-t="${t.id}" aria-pressed="${!!theme && theme.id === t.id}"><b>${t.emoji || "🎲"} ${esc(t.title)}</b><small>${esc(t.kind)} · ${esc(t.level)} · ${nq} questions</small>${typeof best === "number" ? `<span class="best">${S.best(best)}</span>` : ""}</button>`;
     }).join("");
-    $("#go").disabled = !(token && pack()) || (game === "recreate" && evDone && !isAdmin());
+    $("#go").disabled = !(token && pack()) || (game === "recreate" && evDone && !isAdmin()) || (game === "training" && !triesLeft());
     $("#go").innerHTML = token ? `<img src="${IMG}${token}.png" alt="">${S.play}` : "▶ " + S.play;
   }
   $("#tokens").addEventListener("click", e => { const b = e.target.closest("[data-tok]"); if (!b) return; token = b.dataset.tok; store.set(KEY + "-token", token); drawMenu(); });
@@ -151,6 +156,11 @@
   function start(confirmed) {
     const P = pack();
     if (!P || !allowed()) return;
+    if (P.train && !isAdmin()) {
+      // Each start uses one of the 3 tries (leaving the game does not give it back)
+      if (!triesLeft()) { drawMenu(); return; }
+      setTries(triesUsed() + 1);
+    }
     if (P.eval) {
       const ev = evRead();
       if (ev && ev.st !== "run" && !isAdmin()) { drawMenu(); return; }
@@ -170,7 +180,7 @@
   $("#again").addEventListener("click", () => start());
   $("#warn-go").addEventListener("click", () => start(true));
   $("#warn-no").addEventListener("click", () => { $("#warn").hidden = true; $("#menu").style.display = "flex"; drawMenu(); });
-  $("#evreset").addEventListener("click", () => { if (!isAdmin()) return; evWrite(null); drawMenu(); });
+  $("#evreset").addEventListener("click", () => { if (!isAdmin()) return; evWrite(null); setTries(0); drawMenu(); });
 
   /* Leaving the evaluation (other tab, other app, reload, closing): 0 / 20, no second try */
   function leave() {
