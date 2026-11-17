@@ -210,6 +210,9 @@ header::after{content:"";display:block;clear:both}
 .heard .w{display:inline-block;padding:1px 6px;border-radius:6px;margin:2px 1px;font-family:var(--display)}
 .heard .w.ok{background:var(--good-soft);color:var(--good)}
 .heard .w.ko{background:var(--bad-soft);color:var(--bad);text-decoration:line-through}
+.does{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.does label{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid var(--line);border-radius:10px;padding:6px 10px;background:var(--card)}
+.does select{font:inherit;border:1px solid var(--line);border-radius:8px;padding:4px 6px;background:var(--paper);color:var(--ink)}
 .homework{border:2px dashed var(--accent);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--card)}
 details.prof{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 details.prof summary{cursor:pointer;font-weight:700}
@@ -476,7 +479,8 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     ["Leo said: “I'm late", "because", "I overslept.”"],
     ["He didn't have a late slip.", "That's why", "he got a detention."]
   ];
-  const LINKS_4 = Object.assign({}, LINKS_5, {"because of": ["+ a noun: gives the cause", "+ un nom : donne la cause"], "That's why": ["gives the consequence (= so)", "donne la conséquence (= so)"]});
+  // Same order as the worksheet: and, but, because, because of, so, That's why
+  const LINKS_4 = (o => Object.fromEntries(["and", "but", "because", "because of", "so", "That's why"].map(k => [k, o[k]])))(Object.assign({}, LINKS_5, {"because of": ["+ a noun: gives the cause", "+ un nom : donne la cause"], "That's why": ["gives the consequence (= so)", "donne la conséquence (= so)"]}));
 
   // 5e or 4e: the class level (a 4e code), otherwise the choice of the teacher / of a learner without a code
   function level() { const k = C() && C().klass ? C().klass() : null; if (k && !k.admin && (k.level === "5e" || k.level === "4e")) return k.level; return S.lvl === "4e" ? "4e" : "5e"; }
@@ -922,16 +926,19 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
     });
   }
 
-  // Linking words as homework: the choices are saved, not corrected
+  // Linking words as homework: the choices are saved, not corrected (same activity as the worksheet)
+  const DOES = ["adds information", "contrast", "cause", "consequence"];
   function renderGapHw() {
     const box = $("#gap"), saved = hwGet("gap") || [];
     box.innerHTML = `<p class="bank" lang="en"><b>Word bank:</b> ${Object.keys(LINKS).map(w => `<span class="lk">${w}</span>`).join(" · ")} <span style="color:var(--muted)">(×1)</span></p>
       <div class="story" lang="en">${GAP.map((g, i) => `${esc(g[0])} <select class="gsel" data-i="${i}" aria-label="Gap ${i + 1}"><option value="">…</option>${Object.keys(LINKS).map(w => `<option${saved[i] === w ? " selected" : ""}>${w}</option>`).join("")}</select> ${esc(g[2])}`).join(" ")}</div>
+      <p class="consigne" style="margin:12px 0 4px" data-fr="Puis dis à quoi sert chaque mot.">Then say what each word does.</p>
+      <div class="does" lang="en">${Object.keys(LINKS).map((w, i) => `<label><b class="lk">${w}</b><select class="dsel" data-i="${i}"><option value="">…</option>${DOES.map(o => `<option${(hwGet("does") || [])[i] === o ? " selected" : ""}>${o}</option>`).join("")}</select></label>`).join("")}</div>
       <div class="actions"><button type="button" class="btn">Save my answers</button><p class="fb" aria-live="polite"></p></div>`;
     $(".btn", box).addEventListener("click", () => {
       const sels = $$(".gsel", box), fb = $(".fb", box);
       if (sels.some(x => !x.value)) { fbSet(fb, "bad", "Fill in every gap first.", "Complète d'abord tous les trous."); return; }
-      hwSave("gap", sels.map(x => x.value)); sels.forEach((x, i) => done(GX + (i + 1)));
+      hwSave("gap", sels.map(x => x.value)); hwSave("does", $$(".dsel", box).map(x => x.value)); sels.forEach((x, i) => done(GX + (i + 1)));
       fbSet(fb, "good", "✓ Saved. Your teacher will correct it.", "✓ Enregistré. Ton professeur le corrigera."); hwBox();
     });
     hwBox();
@@ -950,21 +957,28 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
         const v4 = level() === "4e", pics = {};
         await Promise.all([...new Set(RECREATE.flatMap(it => it.scene.filter(x => x.img).map(x => x.img)))].map(async n => { pics[n] = await ExportPDF.picture(IMG(n)); }));
         const part = x => x.note ? {box: x.note === "late" ? "LATE SLIP" : "ABSENCE NOTE", lines: Object.entries(x.f || {}).map(([k, v]) => k + ": " + v)} : pics[x.img] ? {img: pics[x.img], lab: x.lab, no: x.no} : {box: x.alt || x.img};
+        // Same content and wording as the paper worksheet of lesson 2 (steps 3, 4 and 5)
+        const fr = t => d.p([["FR: " + t, "I"]], {size: 9.5, gray: true, gap: 6});
         d.h("Can you explain? · Homework · " + level(), 16);
         d.h("Step 3 · Training session: recreate the situation", 13);
-        d.p("Pictures and notes: what happened? Write one sentence in the order of the pictures, with because or so.", {size: 11, gap: 2});
-        d.p([["Images et billets : que s'est-il passé ? Écris une phrase dans l'ordre des images, avec because ou so.", "I"]], {size: 10, gray: true, gap: 6});
-        RECREATE.forEach((it, i) => { d.p([[(i + 1) + ".", "B"]], {size: 11, gap: 0}); d.row(it.scene.flatMap((x, j) => j ? [{sym: "+"}, part(x)] : [part(x)]), 64); d.lines(2, 22); });
+        d.p([["Pictures and notes: what happened? Write one sentence in the order of the pictures. Circle the linking word you use.", "B"]], {size: 11, gap: 1});
+        fr("Images et billets : que s'est-il passé ? Écris une phrase dans l'ordre des images. Entoure le mot de liaison que tu utilises.");
+        RECREATE.forEach((it, i) => { d.p([[(i + 1) + ".", "B"]], {size: 11, gap: 0}); d.row(it.scene.flatMap((x, j) => j ? [{sym: "+"}, part(x)] : [part(x)]), 64); d.lines(1, 22); d.p([["→ because / so", "B"]], {size: 10.5, gap: 8}); });
         d.h("Step 4 · Did you get it?", 13);
-        d.p([["(1) ", "B"], ["I'm late because I overslept.", "I"], ["     (2) ", "B"], ["I overslept, so I'm late.", "I"]], {size: 11.5, gap: 6});
-        THINK.forEach((q, i) => { d.p([[(i + 1) + ". " + q.q[0].replace(/<[^>]+>/g, "").replace(/①/g, "(1)").replace(/②/g, "(2)"), "R"]], {size: 11, gap: 0}); d.p(q.o.map(o => ["[  ] " + o + "      ", "R"]), {size: 11, indent: 14, gap: 5}); });
-        d.p([["My rule:", "B"]], {size: 11, gap: 2});
-        d.p("because + ______________________________", {size: 11, indent: 14, lead: 1.8, gap: 0});
-        d.p("so + ______________________________", {size: 11, indent: 14, lead: 1.8, gap: v4 ? 0 : 8});
-        if (v4) { d.p("because of + ______________________________", {size: 11, indent: 14, lead: 1.8, gap: 0}); d.p("That's why = ____________", {size: 11, indent: 14, lead: 1.8, gap: 8}); }
-        d.h("Step 5 · Linking words", 13);
-        d.p([["Word bank (use each word once): ", "B"], [Object.keys(LINKS).join(" · "), "R"]], {size: 11, gap: 6});
-        d.p(GAP.flatMap(x => [[x[0] + " ", "R"], ["____________", "B"], [" " + x[2] + " ", "R"]]), {size: 11.5, lead: 1.9, gap: 8});
+        d.p([["Look at the two sentences. Underline the cause in green and the consequence in red. Then answer: you find the rule.", "B"]], {size: 11, gap: 1});
+        fr("Observe les deux phrases. Souligne la cause en vert et la conséquence en rouge. Puis réponds : c'est toi qui trouves la règle.");
+        d.p([["(1) ", "B"], ["I'm late ", "R"], ["because", "B"], [" I overslept.", "R"], ["        (2) ", "B"], ["I overslept, ", "R"], ["so", "B"], [" I'm late.", "R"]], {size: 12, lead: 2, gap: 6});
+        const short = {k4: "Sentence (1) expresses…", k5: "Sentence (2) expresses…"};
+        THINK.forEach((q, i) => d.p([[(i + 1) + ". " + (short[q.id] || q.q[0].replace(/<[^>]+>/g, "")) + "   ", "R"], ...q.o.map(o => ["[  ] " + o + "    ", "R"])], {size: 11, gap: 4}));
+        d.p([["My rule: ", "B"], ["because", "B"], [" + the ……………………… (why?)   ·   ", "R"], ["so", "B"], [" + the ……………………… (the result)", "R"]], {size: 11, lead: 1.8, gap: v4 ? 0 : 8});
+        if (v4) d.p([["because of", "B"], [" + a ……………………… (because of the rain)   ·   ", "R"], ["That's why", "B"], [" = ……………………… (the consequence)", "R"]], {size: 11, lead: 1.8, gap: 8});
+        d.h("Step 5 · Linking words: " + Object.keys(LINKS).join(", "), 13);
+        d.p([["Can you use these tools in a longer text, with their family? Complete the text (use each word once), then say what each word does.", "B"]], {size: 11, gap: 1});
+        fr("Es-tu capable d'utiliser ces outils dans un texte plus long, avec leur famille ? Complète le texte (chaque mot une fois), puis dis à quoi sert chaque mot.");
+        d.p([["Word bank: ", "B"], [Object.keys(LINKS).join(" · "), "R"]], {size: 11, gap: 6});
+        d.p(GAP.flatMap(x => [[x[0] + " ", "R"], ["………………", "B"], [" " + x[2] + " ", "R"]]), {size: 11.5, lead: 1.9, gap: 8});
+        d.p([["Linking word  →  What does it do? (adds information · contrast · cause · consequence)", "B"]], {size: 10.5, gap: 4});
+        Object.keys(LINKS).forEach(w => d.p([[w, "B"], ["  →  ……………………………………", "R"]], {size: 11, lead: 1.8, gap: 0}));
       }
     })));
     // 2. The learner's own answers on the site, to hand in on Pronote
@@ -980,8 +994,10 @@ details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:co
         THINK.forEach((q, i) => { const a = hwGet(q.id); d.p([[(i + 1) + ". " + q.q[0].replace(/<[^>]+>/g, ""), "R"]], {size: 11, gap: 0}); d.p([["→ " + (a ? (Array.isArray(a) ? a.join(" + ") : a) : "(no answer)"), "B"]], {size: 11, indent: 14, gap: 5}); });
         d.p([["My rule: ", "B"], ["because + ____________________      so + ____________________", "R"]], {size: 11, gap: 10});
         d.h("Step 5 · Linking words", 13);
-        const g = hwGet("gap") || [];
-        d.p(GAP.flatMap((x, i) => [[x[0] + " ", "R"], [g[i] ? `[${g[i]}]` : "[ ______ ]", "B"], [" " + x[2] + " ", "R"]]), {size: 11.5, lead: 1.7, gap: 10});
+        const g = hwGet("gap") || [], does = hwGet("does") || [];
+        d.p(GAP.flatMap((x, i) => [[x[0] + " ", "R"], [g[i] ? `[${g[i]}]` : "[ ______ ]", "B"], [" " + x[2] + " ", "R"]]), {size: 11.5, lead: 1.7, gap: 8});
+        d.p([["What does it do?", "B"]], {size: 11, gap: 2});
+        Object.keys(LINKS).forEach((w, i) => d.p([[w, "B"], ["  →  " + (does[i] || "(no answer)"), "R"]], {size: 11, gap: 1}));
       }
     })));
     const last = $("#h7s").closest("section"); last.after(p);
