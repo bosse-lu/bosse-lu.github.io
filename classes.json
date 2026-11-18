@@ -121,7 +121,14 @@
           "parts": {},
           "evals": [
             "doko-training"
-          ]
+          ],
+          "nocheck": {
+            "so": [
+              "training",
+              "think",
+              "links"
+            ]
+          }
         }
       },
       "groups": [
