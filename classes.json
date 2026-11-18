@@ -115,10 +115,13 @@
           "open": [
             "warm",
             "note",
+            "so",
             "ed"
           ],
           "parts": {},
-          "evals": []
+          "evals": [
+            "doko-training"
+          ]
         }
       },
       "groups": [
