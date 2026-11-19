@@ -77,6 +77,7 @@
     const tags = [
       a.draft ? `<span class="tag dr">Brouillon</span>` : (unread(a) ? `<span class="tag hot">NEW</span>` : ""),
       a.level ? `<span class="tag lvl" title="Suggested level. Free reading for everyone.">Level ${esc(a.level)}</span>` : "",
+      mine(a) ? `<span class="tag mine">📌 For your class</span>` : "",
       a.topic ? `<span class="tag">${esc(a.topic)}</span>` : ""
     ].join("");
     const srcs = (a.sources || []).map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>${s.date ? `, ${esc(s.date)}` : ""}`).join(" · ");
@@ -96,20 +97,28 @@
     </article>`;
   }
 
+  // The learner's class level ("5e" / "4e"), from the class code typed once on this device (assets/classes.js)
+  const myLevel = () => (window.Classes && Classes.level) ? Classes.level() : null;
+  const mine = a => { const l = myLevel(); return !!l && (a.level || "").includes(l); };
   // Filters: level always; topic when several topics exist.
   let fl = store.level || "all", ft = store.topic || "all";
   const topics = [...new Set(all.map(a => a.topic).filter(Boolean))];
   function renderFilters() {
     const f = document.getElementById("filters");
     const levels = ["5e", "4e"].filter(l => all.some(a => (a.level || "").includes(l)));
-    const lv = (levels.length > 1 ? ["all"].concat(levels) : []).map(v => `<button class="fchip" data-fl="${v}" aria-pressed="${fl === v}">${v === "all" ? "All" : v}</button>`).join("");
+    const lv = (levels.length > 1 ? ["all"].concat(levels) : []).map(v => `<button class="fchip" data-fl="${v}" aria-pressed="${fl === v}">${v === "all" ? "All" : v}${v === myLevel() ? " 📌" : ""}</button>`).join("");
     const tp = topics.length > 1 ? `<span class="sep"></span><span class="lbl">Topic</span>` + ["all"].concat(topics).map(v => `<button class="fchip" data-ft="${esc(v)}" aria-pressed="${ft === v}">${v === "all" ? "All" : esc(v)}</button>`).join("") : "";
     f.innerHTML = (lv ? `<span class="lbl">Suggested level</span>${lv}` : "") + (lv ? tp : tp.replace(`<span class="sep"></span>`, ""));
     f.hidden = !f.innerHTML;
   }
   function render() {
     const shown = all.filter(a => (fl === "all" || (a.level || "").includes(fl)) && (ft === "all" || a.topic === ft));
-    list.innerHTML = shown.length ? shown.map(card).join("") : `<div class="empty">${all.length ? "No article for this choice." : root.dataset.empty}</div>`;
+    // With a class code: the articles of the class level first, then the others (free reading for everyone)
+    const top = shown.filter(mine), rest = shown.filter(a => !mine(a));
+    const html = top.length && rest.length
+      ? top.map(card).join("") + `<p class="others-h">Other articles · free reading</p>` + rest.map(card).join("")
+      : shown.map(card).join("");
+    list.innerHTML = shown.length ? html : `<div class="empty">${all.length ? "No article for this choice." : root.dataset.empty}</div>`;
   }
   // NEW corner badge, notification banner and tab title for unread articles
   const baseTitle = document.title;
@@ -140,6 +149,7 @@
   function markSeen(id) { const a = all.find(x => x.id === id); if (a && !a.draft) { store.seen[id] = 1; save(); updateUnread(false); } }
 
   renderFilters(); render(); updateUnread(true);
+  ["classes:ready", "classes:change"].forEach(n => document.addEventListener(n, () => { renderFilters(); render(); }));
   if (location.hash.startsWith("#a-")) { store.open = location.hash.slice(3); markSeen(store.open); render(); const el = document.querySelector(location.hash); if (el) el.scrollIntoView(); }
 
   document.addEventListener("click", e => {

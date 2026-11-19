@@ -119,5 +119,7 @@
     document.addEventListener("classes:change", () => draw());
   }
 
-  window.Classes = {ready, klass, join, leave, evalOpen, stepOpen, part, noCheck, evalTries, evalReset, evalTime, isAdmin, stars, mountPicker, isReady: () => !!cfg};
+  // Level of the learner's class ("5e" / "4e"), or null for the teacher or with no code yet
+  const level = () => { const k = klass(); return k && !k.admin ? (k.level || null) : null; };
+  window.Classes = {ready, klass, level, join, leave, evalOpen, stepOpen, part, noCheck, evalTries, evalReset, evalTime, isAdmin, stars, mountPicker, isReady: () => !!cfg};
 })();

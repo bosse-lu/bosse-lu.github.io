@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=Literata:ital,wght@0,400;0,700;1,400;1,700&display=swap">
 <link rel="stylesheet" href="../assets/story.css">
 <script src="../assets/consigne.js"></script>
+<style>.card.mine{border:2px solid var(--accent)}.mine-tag{margin-left:auto;font-size:.75rem;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--accent);color:#fff}</style>
 </head>
 <body>
 <div class="wrap">
@@ -19,22 +20,23 @@
     <h1>My short stories</h1>
     <p class="sub" data-fr="Une nouvelle en anglais pour chaque niveau. Lis-la, écoute-la, et prépare-toi pour les questions en classe.">One short story for each level. Read it, listen to it, and get ready for the questions in class.</p>
   </header>
+  <div id="class-box" style="margin:0 0 18px"></div>
   <section class="cards" aria-label="Les nouvelles">
-    <a class="card" href="5e/">
+    <a class="card" data-lv="5e" href="5e/">
       <span class="art" data-art="lion" aria-hidden="true"></span>
       <span class="card-top"><span class="tag">5e</span><span class="dot easy">Easy</span></span>
       <h2 lang="en">The Lion and the Mouse</h2>
       <p>Un grand lion, une toute petite souris… et une promesse.</p>
       <span class="go">Lire la nouvelle →</span>
     </a>
-    <a class="card lvl4" href="4e/">
+    <a class="card lvl4" data-lv="4e" href="4e/">
       <span class="art" data-art="wolf" aria-hidden="true"></span>
       <span class="card-top"><span class="tag">4e</span><span class="dot easy">Easy</span></span>
       <h2 lang="en">The Boy Who Cried Wolf</h2>
       <p>Un jeune berger qui s'ennuie, une farce… et un vrai loup.</p>
       <span class="go">Lire la nouvelle →</span>
     </a>
-    <a class="card lvl4" href="landlady/">
+    <a class="card lvl4" data-lv="4e" href="landlady/">
       <span class="art" data-art="teacup" aria-hidden="true"></span>
       <span class="card-top"><span class="tag">4e</span><span class="dot hard">Difficult · B1</span></span>
       <h2 lang="en">The Landlady</h2>
@@ -49,6 +51,24 @@
 <script src="../assets/art.js"></script>
 <script src="../assets/flagtips.js"></script>
 <script src="../assets/newbadge.js"></script>
-<script src="../assets/classes.js"></script>
+<script src="../assets/classes.js?v=20261119e"></script>
+<script>
+/* With a class code, the stories of the class level come first, marked "For your class". All stories stay open. */
+(function () {
+  const box = document.getElementById("class-box"), wrap = document.querySelector(".cards");
+  const cards = [...wrap.querySelectorAll(".card")];
+  Classes.mountPicker(box, {noReset: true, hint: "Tape le code de ta classe : les nouvelles de ton niveau s'affichent en premier.", note: c => c.level ? `Les nouvelles de niveau ${c.level} sont en premier. Les autres restent ouvertes : tu peux toutes les lire.` : ""});
+  function adapt() {
+    const lv = Classes.level();
+    cards.forEach(c => { c.classList.toggle("mine", !!lv && c.dataset.lv === lv); const b = c.querySelector(".mine-tag"); if (b) b.remove(); });
+    const order = lv ? cards.filter(c => c.dataset.lv === lv).concat(cards.filter(c => c.dataset.lv !== lv)) : cards;
+    order.forEach(c => wrap.appendChild(c));
+    if (lv) cards.filter(c => c.dataset.lv === lv).forEach(c => c.querySelector(".card-top").insertAdjacentHTML("beforeend", '<span class="mine-tag">📌 Pour ta classe</span>'));
+  }
+  adapt();
+  document.addEventListener("classes:ready", adapt);
+  document.addEventListener("classes:change", adapt);
+})();
+</script>
 </body>
 </html>
