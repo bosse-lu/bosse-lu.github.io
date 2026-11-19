@@ -25,7 +25,10 @@
   const TOKS = TOKLV ? ["wood", "earth", "water", "fire"].map(id => TOK.find(t => t.id === id)) : TOK;
   const tokSet = P => TOKLV && token && P && !P.eval && !P.train ? TOKLV[token] : null;
   const bestKey = P => KEY + "-best-" + P.id + (tokSet(P) ? "-" + token : "");
-  const THEMES = CFG.themes || window.DOKO_THEMES || [], RECREATE = CFG.recreate === false ? null : window.DOKO_RECREATE;
+  // Recreate the situation: the 5e set, or the 4e set (negative, because of, That's why) for a 4e class;
+  // the teacher chooses the version to preview in the teacher panel
+  const THEMES = CFG.themes || window.DOKO_THEMES || [], REC5 = CFG.recreate === false ? null : window.DOKO_RECREATE, REC4 = REC5 && window.DOKO_RECREATE_4;
+  let RECREATE = REC5;
   const LV = {1: ["easy", "facile"], 2: ["medium", "moyen"], 3: ["difficult", "difficile"]};
   const PER_LEVEL = 4, FAST = 8, WRONG = CFG.wrong === undefined ? 1 : CFG.wrong, KEY = CFG.key || "doko";
   const HALF = CFG.halfLock !== false;
@@ -47,7 +50,16 @@
   // ?game=recreate (link from the lesson) or ?game=theme opens that game directly
   // Recreate the situation · training: 6 situations (2 per level) taken from the evaluation pool, scored like the evaluation
   // (2 / 1 / 0) but with the correction after each answer, 3 tries per device; locked until the teacher opens it.
-  const TRAINING = RECREATE ? Object.assign({}, RECREATE, {id: "training", title: "Recreate the situation · training", eval: false, train: true, per: {1: 2, 2: 2, 3: 2}, time: 20}) : null;
+  const mkTraining = R => R ? Object.assign({}, R, {id: "training", title: "Recreate the situation · training", eval: false, train: true, per: {1: 2, 2: 2, 3: 2}, time: 20}) : null;
+  let TRAINING = mkTraining(RECREATE);
+  function recLevel() {
+    if (!REC5 || !REC4) return "5e";
+    let lv = "5e";
+    if (C() && C().isReady() && C().klass()) { const k = C().klass(); lv = k.admin ? (store.get(KEY + "-reclv") === "4e" ? "4e" : "5e") : k.level === "4e" ? "4e" : "5e"; }
+    const R = lv === "4e" ? REC4 : REC5;
+    if (R !== RECREATE) { RECREATE = R; TRAINING = mkTraining(R); }
+    return lv;
+  }
   try { const g = new URLSearchParams(location.search).get("game"); if (g === "recreate" && RECREATE) game = "recreate"; else if (g === "training" && TRAINING) game = "training"; else if (g === "theme") game = "theme"; } catch (e) {}
   const pack = () => game === "recreate" ? (recreateOpen() ? RECREATE : null) : game === "training" ? (trainingOpen() ? TRAINING : null) : theme;
   // Recreate the situation: an evaluation, locked for the learners until the teacher opens it
@@ -112,6 +124,7 @@
     $("#themebox").hidden = game !== "theme";
     $("#best-recreate").textContent = "";
     evApplyReset();
+    const rl = recLevel(); if ($("#reclv")) $("#reclv").innerHTML = `Recreate the situation · version : ${["5e", "4e"].map(v => `<button type="button" class="btn${v === rl ? "" : " lite"}" data-reclv="${v}">${v}</button>`).join(" ")}`;
     const ev = evRead(), evDone = ev && ev.st !== "run";
     $("#evres").hidden = !evDone || lk; $("#evres").className = "evres" + (ev && ev.st === "left" ? " left" : "");
     const old = store.get(EVOLD) || [];
@@ -203,6 +216,7 @@
   $("#again").addEventListener("click", () => start());
   $("#warn-go").addEventListener("click", () => start(true));
   $("#warn-no").addEventListener("click", () => { $("#warn").hidden = true; $("#menu").style.display = "flex"; drawMenu(); });
+  document.addEventListener("click", e => { const b = e.target.closest("[data-reclv]"); if (b && isAdmin()) { store.set(KEY + "-reclv", b.dataset.reclv); drawMenu(); } });
   $("#evreset").addEventListener("click", () => { if (!isAdmin()) return; evWrite(null); store.set(EVOLD, null); setTries(0); drawMenu(); });
 
   /* Leaving the evaluation (other tab, other app, reload, closing): 0 / 20, no second try */
