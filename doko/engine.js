@@ -27,7 +27,9 @@
   const bestKey = P => KEY + "-best-" + P.id + (tokSet(P) ? "-" + token : "");
   // Recreate the situation: the 5e set, or the 4e set (negative, because of, That's why) for a 4e class;
   // the teacher chooses the version to preview in the teacher panel
-  const THEMES = CFG.themes || window.DOKO_THEMES || [], REC5 = CFG.recreate === false ? null : window.DOKO_RECREATE, REC4 = REC5 && window.DOKO_RECREATE_4;
+  const TH5 = CFG.themes || window.DOKO_THEMES || [], TH4 = !CFG.themes && window.DOKO_THEMES_4;
+  let THEMES = TH5;
+  const REC5 = CFG.recreate === false ? null : window.DOKO_RECREATE, REC4 = REC5 && window.DOKO_RECREATE_4;
   let RECREATE = REC5;
   const LV = {1: ["easy", "facile"], 2: ["medium", "moyen"], 3: ["difficult", "difficile"]};
   const PER_LEVEL = 4, FAST = 8, WRONG = CFG.wrong === undefined ? 1 : CFG.wrong, KEY = CFG.key || "doko";
@@ -58,6 +60,9 @@
     if (C() && C().isReady() && C().klass()) { const k = C().klass(); lv = k.admin ? (store.get(KEY + "-reclv") === "4e" ? "4e" : "5e") : k.level === "4e" ? "4e" : "5e"; }
     const R = lv === "4e" ? REC4 : REC5;
     if (R !== RECREATE) { RECREATE = R; TRAINING = mkTraining(R); }
+    // Choose your theme: the 4e themes for a 4e class too
+    const T = lv === "4e" && TH4 ? TH4 : TH5;
+    if (T !== THEMES) { const i = theme ? THEMES.indexOf(theme) : -1; THEMES = T; theme = i >= 0 ? THEMES[Math.min(i, THEMES.length - 1)] : THEMES.length === 1 ? THEMES[0] : null; }
     return lv;
   }
   try { const g = new URLSearchParams(location.search).get("game"); if (g === "recreate" && RECREATE) game = "recreate"; else if (g === "training" && TRAINING) game = "training"; else if (g === "theme") game = "theme"; } catch (e) {}
@@ -124,7 +129,7 @@
     $("#themebox").hidden = game !== "theme";
     $("#best-recreate").textContent = "";
     evApplyReset();
-    const rl = recLevel(); if ($("#reclv")) $("#reclv").innerHTML = `Recreate the situation · version : ${["5e", "4e"].map(v => `<button type="button" class="btn${v === rl ? "" : " lite"}" data-reclv="${v}">${v}</button>`).join(" ")}`;
+    const rl = recLevel(); if ($("#reclv")) $("#reclv").innerHTML = `DÒKÒ · version : ${["5e", "4e"].map(v => `<button type="button" class="btn${v === rl ? "" : " lite"}" data-reclv="${v}">${v}</button>`).join(" ")}`;
     const ev = evRead(), evDone = ev && ev.st !== "run";
     $("#evres").hidden = !evDone || lk; $("#evres").className = "evres" + (ev && ev.st === "left" ? " left" : "");
     const old = store.get(EVOLD) || [];

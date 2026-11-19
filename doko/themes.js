@@ -82,3 +82,38 @@ window.DOKO_RECREATE_4 = {
     {lv: 3, q: "What's in the mystery box ❓?", scene: [{img: "school", no: "COME", wide: 1, cap: "I didn't come to school"}, {box: 1}, {img: "sorethroat", cap: "I had a sore throat"}], o: ["because", "because of", "so", "That's why", "but"], a: 0, say: "I didn't come to school because I had a sore throat.", why: "La 2e partie dit pourquoi, avec un sujet et un verbe (I had…) → because, pas because of."}
   ]
 };
+
+window.DOKO_THEMES_4 = [
+  {
+    // 4e version (A2) of "Choose your theme": 4e words, question tags, because / because of / so / That's why / but,
+    // the negative and questions in the past. 9 easy, 7 medium, 9 difficult (enough for every token, Wood to Fire).
+    id: "late-absent-words-4e", title: "Late and absent · Words and grammar", kind: "theme", level: "4e", emoji: "⏰",
+    q: [
+      {lv: 1, q: "Why are you late?", o: ["My alarm didn't ring.", "I had the flu.", "I twisted my wrist.", "I had a fever.", "I broke my leg."], a: 0, why: "alarm = le réveil · didn't ring = n'a pas sonné ⏰ → une raison d'être en retard"},
+      {lv: 1, q: "A traffic jam is…", o: ["un embouteillage", "un ticket de bus", "une panne", "un feu rouge", "un accident"], a: 0, why: "traffic = la circulation · a jam = un bouchon 🚗🚗🚗"},
+      {lv: 1, q: "I twisted my ___ .", o: ["wrist", "throat", "tooth", "fever", "head"], a: 0, why: "to twist = se tordre → I twisted my wrist = je me suis tordu le poignet"},
+      {lv: 1, q: "I have a high temperature. I have a…", o: ["fever", "headache", "toothache", "sore throat", "broken leg"], a: 0, why: "a fever = de la fièvre 🌡️"},
+      {lv: 1, q: "I stayed in ___ all day.", o: ["bed", "bus", "school", "nurse", "detention"], a: 0, why: "in bed = au lit 🛏️"},
+      {lv: 1, q: "The school nurse is…", o: ["l'infirmière du collège", "la principale", "la CPE", "le médecin de famille", "la secrétaire"], a: 0, why: "the nurse = l'infirmière ➕"},
+      {lv: 1, q: "A doctor's note is…", o: ["un certificat du médecin", "une ordonnance", "un rendez-vous", "une retenue", "un billet de retard"], a: 0, why: "a doctor's note = un mot du médecin"},
+      {lv: 1, q: "My bike had a ___ tyre.", o: ["flat", "late", "sore", "broken", "sick"], a: 0, why: "a flat tyre = un pneu crevé 🚲"},
+      {lv: 1, q: "“I was away” means…", o: ["j'étais absent", "j'étais en retard", "j'étais malade", "j'étais en avance", "j'étais fatigué"], a: 0, why: "away = absent, pas là"},
+      {lv: 2, q: "You were away yesterday, ___ ?", o: ["weren't you", "were you", "didn't you", "aren't you", "wasn't you"], a: 0, why: "Question tag : were → weren't you? (la voix monte ↗)"},
+      {lv: 2, q: "You've got a late slip, ___ ?", o: ["haven't you", "have you", "don't you", "isn't it", "hasn't you"], a: 0, why: "Question tag : you've got → haven't you?"},
+      {lv: 2, q: "I was ill, ___ I stayed at home.", o: ["so", "because", "because of", "but", "That's why"], a: 0, why: "La cause, puis la conséquence → so"},
+      {lv: 2, q: "I stayed at home ___ the flu.", o: ["because of", "because", "so", "That's why", "and"], a: 0, why: "Devant un nom (the flu) → because of"},
+      {lv: 2, q: "I missed the bus. ___ I was late.", o: ["That's why", "Because", "Because of", "But", "And"], a: 0, why: "That's why = c'est pourquoi → la conséquence (= so)"},
+      {lv: 2, q: "I ran to the bus stop, ___ I missed the bus.", o: ["but", "so", "because", "because of", "That's why"], a: 0, why: "but = mais → une opposition"},
+      {lv: 2, q: "I was late ___ my alarm didn't ring.", o: ["because", "because of", "so", "That's why", "but"], a: 0, why: "because + une phrase (sujet + verbe : my alarm didn't ring)"},
+      {lv: 3, q: "I ___ to school yesterday.", o: ["didn't come", "didn't came", "don't came", "not came", "wasn't come"], a: 0, why: "Négation au passé : didn't + base verbale (come)"},
+      {lv: 3, q: "I ___ at school on Monday.", o: ["wasn't", "weren't", "didn't was", "not was", "isn't"], a: 0, why: "be au passé : I was → I wasn't"},
+      {lv: 3, q: "My alarm ___ this morning.", o: ["didn't ring", "didn't rang", "doesn't rang", "not rang", "wasn't ring"], a: 0, why: "didn't + base verbale (ring, pas rang)"},
+      {lv: 3, q: "___ you at the dentist yesterday?", o: ["Were", "Did", "Was", "Are", "Do"], a: 0, why: "Question avec be au passé : Were you…?"},
+      {lv: 3, q: "Why ___ you absent last Friday?", o: ["were", "did", "was", "are", "have"], a: 0, why: "absent → be : Why were you absent?"},
+      {lv: 3, q: "Why ___ you miss the bus?", o: ["did", "were", "was", "do", "have"], a: 0, why: "Question au prétérit avec un verbe : did + base verbale (miss)"},
+      {lv: 3, q: "Last night I ___ a fever, so I ___ to bed early.", o: ["had / went", "have / go", "had / goed", "haved / went", "had / gone"], a: 0, why: "have → had · go → went (verbes irréguliers)"},
+      {lv: 3, q: "Which sentence is correct?", o: ["I was absent because of a toothache.", "I was absent because a toothache.", "I was absent because of I had a toothache.", "I was absent so a toothache.", "I were absent because of a toothache."], a: 0, why: "because of + un nom (a toothache) · I was"},
+      {lv: 3, q: "Which sentence is correct?", o: ["I overslept. That's why I was late.", "I overslept. That's why I am late yesterday.", "I oversleeped. That's why I was late.", "I was late. That's why I overslept.", "I overslept. Because I was late."], a: 0, why: "La cause, puis That's why + la conséquence · oversleep → overslept"}
+    ]
+  }
+];
