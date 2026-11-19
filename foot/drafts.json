@@ -277,5 +277,103 @@
         "url": "https://www.101greatgoals.com/match-reports/wales-2-3-portugal-report-result-goals/"
       }
     ]
+  },
+  {
+    "id": "2026-11-19-nwsl-final-spirit-current",
+    "date": "2026-11-19",
+    "level": "4e",
+    "topic": "Women's football",
+    "country": "USA",
+    "flag": "usa",
+    "emoji": "🏆",
+    "title": "Washington and Kansas City will play the NWSL final",
+    "lead": "After two exciting semi-finals, Washington Spirit and Kansas City Current will play for the title in the top women's league in the USA.",
+    "body": [
+      "The NWSL is the top women's football league in the USA. After last weekend's semi-finals, we know the 2 teams in the final: Washington Spirit and Kansas City Current.",
+      "On Saturday 14 November 2026, Washington played Utah Royals at home, in a sold-out stadium. After only 2 minutes, Cloé Lacasse scored directly from a corner! It was the fastest goal in the history of the NWSL play-offs. Sofia Cantore scored again 6 minutes later, and Washington won 2-1.",
+      "On Sunday 15 November, Kansas City played in New York against Gotham FC, the champions. Croix Bethune scored a great free kick for Kansas City. Gotham equalised with an own goal, but Haley Hopkins scored the winner in the 89th minute.",
+      "The final is on Saturday 21 November at Audi Field, in Washington. The Spirit have lost the last 2 finals, so they really want to win this time. Kansas City have never won the trophy. Who will be the new champions?"
+    ],
+    "keywords": [
+      [
+        "semi-finals",
+        "demi-finales"
+      ],
+      [
+        "sold-out",
+        "complet"
+      ],
+      [
+        "corner",
+        "corner"
+      ],
+      [
+        "fastest",
+        "le plus rapide"
+      ],
+      [
+        "free kick",
+        "coup franc"
+      ],
+      [
+        "equalised",
+        "ont égalisé"
+      ],
+      [
+        "own goal",
+        "but contre son camp"
+      ],
+      [
+        "trophy",
+        "trophée"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "How did Cloé Lacasse score her goal?",
+        "options": [
+          "With a header",
+          "Directly from a corner",
+          "With a penalty"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Who scored the winning goal for Kansas City?",
+        "options": [
+          "Croix Bethune",
+          "Haley Hopkins",
+          "Sofia Cantore"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Where will the final be played?",
+        "options": [
+          "In New York",
+          "In Kansas City",
+          "In Washington"
+        ],
+        "answer": 2
+      }
+    ],
+    "turn": "Your turn! Who will win the final? Give your prediction in 2 or 3 sentences: \"I think … will win because … The score will be …\"",
+    "sources": [
+      {
+        "name": "The Equalizer (USA)",
+        "date": "14 November 2026",
+        "url": "https://equalizersoccer.com/2026/11/14/spirit-defeat-royals-2-1-in-semifinal-to-set-up-home-championship/"
+      },
+      {
+        "name": "The Equalizer (USA)",
+        "date": "15 November 2026",
+        "url": "https://equalizersoccer.com/2026/11/15/kc-current-advance-to-nwsl-championship-with-2-1-win-over-gotham/"
+      },
+      {
+        "name": "Just Women's Sports (USA)",
+        "date": "16 November 2026",
+        "url": "https://justwomenssports.com/reads/2026-nwsl-championship-washington-spirit-kansas-city-current-semifinals-results/"
+      }
+    ]
   }
 ]
