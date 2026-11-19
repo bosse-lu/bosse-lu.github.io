@@ -6,7 +6,7 @@
 <title>DÒKÒ – Quiz game – Collège Réeberg Néron</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
-<link rel="stylesheet" href="doko.css">
+<link rel="stylesheet" href="doko.css?v=20261119e">
 </head>
 <body>
 <canvas id="fx" aria-hidden="true"></canvas>
@@ -31,6 +31,22 @@
         <button type="button" class="gm" data-g="theme" aria-pressed="false"><span class="gi">📚</span><b>Choose your theme</b><small lang="fr">Choisis ton thème : vocabulaire, grammaire, culture.</small></button>
         <button type="button" class="gm" data-g="training" aria-pressed="false"><span class="gi">🏋️</span><b>Recreate the situation · training</b><small lang="fr">Entraînement au contrôle sur 20 : 6 situations (2 🟢, 2 🟡, 2 🔴), 20 secondes, correction après chaque réponse. 3 essais.</small><span class="lock" id="lock-training" hidden>🔒 Locked · <i lang="fr">bientôt ouvert par ton professeur</i></span><span class="best" id="best-training"></span></button>
         <button type="button" class="gm" data-g="recreate" aria-pressed="false"><span class="gi">🧩</span><b>Recreate the situation</b><small lang="fr">Évaluation sur 20 : 10 situations, 20 secondes chacune, une seule tentative. Des images → la bonne phrase avec <i>because</i> ou <i>so</i>.</small><span class="lock" id="lock-recreate" hidden>🔒 Locked · <i lang="fr">bientôt ouvert par ton professeur</i></span><span class="best" id="best-recreate"></span><span class="evres" id="evres" hidden></span></button>
+        <button type="button" class="gm chal" data-g="challenge" id="gm-challenge" aria-pressed="false" hidden><span class="gi">👨‍👩‍👧</span><b>Challenge a parent! 🔥</b><small lang="fr">À la maison : défie un parent, chacun son tour, 10 questions. C'est toi qui lis les questions en anglais à ton parent !</small><span class="prev" id="chal-prev" hidden>👁️ Aperçu professeur · pas encore visible pour les élèves</span></button>
+      </div>
+      <div id="chbox" hidden>
+        <h3 class="sub">Who is playing? <span class="fr">Qui joue ? Ton jeton, c'est celui de l'étape 1.</span></h3>
+        <div class="chnames">
+          <label><span>🧒 You · <i lang="fr">toi</i></span><input id="ch-kid" maxlength="20" autocomplete="off" placeholder="Your first name"></label>
+          <label><span>👤 Your parent · <i lang="fr">ton parent</i></span><input id="ch-par" maxlength="20" autocomplete="off" placeholder="Mum, Dad, Grandma…"></label>
+        </div>
+        <h3 class="sub">Choose your parent's token! 🔥 <span class="fr">C'est toi qui choisis le jeton de ton parent… Le feu 🔥 est le plus dur !</span></h3>
+        <div class="tokens ptoks" id="ch-toks"></div>
+        <ul class="chrules">
+          <li>🔁 <b>10 questions, one each</b>: you, then your parent, then you… <i lang="fr">10 questions, chacun son tour.</i></li>
+          <li>📣 <b>You are the teacher</b>: read your parent's question and the 5 answers aloud, in English. <i lang="fr">Tu lis à voix haute la question de ton parent et les 5 réponses, en anglais.</i></li>
+          <li>🇫🇷 Your parent can ask for help in French: <b>−1 point</b>. <i lang="fr">Ton parent peut demander l'aide en français : −1 point.</i></li>
+          <li>🏆 The best score wins! It is just for fun: no mark, no try used. <i lang="fr">Pas de note, pas d'essai utilisé.</i></li>
+        </ul>
       </div>
       <div id="themebox" hidden>
         <h3 class="sub">Choose your theme <span class="fr">Choisis ton thème.</span></h3>
@@ -78,7 +94,8 @@
       <span class="right-top"><span class="sc" id="score"></span><button type="button" class="sound" aria-pressed="false">🔇 Music</button></span>
     </div>
     <div class="stage">
-      <div class="qbox">
+      <div class="qbox" id="qside">
+        <div class="chban" id="chban" hidden></div>
         <div class="qhead">
           <div class="timer" id="timer" role="timer" aria-label="Time left"><svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="34"/><circle class="fg" id="ring" cx="40" cy="40" r="34" stroke-dasharray="213.6" stroke-dashoffset="0"/></svg><span id="tsec">20</span></div>
           <div class="question" id="question"></div>
@@ -92,6 +109,7 @@
         <div class="hand" id="hand">
           <button type="button" class="mytoken" id="mytoken" aria-label="Your token"><img alt=""></button>
           <p>Put your token on the right answer! <span class="fr">Pose ton jeton sur la bonne réponse.</span></p>
+          <button type="button" class="help" id="help" hidden>🇫🇷 Aide <small>−1</small></button>
           <button type="button" class="joker" id="joker" title="Two wrong answers disappear (once per game)"><img src="../assets/doko/joker.png" alt="">Joker</button>
         </div>
         <div class="board" id="board"></div>
@@ -108,14 +126,16 @@
     <p id="right"></p>
     <div id="review" class="review" hidden></div>
     <p id="best"></p>
+    <div class="bar" id="chdip" hidden></div>
     <div class="bar"><button type="button" class="btn main" id="again">↺ Play again</button><button type="button" class="btn" id="back">Change my token</button></div>
   </section>
 </div>
 <audio id="music" src="../assets/doko/music-afrohouse.mp3" loop preload="metadata"></audio>
 <script src="../assets/doko/fx.js"></script>
-<script>window.DOKO_CONFIG = {tokenLevels: true};</script>
+<script>window.DOKO_CONFIG = {tokenLevels: true, challenge: "preview"};</script>
 <script src="themes.js?v=20261119b"></script>
 <script src="../assets/classes.js?v=20261119e"></script>
-<script src="engine.js?v=20261119d"></script>
+<script src="../assets/export-pdf.js"></script>
+<script src="engine.js?v=20261119e"></script>
 </body>
 </html>

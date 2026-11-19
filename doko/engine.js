@@ -66,7 +66,55 @@
     return lv;
   }
   try { const g = new URLSearchParams(location.search).get("game"); if (g === "recreate" && RECREATE) game = "recreate"; else if (g === "training" && TRAINING) game = "training"; else if (g === "theme") game = "theme"; } catch (e) {}
-  const pack = () => game === "recreate" ? (recreateOpen() ? RECREATE : null) : game === "training" ? (trainingOpen() ? TRAINING : null) : theme;
+  const pack = () => game === "recreate" ? (recreateOpen() ? RECREATE : null) : game === "training" ? (trainingOpen() ? TRAINING : null) : game === "challenge" ? chPack() : theme;
+  /* ---------- Challenge a parent! 🔥 ----------
+     CFG.challenge: true (open to everyone) or "preview" (only with the teacher code, before it is published).
+     At home, the learner plays against a parent on the same device, one question each (10 in all), questions of the
+     class level from "Choose your theme" (never the evaluation). The learner reads the parent's question aloud in English;
+     the parent can ask for a help in French (−1 point). Each token keeps its level (🔥 the hardest). No mark, no try used. */
+  const CHAL = CFG.challenge, CH_N = 10;
+  const chalOn = () => CHAL === true || (CHAL === "preview" && isAdmin());
+  const CHK = KEY + "-challenge";
+  let ch = Object.assign({kid: "", par: "", ptok: null}, store.get(CHK) || {});
+  const chSave = () => store.set(CHK, ch);
+  const chPack = () => { if (!chalOn()) return null; const T = theme || THEMES[0]; return T && T.q ? Object.assign({}, T, {id: "challenge", title: "Challenge a parent!", emoji: "🔥", chal: true}) : null; };
+  // Questions per level for each token (5 questions each), from 🌳 easy to 🔥 hard
+  const CH_PER = {wood: {1: 4, 2: 1, 3: 0}, earth: {1: 2, 2: 2, 3: 1}, water: {1: 1, 2: 2, 3: 2}, fire: {1: 0, 2: 2, 3: 3}};
+  const kidName = () => ch.kid.trim() || "You", parName = () => ch.par.trim() || "Parent";
+  // The help in French for the parent: the question in French, without the answer
+  const CH_FR = {
+    "What's wrong?": "Qu'est-ce qui ne va pas ?", "What happened?": "Que s'est-il passé ?", "Why are you late?": "Pourquoi es-tu en retard ?",
+    "I have a ___ .": "« J'ai un(e) ___ . » Quel mot va avec l'image ?", "Where were you?": "Où étais-tu ?", "I went to the ___ .": "« Je suis allé(e) chez / à ___ . » Quel mot va avec l'image ?",
+    "A late slip is…": "« A late slip », en français, c'est…", "An absence note is…": "« An absence note », en français, c'est…", "A detention is…": "« A detention », en français, c'est…",
+    "A doctor's appointment is…": "« A doctor's appointment », en français, c'est…", "“I'm late” means…": "« I'm late » veut dire…", "The bus stop is…": "« The bus stop », en français, c'est…",
+    "I have a sore ___ .": "« J'ai mal à la gorge. » Quel mot est bien écrit ?", "Which word is spelled correctly?": "Quel mot est bien écrit ?",
+    "Odd one out: which one is NOT an illness?": "Trouve l'intrus : lequel n'est PAS une maladie ?",
+    "Yesterday, I ___ the bus.": "« Hier, j'ai raté le bus. » Choisis la bonne forme du verbe (c'est du passé).",
+    "My dad's car ___ down this morning.": "« La voiture de mon père est tombée en panne ce matin. » Choisis la bonne forme du verbe (passé).",
+    "Last week, I ___ to the dentist.": "« La semaine dernière, je suis allé(e) chez le dentiste. » Choisis la bonne forme du verbe (passé).",
+    "You were ill yesterday. What do you give to the teacher?": "Tu étais malade hier. Que donnes-tu au professeur ?",
+    "Lessons start at 8:00. You arrive at 8:20. What do you say?": "Les cours commencent à 8 h. Tu arrives à 8 h 20. Que dis-tu ?",
+    "A traffic jam is…": "« A traffic jam », en français, c'est…", "I twisted my ___ .": "« Je me suis tordu le / la ___ . » Quel mot va avec l'image ?",
+    "I have a high temperature. I have a…": "J'ai beaucoup de température. J'ai…", "I stayed in ___ all day.": "« Je suis resté(e) ___ toute la journée. » Quel mot manque ?",
+    "The school nurse is…": "« The school nurse », en français, c'est…", "A doctor's note is…": "« A doctor's note », en français, c'est…",
+    "My bike had a ___ tyre.": "« Mon vélo avait un pneu ___ . » Quel mot manque ?", "“I was away” means…": "« I was away » veut dire…",
+    "You were away yesterday, ___ ?": "« Tu étais absent(e) hier, n'est-ce pas ? » Comment dit-on « n'est-ce pas ? » ici ?",
+    "You've got a late slip, ___ ?": "« Tu as un billet de retard, n'est-ce pas ? » Comment dit-on « n'est-ce pas ? » ici ?",
+    "I was ill, ___ I stayed at home.": "« J'étais malade, ___ je suis resté(e) à la maison. » Quel mot de liaison ?",
+    "I stayed at home ___ the flu.": "« Je suis resté(e) à la maison ___ la grippe. » Quel mot de liaison ?",
+    "I missed the bus. ___ I was late.": "« J'ai raté le bus. ___ j'étais en retard. » Quel mot de liaison ?",
+    "I ran to the bus stop, ___ I missed the bus.": "« J'ai couru jusqu'à l'arrêt de bus, ___ j'ai raté le bus. » Quel mot de liaison ?",
+    "I was late ___ my alarm didn't ring.": "« J'étais en retard ___ mon réveil n'a pas sonné. » Quel mot de liaison ?",
+    "I ___ to school yesterday.": "« Je ne suis pas venu(e) au collège hier. » Choisis la forme correcte.",
+    "I ___ at school on Monday.": "« Je n'étais pas au collège lundi. » Choisis la forme correcte.",
+    "My alarm ___ this morning.": "« Mon réveil n'a pas sonné ce matin. » Choisis la forme correcte.",
+    "___ you at the dentist yesterday?": "« Étais-tu chez le dentiste hier ? » Quel mot commence la question ?",
+    "Why ___ you absent last Friday?": "« Pourquoi étais-tu absent(e) vendredi dernier ? » Quel mot manque ?",
+    "Why ___ you miss the bus?": "« Pourquoi as-tu raté le bus ? » Quel mot manque ?",
+    "Last night I ___ a fever, so I ___ to bed early.": "« Hier soir, j'avais de la fièvre, donc je suis allé(e) me coucher tôt. » Choisis les deux formes correctes.",
+    "Which sentence is correct?": "Quelle phrase est correcte ?"
+  };
+  const chFr = q => (CH_FR[q.q] || "Lis la question et choisis la bonne réponse.") + (q.img ? " (Regarde l'image.)" : "");
   // Recreate the situation: an evaluation, locked for the learners until the teacher opens it
   // (classes.json → evals: "doko-recreate"); the teacher code opens it on the device.
   const C = () => window.Classes;
@@ -129,6 +177,14 @@
     $$(".gm").forEach(b => b.setAttribute("aria-pressed", b.dataset.g === game));
     const lk = !recreateOpen(); if ($("#lock-recreate")) { $("#lock-recreate").hidden = !lk; $('[data-g="recreate"]').classList.toggle("locked", lk); }
     const lt = !trainingOpen(); if ($("#lock-training")) { $("#lock-training").hidden = !lt; $('[data-g="training"]').classList.toggle("locked", lt); const bt = store.get(KEY + "-best-training"); $("#best-training").textContent = lt ? "" : [`Tries left: ${triesLeft()} / ${TRY_MAX}`, typeof bt === "number" ? `My best score: ${bt} / 12` : ""].filter(Boolean).join(" · "); }
+    if (game === "challenge" && !chalOn()) game = null;
+    if ($("#gm-challenge")) { $("#gm-challenge").hidden = !chalOn(); $("#gm-challenge").setAttribute("aria-pressed", game === "challenge"); $("#chal-prev").hidden = CHAL === true; }
+    if ($("#chbox")) $("#chbox").hidden = game !== "challenge";
+    if (game === "challenge" && $("#chbox")) {
+      $("#ch-toks").innerHTML = TOKS.map(t => { const d = TOKLV[t.id]; return `<button type="button" class="tk" data-ptok="${t.id}" style="--c:${t.c}" aria-pressed="${ch.ptok === t.id}"><img src="${IMG}${t.id}.png" alt="">${t.n}<small lang="fr">${t.fr}</small><span class="diff"><i>${"★".repeat(d.st)}${"☆".repeat(4 - d.st)}</i>${d.n}<small lang="fr">${d.f} · ${d.time} s</small></span></button>`; }).join("");
+      if (document.activeElement !== $("#ch-kid")) $("#ch-kid").value = ch.kid;
+      if (document.activeElement !== $("#ch-par")) $("#ch-par").value = ch.par;
+    }
     $("#themebox").hidden = game !== "theme";
     $("#best-recreate").textContent = "";
     evApplyReset();
@@ -150,7 +206,7 @@
       const ts = tokSet(t), best = store.get(bestKey(t)), per = ts ? ts.per : t.per || CFG.per, nq = per ? per[1] + per[2] + per[3] : 3 * PER_LEVEL;
       return `<button type="button" class="th" data-t="${t.id}" aria-pressed="${!!theme && theme.id === t.id}"><b>${t.emoji || "🎲"} ${esc(t.title)}</b><small>${esc(t.kind)} · ${esc(t.level)} · ${nq} questions</small>${typeof best === "number" ? `<span class="best">${S.best(best)}</span>` : ""}</button>`;
     }).join("");
-    $("#go").disabled = !(token && pack()) || (game === "recreate" && evDone && !isAdmin() && !evCanRetry(ev)) || (game === "training" && !triesLeft());
+    $("#go").disabled = !(token && pack()) || (game === "recreate" && evDone && !isAdmin() && !evCanRetry(ev)) || (game === "training" && !triesLeft()) || (game === "challenge" && !ch.ptok);
     $("#go").innerHTML = token ? `<img src="${IMG}${token}.png" alt="">${S.play}` : "▶ " + S.play;
   }
   $("#tokens").addEventListener("click", e => { const b = e.target.closest("[data-tok]"); if (!b) return; token = b.dataset.tok; store.set(KEY + "-token", token); drawMenu(); });
@@ -158,6 +214,10 @@
   document.addEventListener("classes:ready", () => drawMenu());
   document.addEventListener("classes:change", () => drawMenu());
   if (window.Classes) Classes.mountPicker($("#cl-picker"), {noReset: true, title: "Teacher code", titleFr: "Code professeur", hint: CFG.pickerHint || "Le code professeur ouvre l'évaluation sur cet appareil."});
+  if ($("#chbox")) {
+    $("#ch-toks").addEventListener("click", e => { const b = e.target.closest("[data-ptok]"); if (!b) return; ch.ptok = b.dataset.ptok; chSave(); drawMenu(); });
+    ["kid", "par"].forEach(k => $("#ch-" + k).addEventListener("input", e => { ch[k] = e.target.value; chSave(); }));
+  }
   $("#themes").addEventListener("click", e => { const b = e.target.closest("[data-t]"); if (!b) return; theme = THEMES.find(t => t.id === b.dataset.t); drawMenu(); });
 
   /* ---------- sound ---------- */
@@ -196,9 +256,31 @@
       return Object.assign({}, q, {o: order.map(i => q.o[i]), a: order.indexOf(q.a), say: q.say || (q.scene && !q.say ? q.o[q.a] : null)});
     });
   }
+  const mix = q => { const order = shuffle(q.o.map((_, i) => i)); return Object.assign({}, q, {o: order.map(i => q.o[i]), a: order.indexOf(q.a), say: null}); };
+  // Challenge: 5 questions each, by the level of each token, no question twice; then you, parent, you, parent…
+  function chPick(P, toks) {
+    const used = new Set(), pool = shuffle(P.q || []);
+    const take = tok => {
+      const per = CH_PER[tok], out = [];
+      [1, 2, 3].forEach(lv => { pool.filter(q => (q.lv || 1) === lv && !used.has(q)).slice(0, per[lv]).forEach(q => { used.add(q); out.push(q); }); });
+      // not enough questions of a level: the nearest ones
+      pool.filter(q => !used.has(q)).sort((x, y) => Math.abs((x.lv || 1) - 2) - Math.abs((y.lv || 1) - 2)).slice(0, CH_N / 2 - out.length).forEach(q => { used.add(q); out.push(q); });
+      return out.sort((x, y) => (x.lv || 1) - (y.lv || 1));
+    };
+    const a = take(toks[0]), b = take(toks[1]), qs = [];
+    for (let i = 0; i < CH_N / 2; i++) { if (a[i]) qs.push(Object.assign(mix(a[i]), {pl: 0})); if (b[i]) qs.push(Object.assign(mix(b[i]), {pl: 1})); }
+    return qs;
+  }
   function start(confirmed) {
     const P = pack();
     if (!P || !allowed()) return;
+    if (P.chal) {
+      if (!token || !ch.ptok) { drawMenu(); return; }
+      const pl = [{name: kidName(), tok: token}, {name: parName(), tok: ch.ptok}].map(p => Object.assign(p, {score: 0, right: 0, streak: 0, joker: TOKLV[p.tok].joker, help: 0}));
+      G = {qs: chPick(P, [pl[0].tok, pl[1].tok]), i: -1, score: 0, right: 0, streak: 0, joker: false, ev: false, tr: false, log: [], cell: null, phase: "", time: 20, wrong: 1, hw: false, ch: pl, pl: null};
+      $("#menu").style.display = "none"; $("#end").style.display = "none"; $("#game").style.display = "flex"; document.body.classList.add("playing");
+      window.scrollTo(0, 0); next(); return;
+    }
     if (P.train && !isAdmin()) {
       // Each start uses one of the 3 tries (leaving the game does not give it back)
       if (!triesLeft()) { drawMenu(); return; }
@@ -263,13 +345,23 @@
       return plus + h;
     }).join("");
   }
+  // Challenge: the players take turns; each one keeps their own score, streak and joker
+  function chLoad(p) {
+    if (G.pl !== null) Object.assign(G.ch[G.pl], {score: G.score, right: G.right, streak: G.streak, joker: G.joker});
+    if (p === null) return;
+    G.pl = p; const P = G.ch[p];
+    Object.assign(G, {score: P.score, right: P.right, streak: P.streak, joker: P.joker, time: TOKLV[P.tok].time, wrong: TOKLV[P.tok].wrong});
+    token = P.tok; document.body.dataset.el = token; if (window.DokoFX) DokoFX.set(token);
+    $("#mytoken img").src = IMG + token + ".png"; $("#joker").hidden = !TOKLV[token].joker;
+  }
   function next() {
     G.i++;
     if (G.i >= G.qs.length) return finish();
-    G.cell = null; G.phase = "ask"; G.gone = []; G.t0 = Date.now(); G.rowLock = false;
+    if (G.ch) chLoad(Q().pl);
+    G.cell = null; G.phase = "ask"; G.gone = []; G.t0 = Date.now(); G.rowLock = false; G.helped = false;
     const q = Q(), P = pack();
     const ts = tokSet(P);
-    $("#qn").innerHTML = `${esc((P.emoji || "") + " " + P.title)}${ts ? ` · ${TOK.find(t => t.id === token).e} ${FR ? ts.f : ts.n}` : ""} · ${G.i + 1} / ${G.qs.length}${G.ev ? ' <span class="evalbadge">/20</span>' : ""}`;
+    $("#qn").innerHTML = G.ch ? `🔥 Challenge a parent! · ${G.i + 1} / ${G.qs.length} · ${TOK.find(t => t.id === token).e} ${esc(G.ch[G.pl].name)}` : `${esc((P.emoji || "") + " " + P.title)}${ts ? ` · ${TOK.find(t => t.id === token).e} ${FR ? ts.f : ts.n}` : ""} · ${G.i + 1} / ${G.qs.length}${G.ev ? ' <span class="evalbadge">/20</span>' : ""}`;
     const lv = q.lv || 1; $("#lvl").className = "lvl l" + lv; $("#lvl").innerHTML = `<i></i>${S.lvl(lv)}`;
     drawStreak();
     $("#question").innerHTML = `${esc(q.q || S.recQ)}${CFG.speak ? `<button type="button" class="hear" aria-label="${S.hear}">🔊</button>` : ""}<span class="num">${G.i + 1}</span>`;
@@ -283,8 +375,38 @@
     $("#explain").hidden = true; $("#msg").textContent = ""; $("#msg").className = "msg"; $("#bar").innerHTML = "";
     $("#hand").hidden = false; $("#mytoken").classList.remove("used"); $("#joker").disabled = !G.joker;
     drawBoard(); drawScore();
+    if ($("#help")) { $("#help").hidden = !(G.ch && G.pl === 1); $("#help").disabled = false; }
+    if (G.ch) return chReady();
     runTimer(G.time, () => reveal());
   }
+  // Before each question of the challenge: whose turn it is; the timer starts when the player is ready.
+  // Learner's turn: the question stays hidden (blurred) until the start. Parent's turn: the learner reads it aloud first.
+  function chReady() {
+    G.phase = "ready"; clearInterval(tmr);
+    const kid = G.ch[0], par = G.ch[1], mine = G.pl === 0;
+    $("#tsec").textContent = G.time; $("#ring").style.strokeDashoffset = 0; $("#timer").classList.remove("low");
+    $("#qside").classList.toggle("veil", mine); $("#hand").hidden = true;
+    $("#chban").hidden = false;
+    $("#chban").innerHTML = `<img src="${IMG}${token}.png" alt="">` + (mine
+      ? `<p><b>${esc(kid.name)}, your turn!</b> Take the phone. Ready?<span class="fr">À toi de jouer ! Prends le téléphone. Prêt(e) ?</span></p>`
+      : `<p><b>📣 ${esc(kid.name)}, read aloud!</b> Read the question and the 5 answers to ${esc(par.name)}, in English. Then ${esc(par.name)} plays.<span class="fr">Lis à voix haute la question et les 5 réponses à ${esc(par.name)}, en anglais. Ensuite, c'est à ${esc(par.name)} de jouer.</span></p>`);
+    $("#bar").innerHTML = "";
+    $("#chban").insertAdjacentHTML("beforeend", `<div class="chbtns">${mine ? "" : `<button type="button" class="help" data-chhelp>🇫🇷 Aide en français <small>−1</small></button>`}<button type="button" class="btn main" id="chgo">▶ ${mine ? "I'm ready · Start" : esc(par.name) + " is ready · Start"}</button></div>`);
+    const hb = $("#chban [data-chhelp]"); if (hb) hb.addEventListener("click", chHelp);
+    $("#chgo").addEventListener("click", () => {
+      if (G.phase !== "ready") return;
+      $("#qside").classList.remove("veil"); $("#chban").hidden = true; $("#bar").innerHTML = "";
+      G.phase = "ask"; G.t0 = Date.now(); $("#hand").hidden = false; $("#help").disabled = !!G.helped; drawBoard();
+      runTimer(G.time, () => reveal());
+    });
+    $("#chgo").focus({preventScroll: true}); window.scrollTo(0, 0);
+  }
+  function chHelp() {
+    if (!G || !G.ch || G.pl !== 1 || G.helped || (G.phase !== "ask" && G.phase !== "ready")) return;
+    G.helped = true; G.ch[1].help++; $("#help").disabled = true; $$("[data-chhelp]").forEach(b => { b.disabled = true; });
+    $("#question").insertAdjacentHTML("beforeend", `<span class="qfr" lang="fr">${esc(chFr(Q()))}</span>`); pop("🇫🇷 −1");
+  }
+  if ($("#help")) $("#help").addEventListener("click", chHelp);
   const drawStreak = () => { const t = TOK.find(x => x.id === token); $("#streak").textContent = G.streak > 0 && !G.hw ? `${t.e}×${G.streak}` : ""; };
   let tmr = null;
   function runTimer(sec, done) {
@@ -308,7 +430,9 @@
     $("#board").innerHTML = `<div class="row">${[...L].map(cell).join("")}<span class="pts">${G.rowLock ? "🔒" : (G.ev || G.tr) ? 2 : 4}</span></div><div class="sep"></div><div class="row">${PAIRS.map(cell).join("")}<span class="pts">${(G.ev || G.tr) ? 1 : 2}</span></div><div class="brand">DÒKÒ</div>`;
   }
   // During the evaluation the score stays hidden (no correction before the end)
-  const drawScore = () => { $("#score").innerHTML = `<img src="${IMG}${token}.png" alt="">` + (G.ev ? "Evaluation" : G.hw ? "Homework" : S.pts(G.score)); };
+  const drawScore = () => {
+    if (G.ch) { $("#score").className = "sc chsc"; $("#score").innerHTML = G.ch.map((p, i) => `<span class="chs${i === G.pl ? " on" : ""}"><img src="${IMG}${p.tok}.png" alt="">${esc(p.name)} <b>${i === G.pl ? G.score : p.score}</b></span>`).join(""); return; }
+    $("#score").className = "sc"; $("#score").innerHTML = `<img src="${IMG}${token}.png" alt="">` + (G.ev ? "Evaluation" : G.hw ? "Homework" : S.pts(G.score)); };
 
   // Joker: two wrong answers disappear, once per game
   $("#joker").addEventListener("click", () => {
@@ -398,6 +522,8 @@
         }
       } else { const w = G.tr ? 0 : G.wrong; G.score -= w; G.streak = 0; msg.push(S.wrong(w)); $("#msg").className = "msg bad"; beep(220, .25); }
     }
+    if (G.ch && G.helped) { G.score -= 1; msg.push("🇫🇷 Help: −1"); }
+    if ($("#help")) $("#help").hidden = true;
     $("#msg").textContent = msg.join(" · ");
     $("#tsec").textContent = "✓";
     const pic = q.pic ? `<img src="${PIC}${q.pic}.png" alt="">` : "";
@@ -405,8 +531,9 @@
     $("#explain").innerHTML = `${pic}<div><p class="ans">${a}. ${esc(q.o[q.a])}</p>${q.say && q.say !== q.o[q.a] ? `<p lang="en"><b>${esc(q.say)}</b></p>` : ""}<p>${esc(q.why || "")}</p>${q.whyHtml || ""}</div>`;
     if (CFG.speak && (q.whySpeak || q.why)) setTimeout(() => speak(q.whySpeak || q.why, CFG.speak), 500);
     drawScore(); drawStreak();
-    const sayOn = q.say && !G.tr;
-    $("#bar").innerHTML = (sayOn ? sayHTML() : "") + `<button type="button" class="btn main" id="nx">${G.i + 1 < G.qs.length ? S.next : S.see}</button>`;
+    const sayOn = q.say && !G.tr && !G.ch;
+    const nxt = G.ch ? (G.i + 1 < G.qs.length ? `Next: ${esc(G.ch[G.qs[G.i + 1].pl].name)} →` : "See the winner 🏆") : G.i + 1 < G.qs.length ? S.next : S.see;
+    $("#bar").innerHTML = (sayOn ? sayHTML() : "") + `<button type="button" class="btn main" id="nx">${nxt}</button>`;
     if (sayOn) bindSay(q.say);
     $("#nx").addEventListener("click", () => { try { speechSynthesis.cancel(); } catch (e) {} next(); }); $("#nx").focus({preventScroll: true});
   }
@@ -450,6 +577,8 @@
   function finish() {
     clearInterval(tmr); G.phase = "end";
     $("#game").style.display = "none"; $("#end").style.display = "flex"; document.body.classList.remove("playing", "exam");
+    if ($("#chdip")) { $("#chdip").hidden = true; $("#qside").classList.remove("veil"); }
+    if (G.ch) return chFinish();
     if (G.ev) {
       if (G.left) G.score = 0; else evWrite(Object.assign(evRead() || {}, {st: "done", score: G.score, end: new Date().toISOString()}));
       $("#again").hidden = !isAdmin();
@@ -472,6 +601,39 @@
     window.scrollTo(0, 0);
   }
 
+  function chFinish() {
+    chLoad(null);
+    const [k, p] = G.ch, win = k.score === p.score ? null : k.score > p.score ? k : p;
+    token = k.tok; document.body.dataset.el = token; if (window.DokoFX) DokoFX.set((win || k).tok);
+    $("#endtok").src = IMG + (win || k).tok + ".png";
+    $("#final").textContent = `${k.name} ${k.score} – ${p.score} ${p.name}`;
+    $("#right").innerHTML = `<p class="winner">${win ? `🏆 ${esc(win.name)} wins!` : "🤝 It's a draw!"}</p><p class="fr">${win ? `${esc(win.name)} a gagné !` : "Égalité !"}</p>`;
+    $("#review").hidden = true; $("#again").hidden = false;
+    $("#best").innerHTML = G.ch.map(x => `${TOK.find(t => t.id === x.tok).e} ${esc(x.name)}: ${x.right} / ${CH_N / 2} right answers${x.help ? ` · 🇫🇷 ${x.help} help${x.help > 1 ? "s" : ""}` : ""}`).join("<br>");
+    const dip = $("#chdip"); dip.innerHTML = ""; dip.hidden = !window.ExportPDF;
+    if (window.ExportPDF) dip.appendChild(ExportPDF.button("📄 Mon diplôme du défi (PDF), à faire signer", () => chDiploma(k, p, win)));
+    window.scrollTo(0, 0);
+  }
+  // A small diploma to download, signed by the parent, that the learner can hand in on Pronote
+  function chDiploma(k, p, win) {
+    const lv = recLevel(), tn = x => { const t = TOK.find(y => y.id === x.tok), d = TOKLV[x.tok]; return `${t.n} (${d.f.toLowerCase()})`; };
+    return {
+      title: "Challenge a parent! · DÒKÒ", file: "DOKO_challenge",
+      intro: "Ton diplôme du défi se télécharge en PDF. Fais-le signer par ton parent, puis tu peux le déposer sur Pronote si tu le souhaites.",
+      done: "✓ Le diplôme est téléchargé. Fais-le signer !",
+      build(d, who) {
+        d.space(10); d.h("DÒKÒ · Challenge a parent!", 24); d.p([["Diplôme du défi en famille · Anglais " + lv, "I"]], {size: 12, gray: .35, gap: 14}); d.rule(); d.space(12);
+        d.p([[who.name || k.name, "B"], [" a défié ", "R"], [p.name, "B"], [" au jeu DÒKÒ, en anglais, sur le thème « Late and absent ».", "R"]], {size: 13, gap: 10});
+        d.p([[k.name + " : ", "B"], [`${k.score} point${Math.abs(k.score) > 1 ? "s" : ""} · ${k.right} / ${CH_N / 2} bonnes réponses · jeton ${tn(k)}`, "R"]], {size: 12.5, gap: 4});
+        d.p([[p.name + " : ", "B"], [`${p.score} point${Math.abs(p.score) > 1 ? "s" : ""} · ${p.right} / ${CH_N / 2} bonnes réponses · jeton ${tn(p)}${p.help ? ` · ${p.help} aide${p.help > 1 ? "s" : ""} en français` : ""}`, "R"]], {size: 12.5, gap: 10});
+        d.p([[win ? `Vainqueur : ${win.name} !` : "Égalité !", "B"]], {size: 16, gap: 10});
+        d.p([[`${who.name || k.name} a lu les questions en anglais, à voix haute, à ${p.name}.`, "I"]], {size: 12, gap: 22});
+        d.p([["Le mot du parent (facultatif) :", "B"]], {size: 12, gap: 2}); d.lines(3); d.space(16);
+        d.p([["Date : ", "B"], [new Date().toLocaleDateString("fr-FR"), "R"]], {size: 12, gap: 14});
+        d.p([["Signature du parent :", "B"]], {size: 12, gap: 50});
+      }
+    };
+  }
   drawMenu();
   setTimeout(() => $("#tokens").classList.remove("intro"), 1600);
 })();

@@ -240,3 +240,38 @@ body.exam .homelink{visibility:hidden}
 .cell .lt.v i{font-style:normal;color:#9aa0b4;margin:0 1px}
 .gate{text-align:center}
 body.playing .teacher,body.playing #gate{display:none}
+/* Challenge a parent! 🔥 */
+.gm.chal{border-color:#ff5a1f55;background:linear-gradient(135deg,#2a1d1a,#20243a 60%)}
+.gm.chal[aria-pressed="true"]{border-color:#ff5a1f;box-shadow:0 0 0 4px rgba(255,90,31,.25)}
+.gm .prev{font-weight:700;font-size:.8rem;color:#ffd23f;background:#3a3218;border-radius:999px;padding:2px 10px}
+.chnames{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.chnames label{display:flex;flex-direction:column;gap:6px;font-weight:700}
+.chnames label i{font-weight:400;color:var(--muted)}
+.chnames input{font:inherit;font-size:1.05rem;color:var(--ink);background:#20243a;border:2px solid var(--line);border-radius:12px;padding:10px 12px}
+.chnames input:focus-visible{outline:none;border-color:var(--accent)}
+.ptoks .tk img{width:60px;height:60px}
+.ptoks .tk{padding:8px 4px}
+.chrules{margin:14px 0 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:.95rem}
+.chrules i{color:var(--muted)}
+.chban{display:flex;flex-wrap:wrap;align-items:center;gap:12px;background:#2a1d1a;border:2px solid #ff5a1f;border-radius:14px;padding:10px 14px}
+.chban img{width:52px;height:52px;flex:none}
+.chban p{margin:0;font-weight:700;flex:1 1 200px}
+.chbtns{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+.chban b{font-family:var(--display);font-size:1.15rem;color:#ffd23f}
+.chban .fr{margin-top:2px}
+.veil .qhead,.veil .opts,.veil .scene,.veil .qimg{filter:blur(9px);pointer-events:none;user-select:none}
+.help{display:flex;align-items:center;gap:4px;background:#1d2a4d;border:2px solid #8ea2ff;color:#dfe5ff;border-radius:999px;padding:6px 12px;font-weight:800;cursor:pointer;flex:none}
+.help small{color:#ffb4a8}
+.help:disabled{opacity:.4;cursor:default}
+.help:not([hidden]) + .joker{margin-left:0}
+.help[hidden],.chban[hidden],#chbox[hidden],#chdip[hidden]{display:none}
+.hand .help{margin-left:auto}
+.qfr{display:block;margin-top:8px;font:italic 700 1rem var(--body);color:#c9d3ff}
+.qfr::before{content:"🇫🇷 ";font-style:normal}
+.sc.chsc{gap:4px;padding:3px}
+.chs{display:flex;align-items:center;gap:5px;border-radius:999px;padding:2px 10px 2px 2px;opacity:.55;font-weight:700}
+.chs img{width:28px;height:28px}
+.chs b{font-family:var(--display);font-size:1.1rem}
+.chs.on{opacity:1;background:#2c3150}
+.winner{font:800 1.5rem var(--display);color:var(--accent);margin:0}
+#chdip .xp-btn{background:#20243a;color:var(--accent);border:2px solid var(--accent);border-radius:999px;font:800 1rem var(--display);padding:10px 20px}
