@@ -102,6 +102,9 @@
   const EVOLD = "doko-eval-recreate-old";
   function evApplyReset() {
     if (!C() || !C().isReady() || !C().evalReset) return;
+    // The training tries too: a "reset" date for "doko-training" gives the 3 tries back once on each device
+    const dt = [C().evalReset("late-and-absent", "doko-training"), C().evalReset("late-and-absent-4e", "doko-training")].filter(Boolean).sort().pop();
+    if (dt && (store.get(TRK + "-reset") || "") < dt) { setTries(0); store.set(TRK + "-reset", dt); }
     const d = [C().evalReset("late-and-absent", "doko-recreate"), C().evalReset("late-and-absent-4e", "doko-recreate")].filter(Boolean).sort().pop();
     const r = evRead(); if (!d || !r || r.st === "run") return;
     const first = (r.prev && r.prev[0] && r.prev[0].end) || r.start || r.end || "";
