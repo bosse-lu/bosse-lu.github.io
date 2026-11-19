@@ -179,7 +179,7 @@ header::after{content:"";display:block;clear:both}
       <span class="card-art doko-art" aria-hidden="true"><img src="assets/doko/fire.png" alt=""><img src="assets/doko/water.png" alt=""><img src="assets/doko/earth.png" alt=""><img src="assets/doko/wood.png" alt=""></span>
       <span class="tag">5e · 4e · Jeu · Quand tu veux</span>
       <h2>DÒKÒ – quiz game</h2>
-      <p>Le jeu de M. Bosse : choisis ton jeton parmi les 4 éléments et pose-le sur la bonne réponse avant la fin du temps ! Deux jeux : un thème (le vocabulaire de la séquence) ou <i>Recreate the situation</i>.</p>
+      <p>Le jeu de M. Bosse : choisis ton jeton parmi les 4 éléments et pose-le sur la bonne réponse avant la fin du temps ! Deux jeux : un thème (le vocabulaire de la séquence) ou <i>Recreate the situation</i>. Nouveau : <b>Challenge a parent! 🔥</b>, défie un parent à la maison !</p>
       <span class="go">Jouer →</span>
     </a>
   </section>
@@ -373,7 +373,7 @@ header::after{content:"";display:block;clear:both}
     if (!lv) { Object.keys(orig).forEach(k => set(k, orig[k].tag, orig[k].p)); return; }
     const st = STORY[lv];
     set("stories", `📌 Ta classe : ${lv} · Lecture`, `Ta nouvelle : <i>${st[0]}</i>. Lis-la et écoute-la. Les nouvelles de ton niveau sont en premier, et toutes les autres restent ouvertes.`);
-    set("doko", `📌 Ta classe : ${lv} · Jeu`, `Le jeu de M. Bosse, au niveau ${lv} : choisis ton jeton (le feu 🔥 est le plus dur) et pose-le sur la bonne réponse avant la fin du temps ! Deux jeux : <i>Choose your theme</i> ou <i>Recreate the situation</i>.`);
+    set("doko", `📌 Ta classe : ${lv} · Jeu`, `Le jeu de M. Bosse, au niveau ${lv} : choisis ton jeton (le feu 🔥 est le plus dur) et pose-le sur la bonne réponse avant la fin du temps ! Nouveau : <b>Challenge a parent! 🔥</b>, défie un parent à la maison !`);
     set("news", `📌 Ta classe : ${lv} · Dim, mar, jeu`, `Des nouvelles du monde anglophone en anglais simplifié. Les articles de niveau ${lv} s'affichent en premier, avec les mots-clés et un quiz.`);
   }
   adapt();
