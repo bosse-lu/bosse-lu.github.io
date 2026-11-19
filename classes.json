@@ -28,7 +28,8 @@
           ],
           "parts": {},
           "evals": [
-            "doko-training"
+            "doko-training",
+            "ed-final"
           ]
         }
       },
@@ -55,7 +56,8 @@
           "parts": {},
           "evals": [
             "doko-training",
-            "doko-recreate"
+            "doko-recreate",
+            "ed-final"
           ],
           "tries": {
             "doko-recreate": 1
@@ -88,7 +90,8 @@
           "parts": {},
           "evals": [
             "doko-training",
-            "doko-recreate"
+            "doko-recreate",
+            "ed-final"
           ]
         }
       },
@@ -112,7 +115,9 @@
             "ed"
           ],
           "parts": {},
-          "evals": []
+          "evals": [
+            "ed-final"
+          ]
         },
         "late-and-absent-4e": {
           "open": [
@@ -158,7 +163,9 @@
             "ed"
           ],
           "parts": {},
-          "evals": []
+          "evals": [
+            "ed-final"
+          ]
         },
         "late-and-absent-4e": {
           "open": [
@@ -202,7 +209,9 @@
             "ed"
           ],
           "parts": {},
-          "evals": []
+          "evals": [
+            "ed-final"
+          ]
         },
         "late-and-absent-4e": {
           "open": [
