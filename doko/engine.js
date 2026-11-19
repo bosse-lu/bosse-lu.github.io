@@ -77,7 +77,7 @@
   const CHK = KEY + "-challenge";
   let ch = Object.assign({kid: "", par: "", ptok: null}, store.get(CHK) || {});
   const chSave = () => store.set(CHK, ch);
-  const chPack = () => { if (!chalOn()) return null; const T = theme || THEMES[0]; return T && T.q ? Object.assign({}, T, {id: "challenge", title: "Challenge a parent!", emoji: "🔥", chal: true}) : null; };
+  const chPack = () => { if (!chalOn()) return null; const T = theme || THEMES[0]; return T && T.q ? Object.assign({}, T, {id: "challenge", title: "Challenge a parent!", emoji: "🔥", chal: true, extra: (window.DOKO_CHALLENGE || {})[recLevel()] || {}}) : null; };
   // Questions per level for each token (5 questions each), from 🌳 easy to 🔥 hard
   const CH_PER = {wood: {1: 4, 2: 1, 3: 0}, earth: {1: 2, 2: 2, 3: 1}, water: {1: 1, 2: 2, 3: 2}, fire: {1: 0, 2: 2, 3: 3}};
   const kidName = () => ch.kid.trim() || "You", parName = () => ch.par.trim() || "Parent";
@@ -114,7 +114,10 @@
     "Last night I ___ a fever, so I ___ to bed early.": "« Hier soir, j'avais de la fièvre, donc je suis allé(e) me coucher tôt. » Choisis les deux formes correctes.",
     "Which sentence is correct?": "Quelle phrase est correcte ?"
   };
-  const chFr = q => (CH_FR[q.q] || "Lis la question et choisis la bonne réponse.") + (q.img ? " (Regarde l'image.)" : "");
+  const chFr = q => q.hear ? `Comment se prononce la fin -ed de « ${q.w} » ? /t/ (comme « missT »), /d/ (comme « playD ») ou /ɪd/ (une syllabe en plus, comme « want-ID ») ?`
+    : q.scene && /mystery box/.test(q.q || "") ? "Quel mot va dans la boîte mystère ❓ ? C'est le mot qui relie les deux images : la cause, ou la conséquence ?"
+    : q.scene ? "Que s'est-il passé ? Regarde les images dans l'ordre (de gauche à droite) et choisis la bonne phrase."
+    : (CH_FR[q.q] || "Lis la question et choisis la bonne réponse.") + (q.img ? " (Regarde l'image.)" : "");
   // Recreate the situation: an evaluation, locked for the learners until the teacher opens it
   // (classes.json → evals: "doko-recreate"); the teacher code opens it on the device.
   const C = () => window.Classes;
@@ -256,15 +259,18 @@
       return Object.assign({}, q, {o: order.map(i => q.o[i]), a: order.indexOf(q.a), say: q.say || (q.scene && !q.say ? q.o[q.a] : null)});
     });
   }
-  const mix = q => { const order = shuffle(q.o.map((_, i) => i)); return Object.assign({}, q, {o: order.map(i => q.o[i]), a: order.indexOf(q.a), say: null}); };
+  const mix = q => { const order = shuffle(q.o.map((_, i) => i)); return Object.assign({}, q, {o: order.map(i => q.o[i]), a: order.indexOf(q.a), say: q.say || null}); };
   // Challenge: 5 questions each, by the level of each token, no question twice; then you, parent, you, parent…
+  // Each player gets 5 questions of 4 kinds: a theme question (words, grammar), a situation (so / because…),
+  // the mystery box ❓ (the linking word), the -ed sound, and one more of any kind; their levels follow the token.
   function chPick(P, toks) {
-    const used = new Set(), pool = shuffle(P.q || []);
+    const X = P.extra || {}, pools = {t: shuffle(P.q || []), s: shuffle(X.scene || []), b: shuffle(X.box || []), e: shuffle(X.ed || [])};
+    const kinds = Object.keys(pools).filter(k => pools[k].length), used = new Set();
+    const one = (k, lv) => pools[k].filter(q => !used.has(q)).sort((x, y) => Math.abs((x.lv || 1) - lv) - Math.abs((y.lv || 1) - lv))[0];
     const take = tok => {
-      const per = CH_PER[tok], out = [];
-      [1, 2, 3].forEach(lv => { pool.filter(q => (q.lv || 1) === lv && !used.has(q)).slice(0, per[lv]).forEach(q => { used.add(q); out.push(q); }); });
-      // not enough questions of a level: the nearest ones
-      pool.filter(q => !used.has(q)).sort((x, y) => Math.abs((x.lv || 1) - 2) - Math.abs((y.lv || 1) - 2)).slice(0, CH_N / 2 - out.length).forEach(q => { used.add(q); out.push(q); });
+      const per = CH_PER[tok], lvs = [1, 2, 3].flatMap(lv => Array(per[lv]).fill(lv));
+      const ks = shuffle(kinds.concat(shuffle(kinds)).slice(0, CH_N / 2)), out = [];
+      shuffle(lvs).forEach((lv, n) => { let q = one(ks[n], lv); if (!q) kinds.some(k => (q = one(k, lv))); if (q) { used.add(q); out.push(q); } });
       return out.sort((x, y) => (x.lv || 1) - (y.lv || 1));
     };
     const a = take(toks[0]), b = take(toks[1]), qs = [];
@@ -407,6 +413,7 @@
     $("#question").insertAdjacentHTML("beforeend", `<span class="qfr" lang="fr">${esc(chFr(Q()))}</span>`); pop("🇫🇷 −1");
   }
   if ($("#help")) $("#help").addEventListener("click", chHelp);
+  document.addEventListener("click", e => { const b = e.target.closest("[data-hear]"); if (b) speak(b.dataset.hear, "en-GB"); });
   const drawStreak = () => { const t = TOK.find(x => x.id === token); $("#streak").textContent = G.streak > 0 && !G.hw ? `${t.e}×${G.streak}` : ""; };
   let tmr = null;
   function runTimer(sec, done) {
@@ -528,7 +535,7 @@
     $("#tsec").textContent = "✓";
     const pic = q.pic ? `<img src="${PIC}${q.pic}.png" alt="">` : "";
     $("#explain").hidden = false;
-    $("#explain").innerHTML = `${pic}<div><p class="ans">${a}. ${esc(q.o[q.a])}</p>${q.say && q.say !== q.o[q.a] ? `<p lang="en"><b>${esc(q.say)}</b></p>` : ""}<p>${esc(q.why || "")}</p>${q.whyHtml || ""}</div>`;
+    $("#explain").innerHTML = `${pic}<div><p class="ans">${a}. ${esc(q.o[q.a])}${q.hear ? ` <button type="button" class="hearbtn" data-hear="${esc(q.hear)}">🔊 ${esc(q.hear)}</button>` : ""}</p>${q.say && q.say !== q.o[q.a] ? `<p lang="en"><b>${esc(q.say)}</b></p>` : ""}<p>${esc(q.why || "")}</p>${q.whyHtml || ""}</div>`;
     if (CFG.speak && (q.whySpeak || q.why)) setTimeout(() => speak(q.whySpeak || q.why, CFG.speak), 500);
     drawScore(); drawStreak();
     const sayOn = q.say && !G.tr && !G.ch;

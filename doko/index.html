@@ -6,7 +6,7 @@
 <title>DÒKÒ – Quiz game – Collège Réeberg Néron</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
-<link rel="stylesheet" href="doko.css?v=20261119e">
+<link rel="stylesheet" href="doko.css?v=20261119f">
 </head>
 <body>
 <canvas id="fx" aria-hidden="true"></canvas>
@@ -31,7 +31,7 @@
         <button type="button" class="gm" data-g="theme" aria-pressed="false"><span class="gi">📚</span><b>Choose your theme</b><small lang="fr">Choisis ton thème : vocabulaire, grammaire, culture.</small></button>
         <button type="button" class="gm" data-g="training" aria-pressed="false"><span class="gi">🏋️</span><b>Recreate the situation · training</b><small lang="fr">Entraînement au contrôle sur 20 : 6 situations (2 🟢, 2 🟡, 2 🔴), 20 secondes, correction après chaque réponse. 3 essais.</small><span class="lock" id="lock-training" hidden>🔒 Locked · <i lang="fr">bientôt ouvert par ton professeur</i></span><span class="best" id="best-training"></span></button>
         <button type="button" class="gm" data-g="recreate" aria-pressed="false"><span class="gi">🧩</span><b>Recreate the situation</b><small lang="fr">Évaluation sur 20 : 10 situations, 20 secondes chacune, une seule tentative. Des images → la bonne phrase avec <i>because</i> ou <i>so</i>.</small><span class="lock" id="lock-recreate" hidden>🔒 Locked · <i lang="fr">bientôt ouvert par ton professeur</i></span><span class="best" id="best-recreate"></span><span class="evres" id="evres" hidden></span></button>
-        <button type="button" class="gm chal" data-g="challenge" id="gm-challenge" aria-pressed="false" hidden><span class="gi">👨‍👩‍👧</span><b>Challenge a parent! 🔥</b><small lang="fr">À la maison : défie un parent, chacun son tour, 10 questions. C'est toi qui lis les questions en anglais à ton parent !</small><span class="prev" id="chal-prev" hidden>👁️ Aperçu professeur · pas encore visible pour les élèves</span></button>
+        <button type="button" class="gm chal" data-g="challenge" id="gm-challenge" aria-pressed="false" hidden><span class="gi">👨‍👩‍👧</span><b>Challenge a parent! 🔥</b><small lang="fr">À la maison : défie un parent, chacun son tour, 10 questions. Vocabulaire, so / because, la boîte mystère ❓ et le son -ed. C'est toi qui lis les questions en anglais à ton parent !</small><span class="prev" id="chal-prev" hidden>👁️ Aperçu professeur · pas encore visible pour les élèves</span></button>
       </div>
       <div id="chbox" hidden>
         <h3 class="sub">Who is playing? <span class="fr">Qui joue ? Ton jeton, c'est celui de l'étape 1.</span></h3>
@@ -134,8 +134,9 @@
 <script src="../assets/doko/fx.js"></script>
 <script>window.DOKO_CONFIG = {tokenLevels: true, challenge: "preview"};</script>
 <script src="themes.js?v=20261119b"></script>
+<script src="challenge.js?v=20261119f"></script>
 <script src="../assets/classes.js?v=20261119e"></script>
 <script src="../assets/export-pdf.js"></script>
-<script src="engine.js?v=20261119e"></script>
+<script src="engine.js?v=20261119f"></script>
 </body>
 </html>

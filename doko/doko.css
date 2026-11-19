@@ -275,3 +275,5 @@ body.playing .teacher,body.playing #gate{display:none}
 .chs.on{opacity:1;background:#2c3150}
 .winner{font:800 1.5rem var(--display);color:var(--accent);margin:0}
 #chdip .xp-btn{background:#20243a;color:var(--accent);border:2px solid var(--accent);border-radius:999px;font:800 1rem var(--display);padding:10px 20px}
+.hearbtn{font:700 .9rem var(--body);background:#20243a;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:3px 10px;margin-left:6px;cursor:pointer;vertical-align:middle}
+.cell.off .lt{background:#4a4e5b;border-color:#5a5e6c;opacity:.45}
