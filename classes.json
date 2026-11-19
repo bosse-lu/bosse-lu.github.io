@@ -74,7 +74,7 @@
             "ed-final"
           ],
           "tries": {
-            "doko-recreate": 1
+            "doko-recreate": 3
           },
           "reset": {
             "doko-recreate": "2026-11-17T14:30:00Z"
