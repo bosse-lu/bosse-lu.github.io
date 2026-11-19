@@ -193,5 +193,102 @@
         "url": "https://lamag.com/animals/sea-turtle-hatchlings-released-into-ocean-after-historic-southern-california-nesting"
       }
     ]
+  },
+  {
+    "id": "2026-11-19-young-inventor-challenge",
+    "date": "2026-11-19",
+    "level": "5e · 4e",
+    "topic": "Young inventors",
+    "country": "USA",
+    "flag": "usa",
+    "emoji": "🎲",
+    "title": "Young inventors win prizes for their games",
+    "lead": "In the USA, a competition gives prizes to children and teenagers who invent new toys and games.",
+    "body": [
+      "Do you like board games? Do you have ideas for new ones? In the USA, young people can enter a competition called the Young Inventor Challenge. On 7 November 2026, the winners got their awards at the Chicago Toy & Game Fair, in Illinois.",
+      "This year, there were nearly 250 inventions from 7 countries, for example the USA, Canada, Spain and South Korea. The inventors were aged 6 to 18. Experts from the toy industry worked for almost 300 hours to choose the best games.",
+      "Julia Black, from Massachusetts, is in 8th grade, like a pupil in 4e in France. Her game won the prize for the most innovative idea. It is a matching game with bird calls, the songs of birds. And it is for everybody: blind and sighted players can play together!",
+      "Younger children won prizes too. William Safianoff, a 5th grader from Connecticut, invented a game about monarch butterflies, and Vidal Opanuga, from Canada, won a prize for his game, Elementiq."
+    ],
+    "keywords": [
+      [
+        "invent",
+        "inventer"
+      ],
+      [
+        "competition",
+        "concours"
+      ],
+      [
+        "winners",
+        "gagnants"
+      ],
+      [
+        "awards",
+        "prix, récompenses"
+      ],
+      [
+        "nearly",
+        "presque"
+      ],
+      [
+        "toy industry",
+        "industrie du jouet"
+      ],
+      [
+        "innovative",
+        "innovant, nouveau"
+      ],
+      [
+        "blind",
+        "aveugles"
+      ],
+      [
+        "sighted",
+        "voyants"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "Where did the winners get their awards?",
+        "options": [
+          "In New York",
+          "In Canada",
+          "At a toy and game fair in Illinois"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "How many inventions were there this year?",
+        "options": [
+          "Nearly 250",
+          "About 25",
+          "More than 2,500"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Who can play Julia Black's game?",
+        "options": [
+          "Only adults",
+          "Blind and sighted players together",
+          "Only birds"
+        ],
+        "answer": 1
+      }
+    ],
+    "turn": "Invent your own game! Describe it to the class: My game is called… It is a board game / a card game / a video game. You can play it with… To win, you must…",
+    "sources": [
+      {
+        "name": "The Toy Association (USA)",
+        "date": "16 November 2026",
+        "url": "https://www.toyassociation.org/PressRoom2/News/2026-News/2026-young-inventor-challenge-honors-next-generation-of-toy-and-game-innovators.aspx"
+      },
+      {
+        "name": "The Toy Book (USA)",
+        "date": "18 November 2026",
+        "url": "https://toybook.com/young-inventor-winners-2026/"
+      }
+    ]
   }
 ]
