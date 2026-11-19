@@ -114,7 +114,7 @@
     "Last night I ___ a fever, so I ___ to bed early.": "« Hier soir, j'avais de la fièvre, donc je suis allé(e) me coucher tôt. » Choisis les deux formes correctes.",
     "Which sentence is correct?": "Quelle phrase est correcte ?"
   };
-  const chFr = q => q.hear ? `Comment se prononce la fin -ed de « ${q.w} » ? /t/ (comme « missT »), /d/ (comme « playD ») ou /ɪd/ (une syllabe en plus, comme « want-ID ») ?`
+  const chFr = q => q.hear ? `Comment se prononce la fin -ed de « ${q.w} » ? /t/ (comme « missT »), /d/ (comme « playD ») ou /ɪd/ (une syllabe en plus, comme « want-ID ») ? Attention : on ne dit jamais « ed » ni « ïd ».`
     : q.scene && /mystery box/.test(q.q || "") ? "Quel mot va dans la boîte mystère ❓ ? C'est le mot qui relie les deux images : la cause, ou la conséquence ?"
     : q.scene ? "Que s'est-il passé ? Regarde les images dans l'ordre (de gauche à droite) et choisis la bonne phrase."
     : (CH_FR[q.q] || "Lis la question et choisis la bonne réponse.") + (q.img ? " (Regarde l'image.)" : "");

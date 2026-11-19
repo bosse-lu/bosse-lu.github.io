@@ -1,10 +1,10 @@
 /* DÒKÒ · Challenge a parent! 🔥 · extra questions (never the ones of the evaluation "Recreate the situation").
    scene: recreate the situation with so / because (5e), with the negative, because of and That's why (4e)
    box:   the mystery box ❓, find the right linking word
-   ed:    the pronunciation of -ed: /t/, /d/ or /ɪd/ (the same for 5e and 4e)
+   ed:    the pronunciation of -ed: /t/, /d/ or /ɪd/, with two traps /ed/ and /ïd/ (the same for 5e and 4e)
    Same format as themes.js: lv 1 easy, 2 medium, 3 difficult; a = index of the right choice (the choices are mixed at each game). */
 (function () {
-  const ED = (w, a, lv, why) => ({lv, q: `How do you say the -ed of “${w}”?`, w, o: ["/t/", "/d/", "/ɪd/"], a: {t: 0, d: 1, id: 2}[a], why, hear: w});
+  const ED = (w, a, lv, why) => ({lv, q: `How do you say the -ed of “${w}”?`, w, o: ["/t/", "/d/", "/ɪd/", "/ed/", "/ïd/"], a: {t: 0, d: 1, id: 2}[a], why, hear: w});
   const ed = [
     ED("missed", "t", 1, "miss finit par le son /s/ (sourd, ça ne vibre pas) → /t/ : missed = « mist »."),
     ED("watched", "t", 1, "watch finit par le son /tʃ/ (sourd) → /t/ : pas de syllabe en plus."),
