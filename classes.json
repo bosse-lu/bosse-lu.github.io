@@ -29,8 +29,18 @@
           "parts": {},
           "evals": [
             "doko-training",
-            "ed-final"
-          ]
+            "ed-final",
+            "doko-recreate"
+          ],
+          "tries": {
+            "doko-recreate": 3
+          },
+          "time": {
+            "doko-recreate": [
+              20,
+              25
+            ]
+          }
         }
       },
       "groups": [
