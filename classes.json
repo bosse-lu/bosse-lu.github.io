@@ -209,7 +209,10 @@
             "ed"
           ],
           "parts": {},
-          "evals": [],
+          "evals": [
+            "doko-training",
+            "doko-recreate"
+          ],
           "nocheck": {
             "so": [
               "training",
