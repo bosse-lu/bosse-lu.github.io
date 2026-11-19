@@ -151,7 +151,8 @@
           ],
           "parts": {},
           "evals": [
-            "doko-training"
+            "doko-training",
+            "doko-recreate"
           ],
           "nocheck": {
             "so": [
