@@ -211,7 +211,10 @@
       document.body.classList.add("exam");
     }
     const ts = tokSet(P);
-    G = {qs: pick(P), i: -1, score: 0, right: 0, streak: 0, joker: !P.eval && !P.train && (!ts || ts.joker), ev: !!P.eval, tr: !!P.train, log: [], cell: null, phase: "", time: ts ? ts.time : P.time || 20, wrong: ts ? ts.wrong : WRONG, hw: !P.eval && !P.train && hwMode()};
+    // The evaluation can give more time on a later try (classes.json "time"), e.g. 25 s on the second try
+    let evT = null;
+    if (P.eval && !isAdmin() && C() && C().evalTime) { const k = evList(evRead() || {}).length; evT = C().evalTime("late-and-absent", "doko-recreate", k) || C().evalTime("late-and-absent-4e", "doko-recreate", k); }
+    G = {qs: pick(P), i: -1, score: 0, right: 0, streak: 0, joker: !P.eval && !P.train && (!ts || ts.joker), ev: !!P.eval, tr: !!P.train, log: [], cell: null, phase: "", time: ts ? ts.time : evT || P.time || 20, wrong: ts ? ts.wrong : WRONG, hw: !P.eval && !P.train && hwMode()};
     $("#joker").hidden = G.ev || G.tr || (ts && !ts.joker);
     $("#mytoken img").src = IMG + token + ".png";
     $("#menu").style.display = "none"; $("#end").style.display = "none"; $("#game").style.display = "flex"; document.body.classList.add("playing");

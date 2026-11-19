@@ -65,6 +65,8 @@
   const evalTries = (seq, id) => { const s = seqConf(seq), n = s && s.tries && s.tries[id]; return n > 1 ? n : 1; };
   // A fresh start for an evaluation (classes.json "reset": {"doko-recreate": "<ISO date>"}): tries made before it no longer count
   const evalReset = (seq, id) => { const s = seqConf(seq), d = s && s.reset && s.reset[id]; return d || null; };
+  // Seconds per question for each try of an evaluation (classes.json "time": {"doko-recreate": [20, 25]}); null = the default
+  const evalTime = (seq, id, i) => { const s = seqConf(seq), t = s && s.time && s.time[id]; if (!t) return null; const a = Array.isArray(t) ? t : [t]; return a[Math.min(i, a.length - 1)] || null; };
   const part = (seq, id) => { if (isAdmin() || (cur && cur.visit)) return null; const s = seqConf(seq); return (s && s.parts && s.parts[id]) || null; };
 
   const st = document.createElement("style");
@@ -117,5 +119,5 @@
     document.addEventListener("classes:change", () => draw());
   }
 
-  window.Classes = {ready, klass, join, leave, evalOpen, stepOpen, part, noCheck, evalTries, evalReset, isAdmin, stars, mountPicker, isReady: () => !!cfg};
+  window.Classes = {ready, klass, join, leave, evalOpen, stepOpen, part, noCheck, evalTries, evalReset, evalTime, isAdmin, stars, mountPicker, isReady: () => !!cfg};
 })();

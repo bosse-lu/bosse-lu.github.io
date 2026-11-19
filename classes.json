@@ -1,5 +1,5 @@
 {
-  "_aide": "Réglages des classes. Pour chaque classe et chaque séquence : open = étapes ouvertes (5e « late-and-absent » : warm, note, ed, so, bus, excuse ; 4e « late-and-absent-4e » : warm, note, ed, so, have, bus, excuse) ; parts = ouverture partielle d'une étape (ex. \"note\": {\"dialogues\": [1]}) ; evals = évaluations débloquées (ex. \"ed-final\"). Sans réglage, tout est verrouillé. groups = codes de groupe d'une classe qui imposent un niveau (stars 2 = ★★, 3 = ★★★ ; le code de classe = niveau libre). admins = codes professeur (accès complet) ; role \"visit\" = code de visite (inspection) : tout est ouvert, mais seulement dans la séquence du niveau indiqué (level \"5e\"), affiché « Mode visite ». Les codes ne sont jamais écrits ici, seulement leur empreinte. nocheck = devoir sans autocorrection, par étape : {\"so\": [\"training\", \"think\", \"links\"]} = Can you explain?, steps 3 (Training session), 4 (Did you get it?) et 5 (Linking words) ; \"doko\" = step 6 (DÒKÒ) : les réponses sont enregistrées, pas corrigées, et l'élève peut les rendre en PDF. tries = nombre d'essais d'une évaluation : {\"doko-recreate\": 2} = deux essais pour DÒKÒ (1 par défaut). reset = nouveau départ pour une évaluation : {\"doko-recreate\": \"date ISO\"} = les essais faits avant cette date ne comptent plus (ils restent affichés « Before »).",
+  "_aide": "Réglages des classes. Pour chaque classe et chaque séquence : open = étapes ouvertes (5e « late-and-absent » : warm, note, ed, so, bus, excuse ; 4e « late-and-absent-4e » : warm, note, ed, so, have, bus, excuse) ; parts = ouverture partielle d'une étape (ex. \"note\": {\"dialogues\": [1]}) ; evals = évaluations débloquées (ex. \"ed-final\"). Sans réglage, tout est verrouillé. groups = codes de groupe d'une classe qui imposent un niveau (stars 2 = ★★, 3 = ★★★ ; le code de classe = niveau libre). admins = codes professeur (accès complet) ; role \"visit\" = code de visite (inspection) : tout est ouvert, mais seulement dans la séquence du niveau indiqué (level \"5e\"), affiché « Mode visite ». Les codes ne sont jamais écrits ici, seulement leur empreinte. nocheck = devoir sans autocorrection, par étape : {\"so\": [\"training\", \"think\", \"links\"]} = Can you explain?, steps 3 (Training session), 4 (Did you get it?) et 5 (Linking words) ; \"doko\" = step 6 (DÒKÒ) : les réponses sont enregistrées, pas corrigées, et l'élève peut les rendre en PDF. tries = nombre d'essais d'une évaluation : {\"doko-recreate\": 2} = deux essais pour DÒKÒ (1 par défaut). reset = nouveau départ pour une évaluation : {\"doko-recreate\": \"date ISO\"} = les essais faits avant cette date ne comptent plus (ils restent affichés « Before »). time = secondes par question pour chaque essai d'une évaluation : {\"doko-recreate\": [20, 25]} = 20 s au 1er essai, 25 s au 2e.",
   "admins": [
     {
       "label": "M. Bosse",
@@ -92,7 +92,16 @@
             "doko-training",
             "doko-recreate",
             "ed-final"
-          ]
+          ],
+          "tries": {
+            "doko-recreate": 2
+          },
+          "time": {
+            "doko-recreate": [
+              20,
+              25
+            ]
+          }
         }
       },
       "groups": [
