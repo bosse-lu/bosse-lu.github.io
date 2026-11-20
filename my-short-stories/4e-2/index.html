@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Emperor's New Clothes – My short stories 4e</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=Literata:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+<link rel="stylesheet" href="../../assets/story.css">
+<script src="../../assets/consigne.js"></script>
+<style>
+body[data-preview] .wrap > :not(.homelink):not(.lockmsg){display:none}
+body:not([data-preview]) .lockmsg{display:none}
+.lockmsg{margin:28px 0;padding:22px;border-radius:16px;background:var(--card,#fff);border:2px dashed var(--line,#cfd5e6);text-align:center;font-weight:700}
+.prevbar{margin:0 0 14px;padding:8px 14px;border-radius:999px;background:#fff4c2;color:#5a4500;font-weight:700;font-size:.9rem;text-align:center}
+</style>
+</head>
+<body class="lvl4" data-preview>
+<div class="wrap">
+  <a class="homelink" href="../">← My short stories · Collège Réeberg Néron</a>
+  <div class="lockmsg" lang="fr">🔒 Cette nouvelle arrive bientôt. Reviens plus tard !<br><small>This story is coming soon.</small></div>
+  <div data-bunting></div>
+  <header>
+    <div class="hero-art" data-art="crown" aria-hidden="true"></div>
+    <p class="kicker">My short stories · 4e · Story 2</p>
+    <h1 lang="en">The Emperor's New Clothes</h1>
+    <p class="sub" lang="en">A tale by Hans Christian Andersen (retold)</p>
+  </header>
+  <div class="controls">
+    <button class="btn primary" id="readAll" type="button"></button>
+    <label class="sel">Speed <select id="rate"><option value="0.9">Normal</option><option value="0.75">Slow</option><option value="0.6">Very slow</option></select></label>
+    <label class="sel">Voice <select id="accent"><option value="en-GB">British</option><option value="en-US">American</option></select></label>
+    <p class="hint" id="hint" data-fr="Lis l'histoire, puis écoute-la. Touche une phrase pour l'entendre seule.">Read the story, then listen to it. Tap a sentence to hear it alone.</p>
+  </div>
+  <article class="story" id="story" lang="en"></article>
+  <details>
+    <summary>Need help? Vocabulary</summary>
+    <ul class="vocab" id="vocab"></ul>
+  </details>
+  <p class="soon" data-fr="Les questions et la correction arriveront ici après le travail à la maison.">The questions and the answers will come here after your homework.</p>
+</div>
+<script type="application/json" id="story-data">{"parts": [["Many years ago, there was an emperor who loved new clothes more than anything else. He didn't care about his soldiers or his people. He spent all his money on beautiful clothes, and he changed his outfit every hour of the day.", "One day, two strangers arrived in the city. They said they were weavers, but in fact they were thieves. “We can make the most wonderful fabric in the world,” they told everyone. “But it has a magic power: people who are stupid, or who are bad at their job, can't see it.”", "When the emperor heard this, he was delighted. “With clothes like that, I can find out which of my ministers are not good enough for their job!” he thought. That's why he gave the two men a lot of gold and asked them to start work immediately."], ["The two thieves set up two looms and pretended to work. They asked for the finest silk and the purest gold thread, but they put everything in their own bags. Day and night, they were moving their hands over the empty looms.", "After a few days, the emperor wanted to know how the work was going, so he sent his oldest minister. When the old man entered the room, the thieves were weaving busily. He opened his eyes wide, but he couldn't see anything. “Am I stupid?” he thought, terrified. “Nobody must know!” So he said: “It's magnificent! What colours! What patterns!” And he went back to praise the fabric to the emperor.", "Later, the emperor went to see the fabric himself. He couldn't see anything either, but he didn't want to look stupid in front of his ministers. “It's absolutely beautiful!” he said. Everyone around him agreed, because nobody wanted to admit the truth."], ["On the day of the great parade, the thieves dressed the emperor in his new clothes. “Feel how light they are!” they said. “It's as if you were wearing nothing at all!”", "The emperor walked proudly through the streets while all his people were watching. “What fantastic clothes!” they cried, because nobody wanted to look stupid.", "Suddenly, a little girl pointed at the emperor and laughed. “But he isn't wearing anything!” she shouted. The people started to whisper, and soon everybody was repeating it: “He isn't wearing anything!”", "The emperor shivered, because he knew they were right. But he was too proud to stop, so he kept walking with his head high until the end of the parade. As for the two thieves, they had already left the city with all the gold."]], "moral": "Moral: Don't be afraid to tell the truth, even when everybody else is lying.", "vocab": [["an emperor / a minister", "un empereur / un ministre"], ["clothes / an outfit", "des vêtements / une tenue"], ["a weaver / to weave", "un tisserand / tisser"], ["a thief (thieves)", "un voleur (des voleurs)"], ["fabric / silk / thread", "le tissu / la soie / le fil"], ["a loom", "un métier à tisser"], ["to pretend", "faire semblant"], ["to praise", "faire l'éloge de"], ["to admit the truth", "avouer la vérité"], ["a parade", "un défilé"], ["to whisper", "chuchoter"], ["to shiver", "frissonner"], ["proud / proudly", "fier / fièrement"]]}</script>
+<script src="../../assets/story.js"></script>
+<script src="../../assets/flags.js"></script>
+<script src="../../assets/art.js"></script>
+<script src="../../assets/flagtips.js"></script>
+<script src="../../assets/newbadge.js"></script>
+<script src="../../assets/classes.js?v=20261119e"></script>
+<script>
+/* New story, kept locked until the teacher agrees: only the teacher code shows it. */
+(function () {
+  const open = () => { if (window.Classes && Classes.isAdmin && Classes.isAdmin()) { document.body.removeAttribute("data-preview"); if (!document.querySelector(".prevbar")) document.querySelector(".homelink").insertAdjacentHTML("afterend", '<p class="prevbar">👁️ Aperçu professeur · cette nouvelle n\'est pas encore visible pour les élèves</p>'); } };
+  open(); ["classes:ready", "classes:change"].forEach(n => document.addEventListener(n, open));
+})();
+</script>
+</body>
+</html>

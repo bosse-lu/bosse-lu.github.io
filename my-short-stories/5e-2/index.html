@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Tortoise and the Hare – My short stories 5e</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=Literata:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+<link rel="stylesheet" href="../../assets/story.css">
+<script src="../../assets/consigne.js"></script>
+<style>
+body[data-preview] .wrap > :not(.homelink):not(.lockmsg){display:none}
+body:not([data-preview]) .lockmsg{display:none}
+.lockmsg{margin:28px 0;padding:22px;border-radius:16px;background:var(--card,#fff);border:2px dashed var(--line,#cfd5e6);text-align:center;font-weight:700}
+.prevbar{margin:0 0 14px;padding:8px 14px;border-radius:999px;background:#fff4c2;color:#5a4500;font-weight:700;font-size:.9rem;text-align:center}
+</style>
+</head>
+<body data-preview>
+<div class="wrap">
+  <a class="homelink" href="../">← My short stories · Collège Réeberg Néron</a>
+  <div class="lockmsg" lang="fr">🔒 Cette nouvelle arrive bientôt. Reviens plus tard !<br><small>This story is coming soon.</small></div>
+  <div data-bunting></div>
+  <header>
+    <div class="hero-art" data-art="hare" aria-hidden="true"></div>
+    <p class="kicker">My short stories · 5e · Story 2</p>
+    <h1 lang="en">The Tortoise and the Hare</h1>
+    <p class="sub" lang="en">An Aesop's Fable (retold)</p>
+  </header>
+  <div class="controls">
+    <button class="btn primary" id="readAll" type="button"></button>
+    <label class="sel">Speed <select id="rate"><option value="0.9">Normal</option><option value="0.75">Slow</option><option value="0.6">Very slow</option></select></label>
+    <label class="sel">Voice <select id="accent"><option value="en-GB">British</option><option value="en-US">American</option></select></label>
+    <p class="hint" id="hint" data-fr="Lis l'histoire, puis écoute-la. Touche une phrase pour l'entendre seule.">Read the story, then listen to it. Tap a sentence to hear it alone.</p>
+  </div>
+  <article class="story" id="story" lang="en"></article>
+  <details>
+    <summary>Need help? Vocabulary</summary>
+    <ul class="vocab" id="vocab"></ul>
+  </details>
+  <p class="soon" data-fr="Les questions et la correction arriveront ici après le travail à la maison.">The questions and the answers will come here after your homework.</p>
+</div>
+<script type="application/json" id="story-data">{"parts": [["In a big green forest, there lived a hare and a tortoise. The hare was very fast, and he was very proud of his long legs. Every morning, he ran around the forest and shouted: “I'm the fastest animal in the world!”", "The tortoise was very slow. She walked carefully, one small step after another, and she never complained. One day, the hare laughed at her. “Look at you!” he said. “You are so slow! Do you ever arrive anywhere on time?”", "The tortoise looked at him calmly. “I am slow, but I always arrive,” she answered. “Let's have a race, and we will see who wins.” The hare laughed even louder, because he thought it was a joke. But the tortoise was serious, so all the animals of the forest decided to watch the race."], ["The next morning, the animals met near the old oak tree. The fox explained the rules: “The race starts here and finishes at the big river. Ready? Go!”", "The hare ran away like the wind. After a few minutes, he looked back, but he couldn't see the tortoise at all. “She is too slow,” he thought. “I have lots of time. I can have a little rest.” It was hot and sunny, so he lay down under a tree, closed his eyes and fell asleep.", "Meanwhile, the tortoise walked and walked. She didn't stop to eat, she didn't stop to play, and she didn't stop to sleep. Slowly, she passed the sleeping hare."], ["When the hare woke up, the sun was going down. “Oh no! I'm late!” he cried. He jumped up and ran to the river as fast as he could.", "But it was too late. When he arrived, all the animals were cheering, because the tortoise was already there. She was tired, but she was smiling.", "The hare was very embarrassed. “Why did you win?” he asked. “You are much slower than me.” The tortoise smiled. “Because I didn't stop,” she said. “You are faster, but you wasted your time.”", "From that day, the hare never laughed at the tortoise again."]], "moral": "Moral: Slow and steady wins the race.", "vocab": [["a hare / a tortoise", "un lièvre / une tortue"], ["proud", "fier"], ["to laugh at someone", "se moquer de quelqu'un"], ["a race / to win (won)", "une course / gagner"], ["to lie down (lay down)", "s'allonger"], ["to fall asleep (fell asleep)", "s'endormir"], ["meanwhile", "pendant ce temps"], ["to pass", "dépasser"], ["to cheer", "acclamer"], ["embarrassed", "gêné"], ["to waste time", "perdre son temps"], ["slow and steady", "lentement mais sûrement"]]}</script>
+<script src="../../assets/story.js"></script>
+<script src="../../assets/flags.js"></script>
+<script src="../../assets/art.js"></script>
+<script src="../../assets/flagtips.js"></script>
+<script src="../../assets/newbadge.js"></script>
+<script src="../../assets/classes.js?v=20261119e"></script>
+<script>
+/* New story, kept locked until the teacher agrees: only the teacher code shows it. */
+(function () {
+  const open = () => { if (window.Classes && Classes.isAdmin && Classes.isAdmin()) { document.body.removeAttribute("data-preview"); if (!document.querySelector(".prevbar")) document.querySelector(".homelink").insertAdjacentHTML("afterend", '<p class="prevbar">👁️ Aperçu professeur · cette nouvelle n\'est pas encore visible pour les élèves</p>'); } };
+  open(); ["classes:ready", "classes:change"].forEach(n => document.addEventListener(n, open));
+})();
+</script>
+</body>
+</html>

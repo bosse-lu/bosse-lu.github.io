@@ -187,6 +187,30 @@
       <path d="M96 24h48a10 10 0 0 1 10 10v20a10 10 0 0 1-10 10h-22l-12 12 2-12h-16a10 10 0 0 1-10-10V34a10 10 0 0 1 10-10z" fill="${C.yellow}" stroke="${C.navy}" stroke-width="2"/>
       <text x="120" y="50" text-anchor="middle" font-family="'Bricolage Grotesque','Trebuchet MS',sans-serif" font-weight="800" font-size="15" fill="${C.navy}">Oh no!</text>`,
 
+    // A sleeping hare and a tortoise on the way to the finish (The Tortoise and the Hare)
+    hare: () => `${bg}
+      <path d="M22 132h116" stroke="${C.green}" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+      <path d="M128 70v62" stroke="${C.navy}" stroke-width="3"/><path d="M128 70h22l-6 8 6 8h-22z" fill="${C.red}"/>
+      <ellipse cx="62" cy="112" rx="30" ry="16" fill="#b9a07e"/>
+      <circle cx="36" cy="104" r="12" fill="#b9a07e"/>
+      <path d="M30 94q-14-26 2-30q6 12 4 28M38 92q-4-28 12-26q2 14-6 28" fill="#b9a07e" stroke="#8b7356" stroke-width="2"/>
+      <path d="M30 104q4 3 8 0" fill="none" stroke="${C.navy}" stroke-width="2.5" stroke-linecap="round"/>
+      <text x="50" y="80" font-family="'Bricolage Grotesque','Trebuchet MS',sans-serif" font-weight="800" font-size="13" fill="${C.navy}">z</text>
+      <text x="58" y="68" font-family="'Bricolage Grotesque','Trebuchet MS',sans-serif" font-weight="800" font-size="17" fill="${C.navy}">Z</text>
+      <path d="M86 128q0-22 22-22q22 0 22 22z" fill="#5f8f4e" stroke="#3c6331" stroke-width="2.5"/>
+      <path d="M98 108l4 18M112 106v20M122 110l-4 16" stroke="#3c6331" stroke-width="2"/>
+      <circle cx="80" cy="120" r="8" fill="#8fbf6a"/><circle cx="78" cy="118" r="2" fill="${C.navy}"/>`,
+
+    // A crown and an empty clothes hanger (The Emperor's New Clothes)
+    crown: () => `${bg}
+      <path d="M44 66l14 18 22-30 22 30 14-18v34H44z" fill="${C.yellow}" stroke="${C.navy}" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="44" y="98" width="72" height="10" rx="3" fill="${C.yellow}" stroke="${C.navy}" stroke-width="2.5"/>
+      <circle cx="80" cy="76" r="5" fill="${C.red}"/><circle cx="60" cy="90" r="3.5" fill="${C.blue}"/><circle cx="100" cy="90" r="3.5" fill="${C.blue}"/>
+      <path d="M80 118v6M80 124l-34 18h68z" fill="none" stroke="${C.navy}" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M80 118a5 5 0 1 0-5-5" fill="none" stroke="${C.navy}" stroke-width="3" stroke-linecap="round"/>
+      <path d="M118 40l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="${C.yellow}"/>
+      <path d="M34 36l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="${C.red}"/>`,
+
     // A teacup for The Landlady
     teacup: () => `${bg}
       <rect x="22" y="22" width="52" height="26" rx="4" fill="${C.white}" stroke="${C.navy}" stroke-width="2"/>
