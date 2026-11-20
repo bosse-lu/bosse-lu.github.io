@@ -8,17 +8,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=Literata:ital,wght@0,400;0,700;1,400;1,700&display=swap">
 <link rel="stylesheet" href="../../assets/story.css">
 <script src="../../assets/consigne.js"></script>
-<style>
-body[data-preview] .wrap > :not(.homelink):not(.lockmsg){display:none}
-body:not([data-preview]) .lockmsg{display:none}
-.lockmsg{margin:28px 0;padding:22px;border-radius:16px;background:var(--card,#fff);border:2px dashed var(--line,#cfd5e6);text-align:center;font-weight:700}
-.prevbar{margin:0 0 14px;padding:8px 14px;border-radius:999px;background:#fff4c2;color:#5a4500;font-weight:700;font-size:.9rem;text-align:center}
-</style>
 </head>
-<body data-preview>
+<body>
 <div class="wrap">
   <a class="homelink" href="../">← My short stories · Collège Réeberg Néron</a>
-  <div class="lockmsg" lang="fr">🔒 Cette nouvelle arrive bientôt. Reviens plus tard !<br><small>This story is coming soon.</small></div>
   <div data-bunting></div>
   <header>
     <div class="hero-art" data-art="hare" aria-hidden="true"></div>
@@ -46,12 +39,5 @@ body:not([data-preview]) .lockmsg{display:none}
 <script src="../../assets/flagtips.js"></script>
 <script src="../../assets/newbadge.js"></script>
 <script src="../../assets/classes.js?v=20261119e"></script>
-<script>
-/* New story, kept locked until the teacher agrees: only the teacher code shows it. */
-(function () {
-  const open = () => { if (window.Classes && Classes.isAdmin && Classes.isAdmin()) { document.body.removeAttribute("data-preview"); if (!document.querySelector(".prevbar")) document.querySelector(".homelink").insertAdjacentHTML("afterend", '<p class="prevbar">👁️ Aperçu professeur · cette nouvelle n\'est pas encore visible pour les élèves</p>'); } };
-  open(); ["classes:ready", "classes:change"].forEach(n => document.addEventListener(n, open));
-})();
-</script>
 </body>
 </html>

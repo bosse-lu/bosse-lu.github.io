@@ -172,7 +172,7 @@ header::after{content:"";display:block;clear:both}
       <span class="card-art" data-art="book" aria-hidden="true"></span>
       <span class="tag">5e · 4e · Lecture</span>
       <h2>My short stories</h2>
-      <p>Une nouvelle en anglais pour chaque niveau : <i>The Lion and the Mouse</i> (5e) et <i>The Boy Who Cried Wolf</i> (4e). Lis-la et écoute-la.</p>
+      <p>Nouveau : la nouvelle 2 ! <i>The Tortoise and the Hare</i> (5e) et <i>The Emperor's New Clothes</i> (4e). Lis-la et écoute-la.</p>
       <span class="go">Lire →</span>
     </a>
     <a class="tool" id="doko-card" href="doko/">
@@ -363,7 +363,7 @@ header::after{content:"";display:block;clear:both}
     hint: "Tape-le une seule fois sur cet appareil : la séquence, DÒKÒ, les nouvelles et les articles s'adaptent à ta classe (5e ou 4e).",
     note: c => c.level ? `Le site est réglé pour ta classe (${c.level}) : la séquence, DÒKÒ, les nouvelles et les articles de ton niveau.` : ""
   });
-  const STORY = {"5e": ["The Lion and the Mouse", "5e/"], "4e": ["The Boy Who Cried Wolf", "4e/"]};
+  const STORY = {"5e": ["The Tortoise and the Hare", "5e-2/"], "4e": ["The Emperor's New Clothes", "4e-2/"]};
   const cards = {stories: document.getElementById("stories-card"), doko: document.getElementById("doko-card"), news: document.getElementById("news-card")};
   const orig = {};
   Object.keys(cards).forEach(k => { const c = cards[k]; if (c) orig[k] = {tag: c.querySelector(".tag").innerHTML, p: c.querySelector("p").innerHTML}; });
@@ -372,7 +372,7 @@ header::after{content:"";display:block;clear:both}
     const lv = Classes.level();
     if (!lv) { Object.keys(orig).forEach(k => set(k, orig[k].tag, orig[k].p)); return; }
     const st = STORY[lv];
-    set("stories", `📌 Ta classe : ${lv} · Lecture`, `Ta nouvelle : <i>${st[0]}</i>. Lis-la et écoute-la. Les nouvelles de ton niveau sont en premier, et toutes les autres restent ouvertes.`);
+    set("stories", `📌 Ta classe : ${lv} · Lecture`, `Nouvelle 2 : <i>${st[0]}</i>. Lis-la et écoute-la. Les nouvelles de ton niveau sont en premier, et toutes les autres restent ouvertes.`);
     set("doko", `📌 Ta classe : ${lv} · Jeu`, `Le jeu de M. Bosse, au niveau ${lv} : choisis ton jeton (le feu 🔥 est le plus dur) et pose-le sur la bonne réponse avant la fin du temps ! Nouveau : <b>Challenge a parent! 🔥</b>, défie un parent à la maison !`);
     set("news", `📌 Ta classe : ${lv} · Dim, mar, jeu`, `Des nouvelles du monde anglophone en anglais simplifié. Les articles de niveau ${lv} s'affichent en premier, avec les mots-clés et un quiz.`);
   }

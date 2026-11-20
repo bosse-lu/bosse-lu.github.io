@@ -22,6 +22,20 @@
   </header>
   <div id="class-box" style="margin:0 0 18px"></div>
   <section class="cards" aria-label="Les nouvelles">
+    <a class="card" data-lv="5e" href="5e-2/">
+      <span class="art" data-art="hare" aria-hidden="true"></span>
+      <span class="card-top"><span class="tag">5e · Story 2</span><span class="dot mid">Medium</span></span>
+      <h2 lang="en">The Tortoise and the Hare</h2>
+      <p>Un lièvre très rapide, une tortue très lente… et une course.</p>
+      <span class="go">Lire la nouvelle →</span>
+    </a>
+    <a class="card lvl4" data-lv="4e" href="4e-2/">
+      <span class="art" data-art="crown" aria-hidden="true"></span>
+      <span class="card-top"><span class="tag">4e · Story 2</span><span class="dot mid">Medium</span></span>
+      <h2 lang="en">The Emperor's New Clothes</h2>
+      <p>Un empereur qui adore les beaux habits, deux voleurs… et une petite fille qui dit la vérité.</p>
+      <span class="go">Lire la nouvelle →</span>
+    </a>
     <a class="card" data-lv="5e" href="5e/">
       <span class="art" data-art="lion" aria-hidden="true"></span>
       <span class="card-top"><span class="tag">5e</span><span class="dot easy">Easy</span></span>
@@ -36,20 +50,6 @@
       <p>Un jeune berger qui s'ennuie, une farce… et un vrai loup.</p>
       <span class="go">Lire la nouvelle →</span>
     </a>
-    <a class="card" data-lv="5e" data-preview href="5e-2/" hidden>
-      <span class="art" data-art="hare" aria-hidden="true"></span>
-      <span class="card-top"><span class="tag">5e · Story 2</span><span class="dot mid">Medium</span><span class="prevtag">👁️ Aperçu prof</span></span>
-      <h2 lang="en">The Tortoise and the Hare</h2>
-      <p>Un lièvre très rapide, une tortue très lente… et une course.</p>
-      <span class="go">Lire la nouvelle →</span>
-    </a>
-    <a class="card lvl4" data-lv="4e" data-preview href="4e-2/" hidden>
-      <span class="art" data-art="crown" aria-hidden="true"></span>
-      <span class="card-top"><span class="tag">4e · Story 2</span><span class="dot mid">Medium</span><span class="prevtag">👁️ Aperçu prof</span></span>
-      <h2 lang="en">The Emperor's New Clothes</h2>
-      <p>Un empereur qui adore les beaux habits, deux voleurs… et une petite fille qui dit la vérité.</p>
-      <span class="go">Lire la nouvelle →</span>
-    </a>
     <a class="card lvl4" data-lv="4e" href="landlady/">
       <span class="art" data-art="teacup" aria-hidden="true"></span>
       <span class="card-top"><span class="tag">4e</span><span class="dot hard">Difficult · B1</span></span>
@@ -58,7 +58,7 @@
       <span class="go">Lire avec le guide →</span>
     </a>
   </section>
-  <p class="legend"><span class="dot easy">Easy</span> <span class="dot hard">Difficult</span></p>
+  <p class="legend"><span class="dot easy">Easy</span> <span class="dot mid">Medium</span> <span class="dot hard">Difficult</span></p>
   <p class="sub" data-fr="Toutes les nouvelles sont ouvertes à tout le monde : la classe et la pastille indiquent le niveau conseillé. Tu es volontaire ? Essaie une nouvelle plus difficile !">Every story is open to everyone: the class and the dot show the suggested level. Do you want a challenge? Try a more difficult story!</p>
 </div>
 <script src="../assets/flags.js"></script>
@@ -74,8 +74,6 @@
   Classes.mountPicker(box, {noReset: true, hint: "Tape le code de ta classe : les nouvelles de ton niveau s'affichent en premier.", note: c => c.level ? `Les nouvelles de niveau ${c.level} sont en premier. Les autres restent ouvertes : tu peux toutes les lire.` : ""});
   function adapt() {
     const lv = Classes.level();
-    // New stories kept locked until the teacher agrees: only the teacher code shows their cards
-    cards.forEach(c => { if (c.hasAttribute("data-preview")) c.hidden = !Classes.isAdmin(); });
     cards.forEach(c => { c.classList.toggle("mine", !!lv && c.dataset.lv === lv); const b = c.querySelector(".mine-tag"); if (b) b.remove(); });
     const order = lv ? cards.filter(c => c.dataset.lv === lv).concat(cards.filter(c => c.dataset.lv !== lv)) : cards;
     order.forEach(c => wrap.appendChild(c));
