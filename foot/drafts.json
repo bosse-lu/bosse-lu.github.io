@@ -1,98 +1,5 @@
 [
   {
-    "id": "2026-11-12-man-city-first-european-win",
-    "date": "2026-11-12",
-    "level": "4e",
-    "topic": "Women's football",
-    "country": "England",
-    "flag": "england",
-    "emoji": "🌟",
-    "title": "Fujino scores twice as Man City win 4-1 in Italy",
-    "lead": "After three draws, Manchester City have finally won a match in the Women's Champions League, with a 4-1 victory against Inter Milan.",
-    "body": [
-      "On Tuesday 10 November 2026, Manchester City Women played Inter Milan in the Women's Champions League. Before this game, City had drawn their first 3 matches in the competition, so they really needed a win.",
-      "It started badly for the English team. Elisa Bartoli scored for Inter after 24 minutes. But Aoba Fujino replied with a goal in the 33rd minute, and she scored again just before half-time. 2-1 to City!",
-      "In the second half, City kept attacking. Kerstin Casparij, the captain on the night, made it 3-1, and Grace Clinton scored a fourth goal after a cross from Lauren Hemp. City had 21 shots in the match.",
-      "Thanks to this first win, City have climbed to 7th place. On the same evening, another English team, Chelsea, were frustrated: they drew 0-0 in Sweden against BK Häcken, but they are still 3rd in the table."
-    ],
-    "keywords": [
-      [
-        "drawn",
-        "fait match nul"
-      ],
-      [
-        "replied",
-        "a répondu"
-      ],
-      [
-        "half-time",
-        "la mi-temps"
-      ],
-      [
-        "kept attacking",
-        "ont continué à attaquer"
-      ],
-      [
-        "cross",
-        "centre"
-      ],
-      [
-        "shots",
-        "tirs"
-      ],
-      [
-        "climbed",
-        "sont montées"
-      ],
-      [
-        "frustrated",
-        "frustrées, déçues"
-      ]
-    ],
-    "questions": [
-      {
-        "q": "Who scored first in the match?",
-        "options": [
-          "Aoba Fujino",
-          "Elisa Bartoli",
-          "Grace Clinton"
-        ],
-        "answer": 1
-      },
-      {
-        "q": "How many goals did Aoba Fujino score?",
-        "options": [
-          "1",
-          "2",
-          "3"
-        ],
-        "answer": 1
-      },
-      {
-        "q": "What was the score between BK Häcken and Chelsea?",
-        "options": [
-          "0-0",
-          "1-1",
-          "4-1"
-        ],
-        "answer": 0
-      }
-    ],
-    "turn": "Your turn! Imagine you are Aoba Fujino after the match. Write 2 or 3 sentences: \"I'm so happy because … My first goal was … Now we want to …\"",
-    "sources": [
-      {
-        "name": "Arab News / AFP (Saudi Arabia)",
-        "date": "11 November 2026",
-        "url": "https://www.arabnews.com/football/chelsea-frustrated-by-hacken-in-womens-champions-league-man-city-win-3011089"
-      },
-      {
-        "name": "Sky Sports (UK)",
-        "date": "10 November 2026",
-        "url": "https://www.skysports.com/football/inter-milan-women-vs-manchester-city-women/578260"
-      }
-    ]
-  },
-  {
     "id": "2026-11-15-england-beat-spain-madrid",
     "date": "2026-11-15",
     "level": "4e",
@@ -373,6 +280,99 @@
         "name": "Just Women's Sports (USA)",
         "date": "16 November 2026",
         "url": "https://justwomenssports.com/reads/2026-nwsl-championship-washington-spirit-kansas-city-current-semifinals-results/"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-22-kc-current-nwsl-champions",
+    "date": "2026-11-22",
+    "level": "4e",
+    "topic": "Women's football",
+    "country": "USA",
+    "flag": "usa",
+    "emoji": "🏆",
+    "title": "Kansas City Current win their first NWSL title!",
+    "lead": "Kansas City Current have beaten Washington Spirit 2-1 in the final and they are the new champions of the top women's league in the USA.",
+    "body": [
+      "On Saturday 21 November 2026, Kansas City Current played Washington Spirit in the NWSL final. The match was at Audi Field, the Spirit's stadium in Washington, in front of 19,365 fans.",
+      "There were no goals in the first half. Then, in the 54th minute, Vanessa DiBernardo took a corner and scored directly! The ball curled over the goalkeeper and went into the net. No player has ever scored a goal like this in an NWSL final before.",
+      "In stoppage time, Debinha, who came on as a substitute, received a pass from Temwa Chawinga. She went round the goalkeeper and scored into an empty net: 2-0! Trinity Rodman scored a header for Washington at the very end, but it was too late.",
+      "It is the first title for Kansas City, a young club that started in 2020. DiBernardo was named the best player of the final. Their coach, Chris Armas, said that Kansas City is \"a winning sports town\"."
+    ],
+    "keywords": [
+      [
+        "corner",
+        "corner"
+      ],
+      [
+        "curled",
+        "a fait un effet, s'est enroulé"
+      ],
+      [
+        "stoppage time",
+        "temps additionnel"
+      ],
+      [
+        "substitute",
+        "remplaçante"
+      ],
+      [
+        "went round",
+        "a dribblé, a contourné"
+      ],
+      [
+        "empty net",
+        "but vide"
+      ],
+      [
+        "header",
+        "une tête"
+      ],
+      [
+        "too late",
+        "trop tard"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "How did Vanessa DiBernardo score her goal?",
+        "options": [
+          "With a penalty",
+          "With a header",
+          "Directly from a corner"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "Who gave the pass to Debinha?",
+        "options": [
+          "Temwa Chawinga",
+          "Trinity Rodman",
+          "Vanessa DiBernardo"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "When did the Kansas City club start?",
+        "options": [
+          "In 2010",
+          "In 2020",
+          "In 2026"
+        ],
+        "answer": 1
+      }
+    ],
+    "turn": "Your turn! Imagine you are a Kansas City fan in the stadium. Write 2 or 3 sentences: \"Tonight I feel … because … My favourite moment was when …\"",
+    "sources": [
+      {
+        "name": "Kansas City Current (USA)",
+        "date": "22 November 2026",
+        "url": "https://www.kansascitycurrent.com/news/match-recap-kansas-city-current-wins-nwsl-championship-with-2-1-victory-over-washington-spirit"
+      },
+      {
+        "name": "KCUR (USA)",
+        "date": "22 November 2026",
+        "url": "https://www.kcur.org/sports/2026-11-22/kansas-city-current-nwsl-championship"
       }
     ]
   }
