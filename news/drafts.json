@@ -290,5 +290,98 @@
         "url": "https://toybook.com/young-inventor-winners-2026/"
       }
     ]
+  },
+  {
+    "id": "2026-11-22-voyager-one-light-day",
+    "date": "2026-11-22",
+    "level": "5e",
+    "topic": "Space",
+    "country": "USA",
+    "flag": "usa",
+    "emoji": "🛰️",
+    "title": "Voyager 1: one light-day from Earth!",
+    "lead": "On 18 November 2026, a NASA spacecraft was so far away that light needed 24 hours to reach it.",
+    "body": [
+      "Voyager 1 is a small spacecraft. NASA launched it on 5 September 1977, so it is 49 years old! It visited Jupiter and Saturn. Then it continued its trip, and in 2012 it went into interstellar space, the space between the stars.",
+      "On 18 November 2026, Voyager 1 was one light-day from Earth. Light needs 24 hours to go from Earth to the spacecraft. It is about 25.9 billion kilometres away! No other object made by humans is so far.",
+      "Scientists talk to Voyager with very big antennas. A message takes 1 day to arrive, and the answer takes 1 more day. The spacecraft travels at about 61,000 kilometres per hour.",
+      "Voyager 1 also carries a golden record with sounds and pictures from Earth. It is a message for aliens, maybe!"
+    ],
+    "keywords": [
+      [
+        "spacecraft",
+        "engin spatial"
+      ],
+      [
+        "launched",
+        "a lancé"
+      ],
+      [
+        "trip",
+        "voyage"
+      ],
+      [
+        "light-day",
+        "jour-lumière (distance parcourue par la lumière en 1 jour)"
+      ],
+      [
+        "away",
+        "loin, à une distance de"
+      ],
+      [
+        "antennas",
+        "antennes"
+      ],
+      [
+        "carries",
+        "transporte"
+      ],
+      [
+        "aliens",
+        "extraterrestres"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "When did NASA launch Voyager 1?",
+        "options": [
+          "In 2012",
+          "In 1977",
+          "In 2026"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "How long does light need to go from Earth to Voyager 1?",
+        "options": [
+          "24 hours",
+          "24 minutes",
+          "24 days"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "What is on the golden record?",
+        "options": [
+          "Photos of Jupiter",
+          "Messages from aliens",
+          "Sounds and pictures from Earth"
+        ],
+        "answer": 2
+      }
+    ],
+    "turn": "Imagine you can put 3 things on a new golden record for aliens. What do you choose? On my record, I put… because… I also put…",
+    "sources": [
+      {
+        "name": "NASA (USA)",
+        "date": "19 November 2026",
+        "url": "https://www.nasa.gov/news-release/nasas-voyager-1-makes-history-reaching-one-light-day-from-earth/"
+      },
+      {
+        "name": "EarthSky (USA)",
+        "date": "18 November 2026",
+        "url": "https://earthsky.org/space/voyager-1-1-light-day-from-earth-november-17-18-2026/"
+      }
+    ]
   }
 ]
