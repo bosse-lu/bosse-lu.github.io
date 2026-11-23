@@ -202,13 +202,19 @@
             "ed"
           ],
           "parts": {},
-          "evals": [],
+          "evals": [
+            "doko-training",
+            "doko-recreate"
+          ],
           "nocheck": {
             "so": [
               "training",
               "think",
               "links"
             ]
+          },
+          "tries": {
+            "doko-recreate": 3
           }
         }
       },
