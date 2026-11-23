@@ -187,6 +187,24 @@
       <path d="M96 24h48a10 10 0 0 1 10 10v20a10 10 0 0 1-10 10h-22l-12 12 2-12h-16a10 10 0 0 1-10-10V34a10 10 0 0 1 10-10z" fill="${C.yellow}" stroke="${C.navy}" stroke-width="2"/>
       <text x="120" y="50" text-anchor="middle" font-family="'Bricolage Grotesque','Trebuchet MS',sans-serif" font-weight="800" font-size="15" fill="${C.navy}">Oh no!</text>`,
 
+    // A notebook with lines, a pencil and a "30 words" bubble (writing workshop)
+    write: () => `${bg}
+      <rect x="34" y="40" width="80" height="98" rx="6" fill="${C.white}" stroke="${C.navy}" stroke-width="3" transform="rotate(-6 74 89)"/>
+      <g transform="rotate(-6 74 89)">
+        <path d="M46 64h56M46 80h56M46 96h56M46 112h40" stroke="${C.sky}" stroke-width="3" stroke-linecap="round"/>
+        <path d="M46 64h30" stroke="${C.navy}" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M46 80h44" stroke="${C.navy}" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M46 96h20" stroke="${C.red}" stroke-width="3.5" stroke-linecap="round"/>
+      </g>
+      <g transform="rotate(38 112 104)">
+        <rect x="104" y="58" width="16" height="66" rx="3" fill="${C.yellow}" stroke="${C.navy}" stroke-width="2.5"/>
+        <path d="M104 124l8 16 8-16z" fill="#f2d3a8" stroke="${C.navy}" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M110 136l2 4 2-4z" fill="${C.navy}"/>
+        <rect x="104" y="52" width="16" height="9" rx="2" fill="${C.red}" stroke="${C.navy}" stroke-width="2.5"/>
+      </g>
+      <path d="M100 18h44a10 10 0 0 1 10 10v18a10 10 0 0 1-10 10h-20l-12 11 2-11h-14a10 10 0 0 1-10-10V28a10 10 0 0 1 10-10z" fill="${C.yellow}" stroke="${C.navy}" stroke-width="2"/>
+      <text x="122" y="43" text-anchor="middle" font-family="'Bricolage Grotesque','Trebuchet MS',sans-serif" font-weight="800" font-size="14" fill="${C.navy}">30 w.</text>`,
+
     // A sleeping hare and a tortoise on the way to the finish (The Tortoise and the Hare)
     hare: () => `${bg}
       <path d="M22 132h116" stroke="${C.green}" stroke-width="4" stroke-linecap="round" opacity=".5"/>

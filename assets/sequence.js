@@ -35,6 +35,10 @@
       {id: "ed", href: "ed-sounds/", art: "ed", title: "The sounds of -ed",
         what: "Le prétérit : /t/, /d/ ou /ɪd/ ? Puis la négation (didn't) et les questions (Did…?), avec de vraies voix. Entraîne-toi, puis passe l'évaluation finale.",
         skills: ["Prétérit", "Prononciation"], key: "edlab5e-real", total: 19},
+      // Writing workshop after the -ed speaking test. preview: true = seen only with the teacher code, until published.
+      {id: "write", href: "my-weekend/", art: "write", title: "What did you do? · 30 words", preview: true,
+        what: "Après le test -ed, réponds par écrit au texte « Last Saturday… » en 30 mots. Avant d'écrire : l'ordre des mots, -ed à l'écrit, les premiers verbes irréguliers, la négation, les questions et les mots de liaison.",
+        skills: ["Écrit", "Ordre des mots", "Prétérit", "Mots de liaison"], key: "weekend", total: s => s.t || 69, count: s => s.n || 0},
       {id: "excuse", href: "excuse-lab/", art: "excuse", title: "Recap: Excuse Lab",
         what: "Pour finir la séquence : reprends toutes les excuses et les vraies voix des dialogues. Écoute, répète en respectant l'accent des mots et le rythme des phrases, puis joue la scène.",
         skills: ["Récapitulatif", "Accent et rythme", "Jouer la scène"], key: "excuselab4e", total: 27,
@@ -56,6 +60,7 @@
         what: "Le vrai article de presse britannique. Lis-le, écoute-le et repère les verbes au prétérit : c'est là que tu découvres le prétérit, puis tu l'étends à tous les verbes de la séquence. Ensuite, l'étape suivante t'entraîne à prononcer les verbes en -ed.",
         skills: ["Lecture", "Prétérit", "Royaume-Uni"], key: "latebus4e", total: 16},
       S5("ed"),
+      Object.assign({}, S5("write"), {total: s => s.t || 89}),
       {id: "have", href: "what-have-you-done/", art: "have", title: "Oh no, I've forgotten it!",
         what: "Nouveau : have + participe passé pour faire un constat. « I've forgotten my exercise book », « I haven't finished my homework ». Observe, trouve la règle, puis entraîne-toi.",
         skills: ["Present perfect", "Constat", "Participes passés"], key: "pp4e", total: 35},
@@ -78,7 +83,9 @@
     const n = Math.min(total, st.count ? st.count(s) : Object.keys(s.res || {}).length);
     return {n, total, pct: Math.round(100 * n / total), done: n >= total, started: n > 0};
   }
-  const all = (q) => (q || SEQ).steps.map(st => Object.assign({p: prog(st)}, st));
+  // A step marked preview is shown only with the teacher code (until it is published)
+  const vis = q => q.steps.filter(st => !st.preview || !!(C() && C().isAdmin && C().isAdmin()));
+  const all = (q) => vis(q || SEQ).map(st => Object.assign({p: prog(st)}, st));
   const overall = steps => { const n = steps.reduce((a, s) => a + s.p.n, 0), t = steps.reduce((a, s) => a + s.p.total, 0); return Math.round(100 * n / t); };
   const drawArt = root => { if (window.SiteArt) root.querySelectorAll("[data-art]").forEach(SiteArt.draw); };
   const css = t => { const st = document.createElement("style"); st.textContent = t; document.head.appendChild(st); };
@@ -218,16 +225,20 @@
     }
     function renderTool() {
       SEQ = pick();
-      const i = SEQ.steps.findIndex(x => x.id === stepId);
-      if (i < 0) { SEQ = SEQS.find(q => q.steps.some(x => x.id === stepId)); }
-      const j = SEQ.steps.findIndex(x => x.id === stepId);
-      bar.innerHTML = `<a href="${url("")}">Home</a><span class="sep">›</span><a href="${url(SEQ.href)}">← ${SEQ.title}</a><span class="stp">Step ${j + 1} / ${SEQ.steps.length}</span>`;
-      const prev = SEQ.steps[j - 1], next = SEQ.steps[j + 1];
+      if (!SEQ.steps.some(x => x.id === stepId)) { SEQ = SEQS.find(q => q.steps.some(x => x.id === stepId)); }
+      const steps = vis(SEQ), j = steps.findIndex(x => x.id === stepId);
+      if (j < 0) { // a preview step opened without the teacher code: locked
+        bar.innerHTML = `<a href="${url("")}">Home</a><span class="sep">›</span><a href="${url(SEQ.href)}">← ${SEQ.title}</a>`;
+        nav.innerHTML = `<a href="${url(SEQ.href)}"><small>←</small><b>The sequence</b></a>`;
+        lockIfClosed(-1); return;
+      }
+      bar.innerHTML = `<a href="${url("")}">Home</a><span class="sep">›</span><a href="${url(SEQ.href)}">← ${SEQ.title}</a><span class="stp">Step ${j + 1} / ${steps.length}</span>`;
+      const prev = steps[j - 1], next = steps[j + 1];
       nav.innerHTML = (prev ? `<a href="${url(prev.href)}"><small>← Step ${j}</small><b>${prev.title}</b></a>` : `<a href="${url(SEQ.href)}"><small>←</small><b>The sequence</b></a>`)
         + (next ? `<a class="nx" href="${url(next.href)}"><small>Next step ${j + 2} →</small><b>${next.title}</b></a>` : `<a class="nx" href="${url(SEQ.href)}"><small>Last step done? →</small><b>Back to the sequence</b></a>`);
-      lockIfClosed(j);
+      lockIfClosed(j, steps[j]);
     }
-    function lockIfClosed(j) {
+    function lockIfClosed(j, step) {
       const old = document.getElementById("seq-lock"); if (old) old.remove();
       if (!ready()) return;
       const k = klassNow();
@@ -238,7 +249,7 @@
         const st = q && (q.steps.find(x => x.id === stepId) || null);
         other = {href: st ? st.href : q ? q.href : SEQ5.href, lvl: k.level};
       }
-      if (!other && isOpen(SEQ.steps[j], j)) { if (window.SEQ_FULL) window.SEQ_FULL(); return; }
+      if (!other && step && isOpen(step, j)) { if (window.SEQ_FULL) window.SEQ_FULL(); return; }
       // A page can open one part of itself without the whole step (Excuse Lab: the role play, reached from Fill in the note)
       if (!other && window.SEQ_PARTIAL && window.SEQ_PARTIAL()) return;
       const d = document.createElement("div"); d.id = "seq-lock"; d.setAttribute("role", "dialog"); d.setAttribute("aria-modal", "true"); d.setAttribute("aria-labelledby", "seq-lock-t");

@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>What did you do? · 30 words – Late and absent – Collège Réeberg Néron</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Shared look with Can you explain? (lesson 2). Extra rules for this page at the end.
+   Step 1 warm-up (revision with the pictures of lesson 1), step 2 recap of the notes, step 3 make excuses,
+   step 4 think about the language (cause / consequence, inductive), step 5 recreate the situation, step 6 the game,
+   step 7 homework. Cause = teal, consequence = red, as on the slides. Instructions in English; French help by level. */
+:root{
+  --paper:#f3f5fb; --card:#ffffff; --ink:#1b2340; --muted:#5b6380; --line:#d9ddea;
+  --accent:#2f4fd8; --accent-soft:#e3e8ff; --mark:#ffd23f; --onmark:#1b2340; --navy:#1b2340;
+  --good:#1f8a55; --good-soft:#dff3e8; --bad:#c2412d; --bad-soft:#fbe5df;
+  --cause:#1f8f7f; --cause-soft:#d9f2ee; --cons:#cc2936; --cons-soft:#fbe1e3;
+  --note:#fff3b8; --note-line:#e2b93b; --ink-red:#c2141f;
+  --dot-g:#22a447; --dot-y:#f2c418; --dot-r:#e0281f;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",Verdana,system-ui,sans-serif;
+  --slide:Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11152a; --card:#1a1f37; --ink:#e8ebf7; --muted:#9aa1bd; --line:#2d3456;
+  --accent:#8ea2ff; --accent-soft:#262e57; --mark:#f2c418; --good:#4cc38a; --good-soft:#173a2b; --bad:#f0785f; --bad-soft:#3d2120;
+  --cause:#4fd1bd; --cause-soft:#15342f; --cons:#ff7a84; --cons-soft:#3d1c20; --note:#3a3420; --note-line:#a8862b; --ink-red:#ff8a8a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11152a; --card:#1a1f37; --ink:#e8ebf7; --muted:#9aa1bd; --line:#2d3456;
+  --accent:#8ea2ff; --accent-soft:#262e57; --mark:#f2c418; --good:#4cc38a; --good-soft:#173a2b; --bad:#f0785f; --bad-soft:#3d2120;
+  --cause:#4fd1bd; --cause-soft:#15342f; --cons:#ff7a84; --cons-soft:#3d1c20; --note:#3a3420; --note-line:#a8862b; --ink-red:#ff8a8a; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 56px}
+button,select,input{font:inherit;color:inherit}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.homebar{max-width:860px;margin:0 auto;text-align:center}
+.homelink{font-weight:600;font-size:14px;color:inherit;opacity:.75;text-decoration:none}
+.homelink:hover{opacity:1;text-decoration:underline}
+.kicker{font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2.2rem,9vw,3.5rem);line-height:1;letter-spacing:-.02em;margin:8px 0 0}
+h1 span{background:linear-gradient(transparent 58%,var(--mark) 58%)}
+.hero-art{float:right;width:clamp(96px,27vw,156px);aspect-ratio:1;margin:-6px 0 6px 14px}.hero-art svg{display:block;width:100%;height:100%}
+header::after{content:"";display:block;clear:both}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;flex-wrap:wrap}
+.seg button{border:0;background:var(--card);padding:8px 14px;cursor:pointer;font-weight:700}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg button:disabled{cursor:default;opacity:.55}
+.lvlrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.lvlrow p{flex:1 1 100%;margin:0;font-size:.92rem;color:var(--muted)}
+.overall{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.overall b{font-family:var(--display)}
+.overall .pc{margin-left:auto;font-family:var(--display);font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.bar{flex:1 1 100%;display:block;height:10px;border-radius:999px;background:var(--accent-soft);overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:var(--accent);border-radius:999px;transition:width .5s}
+
+/* steps */
+.act{display:flex;flex-direction:column;gap:14px}
+.step-h{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin:14px 0 0}
+.step-k{flex:none;font:800 .8rem/1 var(--display);letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--paper);border-radius:999px;padding:6px 12px;align-self:center}
+.step-h h2{margin:0;font-family:var(--slide);font-weight:400;font-size:clamp(1.45rem,5vw,1.85rem);line-height:1.1}
+.step-h h2 em{font-weight:700}
+.step-h .home{margin-left:auto;font-size:.8rem;font-weight:700;color:var(--muted)}
+.consigne{margin:0;font-size:1.02rem;font-weight:700}
+.instr{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;padding:12px 14px}
+.instr .consigne{flex:1 1 260px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.card.ok{border-color:var(--good);box-shadow:inset 4px 0 0 var(--good)}
+.card-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.card-h h3{margin:0;font-family:var(--display);font-weight:800;font-size:1.1rem}
+.done-tag{margin-left:auto;font-size:.78rem;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--good);color:#fff}
+.start{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:12px;padding:12px 20px;background:var(--accent);color:#fff;font:800 1.05rem/1 var(--display);cursor:pointer;box-shadow:0 4px 14px rgba(47,79,216,.3)}
+.start:hover{filter:brightness(1.08)}
+.start svg{width:18px;height:18px}
+.start.again{background:var(--card);color:var(--accent);border:2px solid var(--accent);box-shadow:none;padding:9px 16px;font-size:.95rem}
+
+/* pictures: the slide images, notes and signs */
+.scene{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 12px}
+.scene .plus,.scene .eq{font:800 1.8rem/1 var(--display);color:var(--ink)}
+.pic{display:flex;flex-direction:column;align-items:center;gap:6px}
+.frame{background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px;box-shadow:0 2px 6px rgba(27,35,64,.08);display:grid;place-items:center;width:132px;height:118px}
+.frame{overflow:hidden;display:flex!important;align-items:center;justify-content:center}
+.frame img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
+.frame.wide{width:auto;height:auto;padding:4px}
+.frame.wide img{width:auto;height:64px;max-width:200px}
+.pill{display:inline-block;font-weight:700;font-size:.78rem;background:var(--navy);color:var(--mark);border-radius:999px;padding:4px 12px;text-align:center}
+.lab{font:700 .85rem/1.2 var(--slide);text-transform:uppercase;letter-spacing:.03em;text-align:center}
+.cap{font-size:.75rem;font-weight:700;text-align:center;max-width:12em}
+.overword{position:relative;font:800 1.5rem/1 var(--slide)}
+.overword.no::before{content:"✗";position:absolute;left:-.4em;top:-.3em;color:var(--dot-r);font-size:1.5em;font-family:var(--body)}
+.q-mark{font:800 2.2rem/1 var(--slide)}
+.note{width:170px;background:var(--note);border:2px solid var(--note-line);border-radius:6px;padding:8px 10px;font-family:var(--slide);box-shadow:0 2px 0 rgba(0,0,0,.08)}
+.note b{display:block;text-align:center;font-size:.78rem;letter-spacing:.04em;margin-bottom:6px}
+.note .row{display:flex;gap:6px;font-size:.66rem;border-bottom:1px dotted var(--note-line);padding:2px 0;min-height:1.45em;align-items:flex-end}
+.note .row span{flex:none;width:5.4em}
+.note .row em{font-style:normal;font-weight:700;color:var(--ink-red);font-family:var(--body);font-size:.72rem;text-transform:uppercase}
+.note .row img{height:22px}
+.note.big{width:210px}
+
+/* warm-up strip, like the slide */
+.strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.wpick{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px;cursor:pointer}
+.wpick .frame{width:100%;height:120px;border:0;box-shadow:none}
+.wpick[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.wpick .ok{position:absolute;top:8px;right:8px;width:24px;height:24px;border-radius:50%;background:var(--good);color:#fff;display:grid;place-items:center;font-weight:800;font-size:.85rem}
+.wpick:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* sentence building */
+.answer{min-height:50px;border:2px dashed var(--line);border-radius:12px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.answer:empty::before{content:"Tap the words in order…";color:var(--muted);font-size:.9rem;padding:0 4px}
+.answer.right{border-style:solid;border-color:var(--good);background:var(--good-soft)}
+.answer.wrong{border-style:solid;border-color:var(--bad)}
+.tiles{display:flex;flex-wrap:wrap;gap:6px}
+.tile{border:1px solid var(--ink);background:var(--card);border-radius:8px;padding:6px 11px;cursor:pointer;font-family:var(--display);font-weight:500;font-size:1.02rem}
+.tile.used{visibility:hidden}
+.answer .tile{background:var(--accent-soft);border-color:var(--accent)}
+.tile.kw{font-weight:800}
+.story{font-family:var(--display);font-size:1.12rem;line-height:2.1}
+.gsel{font:inherit;font-size:1rem;font-weight:700;border:2px solid var(--accent);background:var(--accent-soft);color:var(--ink);border-radius:8px;padding:1px 6px}
+.gsel.right{border-color:var(--good);background:var(--good-soft)} .gsel.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.gsel:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.bank{margin:0}.lk{font-weight:800;color:var(--accent)}
+.tile.mystery{background:var(--mark);color:var(--onmark);border:2px dashed var(--onmark);font-size:1.1rem;min-width:3em;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.answer .tile.mystery{background:var(--mark);border-color:var(--onmark)}
+.typed{font:inherit;font-family:var(--display);font-size:1.05rem;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%}
+.typed.right{border-color:var(--good);background:var(--good-soft)}
+.typed.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.said{font-family:var(--display);font-size:1.15rem;line-height:1.5;margin:0;padding:10px 14px;border-radius:12px;background:var(--paper)}
+.said .ca{color:var(--cause);font-weight:700} .said .co{color:var(--cons);font-weight:700} .said .kk{font-weight:800;text-decoration:underline;text-underline-offset:3px}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--card);font-weight:700;border-radius:10px;padding:8px 16px;cursor:pointer}
+.btn.lite{background:none;color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.fb{margin:0;font-weight:700}
+.fb.good{color:var(--good)} .fb.bad{color:var(--bad)}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 15px;cursor:pointer;font-weight:700}
+.opt:hover{border-color:var(--accent)}
+.opt.right{background:var(--good);border-color:var(--good);color:#fff}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.btn:focus-visible,.opt:focus-visible,.tile:focus-visible,.seg button:focus-visible,.typed:focus-visible,.start:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* recap */
+.stage{min-height:40px}
+.recap{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}
+.rc{display:flex;flex-direction:column;align-items:center;gap:8px;width:210px;animation:pop .5s ease both}
+.rc .pill{min-height:1.9em}
+.rc .pill:empty{visibility:hidden}
+.rc .sent{font-family:var(--display);font-size:.98rem;text-align:center;margin:0;min-height:1.5em}
+.write{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;animation:typing 1.1s steps(20,end) both}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes typing{from{max-width:0}to{max-width:14em}}
+.ask{display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center}
+.ask .consigne{font-size:1rem}
+
+/* think about it */
+.line3{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;width:100%;max-width:640px;margin:0 auto}
+.blk{border-radius:12px;padding:14px 10px;text-align:center;font-weight:700;color:#fff;font-size:1.08rem}
+.blk.ca{background:var(--cause)} .blk.co{background:var(--cons)}
+.blk.plain{background:var(--paper);color:var(--ink);border:2px dashed var(--line)}
+.kwd{font:700 1.4rem/1 var(--slide);min-width:3.6em;text-align:center}
+.pop{animation:pop .5s both}
+.rule-box{border:2px solid var(--ink);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;background:var(--paper);animation:pop .6s both}
+.rule-box b.t{font-family:var(--display);font-size:1.15rem}
+.rule-box .ca{color:var(--cause);font-weight:800}.rule-box .co{color:var(--cons);font-weight:800}
+.qrow{display:flex;flex-direction:column;gap:8px;padding:10px 0;border-top:1px dashed var(--line);animation:pop .4s both}
+.mini-q{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.mini-q:last-child{border-bottom:0}
+.mini-q .part{font-family:var(--display);font-size:1.05rem}
+.mini-q.done .p1{color:var(--c1);font-weight:700}.mini-q.done .p2{color:var(--c2);font-weight:700}
+
+/* the game */
+.game{display:flex;flex-direction:column;gap:14px}
+.gbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.score{font:800 1.4rem/1 var(--display);font-variant-numeric:tabular-nums}
+.timer{position:relative;width:64px;height:64px;flex:none}
+.timer svg{width:64px;height:64px;transform:rotate(-90deg)}
+.timer circle{fill:none;stroke-width:7}
+.timer .bg{stroke:var(--line)} .timer .fg{stroke:var(--accent);transition:stroke-dashoffset 1s linear}
+.timer.low .fg{stroke:var(--bad)}
+.timer b{position:absolute;inset:0;display:grid;place-items:center;font:800 1.3rem/1 var(--display);font-variant-numeric:tabular-nums}
+.dot{width:26px;height:26px;border-radius:50%;flex:none;box-shadow:inset 0 -3px 0 rgba(0,0,0,.15);display:inline-block}
+.dot.g{background:var(--dot-g)} .dot.y{background:var(--dot-y)} .dot.r{background:var(--dot-r)}
+.gcard{position:relative;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.gcard>.dot{position:absolute;top:14px;left:14px}
+.gcard .qn{position:absolute;top:16px;right:16px;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.gcard .scene{padding-top:22px}
+.gcard.timeout{border-color:var(--bad)}
+.gcard.win{border-color:var(--good)}
+.legend-dots{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:.88rem;color:var(--muted);align-items:center}
+.legend-dots span{display:inline-flex;align-items:center;gap:6px}
+.legend-dots .dot{width:16px;height:16px}
+.big-end{text-align:center}
+.big-end b{display:block;font:800 2rem/1.1 var(--display)}
+.rec{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.heard{font-size:.95rem}
+.heard .w{display:inline-block;padding:1px 6px;border-radius:6px;margin:2px 1px;font-family:var(--display)}
+.heard .w.ok{background:var(--good-soft);color:var(--good)}
+.heard .w.ko{background:var(--bad-soft);color:var(--bad);text-decoration:line-through}
+.homework{border:2px dashed var(--accent);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--card)}
+details.prof{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+details.prof summary{cursor:pointer;font-weight:700}
+details.prof ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.93rem}
+@media (max-width:560px){.line3{grid-template-columns:1fr}.kwd{padding:2px 0}.frame{width:112px;height:100px}.note{width:150px}.strip{gap:8px}.wpick{padding:6px}.wpick .frame{height:84px}.pill{font-size:.68rem;padding:3px 8px}}
+@media (prefers-reduced-motion:reduce){.rc,.pop,.qrow,.rule-box,.write{animation:none!important}.bar span{transition:none}.timer .fg{transition:none}}
+/* Oh no, I've forgotten it! — 4e, present perfect of the "constat" */
+.scn{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.sc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.sc.ok{border-color:var(--good);box-shadow:inset 4px 0 0 var(--good)}
+.emo{font-size:2.6rem;line-height:1;text-align:center}
+.bub{border-radius:14px;padding:8px 12px;font-family:var(--display);font-size:1.02rem;line-height:1.35;margin:0}
+.bub.t{background:var(--paper);border:1px solid var(--line)}
+.bub.t::before{content:"👩‍🏫 ";}
+.bub.s{background:var(--accent-soft);align-self:flex-end;text-align:right}
+.bub.s::before{content:"🙋 ";}
+.pp{color:var(--cons);font-weight:800}
+.ps{color:var(--cause);font-weight:800}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.ex{border-radius:14px;padding:12px 14px;border:2px solid var(--line);background:var(--card)}
+.ex b{display:block;font-family:var(--display);font-size:1.15rem;margin:6px 0}
+.ex .tag2{font-size:.78rem;font-weight:700;border-radius:999px;padding:2px 10px;background:var(--paper)}
+.rule{border:2px solid var(--good);background:var(--good-soft);border-radius:14px;padding:12px 16px}
+.rule p{margin:4px 0}
+.vt{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.vrow{display:flex;flex-direction:column;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.vrow.ok{border-color:var(--good)}
+.vrow b{font-family:var(--display)}
+.qrow{display:flex;flex-direction:column;gap:8px}
+.gapq{font-family:var(--display);font-size:1.08rem;margin:0}
+.listen{border:1px solid var(--accent);background:none;color:var(--accent);border-radius:10px;padding:6px 12px;font-weight:700;cursor:pointer}
+.listen:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.starter{font-size:.88rem;color:var(--muted);margin:0}
+</style>
+<style>
+/* What did you do? · 30 words — writing workshop after the -ed speaking test (5e and 4e) */
+:root{--who:#2f4fd8;--verb:#cc2936;--what:#8a3fc7;--where:#1f8f7f;--when:#b06d00;--snd-t:#2f4fd8;--snd-d:#8a3fc7;--snd-id:#b06d00}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--who:#8ea2ff;--verb:#ff7a84;--what:#c99af0;--where:#4fd1bd;--when:#f2c418;--snd-t:#8ea2ff;--snd-d:#c99af0;--snd-id:#f2c418}}
+:root[data-theme="dark"]{--who:#8ea2ff;--verb:#ff7a84;--what:#c99af0;--where:#4fd1bd;--when:#f2c418;--snd-t:#8ea2ff;--snd-d:#c99af0;--snd-id:#f2c418}
+.sub{margin:10px 0 0;color:var(--muted);font-size:1.05rem;max-width:34em}
+.lvlrow .ver{display:flex;flex-wrap:wrap;align-items:center;gap:8px;flex:1 1 100%}
+.ck{display:inline;border-radius:7px;padding:1px 5px;font-weight:700;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.ck.who{color:var(--who);background:color-mix(in srgb,var(--who) 13%,transparent)}
+.ck.verb{color:var(--verb);background:color-mix(in srgb,var(--verb) 13%,transparent)}
+.ck.what{color:var(--what);background:color-mix(in srgb,var(--what) 13%,transparent)}
+.ck.where{color:var(--where);background:color-mix(in srgb,var(--where) 13%,transparent)}
+.ck.when{color:var(--when);background:color-mix(in srgb,var(--when) 13%,transparent)}
+.model{font-family:var(--display);font-size:1.15rem;line-height:2;margin:0}
+.roles{display:flex;flex-wrap:wrap;gap:6px 8px;font-size:.85rem}
+.roles .ck{font-size:.85rem}
+.quote{font-family:var(--display);font-size:1.12rem;line-height:1.55;margin:0;padding:12px 16px;border-radius:12px;background:var(--paper);border-left:5px solid var(--mark)}
+.qrow.ok .gapq,.vrow.ok b{color:var(--good)}
+.qrow .opt:disabled{cursor:default}
+.after{font-size:.92rem;color:var(--muted)}
+.after i{color:var(--ink)}
+.tyrow{display:flex;gap:8px;flex-wrap:wrap}.tyrow .typed{flex:1 1 160px;width:auto}
+.hint-w{margin:0;font-family:var(--display);color:var(--muted)}
+.pos{font-family:var(--display);font-size:1.08rem}
+.snd{font-weight:700;font-variant-numeric:tabular-nums}.snd.t{color:var(--snd-t)}.snd.d{color:var(--snd-d)}.snd.id{color:var(--snd-id)}
+.four{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.four .ex b{font-size:1.02rem}
+.sortrow .gapq b{color:var(--verb)}
+.chips2{display:flex;flex-wrap:wrap;gap:8px}
+.cx{display:flex;flex-direction:column;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:.88rem;min-width:9.5em;flex:1 1 9.5em}
+.cx b{font-family:var(--display);font-size:1rem}
+.cx small{color:var(--muted)}
+.gaptext{font-family:var(--display);font-size:1.1rem;line-height:2.3;margin:0}
+.gaptext select{font:inherit;font-size:1rem;font-weight:700;border:2px solid var(--accent);background:var(--accent-soft);color:var(--ink);border-radius:8px;padding:1px 4px}
+.gaptext select.right{border-color:var(--good);background:var(--good-soft);color:var(--good);opacity:1}
+.gaptext select.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.task{border:2px solid var(--ink);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;background:var(--card)}
+.task h3{margin:0;font-family:var(--display);font-size:1.2rem}
+.help{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.help>div{background:var(--paper);border-radius:12px;padding:10px 14px;font-size:.92rem}
+.help b{font-family:var(--display)}
+.help ul{margin:6px 0 0;padding-left:18px}
+.help .bk{display:flex;flex-wrap:wrap;gap:4px 6px;margin-top:6px}
+.help .bk span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:1px 9px;font-family:var(--display)}
+textarea.wr{font:inherit;font-family:var(--display);font-size:1.12rem;line-height:1.6;color:var(--ink);background:var(--paper);border:2px solid var(--line);border-radius:12px;padding:12px 14px;width:100%;min-height:9.5em;resize:vertical}
+textarea.wr:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wc{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-weight:700}
+.wc .n{font:800 1.6rem/1 var(--display);font-variant-numeric:tabular-nums}
+.wc .bar{flex:1 1 160px;height:12px;position:relative}
+.wc .bar i{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);left:calc(30 / 45 * 100%)}
+.wc.good .n{color:var(--good)}.wc.good .bar span{background:var(--good)}
+.wc.over .n{color:var(--bad)}.wc.over .bar span{background:var(--bad)}
+.checks{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:6px}
+.checks li{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:7px 10px;font-size:.92rem;background:var(--card)}
+.checks li .m{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.8rem;background:var(--line);color:var(--ink)}
+.checks li.ok{border-color:var(--good);background:var(--good-soft)}
+.checks li.ok .m{background:var(--good);color:#fff}
+.checks li small{display:block;color:var(--muted)}
+.warns{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.warns li{background:var(--bad-soft);border-left:4px solid var(--bad);border-radius:8px;padding:7px 10px;font-size:.92rem}
+.bravo{border:2px solid var(--good);background:var(--good-soft);border-radius:14px;padding:12px 16px;font-weight:700}
+details.ex2{background:var(--paper);border-radius:12px;padding:10px 14px}
+details.ex2 summary{cursor:pointer;font-weight:700}
+details.ex2 p{font-family:var(--display);font-size:1.05rem;margin:8px 0}
+.xp-btn{border:1px solid var(--accent);background:var(--accent);color:#fff;font-weight:700;border-radius:10px;padding:8px 16px;cursor:pointer;font:inherit;font-weight:700}
+@media (max-width:560px){.model{font-size:1.05rem}.gaptext{font-size:1.02rem}}
+</style>
+<script src="../assets/consigne.js"></script>
+</head>
+<body>
+<div class="homebar"><a class="homelink" href="../">← Toutes les activités · Collège Réeberg Néron</a></div>
+<div class="wrap">
+  <header>
+    <div class="hero-art" data-art="write" aria-hidden="true"></div>
+    <p class="kicker">Late and absent · Writing workshop</p>
+    <h1>What did you <span>do</span>?</h1>
+    <p class="sub" data-fr="Tu as lu « Last Saturday… » à voix haute. Maintenant, réponds par écrit à la question du texte, en 30 mots. Ces 7 étapes te préparent.">You read “Last Saturday…” aloud. Now answer the question of the text in writing, in 30 words. These 7 steps get you ready.</p>
+  </header>
+
+  <div id="class-box" class="cl-box" aria-live="polite"></div>
+
+  <div class="panel lvlrow" id="lvl-box">
+    <b>My level</b>
+    <span class="seg" role="group" aria-label="Level">
+      <button type="button" data-st="1" aria-pressed="false">★ Discover</button>
+      <button type="button" data-st="2" aria-pressed="false">★★ Practise</button>
+      <button type="button" data-st="3" aria-pressed="false">★★★ Challenge</button>
+    </span>
+    <p id="lvl-msg"></p>
+    <div class="ver" id="ver-box" hidden>
+      <b>Version</b>
+      <span class="seg" role="group" aria-label="Version"><button type="button" data-ver="5e">5e</button><button type="button" data-ver="4e">4e</button></span>
+    </div>
+  </div>
+
+  <div class="panel overall">
+    <b>My progress</b><span class="pc" id="pc">0 / 0</span>
+    <span class="bar" aria-hidden="true"><span id="pcbar"></span></span>
+  </div>
+
+  <section class="act" aria-labelledby="h1s">
+    <div class="step-h"><span class="step-k">Step 1</span><h2 id="h1s"><em>Word order</em> · who, did what, where, when?</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Observe les couleurs des phrases du texte, puis réponds aux questions : c'est toi qui trouves la règle.">Look at the colours in the sentences of the text, then answer the questions: you find the rule.</p></div>
+    <div id="syn" class="card"></div>
+    <div class="instr"><p class="consigne" id="bd-cons"></p></div>
+    <div id="build" class="act"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h2s">
+    <div class="step-h"><span class="step-k">Step 2</span><h2 id="h2s"><em>Writing -ed</em> · the spelling</h2></div>
+    <div class="instr"><p class="consigne" data-fr="À l'oral, tu entends /t/, /d/ ou /ɪd/. À l'écrit, -ed s'écrit de quatre façons. Observe, trouve la règle, puis écris les verbes.">When you speak, you hear /t/, /d/ or /ɪd/. When you write, -ed has four spellings. Look, find the rule, then write the verbs.</p></div>
+    <div id="edt" class="card"></div>
+    <div id="edf" class="vt"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h3s">
+    <div class="step-h"><span class="step-k">Step 3</span><h2 id="h3s"><em>Irregular verbs</em> · no -ed!</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Tu connais déjà ces phrases de la leçon. Certains verbes prennent -ed, d'autres changent complètement : ce sont les verbes irréguliers.">You know these sentences from the lesson. Some verbs take -ed, others change completely: they are irregular verbs.</p></div>
+    <div id="sort" class="card"></div>
+    <div class="instr"><p class="consigne" data-fr="Trouve le prétérit de chaque verbe irrégulier. Apprends-les par cœur : tu en auras besoin pour écrire !">Find the past simple of each irregular verb. Learn them by heart: you need them to write!</p></div>
+    <div id="irr" class="vt"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h4s">
+    <div class="step-h"><span class="step-k">Step 4</span><h2 id="h4s"><em>The negative</em> · I didn't…</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Observe la phrase négative du texte, réponds aux questions, puis mets les phrases à la forme négative.">Look at the negative sentence of the text, answer the questions, then make the sentences negative.</p></div>
+    <div id="negt" class="card"></div>
+    <div id="neg" class="act"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h5s">
+    <div class="step-h"><span class="step-k">Step 5</span><h2 id="h5s"><em>Questions</em> · Did you…? What did you…?</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Le texte se termine par deux questions. Observe-les, trouve la règle, puis construis des questions et réponds.">The text ends with two questions. Look at them, find the rule, then make questions and answer them.</p></div>
+    <div id="qt" class="card"></div>
+    <div id="qo" class="act"></div>
+    <div id="qa" class="card"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h6s">
+    <div class="step-h"><span class="step-k">Step 6</span><h2 id="h6s"><em>Linking words</em> · first, then, because, so…</h2></div>
+    <div class="instr"><p class="consigne" data-fr="Les mots de liaison rendent ton texte clair. Choisis le bon mot dans chaque trou.">Linking words make your text clear. Choose the right word for each gap.</p></div>
+    <div id="cx" class="chips2"></div>
+    <div id="gap" class="card"></div>
+  </section>
+
+  <section class="act" aria-labelledby="h7s">
+    <div class="step-h"><span class="step-k">Step 7</span><h2 id="h7s"><em>Your turn</em> · 30 words</h2></div>
+    <div id="write" class="task"></div>
+  </section>
+
+  <details class="prof" lang="fr">
+    <summary>Notes pour le professeur</summary>
+    <ul>
+      <li>Atelier d'écriture à faire après le <i>Speaking test · Last Saturday</i> : l'élève répond par écrit, en 30 mots environ (28 à 40 acceptés), à la fin du texte : « And you? Did you play basketball last weekend? What did you do? ».</li>
+      <li>Démarche : observation et règle (inductive) puis entraînement, pour chaque point : l'ordre des mots (qui + verbe + complément + lieu + moment), l'orthographe de -ed, une première liste de verbes irréguliers liée au champ lexical de la séquence (<i>had, went, overslept, forgot, woke up, got up, took, came</i>…), la négation <i>didn't</i> + base verbale, les questions <i>Did you…? / What did you…?</i> et les réponses courtes, les mots de liaison (<i>first, then, after that, finally, and, but, because, so</i>).</li>
+      <li>Version 4e, attentes un peu plus hautes : plus de verbes (réguliers et irréguliers), <i>wasn't / weren't</i>, <i>because of</i> + nom et <i>That's why</i>. À l'écrit, la 4e doit utiliser 2 verbes irréguliers et 3 mots de liaison dont <i>because of</i> ou <i>That's why</i> ; la 5e, 1 verbe irrégulier et 2 mots de liaison.</li>
+      <li>Niveaux : ★ choix et étiquettes, consignes traduites, trame de phrases pour écrire ; ★★ étiquettes avec pièges, français sur demande, banque de mots ; ★★★ tout est tapé, anglais seul, sans aide.</li>
+      <li>L'étape 7 vérifie en direct le nombre de mots et la liste des critères, et repère les erreurs les plus fréquentes (<i>didn't went</i>, <i>did you played</i>). C'est une aide, pas une note : l'élève télécharge son texte en PDF pour le déposer sur Pronote. Le brouillon reste sur l'appareil.</li>
+    </ul>
+  </details>
+</div>
+<script src="../assets/art.js"></script>
+<script src="../assets/newbadge.js"></script>
+<script src="../assets/flagtips.js"></script>
+<script src="../assets/reset.js"></script>
+<script src="../assets/classes.js"></script>
+<script src="../assets/export-pdf.js"></script>
+<script src="app.js?v=20261123a"></script>
+<script src="../assets/sequence.js" data-step="write"></script>
+</body>
+</html>
