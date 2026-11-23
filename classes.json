@@ -270,6 +270,9 @@
               "think",
               "links"
             ]
+          },
+          "tries": {
+            "doko-recreate": 3
           }
         }
       },
