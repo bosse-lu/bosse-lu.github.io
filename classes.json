@@ -273,6 +273,10 @@
           },
           "tries": {
             "doko-recreate": 3
+          },
+          "reset": {
+            "doko-recreate": "2026-11-23T17:29:58Z",
+            "doko-training": "2026-11-23T17:29:58Z"
           }
         }
       },
