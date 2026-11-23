@@ -81,8 +81,8 @@ code{background:var(--accent-soft);padding:1px 6px;border-radius:5px}
 <script>
 (async function () {
   const EVALS = {"ed-final": "Évaluation orale : le prétérit", "act-out": "Tâche finale : Act out the scene"};
-  const STEPS5 = [["warm", "Warm-up: What's your excuse?"], ["note", "Fill in the note"], ["so", "Can you explain?"], ["bus", "Blame the bus!"], ["ed", "The sounds of -ed"], ["write", "What did you do? · 30 words (aperçu)"], ["excuse", "Recap: Excuse Lab"]];
-  const STEPS4 = [["warm", "Warm-up: What's your excuse?"], ["note", "Fill in the note"], ["so", "Can you explain?"], ["bus", "Blame the bus! (4e)"], ["ed", "The sounds of -ed"], ["write", "What did you do? · 30 words (aperçu)"], ["have", "Oh no, I've forgotten it!"], ["excuse", "Recap: Excuse Lab"]];
+  const STEPS5 = [["warm", "Warm-up: What's your excuse?"], ["note", "Fill in the note"], ["so", "Can you explain?"], ["bus", "Blame the bus!"], ["ed", "The sounds of -ed"], ["write", "What did you do? · 30 words"], ["excuse", "Recap: Excuse Lab"]];
+  const STEPS4 = [["warm", "Warm-up: What's your excuse?"], ["note", "Fill in the note"], ["so", "Can you explain?"], ["bus", "Blame the bus! (4e)"], ["ed", "The sounds of -ed"], ["write", "What did you do? · 30 words"], ["have", "Oh no, I've forgotten it!"], ["excuse", "Recap: Excuse Lab"]];
   const rows = document.getElementById("rows");
   try {
     const cfg = await (await fetch("../classes.json?v=" + Date.now(), {cache: "no-store"})).json();
