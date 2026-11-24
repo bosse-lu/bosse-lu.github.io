@@ -1,103 +1,5 @@
 [
   {
-    "id": "2026-11-15-children-in-need",
-    "date": "2026-11-15",
-    "level": "5e",
-    "topic": "Culture",
-    "country": "UK",
-    "flag": "uk",
-    "emoji": "🐻",
-    "title": "Children in Need: a big night to help children",
-    "lead": "On 13 November 2026, a TV show in the UK raised more than £38 million for children and young people.",
-    "body": [
-      "On Friday 13 November 2026, BBC Children in Need had its big TV show. It was live from Salford, in the north-west of England. Children in Need is a charity. It gives money to projects for children and young people in the UK.",
-      "There were songs, dances and funny surprises. People at home gave money by phone or online. At the end of the night, the total was £38,720,170!",
-      "Before the show, Owain Wyn Evans, a radio presenter, did a big challenge. He cycled nearly 400 miles in 5 days, from Glasgow in Scotland to Cardiff in Wales. He went through the 4 nations of the UK: Scotland, Northern Ireland, England and Wales.",
-      "The star of the charity is Pudsey, a yellow bear with a spotty bandana on his eye. Every year, a lot of schools have a Pudsey day: pupils wear yellow or spots and give some money."
-    ],
-    "keywords": [
-      [
-        "live",
-        "en direct"
-      ],
-      [
-        "charity",
-        "association caritative"
-      ],
-      [
-        "gave",
-        "ont donné"
-      ],
-      [
-        "total",
-        "total, somme finale"
-      ],
-      [
-        "challenge",
-        "défi"
-      ],
-      [
-        "cycled",
-        "a fait du vélo, a pédalé"
-      ],
-      [
-        "miles",
-        "miles (1 mile = 1,6 km)"
-      ],
-      [
-        "spotty",
-        "à pois"
-      ]
-    ],
-    "questions": [
-      {
-        "q": "Where was the TV show?",
-        "options": [
-          "In London",
-          "In Cardiff",
-          "In Salford"
-        ],
-        "answer": 2
-      },
-      {
-        "q": "How far did Owain Wyn Evans cycle?",
-        "options": [
-          "Nearly 400 miles",
-          "About 40 miles",
-          "More than 4,000 miles"
-        ],
-        "answer": 0
-      },
-      {
-        "q": "Who is Pudsey?",
-        "options": [
-          "A radio presenter",
-          "A yellow bear",
-          "A singer"
-        ],
-        "answer": 1
-      }
-    ],
-    "turn": "Imagine a Pudsey day at your school. What can you do to help? On Pudsey day, I can wear… I can sell… I want to help…",
-    "sources": [
-      {
-        "name": "BBC Children in Need, official website (UK)",
-        "date": "14 November 2026",
-        "url": "https://www.bbcchildreninneed.co.uk/"
-      },
-      {
-        "name": "BBC Children in Need – Owain's 4 Nations Cycle Challenge (UK)",
-        "date": "11 November 2026",
-        "url": "https://www.bbcchildreninneed.co.uk/shows/owains-4-nations-cycle-challenge/"
-      },
-      {
-        "name": "CultureCues (UK)",
-        "date": "14 November 2026",
-        "url": "https://culturecues.co.uk/bbc-children-in-need-2026/"
-      }
-    ]
-  },
-  {
     "id": "2026-11-17-baby-sea-turtles-california",
     "date": "2026-11-17",
     "level": "4e",
@@ -381,6 +283,99 @@
         "name": "EarthSky (USA)",
         "date": "18 November 2026",
         "url": "https://earthsky.org/space/voyager-1-1-light-day-from-earth-november-17-18-2026/"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-24-lost-corals-great-barrier-reef",
+    "date": "2026-11-24",
+    "level": "4e",
+    "topic": "Science",
+    "country": "Australia",
+    "flag": "australia",
+    "emoji": "🪸",
+    "title": "12 'lost' corals are back on the Great Barrier Reef",
+    "lead": "Scientists in Australia have used DNA to show that 12 forgotten corals are real, separate species.",
+    "body": [
+      "Corals look like plants or rocks, but they are animals! The Great Barrier Reef, in Australia, is the biggest coral reef in the world. In November 2026, scientists from James Cook University and the Queensland Museum announced good news: 12 'lost' coral species are back!",
+      "Some of these corals have been known to science for more than 100 years. But experts thought they were just other species with a different shape, because they looked very similar. So the 12 species disappeared from the lists.",
+      "To find the truth, the team needed DNA. But old coral skeletons in museums have no DNA. So the scientists went back to the places where each coral was first found and collected living corals. Their DNA showed that the 12 corals are different species.",
+      "Why is it important? A coral that looks common can really be several species, and each one lives in a smaller area. So some corals may be in more danger than we thought."
+    ],
+    "keywords": [
+      [
+        "reef",
+        "récif"
+      ],
+      [
+        "announced",
+        "ont annoncé"
+      ],
+      [
+        "shape",
+        "forme"
+      ],
+      [
+        "disappeared",
+        "ont disparu"
+      ],
+      [
+        "truth",
+        "vérité"
+      ],
+      [
+        "skeletons",
+        "squelettes"
+      ],
+      [
+        "collected",
+        "ont prélevé, ramassé"
+      ],
+      [
+        "area",
+        "zone, région"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "What are corals?",
+        "options": [
+          "Plants",
+          "Animals",
+          "Rocks"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Why did the 12 species disappear from the lists?",
+        "options": [
+          "Because they looked very similar to other corals",
+          "Because they all died",
+          "Because nobody could find them"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "Where did the scientists collect living corals?",
+        "options": [
+          "In a museum",
+          "In the places where each coral was first found",
+          "In an aquarium in Sydney"
+        ],
+        "answer": 1
+      }
+    ],
+    "turn": "The Great Barrier Reef is in danger. Explain why we must protect it: Corals are important because… If the corals disappear, … We can help when we…",
+    "sources": [
+      {
+        "name": "ScienceAlert (Australia)",
+        "date": "25 November 2026",
+        "url": "https://www.sciencealert.com/scientists-have-resurrected-12-coral-species-on-the-great-barrier-reef"
+      },
+      {
+        "name": "DeeperBlue, from Phys.org",
+        "date": "15 November 2026",
+        "url": "https://www.deeperblue.com/genomic-analysis-restores-species-status-to-12-overlooked-great-barrier-reef-corals/"
       }
     ]
   }
