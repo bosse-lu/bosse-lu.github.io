@@ -1,98 +1,5 @@
 [
   {
-    "id": "2026-11-15-england-beat-spain-madrid",
-    "date": "2026-11-15",
-    "level": "4e",
-    "topic": "Nations League",
-    "country": "England",
-    "flag": "england",
-    "emoji": "🦁",
-    "title": "England beat the world champions in Madrid!",
-    "lead": "With only 10 players at the end, England have beaten Spain 3-2 and finished top of their Nations League group.",
-    "body": [
-      "On Sunday 15 November 2026, England played Spain in Madrid in the Nations League. Spain are the world champions, and they had not lost a match for more than 40 games. But England won 3-2!",
-      "Just before half-time, Harry Kane scored a penalty. After the break, Ezri Konsa scored with a header from a Declan Rice corner, and 4 minutes later Ben White made it 3-0. What a start to the second half!",
-      "Then things changed. Elliot Anderson got a red card for a foul on Lamine Yamal, so England had only 10 players. Mikel Oyarzabal scored a penalty for Spain, and later Nico Williams made it 3-2. Spain attacked again and again, but goalkeeper James Trafford made 6 saves and England held on.",
-      "Both teams have 15 points, but England have finished first in the group because their goal difference is better. Their coach, Thomas Tuchel, said it was \"a statement victory\"."
-    ],
-    "keywords": [
-      [
-        "world champions",
-        "champions du monde"
-      ],
-      [
-        "half-time",
-        "la mi-temps"
-      ],
-      [
-        "break",
-        "la pause"
-      ],
-      [
-        "header",
-        "une tête"
-      ],
-      [
-        "red card",
-        "carton rouge"
-      ],
-      [
-        "saves",
-        "arrêts"
-      ],
-      [
-        "held on",
-        "ont tenu bon"
-      ],
-      [
-        "goal difference",
-        "différence de buts"
-      ]
-    ],
-    "questions": [
-      {
-        "q": "Where did England play Spain?",
-        "options": [
-          "In London",
-          "In Madrid",
-          "In Barcelona"
-        ],
-        "answer": 1
-      },
-      {
-        "q": "Who got a red card?",
-        "options": [
-          "Elliot Anderson",
-          "Harry Kane",
-          "Lamine Yamal"
-        ],
-        "answer": 0
-      },
-      {
-        "q": "How many saves did James Trafford make?",
-        "options": [
-          "2",
-          "4",
-          "6"
-        ],
-        "answer": 2
-      }
-    ],
-    "turn": "Your turn! You are a journalist. Tell the class about the match in 3 sentences: \"England played … The best moment was when … At the end, England …\"",
-    "sources": [
-      {
-        "name": "beIN Sports (Australia)",
-        "date": "15 November 2026",
-        "url": "https://www.beinsports.com/en-au/football/uefa-nations-league/articles/spain-2-3-england-tuchels-10-men-hold-on-to-snap-world-champions-unbeaten-streak-2026-11-15"
-      },
-      {
-        "name": "Yahoo Sports / AFP (USA)",
-        "date": "15 November 2026",
-        "url": "https://sports.yahoo.com/articles/england-made-statement-beating-world-225501725.html"
-      }
-    ]
-  },
-  {
     "id": "2026-11-17-wales-portugal-thriller",
     "date": "2026-11-17",
     "level": "4e",
@@ -373,6 +280,99 @@
         "name": "KCUR (USA)",
         "date": "22 November 2026",
         "url": "https://www.kcur.org/sports/2026-11-22/kansas-city-current-nwsl-championship"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-24-man-city-napoli-draw",
+    "date": "2026-11-24",
+    "level": "4e",
+    "topic": "Champions League",
+    "country": "England",
+    "flag": "england",
+    "emoji": "⭐",
+    "title": "Late goal saves Man City against Napoli",
+    "lead": "Manchester City were losing twice against Napoli in the Champions League, but Rayan Cherki scored a late goal to make it 2-2.",
+    "body": [
+      "On Tuesday 24 November 2026, Manchester City played Napoli at the Etihad Stadium in the Champions League. It was a special night because Kevin De Bruyne played for Napoli. He was a City star for many years, so the home fans sang his name and welcomed him back.",
+      "There were no goals in the first half. Then, after 55 minutes, Rasmus Højlund scored for Napoli with a low shot. City reacted quickly, and young midfielder Ayyoub Bouaddi equalised in the 67th minute.",
+      "But 9 minutes later, Noa Lang scored a fantastic volley on the counter-attack: 2-1 to Napoli! City attacked again and again. Finally, in the 86th minute, Rayan Cherki scored with a low shot, and it was 2-2.",
+      "After 5 matches, City are sixth in the table, so they are in the top 8 for now. But they have played 10 games without a clean sheet, so their coach, Enzo Maresca, has work to do in defence."
+    ],
+    "keywords": [
+      [
+        "welcomed him back",
+        "l'ont accueilli à nouveau"
+      ],
+      [
+        "low shot",
+        "tir à ras de terre"
+      ],
+      [
+        "reacted",
+        "ont réagi"
+      ],
+      [
+        "equalised",
+        "a égalisé"
+      ],
+      [
+        "volley",
+        "une reprise de volée"
+      ],
+      [
+        "counter-attack",
+        "contre-attaque"
+      ],
+      [
+        "league phase",
+        "phase de ligue"
+      ],
+      [
+        "clean sheet",
+        "match sans encaisser de but"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "Which famous former City player played for Napoli?",
+        "options": [
+          "Kevin De Bruyne",
+          "Rayan Cherki",
+          "Ayyoub Bouaddi"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "How did Noa Lang score?",
+        "options": [
+          "With a header",
+          "With a penalty",
+          "With a volley"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "When did Rayan Cherki score?",
+        "options": [
+          "In the 55th minute",
+          "In the 86th minute",
+          "In the 67th minute"
+        ],
+        "answer": 1
+      }
+    ],
+    "turn": "Your turn! You are a City fan. Send a message to a friend after the match in 3 sentences: \"What a night! First, Napoli … Then … I was happy when …\"",
+    "sources": [
+      {
+        "name": "Sky Sports (UK)",
+        "date": "24 November 2026",
+        "url": "https://www.skysports.com/football/manchester-city-vs-napoli/577674"
+      },
+      {
+        "name": "ESPN (USA)",
+        "date": "24 November 2026",
+        "url": "https://www.espn.com/soccer/report/_/gameId/401915379"
       }
     ]
   }
