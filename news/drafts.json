@@ -1,102 +1,5 @@
 [
   {
-    "id": "2026-11-17-baby-sea-turtles-california",
-    "date": "2026-11-17",
-    "level": "4e",
-    "topic": "Nature",
-    "country": "USA",
-    "flag": "usa",
-    "emoji": "🐢",
-    "title": "Baby sea turtles make history in California",
-    "lead": "For the first time, baby sea turtles from nests on the US West Coast have gone into the Pacific Ocean.",
-    "body": [
-      "In September 2026, people found something surprising on 2 beaches in Southern California: sea turtle nests! Scientists say it was the first time that sea turtles laid eggs naturally on the West Coast of the USA. The mums were olive ridleys, one of the smallest kinds of sea turtle.",
-      "But the beaches were not safe because big storms were coming. So, on 25 September, experts moved about 200 eggs to the Aquarium of the Pacific, in Long Beach. They put the eggs in sand, in a special warm room, and they waited for about 2 months.",
-      "Some of the eggs hatched, and the aquarium has released more than 50 hatchlings into the ocean. It happened at night on 14 and 15 November, at Seal Beach and Huntington Beach.",
-      "Life is hard for baby sea turtles: only about 1 in 1,000 becomes an adult. Scientists think that warmer ocean water may be one reason why the turtles came so far north."
-    ],
-    "keywords": [
-      [
-        "nests",
-        "nids"
-      ],
-      [
-        "laid",
-        "ont pondu"
-      ],
-      [
-        "kinds",
-        "espèces, sortes"
-      ],
-      [
-        "safe",
-        "en sécurité"
-      ],
-      [
-        "storms",
-        "tempêtes"
-      ],
-      [
-        "hatched",
-        "ont éclos"
-      ],
-      [
-        "released",
-        "relâché"
-      ],
-      [
-        "hatchlings",
-        "bébés tortues (qui viennent d'éclore)"
-      ],
-      [
-        "so far north",
-        "si loin au nord"
-      ]
-    ],
-    "questions": [
-      {
-        "q": "Where did people find the sea turtle nests?",
-        "options": [
-          "In Florida",
-          "In Southern California",
-          "In Mexico"
-        ],
-        "answer": 1
-      },
-      {
-        "q": "Why did experts move the eggs to the aquarium?",
-        "options": [
-          "Because big storms were coming",
-          "Because the eggs were too cold",
-          "Because the beaches were too small"
-        ],
-        "answer": 0
-      },
-      {
-        "q": "How many baby sea turtles become adults?",
-        "options": [
-          "About 1 in 10",
-          "About 1 in 100",
-          "About 1 in 1,000"
-        ],
-        "answer": 2
-      }
-    ],
-    "turn": "Imagine you are on Seal Beach on the night of 14 November. Describe what you see and how you feel: It's dark and… The baby turtles are… They have never… I feel… because…",
-    "sources": [
-      {
-        "name": "AccuWeather (USA)",
-        "date": "16 November 2026",
-        "url": "https://www.accuweather.com/en/weather-news/sea-turtle-hatchlings-make-history-with-first-releases-on-us-west-coast/1959156"
-      },
-      {
-        "name": "LA Magazine (USA)",
-        "date": "16 November 2026",
-        "url": "https://lamag.com/animals/sea-turtle-hatchlings-released-into-ocean-after-historic-southern-california-nesting"
-      }
-    ]
-  },
-  {
     "id": "2026-11-19-young-inventor-challenge",
     "date": "2026-11-19",
     "level": "5e · 4e",
@@ -376,6 +279,107 @@
         "name": "DeeperBlue, from Phys.org",
         "date": "15 November 2026",
         "url": "https://www.deeperblue.com/genomic-analysis-restores-species-status-to-12-overlooked-great-barrier-reef-corals/"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-26-macys-parade-postponed",
+    "date": "2026-11-26",
+    "level": "5e · 4e",
+    "topic": "Culture",
+    "country": "USA",
+    "flag": "usa",
+    "emoji": "🎈",
+    "title": "A storm stops the 100th Thanksgiving parade",
+    "lead": "For the first time ever, New York's famous Thanksgiving parade has moved to a different day because of the weather.",
+    "body": [
+      "Thanksgiving Day is a big holiday in the USA. Every year, on that day, millions of people watch the Macy's Thanksgiving Day Parade in New York City. Giant balloons, floats and marching bands go down the streets for about 4 kilometres. This year is special: it is the 100th parade! The first one was in 1924.",
+      "But weather experts said that a big storm was coming to New York on Thursday 26 November 2026, with heavy rain and very strong winds, up to nearly 100 kilometres per hour. Giant balloons can't fly in strong winds because it is dangerous. So the organisers postponed the parade.",
+      "The new date is Saturday 28 November, at 8:30 in the morning. There will be a record number of balloons and other inflatables: 100! Some of them are new, for example Bluey, the dog from the cartoon.",
+      "In more than 100 years, the parade has never changed its day before. It only stopped for 3 years, from 1942 to 1944, during World War II."
+    ],
+    "keywords": [
+      [
+        "holiday",
+        "jour férié, fête"
+      ],
+      [
+        "Giant",
+        "géants"
+      ],
+      [
+        "floats",
+        "chars (de défilé)"
+      ],
+      [
+        "marching bands",
+        "fanfares"
+      ],
+      [
+        "storm",
+        "tempête"
+      ],
+      [
+        "heavy rain",
+        "fortes pluies"
+      ],
+      [
+        "winds",
+        "vents"
+      ],
+      [
+        "dangerous",
+        "dangereux"
+      ],
+      [
+        "postponed",
+        "ont reporté"
+      ],
+      [
+        "inflatables",
+        "structures gonflables"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "Why is this year's parade special?",
+        "options": [
+          "It is the first parade",
+          "It is the 100th parade",
+          "It is in a new city"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "Why did the organisers postpone the parade?",
+        "options": [
+          "Because of a big storm",
+          "Because the balloons were not ready",
+          "Because it was too cold"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "When is the new date of the parade?",
+        "options": [
+          "Friday 27 November",
+          "Sunday 29 November",
+          "Saturday 28 November"
+        ],
+        "answer": 2
+      }
+    ],
+    "turn": "Imagine you are at the parade in New York on Saturday. Describe what you see and hear: I can see a giant balloon of… There are… I can hear… My favourite part is… because…",
+    "sources": [
+      {
+        "name": "Yahoo Entertainment (USA)",
+        "date": "26 November 2026",
+        "url": "https://www.yahoo.com/entertainment/tv/article/when-to-watch-the-2026-macys-thanksgiving-day-parade-new-start-time-best-way-to-stream-the-parade-for-free-and-more-212002751.html"
+      },
+      {
+        "name": "Secret NYC (USA)",
+        "date": "25 November 2026",
+        "url": "https://secretnyc.co/100th-macys-thanksgiving-day-parade-2026-guide-postponed-balloons/"
       }
     ]
   }
