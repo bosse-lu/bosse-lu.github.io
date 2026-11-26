@@ -1,98 +1,5 @@
 [
   {
-    "id": "2026-11-17-wales-portugal-thriller",
-    "date": "2026-11-17",
-    "level": "4e",
-    "topic": "Nations League",
-    "country": "Wales",
-    "flag": "uk",
-    "emoji": "🐉",
-    "title": "Five goals in Cardiff, but Portugal beat Wales",
-    "lead": "Wales scored twice against Portugal, but the Portuguese came back and won 3-2 in an exciting Nations League match.",
-    "body": [
-      "On Tuesday 17 November 2026, Wales played Portugal at the Cardiff City Stadium. It was their last match in the Nations League group, and the Welsh fans hoped for a big win at home.",
-      "Bruno Fernandes scored first for Portugal after 11 minutes with a powerful shot. But just 2 minutes later, David Brooks equalised for Wales. Then, in the 40th minute, Sorba Thomas made it 2-1. The fans were so happy! But just before half-time, Pedro Neto scored for Portugal: 2-2.",
-      "In the second half, Carlos Forbs came on as a substitute, and he scored the winner in the 70th minute. 4 minutes later, Neto got a second yellow card, so Portugal had only 10 players. Wales attacked a lot, but they couldn't score again.",
-      "Portugal have finished first in the group. Wales have finished last, so next year they will play a play-off to stay in League A."
-    ],
-    "keywords": [
-      [
-        "hoped",
-        "espéraient"
-      ],
-      [
-        "powerful shot",
-        "tir puissant"
-      ],
-      [
-        "equalised",
-        "a égalisé"
-      ],
-      [
-        "half-time",
-        "la mi-temps"
-      ],
-      [
-        "substitute",
-        "remplaçant"
-      ],
-      [
-        "winner",
-        "le but de la victoire"
-      ],
-      [
-        "second yellow card",
-        "deuxième carton jaune"
-      ],
-      [
-        "play-off",
-        "un match de barrage"
-      ]
-    ],
-    "questions": [
-      {
-        "q": "Who scored the first goal of the match?",
-        "options": [
-          "David Brooks",
-          "Bruno Fernandes",
-          "Carlos Forbs"
-        ],
-        "answer": 1
-      },
-      {
-        "q": "What was the score at half-time?",
-        "options": [
-          "2-1 to Wales",
-          "1-1",
-          "2-2"
-        ],
-        "answer": 2
-      },
-      {
-        "q": "Why did Portugal finish the match with 10 players?",
-        "options": [
-          "Neto got a second yellow card",
-          "A player was injured",
-          "Forbs got a red card"
-        ],
-        "answer": 0
-      }
-    ],
-    "turn": "Your turn! You are a Welsh fan at the stadium. Tell a friend about the match in 3 sentences: \"First, Portugal … Then Wales … I was sad because …\"",
-    "sources": [
-      {
-        "name": "Sky Sports (UK)",
-        "date": "17 November 2026",
-        "url": "https://www.skysports.com/football/wales-vs-portugal/554136"
-      },
-      {
-        "name": "101 Great Goals (UK)",
-        "date": "17 November 2026",
-        "url": "https://www.101greatgoals.com/match-reports/wales-2-3-portugal-report-result-goals/"
-      }
-    ]
-  },
-  {
     "id": "2026-11-19-nwsl-final-spirit-current",
     "date": "2026-11-19",
     "level": "4e",
@@ -373,6 +280,99 @@
         "name": "ESPN (USA)",
         "date": "24 November 2026",
         "url": "https://www.espn.com/soccer/report/_/gameId/401915379"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-26-liverpool-win-in-bruges",
+    "date": "2026-11-26",
+    "level": "4e",
+    "topic": "Champions League",
+    "country": "England",
+    "flag": "england",
+    "emoji": "🔴",
+    "title": "Isak scores twice as Liverpool win 3-0 in Belgium",
+    "lead": "Liverpool travelled to Belgium and beat Club Brugge 3-0 in the Champions League, with 2 goals from Alexander Isak.",
+    "body": [
+      "On Wednesday 25 November 2026, Liverpool travelled to Bruges, in Belgium, to play Club Brugge at the Jan Breydel Stadium. There were 27,286 fans in the stadium, and most of them wanted a home win.",
+      "But Liverpool started well. After only 13 minutes, the Brugge goalkeeper made a bad pass, and Alexander Isak scored. Brugge attacked a lot after that, but Liverpool's goalkeeper, Alisson, made some important saves.",
+      "Then, in the 79th minute, Florian Wirtz scored a beautiful curling shot from far away: 2-0! 3 minutes later, Isak got his second goal when he chipped the ball over the goalkeeper. After the match, he said it was \"a perfect away win\".",
+      "Liverpool have now won 4 of their 5 matches, so they are fifth in the table with 12 points. Their coach, Andoni Iraola, was pleased because his team didn't concede a goal. Their next Champions League match is against Porto at Anfield."
+    ],
+    "keywords": [
+      [
+        "travelled",
+        "se sont déplacés"
+      ],
+      [
+        "home win",
+        "une victoire à domicile"
+      ],
+      [
+        "bad pass",
+        "une mauvaise passe"
+      ],
+      [
+        "saves",
+        "arrêts"
+      ],
+      [
+        "curling shot",
+        "un tir enroulé"
+      ],
+      [
+        "chipped",
+        "a lobé"
+      ],
+      [
+        "away win",
+        "une victoire à l'extérieur"
+      ],
+      [
+        "concede",
+        "encaisser"
+      ]
+    ],
+    "questions": [
+      {
+        "q": "Who scored 2 goals for Liverpool?",
+        "options": [
+          "Florian Wirtz",
+          "Alexander Isak",
+          "Alisson"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "How did Isak score his second goal?",
+        "options": [
+          "He chipped the ball over the goalkeeper",
+          "With a header",
+          "With a penalty"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "How many points have Liverpool got after 5 matches?",
+        "options": [
+          "9 points",
+          "15 points",
+          "12 points"
+        ],
+        "answer": 2
+      }
+    ],
+    "turn": "Your turn! You are a sports journalist. Describe one of the 3 goals in 2 or 3 sentences: \"In the … minute, … The ball … The fans …\"",
+    "sources": [
+      {
+        "name": "Sky Sports (UK)",
+        "date": "25 November 2026",
+        "url": "https://www.skysports.com/football/club-brugge-vs-liverpool/report/577679"
+      },
+      {
+        "name": "ESPN (USA)",
+        "date": "25 November 2026",
+        "url": "https://global.espn.com/football/match/_/gameId/401915292/liverpool-club-brugge"
       }
     ]
   }
