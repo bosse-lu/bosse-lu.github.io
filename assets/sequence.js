@@ -38,7 +38,7 @@
       // Writing workshop after the -ed speaking test (a step can carry preview: true = seen only with the teacher code)
       {id: "write", href: "my-weekend/", art: "write", title: "What did you do? · 30 words",
         what: "Après le test -ed, réponds par écrit au texte « Last Saturday… » en 30 mots. Avant d'écrire : l'ordre des mots, -ed à l'écrit, les premiers verbes irréguliers, la négation, les questions et les mots de liaison.",
-        skills: ["Écrit", "Ordre des mots", "Prétérit", "Mots de liaison"], key: "weekend", total: s => s.t || 69, count: s => s.n || 0},
+        skills: ["Écrit", "Ordre des mots", "Prétérit", "Mots de liaison"], key: "weekend", total: s => s.t || 29, count: s => s.n || 0},
       {id: "excuse", href: "excuse-lab/", art: "excuse", title: "Recap: Excuse Lab",
         what: "Pour finir la séquence : reprends toutes les excuses et les vraies voix des dialogues. Écoute, répète en respectant l'accent des mots et le rythme des phrases, puis joue la scène.",
         skills: ["Récapitulatif", "Accent et rythme", "Jouer la scène"], key: "excuselab4e", total: 27,

@@ -23,6 +23,10 @@
   window.pageStars = stars;
   // ids ending in _4 are for the 4e only, _5 for the 5e only
   const keep = a => a.filter(x => !(x.id.endsWith("_4") && !is4()) && !(x.id.endsWith("_5") && is4()));
+  // 5e: exactly the exercises of the paper worksheet, in its order, so the page corrects the sheet
+  const SHEET5 = {build: ["b1", "b2", "b4"], ed: ["e3", "e5", "e6", "e9", "e10", "e2"], irr: ["i1", "i2", "i3", "i4", "i6", "i7", "i9", "i10"], neg: ["g1", "g3", "g5"], qo: ["o1", "o2", "o3"]};
+  const pick = (list, key) => is4() ? keep(list) : SHEET5[key].map(id => list.find(x => x.id === id));
+  const rule5 = (title, html) => `<div class="rule"><p><b>Rule · ${title}</b></p>${html}</div>`;
 
   /* ---------- voice ---------- */
   function say(lines) {
@@ -127,6 +131,11 @@
   ];
   const ck = (t, r) => `<span class="ck ${r}">${esc(t)}</span>`;
   function renderSyn() {
+    if (!is4()) {
+      $("#syn").innerHTML = rule5("word order", `<p lang="en">${ck("Who", "who")} + ${ck("did what", "verb")} + ${ck("what", "what")} + ${ck("where", "where")} + ${ck("when", "when")}.</p>
+        <p lang="en">We walked to the park after the match. <i>When</i> can also go first: Last Saturday, I played basketball. <button type="button" class="listen" data-say="We walked to the park after the match. | Last Saturday, I played basketball." aria-label="Listen">▶</button></p>`);
+      return;
+    }
     $("#syn").innerHTML = `<div class="roles">${Object.entries(ROLE).map(([r, [en, fr]]) => `<span class="ck ${r}" title="${esc(fr)}">${en}</span>`).join("")}</div>
       ${SYN.map(s => `<p class="model" lang="en">${s.map(([t, r]) => ck(t, r)).join(" ")} <button type="button" class="listen" data-say="${esc(s.map(x => x[0]).join(" "))}" aria-label="Listen">▶</button></p>`).join("")}
       ${choice("syn1", {prompt: T("Where is the verb (<i>did what?</i>)", "Où est le verbe ?"), opts: ["Just after the subject: I played, we walked", "At the end of the sentence"], a: "Just after the subject: I played, we walked"})}
@@ -153,7 +162,7 @@
     $("#bd-cons").outerHTML = st >= 3
       ? `<p class="consigne" id="bd-cons" data-fr="Écris la phrase avec les mots donnés, dans le bon ordre.">Write the sentence with these words, in the right order.</p>`
       : `<p class="consigne" id="bd-cons" data-fr="Touche les étiquettes dans le bon ordre.${st >= 2 ? " Attention : une étiquette est en trop !" : ""}">Tap the words in the right order.${st >= 2 ? " Be careful: one word is a trap!" : ""}</p>`;
-    $("#build").innerHTML = keep(BUILD).map(x => order(x.id, Object.assign({prompt: `<span aria-hidden="true">${x.e}</span>`, trapMsg: ["Last weekend: the verb is in the past!", "C'est le week-end dernier : le verbe est au prétérit !"]}, x))).join("");
+    $("#build").innerHTML = pick(BUILD, "build").map(x => order(x.id, Object.assign({prompt: `<span aria-hidden="true">${x.e}</span>`, trapMsg: ["Last weekend: the verb is in the past!", "C'est le week-end dernier : le verbe est au prétérit !"]}, x))).join("");
   }
 
   /* ======================= Step 2 · -ed spelling ======================= */
@@ -182,7 +191,8 @@
   ];
   const IPA = {t: "/t/", d: "/d/", id: "/ɪd/"};
   function renderEd() {
-    $("#edt").innerHTML = `<div class="four" lang="en">
+    if (!is4()) $("#edt").innerHTML = rule5("writing -ed", `<p lang="en">play → play<b>ed</b> · danc<b>e</b> → dance<b>d</b> · stud<b>y</b> → stud<b>ied</b> · cha<b>t</b> → cha<b>tted</b></p>`);
+    else $("#edt").innerHTML = `<div class="four" lang="en">
         <div class="ex"><span class="tag2">a</span><b>play → played<br>watch → watched</b></div>
         <div class="ex"><span class="tag2">b</span><b>dance → danced<br>arrive → arrived</b></div>
         <div class="ex"><span class="tag2">c</span><b>study → studied<br>cry → cried</b></div>
@@ -198,7 +208,7 @@
         <p>${T("And when you read: <span class=\"snd t\">/t/</span> watched, <span class=\"snd d\">/d/</span> played, <span class=\"snd id\">/ɪd/</span> visited (after t or d only).", "Et à l'oral : /t/, /d/ ou /ɪd/ (seulement après t ou d).")}</p>
       </div>`;
     const st = stars();
-    $("#edf").innerHTML = keep(ED).map(x => choice(x.id, {
+    $("#edf").innerHTML = pick(ED, "ed").map(x => choice(x.id, {
       cls: "vrow", head: `<b lang="en">to ${esc(x.v)}</b>${st < 3 ? `<small>${esc(x.fr)}</small>` : ""}`,
       opts: st >= 2 ? [x.p, x.w[0], x.w[1]] : [x.p, x.w[0]], a: x.p, typed: st >= 3, placeholder: "past simple",
       after: `<span class="snd ${x.s}">${esc(x.p)} ${IPA[x.s]}</span>`,
@@ -237,13 +247,14 @@
   ];
   function renderIrr() {
     const st = stars();
-    $("#sort").innerHTML = `<p class="gapq">${T("Regular (-ed) or irregular?", "Régulier (-ed) ou irrégulier ?")}</p>` + SORT.map(x => choice(x.id, {
+    if (!is4()) $("#sort").innerHTML = `<p class="gapq" lang="en"><b>Box:</b> ate · forgot · got up · had · saw · took · was / were · went</p>`;
+    else $("#sort").innerHTML = `<p class="gapq">${T("Regular (-ed) or irregular?", "Régulier (-ed) ou irrégulier ?")}</p>` + SORT.map(x => choice(x.id, {
       cls: "qrow sortrow", prompt: `<span lang="en">${esc(x.s[0])}<b>${esc(x.s[1])}</b>${esc(x.s[2])}</span>`, opts: ["regular", "irregular"], a: x.a, fixed: true,
       after: `<i lang="en">${esc(x.base)} → ${esc(x.s[1])}</i>`,
       why: () => x.a === "regular" ? ["Look: it ends in -ed.", "Regarde : il se termine par -ed."] : ["No -ed here: the verb changes.", "Pas de -ed ici : le verbe change."],
       onOk: () => say(x.s.join(""))
     })).join("") + `<div class="rule" data-need="${SORT.map(x => x.id).join(" ")}" hidden><p><b>${T("Irregular verbs don't take -ed: they change. Learn them by heart!", "Les verbes irréguliers ne prennent pas -ed : ils changent. Apprends-les par cœur !")}</b></p></div>`;
-    $("#irr").innerHTML = keep(IRR).map(x => {
+    $("#irr").innerHTML = pick(IRR, "irr").map(x => {
       const traps = st >= 2 ? [x.w[0], is4() ? x.w[1] : x.w[2]] : [x.w[0]];
       return choice(x.id, {
         cls: "vrow", head: `<b lang="en">to ${esc(x.v)}</b>${st < 3 ? `<small>${esc(x.fr)}</small>` : ""}`,
@@ -269,7 +280,8 @@
   ];
   const tok = s => s.replace(/[.?]$/, "").split(" ").map((w, i, a) => i === a.length - 1 ? w + s.slice(-1) : w);
   function renderNeg() {
-    $("#negt").innerHTML = `<p class="quote" lang="en">We <b>didn't watch</b> TV and we <b>didn't go</b> home early. <button type="button" class="listen" data-say="We didn't watch TV and we didn't go home early." aria-label="Listen">▶</button></p>
+    if (!is4()) $("#negt").innerHTML = rule5("the negative", `<p lang="en"><b>didn't + base verb:</b> We didn't watch TV. ✗ <s>didn't watched</s></p>`);
+    else $("#negt").innerHTML = `<p class="quote" lang="en">We <b>didn't watch</b> TV and we <b>didn't go</b> home early. <button type="button" class="listen" data-say="We didn't watch TV and we didn't go home early." aria-label="Listen">▶</button></p>
       ${choice("n1", {prompt: T("After <i>didn't</i>, the verb is…", "Après didn't, le verbe est…"), opts: ["the base verb: watch, go", "in the past: watched, went"], a: "the base verb: watch, go"})}
       ${choice("n2", {prompt: T("<i>didn't</i> is the short form of…", "didn't est la forme courte de…"), opts: ["did not", "do not"], a: "did not"})}
       ${is4() ? choice("n3_4", {prompt: T("And with <i>be</i>? <i>I was late.</i> → I…", "Et avec be ? I was late. → I…"), opts: ["wasn't late", "didn't be late"], a: "wasn't late"}) : ""}
@@ -279,7 +291,7 @@
         ${is4() ? `<p lang="en">${T("With <b>be</b>: I <b>wasn't</b>, we <b>weren't</b> (no didn't!).", "Avec be : wasn't, weren't (sans didn't !).")}</p>` : ""}
       </div>`;
     const st = stars();
-    $("#neg").innerHTML = keep(NEG).map(x => {
+    $("#neg").innerHTML = pick(NEG, "neg").map(x => {
       const pr = `<span class="pos" lang="en">${esc(x.pos)}</span> → ❌`;
       if (st < 2) return `<div class="card">${choice(x.id, {prompt: pr, opts: [x.ans].concat(x.w), a: x.ans, why: g => /didn't \w+ed\b|didn't (went|had|got|forgot|was|were)/.test(g) ? ["After didn't: the base verb!", "Après didn't : la base verbale !"] : null})}</div>`;
       return order(x.id, {prompt: pr, words: tok(x.ans), acc: [x.ans], trap: st >= 2 && x.past !== "didn't" ? [x.past] : x.past === "didn't" ? ["didn't"] : [], noHint: true, placeholder: "Write the negative sentence",
@@ -305,7 +317,8 @@
     {id: "a5_4", q: "Were you tired?", m: "❌", a: "No, I wasn't.", w: ["No, I didn't.", "No, I weren't."]}
   ];
   function renderQ() {
-    $("#qt").innerHTML = `<p class="quote" lang="en">And you? <b>Did you play</b> basketball last weekend? ↗ <b>What did you do</b>? ↘ <button type="button" class="listen" data-say="And you? | Did you play basketball last weekend? | What did you do?" aria-label="Listen">▶</button></p>
+    if (!is4()) $("#qt").innerHTML = rule5("questions", `<p lang="en"><b>Did you + base verb…?</b> ↗ · <b>What did you + base verb?</b> ↘ · Yes, I did. / No, I didn't. <button type="button" class="listen" data-say="Did you play basketball last weekend? | What did you do?" aria-label="Listen">▶</button></p>`);
+    else $("#qt").innerHTML = `<p class="quote" lang="en">And you? <b>Did you play</b> basketball last weekend? ↗ <b>What did you do</b>? ↘ <button type="button" class="listen" data-say="And you? | Did you play basketball last weekend? | What did you do?" aria-label="Listen">▶</button></p>
       ${choice("q1", {prompt: T("After <i>Did you…</i>, the verb is…", "Après Did you…, le verbe est…"), opts: ["the base verb: play, do", "in the past: played, did"], a: "the base verb: play, do"})}
       ${choice("q2", {prompt: T("<i>Did you play…?</i> The short answer is…", "La réponse courte est…"), opts: ["Yes, I did. / No, I didn't.", "Yes, I played. / No, I not."], a: "Yes, I did. / No, I didn't."})}
       ${choice("q3", {prompt: T("Listen. <i>What did you do?</i> My voice…", "Écoute. Pour What did you do?, ma voix…"), opts: ["goes down ↘", "goes up ↗"], a: "goes down ↘", after: T("<i>Did you…?</i> (yes / no) ↗ · <i>What…? Where…? Who…?</i> ↘", "Question fermée : la voix monte. Question avec un mot interrogatif : elle descend.")})}
@@ -314,14 +327,16 @@
         <p lang="en"><b>Did</b> + you + <b>base verb</b> …? ↗ · <b>What / Where / Who</b> + did + you + <b>base verb</b>? ↘</p>
         <p lang="en">Yes, I did. / No, I didn't.</p>
       </div>`;
-    $("#qo").innerHTML = keep(QO).map(x => order(x.id, Object.assign({trapMsg: ["After did: the base verb!", "Après did : la base verbale !"], placeholder: "Write the question"}, x))).join("");
+    $("#qo").innerHTML = pick(QO, "qo").map(x => order(x.id, Object.assign({trapMsg: ["After did: the base verb!", "Après did : la base verbale !"], placeholder: "Write the question"}, x))).join("");
+    $("#qa").hidden = !is4();
+    if (!is4()) { $("#qa").innerHTML = ""; return; }
     $("#qa").innerHTML = `<p class="gapq">${T("Answer with a short answer.", "Réponds par une réponse courte.")}</p>` + keep(QA).map(x => choice(x.id, {prompt: `<span lang="en">👩 ${esc(x.q)}</span> <span aria-label="${x.m === "✅" ? "yes" : "no"}">${x.m}</span>`, opts: [x.a].concat(x.w), a: x.a, onOk: () => say([x.q, x.a])})).join("");
   }
 
   /* ======================= Step 6 · linking words ======================= */
-  const CX5 = [["First", "to start", "d'abord"], ["Then / After that", "next", "ensuite, après"], ["Finally", "to finish", "enfin"], ["and", "to add", "et"], ["but", "the opposite", "mais"], ["because", "the cause", "parce que"], ["so", "the consequence", "donc"]];
-  const CX4 = [["because of", "+ a noun: the cause", "à cause de"], ["That's why", "the consequence", "c'est pourquoi"]];
-  const GAP5 = ["Last Saturday, I got up late", {id: "c1_5", a: "because", o: ["so", "but"]}, "I was very tired.", {id: "c2_5", a: "First", o: ["Finally", "Because"]}, ", I had breakfast with my brother.", {id: "c3_5", a: "Then", o: ["Because", "But"]}, ", we walked to the park", {id: "c4_5", a: "and", o: ["so", "because"]}, "we played football. It started to rain,", {id: "c5_5", a: "so", o: ["because", "first"]}, "we went home.", {id: "c6_5", a: "Finally", o: ["First", "Because"]}, ", we watched a film. It was great,", {id: "c7_5", a: "but", o: ["so", "because"]}, "I didn't do my homework!"];
+  const CX5 = [["First", "to start", "d'abord"], ["Then", "next", "ensuite"], ["Finally", "to finish", "enfin"], ["and", "to add", "et"], ["but", "the opposite", "mais"], ["because", "the cause", "parce que"], ["so", "the consequence", "donc"]];
+  const CX4 = [["After that", "next", "après"], ["because of", "+ a noun: the cause", "à cause de"], ["That's why", "the consequence", "c'est pourquoi"]];
+  const GAP5 = ["Last Saturday, I got up late", {id: "p1_5", a: "because", o: ["so"]}, "I was tired.", {id: "p2_5", a: "First", o: ["Finally"]}, ", I had breakfast.", {id: "p3_5", a: "Then", o: ["But"]}, "we played football. It started to rain,", {id: "p4_5", a: "so", o: ["because"]}, "we went home. It was fun,", {id: "p5_5", a: "but", o: ["so"]}, "I didn't do my homework!"];
   const GAP4 = ["Last weekend, I didn't go out", {id: "c1_4", a: "because of", o: ["because", "so"]}, "the rain.", {id: "c2_4", a: "First", o: ["Finally", "That's why"]}, ", I tidied my bedroom.", {id: "c3_4", a: "After that", o: ["Because of", "But"]}, ", I phoned my friend Léa,", {id: "c4_4", a: "but", o: ["so", "because of"]}, "she didn't answer. I was bored.", {id: "c5_4", a: "That's why", o: ["Because of", "Because"]}, "I made a chocolate cake!", {id: "c6_4", a: "Then", o: ["Because", "First"]}, "my cousins arrived,", {id: "c7_4", a: "so", o: ["because", "but"]}, "we ate the cake together. It was a great weekend", {id: "c8_4", a: "because", o: ["because of", "so"]}, "we laughed a lot."];
   const plain = g => g.map(x => typeof x === "string" ? x : x.a).join(" ").replace(/ ,/g, ",");
   function renderGap() {
@@ -450,12 +465,28 @@
     if (admin()) S.pv = +b.dataset.st; else S.free = +b.dataset.st;
     save(); renderAll(true); document.dispatchEvent(new CustomEvent("level:change"));
   });
+  const CONS5 = {h1s: ["Read the rule, then put the words in order.", "Lis la règle, puis remets les mots dans l'ordre."],
+    h2s: ["Read the rule, then write the past simple.", "Lis la règle, puis écris le prétérit."],
+    h3s: ["Write the past simple with the words in the box.", "Écris le prétérit avec les mots de la boîte."],
+    h4s: ["Read the rule, then make the sentences negative.", "Lis la règle, puis mets les phrases à la forme négative."],
+    h5s: ["Read the rule, then put the words in order.", "Lis la règle, puis remets les mots dans l'ordre."],
+    h6s: ["Choose the right word.", "Choisis le bon mot."]};
+  function renderCons() {
+    Object.entries(CONS5).forEach(([h, [en, fr]]) => {
+      const sec = $(`section[aria-labelledby="${h}"]`), ins = $$(":scope > .instr", sec), p = $(".consigne", ins[0]);
+      if (!sec.dataset.orig) sec.dataset.orig = JSON.stringify([p.textContent, p.dataset.fr || ""]);
+      const [oen, ofr] = JSON.parse(sec.dataset.orig), five = !is4();
+      p.outerHTML = `<p class="consigne" data-fr="${esc(five ? fr : ofr)}">${esc(five ? en : oen)}</p>`;
+      if (h === "h3s" && ins[1]) ins[1].hidden = five;
+    });
+    const n = $("#sheet5"); if (n) n.hidden = is4();
+  }
   let lastSig = null;
   function renderAll(force) {
     renderLevel();
     const sig = stars() + L(); if (!force && sig === lastSig) return; lastSig = sig;
     IDS = [];
-    renderSyn(); renderBuild(); renderEd(); renderIrr(); renderNeg(); renderQ(); renderGap(); renderWrite();
+    renderCons(); renderSyn(); renderBuild(); renderEd(); renderIrr(); renderNeg(); renderQ(); renderGap(); renderWrite();
     refreshRules(); progress();
     if (window.Consigne && Consigne.refresh) Consigne.refresh();
     if (window.SiteArt) $$("[data-art]").forEach(SiteArt.draw);
