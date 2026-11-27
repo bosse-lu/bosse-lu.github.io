@@ -17,39 +17,8 @@
       const v = speechSynthesis.getVoices().find(x => x.lang.replace("_", "-") === u.lang); if (v) u.voice = v; speechSynthesis.speak(u); } catch (e) {}
   }
 
-  /* ---------- a London street, drawn (the article photo is shown in class or on the paper sheet) ---------- */
-  const bus = (x, y, s, route, dest) => `<g transform="translate(${x} ${y}) scale(${s})">
-    <rect x="0" y="0" width="210" height="150" rx="16" fill="#d7262e" stroke="#1b2340" stroke-width="3"/>
-    <rect x="12" y="14" width="186" height="40" rx="6" fill="#bfe1f5" stroke="#1b2340" stroke-width="2.5"/>
-    <path d="M58 14v40M104 14v40M150 14v40" stroke="#1b2340" stroke-width="2.5"/>
-    <rect x="12" y="74" width="140" height="38" rx="6" fill="#bfe1f5" stroke="#1b2340" stroke-width="2.5"/>
-    <path d="M58 74v38M104 74v38" stroke="#1b2340" stroke-width="2.5"/>
-    <rect x="160" y="70" width="38" height="70" rx="4" fill="#bfe1f5" stroke="#1b2340" stroke-width="2.5"/>
-    <path d="M179 70v70" stroke="#1b2340" stroke-width="2"/>
-    <rect x="0" y="58" width="210" height="10" fill="#b51d24"/>
-    <rect x="14" y="117" width="60" height="16" rx="3" fill="#1b2340"/><text x="44" y="129" text-anchor="middle" font-size="12" font-weight="800" fill="#ffd23f" font-family="Verdana,sans-serif">${route}</text>
-    <text x="82" y="129" font-size="10" font-weight="700" fill="#fff" font-family="Verdana,sans-serif">${dest}</text>
-    <circle cx="45" cy="152" r="17" fill="#1b2340"/><circle cx="45" cy="152" r="7" fill="#9aa1bd"/>
-    <circle cx="165" cy="152" r="17" fill="#1b2340"/><circle cx="165" cy="152" r="7" fill="#9aa1bd"/></g>`;
-  const person = (x, c) => `<g transform="translate(${x} 318)"><circle cx="0" cy="-58" r="9" fill="#8a5a3c"/><rect x="-9" y="-48" width="18" height="30" rx="7" fill="${c}"/><rect x="-8" y="-20" width="7" height="22" fill="#1b2340"/><rect x="1" y="-20" width="7" height="22" fill="#1b2340"/><rect x="5" y="-46" width="10" height="13" rx="2" fill="#2f4fd8"/></g>`;
-  const SCENE = `<svg class="scene" viewBox="0 0 640 340" role="img" aria-label="A London street: red double-decker buses, Big Ben, a black taxi, a red phone box and students waiting at a bus stop">
-    <rect width="640" height="340" fill="#cfe6f7"/>
-    <circle cx="560" cy="58" r="26" fill="#ffd23f" opacity=".85"/>
-    <g fill="#b9a27a" stroke="#1b2340" stroke-width="2.5">
-      <rect x="40" y="70" width="44" height="190"/><path d="M36 70h52l-26-52z"/><path d="M62 18v-12"/>
-      <rect x="84" y="140" width="120" height="120"/><rect x="204" y="120" width="60" height="140"/></g>
-    <circle cx="62" cy="104" r="15" fill="#fff8e7" stroke="#1b2340" stroke-width="2.5"/><path d="M62 104v-9M62 104l6 4" stroke="#1b2340" stroke-width="2.5" stroke-linecap="round"/>
-    <g fill="#1b2340" opacity=".35"><rect x="96" y="156" width="10" height="22"/><rect x="120" y="156" width="10" height="22"/><rect x="144" y="156" width="10" height="22"/><rect x="168" y="156" width="10" height="22"/><rect x="214" y="140" width="10" height="22"/><rect x="238" y="140" width="10" height="22"/></g>
-    <rect x="0" y="260" width="640" height="80" fill="#8a8fa3"/><rect x="0" y="318" width="640" height="22" fill="#c9ccd6"/>
-    <path d="M0 290h640" stroke="#fff" stroke-width="4" stroke-dasharray="26 22"/>
-    ${bus(250, 120, .95, "W14", "LEYTON")}
-    ${bus(455, 150, .72, "W12", "WOODFORD")}
-    <g transform="translate(150 266)"><rect x="0" y="0" width="70" height="28" rx="10" fill="#1b2340"/><rect x="10" y="-14" width="44" height="18" rx="6" fill="#1b2340"/><circle cx="16" cy="30" r="8" fill="#333"/><circle cx="56" cy="30" r="8" fill="#333"/><rect x="18" y="-11" width="14" height="11" fill="#bfe1f5"/><rect x="36" y="-11" width="14" height="11" fill="#bfe1f5"/></g>
-    <g transform="translate(18 250)"><rect x="0" y="0" width="30" height="68" rx="4" fill="#d7262e" stroke="#1b2340" stroke-width="2.5"/><rect x="5" y="14" width="20" height="40" fill="#bfe1f5" stroke="#1b2340" stroke-width="1.5"/><text x="15" y="10" text-anchor="middle" font-size="6.5" font-weight="800" fill="#fff" font-family="Verdana,sans-serif">PHONE</text></g>
-    <g transform="translate(600 230)"><path d="M0 0v88" stroke="#1b2340" stroke-width="4"/><circle cx="0" cy="-8" r="17" fill="#fff" stroke="#d7262e" stroke-width="5"/><rect x="-19" y="-12" width="38" height="8" fill="#2f4fd8"/><rect x="-16" y="12" width="32" height="18" rx="3" fill="#1b2340"/><text x="0" y="25" text-anchor="middle" font-size="10" font-weight="800" fill="#ffd23f" font-family="Verdana,sans-serif">W14</text></g>
-    ${person(520, "#2f4fd8")}${person(546, "#1f8a55")}${person(572, "#8a3fc7")}${person(498, "#c27a00")}
-    <g transform="translate(468 112)"><rect x="0" y="0" width="70" height="22" rx="11" fill="#fff" stroke="#1b2340" stroke-width="2"/><text x="35" y="15" text-anchor="middle" font-size="11" font-weight="700" fill="#1b2340" font-family="Verdana,sans-serif">8:42 ⏰</text></g>
-  </svg>`;
+  /* ---------- the authentic photo of the two buses of the article (W12 and W14, London) ---------- */
+  const SCENE = `<img src="../assets/img/bus-w12-w14.jpg" width="1170" height="530" alt="Two red London buses: on the left the W12, on the right the W14 to Whipps Cross, both run by Stagecoach">`;
 
   /* ---------- the two sheets ---------- */
   const TITLE = "London school pupils handed detentions for lateness after TfL change bus routes";
@@ -59,7 +28,7 @@
       : [["city", "a city", "", /london/], ["problem", "a problem", "", /lateness|late/], ["punish", "a punishment", "une punition", /detention/]],
     source: [["paper", "The newspaper is called…", /independent/], ["journalist", "The journalist is…", /amelia|neath/], ["date", "It was published on…", /4 april|april 4|04 04|4 4 2025|friday/], ["country", "The newspaper is from… (country)", /uk|united kingdom|england|britain|great britain|english|british/]]
   };
-  const SEE = [["red buses", 1], ["double-decker buses", 1], ["a bus stop", 1], ["Big Ben", 1], ["a black taxi", 1], ["students waiting", 1], ["a beach", 0], ["the Eiffel Tower", 0]];
+  const SEE = [["red buses", 1], ["two bus routes: the W12 and the W14", 1], ["a bus driver", 1], ["the name of the bus company", 1], ["a train", 0], ["a beach", 0], ["the Eiffel Tower", 0]];
   const ACT = four ? {
     id: [["school", "Name of the school", /woodbridge/], ["where", "Where is it?", /london|woodford/], ["many", "How many students?", /2 ?000|two thousand/], ["changed", "What has TfL changed?", /route|line|bus|w14|w12/], ["conseq", "What's the consequence for the students?", /late|detention|wait/], ["who", "Who took action? What did he do?", /clifton|deputy/]],
     tf: [["a", "Most students walk to school.", "F", 1], ["b", "There are fewer W14 buses now.", "T", 2], ["c", "When the buses are crowded, they sometimes don't stop.", "T", 3], ["d", "The students think it's their fault.", "F", 4], ["e", "Mr Clifton asked TfL for a special bus.", "T", 5], ["f", "The school still gives detentions for bus lateness.", "F", 6], ["g", "TfL agrees with the school.", "F", 7]],
@@ -106,8 +75,10 @@
   function renderAnte() {
     $("#ante").innerHTML = `
       <div class="sw-intro"><p>${T("Before reading, discover the article: the picture, the title and the source. Same questions as your sheet « Before reading: what is it? ».", "Avant de lire, découvre l'article : l'image, le titre et la source. Ce sont les questions de ta fiche d'anticipation.")}</p></div>
-      <figure class="sw-fig">${SCENE}<figcaption>${T("A street in London, drawn for the class. In class, your teacher shows you the real photo of the article.", "Une rue de Londres, dessinée pour la classe. En classe, ton professeur te montre la vraie photo de l'article.")}</figcaption></figure>
-      <div class="sw-paper"><p class="sw-k">The article</p><p class="sw-title" lang="en">“${TITLE}”</p><p class="sw-src"><i>The Independent</i> · by Amelia Neath · Friday 4 April 2025</p></div>
+      <figure class="sw-fig">${SCENE}<figcaption>${T("The two buses of the article: the W12 and the W14, in London.", "Les deux bus de l'article : le W12 et le W14, à Londres.")}</figcaption></figure>
+      <div class="sw-paper"><p class="sw-k">The article</p><p class="sw-title" lang="en">Late for school? Blame the bus!</p>
+        <p class="sw-src"><i>The Independent</i> · by Amelia Neath · Friday 4 April 2025</p>
+        <p class="sw-orig"><span class="sw-k">Original title</span> <span lang="en">“${TITLE}”</span></p></div>
       ${box(1, "What is it?", ["Choose the right answer, then the clues that help you.", "Coche la bonne réponse, puis les indices qui t'aident."],
         `<p>${opts("a1", ["a poster", "a newspaper article", "a letter", "an advertisement"])}</p>
          <p class="sw-q">How do you know? <small>${T("Tick the clues.", "Coche les indices.")}</small></p>
@@ -115,7 +86,7 @@
       ${box(2, "Look at the picture.", ["What can you see? Where is it?", "Que vois-tu ? Où est-ce ?"],
         `<p class="sw-q">I can see… <small>${T("Tick what you can see.", "Coche ce que tu vois.")}</small></p><p>${opts("a2", SEE.map(s => s[0]), true)}</p>
          <p class="sw-q">I think it's in…</p><p>${opts("a2b", ["London", "Paris", "New York", "Cayenne"])}</p>${chk("a2")}`, "a2")}
-      ${box(3, "Read the title.", ["Find in the title:", "Trouve dans le titre :"],
+      ${box(3, "Read the original title.", ["Find in the original title of the article:", "Trouve dans le titre original de l'article :"],
         `<p class="sw-title sm" lang="en">“${TITLE}” <button type="button" class="sw-say" data-say="${esc(TITLE)}" aria-label="Listen">▶</button></p>
          <div class="sw-rows">${ANTE.title.map(([k, en, fr]) => `<label><span>${en}${fr ? ` <small>(${fr})</small>` : ""} →</span>${inp("a3." + k, "")}</label>`).join("")}</div>
          ${four ? `<p class="sw-q">TfL is… <small>${T("Guess!", "Devine !")}</small></p><p>${opts("a3.tfl", ["a school", "a newspaper", "a transport company"])}</p>` : ""}${chk("a3")}`, "a3")}
@@ -174,10 +145,10 @@
     },
     a2(card) {
       const sel = val("a2") || [], good = SEE.filter(s => s[1]).map(s => s[0]), bad = SEE.filter(s => !s[1]).map(s => s[0]);
-      const ok1 = sel.length >= 4 && !sel.some(s => bad.includes(s)), ok2 = val("a2b") === "London";
+      const ok1 = sel.length >= 3 && !sel.some(s => bad.includes(s)), ok2 = val("a2b") === "London";
       mark($(`.sw-opts[data-k="a2"]`, card), ok1); mark($(`.sw-opts[data-k="a2b"]`, card), ok2);
-      if (ok1 && ok2) { done("a2"); say("I can see red double-decker buses. I think it's in London."); fb(card, true, "I can see red double-decker buses and Big Ben: it's in London!", "Bus rouges à impériale et Big Ben : c'est Londres !"); }
-      else fb(card, false, !ok1 ? "Look again: tick at least 4 things, and nothing that isn't in the picture." : null, !ok1 ? "Regarde encore : coche au moins 4 choses, et rien qui ne soit pas sur l'image." : null);
+      if (ok1 && ok2) { done("a2"); say("I can see two red buses, the W12 and the W14. I think it's in London."); fb(card, true, "I can see two red buses, the W12 and the W14: it's in London!", "Deux bus rouges, le W12 et le W14 : c'est Londres !"); }
+      else fb(card, false, !ok1 ? "Look again: tick at least 3 things, and nothing that isn't in the picture." : null, !ok1 ? "Regarde encore : coche au moins 3 choses, et rien qui ne soit pas sur l'image." : null);
     },
     a3(card) {
       let all = true;
@@ -188,7 +159,7 @@
     a4(card) {
       let all = true;
       ANTE.source.forEach(([k, , re]) => { const ok = re.test(norm(val("a4." + k))); mark($(`[data-k="a4.${k}"]`, card), ok); all = all && ok; });
-      if (all) { done("a4"); fb(card, true); } else fb(card, false, "Look at the source under the title.", "Regarde la source sous le titre.");
+      if (all) { done("a4"); fb(card, true); } else fb(card, false, "Look at the source under the title of the article.", "Regarde la source sous le titre.");
     },
     a5(card) {
       const ok = norm(val("a5")).split(" ").length >= 3;
@@ -278,12 +249,13 @@
 @media (max-width:620px){.tabs{grid-template-columns:1fr 1fr!important}}
 .sw-intro{background:var(--accent-soft);border-radius:14px;padding:10px 14px;margin:0 0 12px}
 .sw-intro p{margin:0}
-.sw-fig{margin:0 0 12px}.sw-fig svg{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);display:block}
+.sw-fig{margin:0 0 12px}.sw-fig img{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);display:block}.sw-fig svg{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);display:block}
 .sw-fig figcaption{font-size:.85rem;color:var(--muted);margin-top:4px}
 .sw-paper{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--mark);border-radius:12px;padding:10px 14px;margin:0 0 12px}
 .sw-k{margin:0;font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .sw-title{font-family:var(--display);font-weight:800;font-size:1.15rem;margin:4px 0}.sw-title.sm{font-size:1rem}
 .sw-src{margin:0;color:var(--muted)}
+.sw-orig{margin:8px 0 0;padding-top:8px;border-top:1px dashed var(--line);font-weight:700}.sw-orig .sw-k{display:block}
 .sw-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 12px}
 .sw-card h3{margin:0 0 6px;font-family:var(--display);font-size:1.08rem;display:flex;align-items:center;gap:8px}
 .sw-n{flex:none;display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:.9rem}
