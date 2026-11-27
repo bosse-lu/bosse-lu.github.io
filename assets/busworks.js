@@ -44,7 +44,7 @@
     ed: {n: 7, verbs: {changed: "d", waited: "id", arrived: "d", decided: "id", asked: "t", stopped: "t"}},
     note: {n: 8, situ: ["Tu es élève à Woodbridge High School. Ce matin, le W14 était bondé et ne s'est pas arrêté : tu as attendu 20 minutes. Écris un mot à ton professeur, Mr Kalaghan.", "This morning the W14 was crowded and didn't stop: you waited 20 minutes. Write a note to your teacher, Mr Kalaghan."],
       gaps: ["Dear Mr ", ["Kalaghan", /kalaghan/], ", I'm sorry I'm late. I ", ["waited", /^waited$/], " at the bus stop for 20 minutes, but the W14 didn't stop ", ["because", /^because$/], " it was ", ["crowded", /crowded|full/], ". It isn't my ", ["fault", /^fault$/], ": the bus ", ["hasn't", /^(hasn't|hasnt|has not)$/], " come!"],
-      checks: [["because or because of", /\bbecause\b/], ["a verb in the past (-ed)", /\b\w{3,}ed\b/], ["the present perfect (the bus hasn't come, I've missed…)", /\b(has|have|hasn't|haven't|i've|it's)\s+(not\s+)?(come|missed|been|waited|arrived|stopped|gone)\b/], ["★★★ so or That's why", /\bso\b|that'?s why/]]},
+      checks: [["because or because of", /\bbecause\b/], ["a verb in the past (-ed)", /\b\w{3,}ed\b/], ["the present perfect (the bus hasn't come, I've missed…)", /\b(has|have|hasn't|haven't|i've|it's)\s+(not\s+)?(come|missed|been|waited|arrived|stopped|gone)\b/], ["so or That's why (★★★)", /\bso\b|that'?s why/]]},
     med: {n: 9, rows: ["Où ça se passe ?", "Quel est le problème ?", "Comment réagissent les élèves ?", "Qu'est-ce qui a changé depuis ?", "Que répond TfL ? Qui a raison selon nous ?"]},
     pp: true
   } : {
@@ -145,8 +145,7 @@
         `<div class="sw-rows">${Object.keys(A.ed.verbs).map((_, i) => `<label><span>Verb ${i + 1}</span>${inp("ed.v" + i, "…ed", "9em")}${opts("ed.s" + i, ["/t/", "/d/", "/ɪd/"])}</label>`).join("")}</div>${chk("ed")}`, "ed")}
       <h2 class="sw-h">Your turn</h2>
       ${box(A.note.n, "Write an excuse note.", [A.note.situ[1], A.note.situ[0]],
-        `<p class="sw-q">★ ${T("Complete:", "Complète :")}</p><p class="sw-gaps" lang="en">${A.note.gaps.map((g, i) => typeof g === "string" ? esc(g) : inp("ng." + i, "", Math.max(5, g[0].length + 2) + "ch")).join("")}</p>
-         <p class="sw-q">★★ ${T(four ? "Write your note in 4 or 5 lines." : "Write your note in 3 or 4 lines.", four ? "Écris ton mot en quatre ou cinq lignes." : "Écris ton mot en trois ou quatre lignes.")}</p>
+        `<p class="sw-q">${T(four ? "Write your note in 4 or 5 lines. Use the checklist under your note." : "Write your note in 3 or 4 lines. Use the checklist under your note.", four ? "Écris ton mot en quatre ou cinq lignes. Aide-toi de la liste sous ton mot." : "Écris ton mot en trois ou quatre lignes. Aide-toi de la liste sous ton mot.")}</p>
          <textarea class="sw-ta" data-k="note.free" rows="5" lang="en" spellcheck="false" placeholder="Dear Mr Kalaghan, …">${esc(val("note.free"))}</textarea>
          <ul class="sw-checks" id="sw-checks"></ul>${chk("note")}`, "note")}
       <h2 class="sw-h">End of the lesson</h2>
@@ -245,11 +244,11 @@
       else fb(card, false, "Find each verb only once. /t/ after p, k, f, s, ch, sh · /d/ after a voiced sound · /ɪd/ after t or d.", "Chaque verbe une seule fois. /t/ après p, k, f, s, ch, sh · /d/ après un son voisé · /ɪd/ après t ou d.");
     },
     note(card) {
-      let gapsOk = true;
-      ACT.note.gaps.forEach((g, i) => { if (typeof g === "string") return; const ok = g[1].test(norm(val("ng." + i))); mark($(`[data-k="ng.${i}"]`, card), ok); gapsOk = gapsOk && ok; });
-      const t = String(val("note.free")).toLowerCase().replace(/[’‘]/g, "'"), free = ACT.note.checks.filter(c => !/^★★★/.test(c[0])).every(c => c[1].test(t)) && norm(t).split(" ").length >= 15;
-      if (gapsOk || free) { done("note"); fb(card, true, free ? "Your note is ready. Read it aloud!" : "★ Done! Now try ★★: write your own note.", free ? "Ton mot est prêt. Lis-le à voix haute !" : "★ Réussi ! Essaie maintenant ★★ : écris ton propre mot."); }
-      else fb(card, false, "★ Check the gaps in red, or ★★ complete your note with the checklist.", "★ Vérifie les trous en rouge, ou ★★ complète ton mot avec la liste.");
+      const t = String(val("note.free")).toLowerCase().replace(/[’‘]/g, "'"), n = norm(t) ? norm(t).split(" ").length : 0;
+      const ok = ACT.note.checks.filter(c => !/★★★/.test(c[0])).every(c => c[1].test(t)) && n >= 15;
+      mark($(`[data-k="note.free"]`, card), ok);
+      if (ok) { done("note"); fb(card, true, "Your note is ready. Read it aloud!", "Ton mot est prêt. Lis-le à voix haute !"); }
+      else fb(card, false, "Look at the checklist: what is missing?", "Regarde la liste : qu'est-ce qui manque ?");
       noteChecks();
     }
   };
