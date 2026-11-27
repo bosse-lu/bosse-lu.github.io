@@ -202,9 +202,14 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
   </header>
 
   <div class="tabs" role="tablist" aria-label="Parts of the activity">
-    <button class="tab" role="tab" id="tab-read" aria-controls="read" aria-selected="true">1 · Reading</button>
-    <button class="tab" role="tab" id="tab-lab" aria-controls="lab" aria-selected="false">2 · Lab -ed</button>
+    <button class="tab" role="tab" id="tab-ante" aria-controls="ante" aria-selected="false">1 · Before reading</button>
+    <button class="tab" role="tab" id="tab-read" aria-controls="read" aria-selected="true">2 · The text</button>
+    <button class="tab" role="tab" id="tab-acts" aria-controls="acts" aria-selected="false">3 · Activities</button>
+    <button class="tab" role="tab" id="tab-lab" aria-controls="lab" aria-selected="false">4 · Lab -ed</button>
   </div>
+
+  <!-- ============ BEFORE READING (anticipation sheet) · filled by assets/busworks.js ============ -->
+  <section id="ante" role="tabpanel" aria-labelledby="tab-ante" class="panel" hidden></section>
 
   <!-- ============ READING ============ -->
   <section id="read" role="tabpanel" aria-labelledby="tab-read" class="panel">
@@ -255,7 +260,11 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
       </section>
     </div>
 
+    <p style="text-align:right;margin:10px 0 0"><button type="button" class="btn primary" data-goto="acts">Now the activities →</button></p>
   </section>
+
+  <!-- ============ ACTIVITIES (student sheet) · filled by assets/busworks.js ============ -->
+  <section id="acts" role="tabpanel" aria-labelledby="tab-acts" class="panel" hidden></section>
 
   <!-- ============ LAB ============ -->
   <section id="lab" role="tabpanel" aria-labelledby="tab-lab" class="panel" hidden>
@@ -272,6 +281,7 @@ details ul{margin:10px 0 0;padding-left:20px;display:flex;flex-direction:column;
   <details>
     <summary>Notes pour le professeur</summary>
     <ul>
+      <li><b>Comme les fiches papier</b> : l'onglet <i>1 · Before reading</i> reprend la fiche d'anticipation (questions 1 à 5) avec une rue de Londres dessinée (bus rouges à impériale, Big Ben, arrêt W14) ; projetez en classe la vraie photo de l'article. L'onglet <i>3 · Activities</i> reprend les activités de la fiche élève 5e, avec les mêmes numéros (1 à 7), corrigées automatiquement sauf la médiation, faite en classe. Les élèves peuvent donc travailler sur papier et vérifier sur le site, ou l'inverse.</li>
       <li>Page liée à la séance <i>Late for school? Blame the bus!</i> de la séquence <i>Late and absent</i> (axe 4 École et loisirs, axe 6 Le Royaume-Uni). Le texte est celui de la fiche élève : une adaptation A2 de l'article de <i>The Independent</i> du 4 avril 2025, avec la source citée et un lien vers l'original.</li>
       <li><b>Lecture</b> : l'élève écoute tout le texte ou une seule phrase (en la touchant), à trois vitesses. La phrase lue est surlignée. Les mots du glossaire sont soulignés et traduits au toucher. L'option « Voir les verbes en -ed » colore les quatre verbes réguliers et affiche leur son.</li>
       <li><b>Lis à ton tour</b> : l'élève choisit un paragraphe, écoute le modèle, s'enregistre et compare. C'est une bonne activité d'autonomie en salle informatique avant le mini-débat <i>Is it fair?</i></li>
@@ -384,7 +394,7 @@ ITEMS.forEach(it => { if (it.w) it.verbs = [{w:it.w, a:it.a}]; });
 
 /* ---------- state ---------- */
 const KEY = "latebus5e";
-let state = {tab:"read", i:0, res:{}, guess:{}, hint:{}, rp:0};
+let state = {tab:"ante", i:0, res:{}, guess:{}, hint:{}, rp:0};
 try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s) state = Object.assign(state, s); } catch (e) {}
 function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
 
@@ -636,7 +646,7 @@ function renderLab() { renderChips(); renderCard(); }
 function showTab(t) {
   stopSpeech(); resetAudio();
   state.tab = t; save();
-  ["read", "lab"].forEach(x => {
+  ["ante", "read", "acts", "lab"].forEach(x => {
     $("#" + x).hidden = x !== t;
     $("#tab-" + x).setAttribute("aria-selected", String(x === t));
   });
@@ -703,7 +713,7 @@ if (!(state.rp === "all" || (state.rp >= 0 && state.rp < TEXT.length))) state.rp
 $$(".ico-file").forEach(s => s.outerHTML = ico.file);
 $$(".ico-play").forEach(s => s.outerHTML = ico.play);
 renderText(); renderPChips(); applyToggles(); setReadBtns(false); resetAudio();
-showTab(state.tab === "lab" ? "lab" : "read");
+showTab(["ante", "read", "acts", "lab"].includes(state.tab) ? state.tab : "ante");
 </script>
 <script src="../assets/art.js"></script>
 <script src="../assets/newbadge.js"></script>
@@ -712,6 +722,7 @@ showTab(state.tab === "lab" ? "lab" : "read");
 <script src="../assets/classes.js"></script>
 <script src="../assets/sequence.js" data-step="bus" data-seq="late-and-absent"></script>
 <script src="../assets/export-pdf.js"></script>
+<script src="../assets/busworks.js?v=20261127a"></script>
 <script>
 /* The article as a PDF to annotate (wide margin, numbered lines), to hand in on Pronote */
 (function () {
