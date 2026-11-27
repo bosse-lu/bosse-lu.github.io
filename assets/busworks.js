@@ -38,31 +38,47 @@
     id: [["school", "Name of the school", /woodbridge/], ["where", "Where is it?", /london|woodford/], ["many", "How many students?", /2 ?000|two thousand/], ["changed", "What has TfL changed?", /route|line|bus|w14|w12/], ["conseq", "What's the consequence for the students?", /late|detention|wait/], ["who", "Who took action? What did he do?", /clifton|deputy/]],
     tf: [["a", "Most students walk to school.", "F", 1], ["b", "There are fewer W14 buses now.", "T", 2], ["c", "When the buses are crowded, they sometimes don't stop.", "T", 3], ["d", "The students think it's their fault.", "F", 4], ["e", "Mr Clifton asked TfL for a special bus.", "T", 5], ["f", "The school still gives detentions for bus lateness.", "F", 6], ["g", "TfL agrees with the school.", "F", 7]],
     sum: ["a. TfL has cancelled the W14 bus, so the students can't go to school any more.", "b. Since TfL changed two bus routes, the students have often been late. The school punished them, then stopped the detentions, but TfL defends its new routes.", "c. The students were late because they overslept, so the deputy headteacher wrote to their parents."], sumA: 1,
-    link: {n: 4, title: "Because, because of, so or That's why?", fr: "Complète. Attention : because + une phrase, because of + un nom.", opts: ["because", "because of", "so", "That's why"], items: [
+    link: {n: 5, title: "Because, because of, so or That's why?", fr: "Complète. Attention : because + une phrase, because of + un nom.", opts: ["because", "because of", "so", "That's why"], items: [
       ["The students were late", "the buses.", "because of"], ["The buses are crowded.", "they don't stop.", ["That's why", "so"]], ["The students got a detention", "they arrived late.", "because"],
       ["It wasn't the students' fault,", "the school stopped the detentions.", "so"], ["The school stopped the detentions", "the bus problem.", "because of"], ["Mr Clifton wanted to help the students.", "he wrote to TfL.", ["That's why", "so"]]]},
-    ed: {n: 6, verbs: {changed: "d", waited: "id", arrived: "d", decided: "id", asked: "t", stopped: "t"}},
-    note: {n: 7, situ: ["Tu es élève à Woodbridge High School. Ce matin, le W14 était bondé et ne s'est pas arrêté : tu as attendu 20 minutes. Écris un mot à ton professeur, Mr Kalaghan.", "This morning the W14 was crowded and didn't stop: you waited 20 minutes. Write a note to your teacher, Mr Kalaghan."],
+    ed: {n: 7, verbs: {changed: "d", waited: "id", arrived: "d", decided: "id", asked: "t", stopped: "t"}},
+    note: {n: 8, situ: ["Tu es élève à Woodbridge High School. Ce matin, le W14 était bondé et ne s'est pas arrêté : tu as attendu 20 minutes. Écris un mot à ton professeur, Mr Kalaghan.", "This morning the W14 was crowded and didn't stop: you waited 20 minutes. Write a note to your teacher, Mr Kalaghan."],
       gaps: ["Dear Mr ", ["Kalaghan", /kalaghan/], ", I'm sorry I'm late. I ", ["waited", /^waited$/], " at the bus stop for 20 minutes, but the W14 didn't stop ", ["because", /^because$/], " it was ", ["crowded", /crowded|full/], ". It isn't my ", ["fault", /^fault$/], ": the bus ", ["hasn't", /^(hasn't|hasnt|has not)$/], " come!"],
       checks: [["because or because of", /\bbecause\b/], ["a verb in the past (-ed)", /\b\w{3,}ed\b/], ["the present perfect (the bus hasn't come, I've missed…)", /\b(has|have|hasn't|haven't|i've|it's)\s+(not\s+)?(come|missed|been|waited|arrived|stopped|gone)\b/], ["★★★ so or That's why", /\bso\b|that'?s why/]]},
-    med: {n: 8, rows: ["Où ça se passe ?", "Quel est le problème ?", "Comment réagissent les élèves ?", "Qu'est-ce qui a changé depuis ?", "Que répond TfL ? Qui a raison selon nous ?"]},
+    med: {n: 9, rows: ["Où ça se passe ?", "Quel est le problème ?", "Comment réagissent les élèves ?", "Qu'est-ce qui a changé depuis ?", "Que répond TfL ? Qui a raison selon nous ?"]},
     pp: true
   } : {
     id: [["school", "Name of the school", /woodbridge/], ["where", "Where is it?", /london|woodford/], ["many", "How many students?", /2 ?000|two thousand/], ["problem", "What's the problem?", /bus|late|full/], ["who", "Who wrote a letter?", /clifton|deputy/], ["whom", "To whom? (à qui ?)", /tfl|transport/]],
     tf: [["a", "The school is in the south of London.", "F", 1], ["b", "Now there are three W14 buses an hour.", "F", 2], ["c", "Sometimes the buses don't stop.", "T", 3], ["d", "The students were happy.", "F", 4], ["e", "The deputy headteacher wrote to TfL.", "T", 5], ["f", "Today, students still get a detention when the bus is late.", "F", 6]],
     sum: ["a. Students in London are late because they overslept.", "b. Students in London are late because of the buses, and their school punished them.", "c. A London bus driver is late for work every day."], sumA: 1,
-    link: {n: 4, title: "Because or so?", fr: "Relie les deux phrases avec because ou so. Attention : la cause n'est pas toujours en premier !", opts: ["because", "so"], items: [
+    link: {n: 5, title: "Because or so?", fr: "Relie les deux phrases avec because ou so. Attention : la cause n'est pas toujours en premier !", opts: ["because", "so"], items: [
       ["The buses are late.", "the students arrive late.", "so"], ["The students got a detention", "they arrived late.", "because"], ["The students were angry", "the detentions were not fair.", "because"], ["The buses are full.", "some students walk home.", "so"]]},
-    ed: {n: 5, verbs: {changed: "d", waited: "id", arrived: "d", asked: "t"}},
-    note: {n: 6, situ: ["Tu es élève à Woodbridge High School. Ce matin, le bus W14 était en retard de 15 minutes. Écris un mot à ton professeur, Mr Kalaghan.", "This morning the W14 bus was 15 minutes late. Write a note to your teacher, Mr Kalaghan."],
+    ed: {n: 6, verbs: {changed: "d", waited: "id", arrived: "d", asked: "t"}},
+    note: {n: 7, situ: ["Tu es élève à Woodbridge High School. Ce matin, le bus W14 était en retard de 15 minutes. Écris un mot à ton professeur, Mr Kalaghan.", "This morning the W14 bus was 15 minutes late. Write a note to your teacher, Mr Kalaghan."],
       gaps: ["Dear Mr ", ["Kalaghan", /kalaghan/], ", I'm sorry I was late this morning because the ", ["bus", /bus|w14/], " arrived late. I waited at the ", ["bus", /^bus$/], " ", ["stop", /^stop$/], " for ", ["15", /^(15|fifteen)$/], " minutes."],
       checks: [["Dear Mr Kalaghan", /dear/], ["sorry", /sorry/], ["because", /\bbecause\b/], ["a verb in the past (waited, arrived…)", /\b(waited|arrived|was|missed|stopped)\b/]]},
-    med: {n: 7, rows: ["Où ça se passe ?", "Quel est le problème ?", "Comment réagissent les élèves ?", "Qu'est-ce qui a changé ?"]}
+    med: {n: 8, rows: ["Où ça se passe ?", "Quel est le problème ?", "Comment réagissent les élèves ?", "Qu'est-ce qui a changé ?"]}
   };
+  // Part 1 (paragraphs 1 to 3): the first five verbs in the past, then the summary. Part 2 (paragraphs 4 to 7): true or false, then the summary.
+  const VERBS = [["changed", 2, "change"], ["were", 2, "be"], ["waited", 3, "wait"], ["arrived", 3, "arrive"], ["got", 3, "get"]];
+  const P1 = four ? {sum: ["a. TfL has cancelled the W14, so the students can't go to school any more.",
+      "b. Since TfL changed two bus routes, the buses have often been late or crowded, so many students have arrived late and got detentions.",
+      "c. The buses are crowded because more students take the bus, so the school has given detentions to the bus drivers."], a: 1}
+    : {sum: ["a. Woodbridge High School has a new bus, so the students arrive early.",
+      "b. TfL changed two bus lines. Now the buses are often late or full, so the students arrive late and get detentions.",
+      "c. The students overslept, so they missed the bus and got a detention."], a: 1};
+  const P2 = four ? {tf: [["a", "The students think it's their fault.", "F", 4], ["b", "The students say they haven't done anything wrong.", "T", 4], ["c", "Mr Clifton decided to do nothing.", "F", 5], ["d", "Mr Clifton asked TfL for a special bus.", "T", 5], ["e", "The school still gives detentions for bus lateness.", "F", 6], ["f", "TfL agrees with the school.", "F", 7], ["g", "According to TfL, the new routes help people go to the hospital.", "T", 7]],
+      sum: ["a. The students accepted the detentions, and TfL has put the old routes back.",
+        "b. The students protested, the deputy headteacher took action and the school has stopped the detentions, but TfL defends its new routes.",
+        "c. Mr Clifton has given more detentions, so the students wrote an open letter to TfL."], a: 1}
+    : {tf: [["a", "The students were happy.", "F", 4], ["b", "The students said: “It's the bus!”", "T", 4], ["c", "Mr Clifton is a student.", "F", 5], ["d", "Mr Clifton wrote an open letter to TfL.", "T", 5], ["e", "He asked for a special bus for the teachers.", "F", 5], ["f", "Today, the school still gives detentions for bus lateness.", "F", 6], ["g", "TfL says the new bus lines are good for other people.", "T", 7]],
+      sum: ["a. The students accepted the detentions, and TfL changed the bus lines again.",
+        "b. The students were angry. The deputy headteacher wrote to TfL, and now the school doesn't give detentions for bus lateness. But TfL likes the new bus lines.",
+        "c. Mr Clifton gave more detentions, and the students wrote a letter to TfL."], a: 1};
   const PP = [["3", /have often been|have been/, "+"], ["4", /haven't done|have not done|haven t done/, "-"], ["4b", /hasn't come|has not come|hasn t come/, "-"], ["6", /has stopped/, "+"]];
 
   /* ---------- items counted in the progress (sequence) ---------- */
-  const ITEMS = ["a1", "a2", "a5"].concat(["id"], ACT.tf.map(t => "tf" + t[0]), ["sum"], ACT.link.items.map((_, i) => "lk" + i), ACT.pp ? ["pp"] : [], ["ed", "note"]);
+  const ITEMS = ["a1", "a2", "a5"].concat(["vb", "s1"], P2.tf.map(t => "tf" + t[0]), ["s2"], ACT.link.items.map((_, i) => "lk" + i), ACT.pp ? ["pp"] : [], ["ed", "note"]);
   window.BUS_SHEET_TOTAL = ITEMS.length;
   function progress() {
     const n = ITEMS.filter(i => SH.done[i]).length;
@@ -103,18 +119,23 @@
   function renderActs() {
     const A = ACT, L = A.link;
     $("#acts").innerHTML = `
-      <div class="sw-intro"><p>${T(`The activities of your sheet, with the same numbers. Read the text again (tab 2) to answer. My sheet: <b data-sheet-pc></b>`, `Les activités de ta fiche, avec les mêmes numéros. Relis le texte (onglet 2) pour répondre.`)}</p></div>
-      <h2 class="sw-h">Read and understand</h2>
-      ${box(1, "Complete the ID card of the article.", ["Pair work: complete with your neighbour.", "Complète la carte d'identité avec ton voisin."],
-        `<div class="sw-rows">${A.id.map(([k, en]) => `<label><span>${en}</span>${inp("id." + k, "")}</label>`).join("")}</div>${chk("id")}`, "id")}
-      ${box(2, "True or false?", ["★ Tick. ★★ Justify: which paragraph?", "★ Coche. ★★ Justifie : quel paragraphe ?"],
-        `<div class="sw-tf">${A.tf.map(([k, s]) => `<div class="sw-tfr" data-tf="${k}"><span lang="en">${k}. ${esc(s)}</span>${opts("tf." + k, ["T", "F"])}<span class="sw-par">[¶] ${opts("tfp." + k, ["1", "2", "3", "4", "5", "6", "7"])}</span></div>`).join("")}</div>${chk("tf")}`, "tf")}
-      ${box(3, "Choose the best summary.", ["Check that you understood the main idea.", "Tu vérifies que tu as compris l'essentiel du texte."],
-        `<div class="sw-sum">${opts("sum", A.sum)}</div>${chk("sum")}`, "sum")}
+      <div class="sw-intro"><p>${T(`Read the text again (tab 2), part by part, to answer. My work: <b data-sheet-pc></b>`, `Relis le texte (onglet 2), partie par partie, pour répondre.`)}</p></div>
+      <h2 class="sw-h">Part 1 · paragraphs 1 to 3</h2>
+      ${box(1, four ? "The first five verbs in the past simple." : "The first five verbs in the past.", four
+          ? ["Find the first five verbs in the past simple in paragraphs 2 and 3 (careful: not the present perfect!). Write each verb and its base verb.", "Trouve les cinq premiers verbes au prétérit dans les paragraphes 2 et 3 (attention : pas le present perfect !). Écris chaque verbe et sa base verbale."]
+          : ["Here are the first five verbs in the past in the text. Write the base verb.", "Voici les cinq premiers verbes au passé du texte. Écris la base verbale."],
+        `<div class="sw-rows">${VERBS.map(([w, p], i) => four
+            ? `<label><span>Verb ${i + 1}</span><span class="sw-two">${inp("vb.w" + i, "past simple")}${inp("vb.b" + i, "base verb")}</span></label>`
+            : `<label><span lang="en">[${p}] <b>${w}</b> →</span>${inp("vb.b" + i, "base verb", "12em")}</label>`).join("")}</div>${chk("vb")}`, "vb")}
+      ${box(2, "Choose the best summary of part 1.", ["Paragraphs 1 to 3.", "Paragraphes 1 à 3."], `<div class="sw-sum">${opts("s1", P1.sum)}</div>${chk("s1")}`, "s1")}
+      <h2 class="sw-h">Part 2 · paragraphs 4 to 7</h2>
+      ${box(3, "True or false?", ["★ Tick. ★★ Justify: which paragraph?", "★ Coche. ★★ Justifie : quel paragraphe ?"],
+        `<div class="sw-tf">${P2.tf.map(([k, s]) => `<div class="sw-tfr" data-tf="${k}"><span lang="en">${k}. ${esc(s)}</span>${opts("tf." + k, ["T", "F"])}<span class="sw-par">[¶] ${opts("tfp." + k, ["4", "5", "6", "7"])}</span></div>`).join("")}</div>${chk("tf")}`, "tf")}
+      ${box(4, "Choose the best summary of part 2.", ["Paragraphs 4 to 7.", "Paragraphes 4 à 7."], `<div class="sw-sum">${opts("s2", P2.sum)}</div>${chk("s2")}`, "s2")}
       <h2 class="sw-h">Language</h2>
       ${box(L.n, L.title, [L.title, L.fr],
         `<div class="sw-link">${L.items.map(([a, b], i) => `<p lang="en">${String.fromCharCode(97 + i)}. ${esc(a)} ${opts("lk" + i, L.opts)} ${esc(b)}</p>`).join("")}</div>${chk("lk")}`, "lk")}
-      ${A.pp ? box(5, "The present perfect.", ["Find 4 verbs in the present perfect (have / has + past participle).", "Trouve dans le texte 4 verbes au present perfect (have / has + participe passé)."],
+      ${A.pp ? box(6, "The present perfect.", ["Find 4 verbs in the present perfect (have / has + past participle).", "Trouve dans le texte 4 verbes au present perfect (have / has + participe passé)."],
         `<div class="sw-rows">${PP.map(([p]) => `<label><span>[${p.replace("b", "")}]</span>${inp("pp." + p, "have / has …")}${opts("ppn." + p, ["positive", "negative"])}</label>`).join("")}</div>
          <p class="sw-q">Which words come before the present perfect in paragraphs [3] and [6]? ${inp("pp.since", "", "10em")}</p>
          <p class="sw-q">Why the present perfect?</p><p>${opts("pp.why", ["The action happened at a precise moment and it's finished.", "It started in the past and it's still true now."])}</p>${chk("pp")}`, "pp") : ""}
@@ -165,23 +186,36 @@
       if (ok) { done("a5"); fb(card, true, "Saved! After reading, check: were you right?", "Enregistré ! Après la lecture, vérifie : avais-tu raison ?"); }
       else fb(card, false, four ? "Write a full sentence with because: I think the pupils are late because…" : "Complete the sentence: …because the bus…", four ? "Écris une phrase complète avec because." : "Complète la phrase : …because the bus…");
     },
-    id(card) {
-      let all = true;
-      ACT.id.forEach(([k, , re]) => { const ok = re.test(norm(val("id." + k))); mark($(`[data-k="id.${k}"]`, card), ok); all = all && ok; });
-      if (all) { done("id"); fb(card, true); } else fb(card, false, "Look for the answers in paragraphs 1, 2, 3 and 5.", "Cherche les réponses dans les paragraphes 1, 2, 3 et 5.");
+    vb(card) {
+      let all = true; const seen = new Set();
+      VERBS.forEach(([w, , base], i) => {
+        if (four) {
+          const got = norm(val("vb.w" + i)), okw = VERBS.some(v => v[0] === got) && !seen.has(got); if (okw) seen.add(got);
+          mark($(`[data-k="vb.w${i}"]`, card), okw);
+          const want = okw ? VERBS.find(v => v[0] === got)[2] : null, okb = !!want && norm(val("vb.b" + i)).replace(/^to /, "") === want;
+          mark($(`[data-k="vb.b${i}"]`, card), okb); all = all && okw && okb;
+        } else { const okb = norm(val("vb.b" + i)).replace(/^to /, "") === base; mark($(`[data-k="vb.b${i}"]`, card), okb); all = all && okb; }
+      });
+      if (all) { done("vb"); fb(card, true, "changed → change · were → be · waited → wait · arrived → arrive · got → get", "Trois verbes réguliers en -ed, deux irréguliers : were (be) et got (get)."); }
+      else fb(card, false, four ? "Look in paragraphs 2 and 3: past simple only (have been is the present perfect). Each verb once." : "The base verb = the verb without -ed. Careful: were and got are irregular!",
+        four ? "Cherche dans les paragraphes 2 et 3 : seulement le prétérit (have been est au present perfect). Chaque verbe une fois." : "La base verbale = le verbe sans -ed. Attention : were et got sont irréguliers !");
+    },
+    s1(card) {
+      const ok = val("s1") === P1.sum[P1.a]; mark($(`.sw-opts[data-k="s1"]`, card), ok);
+      if (ok) { done("s1"); fb(card, true); } else fb(card, false, "Is it really in paragraphs 1 to 3? Read them again.", "Est-ce vraiment dans les paragraphes 1 à 3 ? Relis-les.");
     },
     tf(card) {
       let all = true, paras = true;
-      ACT.tf.forEach(([k, , a, p]) => {
+      P2.tf.forEach(([k, , a, p]) => {
         const ok = val("tf." + k) === a; mark($(`.sw-opts[data-k="tf.${k}"]`, card), ok); all = all && ok; if (ok) done("tf" + k);
         const pv = val("tfp." + k); if (pv) { const okp = +pv === p; mark($(`.sw-opts[data-k="tfp.${k}"]`, card), okp); paras = paras && okp; }
       });
-      if (all) { done("tf"); fb(card, true, paras ? "Well done!" : "True / false: well done! ★★ Check the paragraph numbers in red.", paras ? "Bravo !" : "Vrai / faux : bravo ! ★★ Vérifie les paragraphes en rouge."); }
-      else fb(card, false, "Some answers are wrong (in red). Read the paragraph again.", "Des réponses sont fausses (en rouge). Relis le paragraphe.");
+      if (all) fb(card, true, paras ? "Well done!" : "True / false: well done! ★★ Check the paragraph numbers in red.", paras ? "Bravo !" : "Vrai / faux : bravo ! ★★ Vérifie les paragraphes en rouge.");
+      else fb(card, false, "Some answers are wrong (in red). Read paragraphs 4 to 7 again.", "Des réponses sont fausses (en rouge). Relis les paragraphes 4 à 7.");
     },
-    sum(card) {
-      const ok = val("sum") === ACT.sum[ACT.sumA]; mark($(`.sw-opts[data-k="sum"]`, card), ok);
-      if (ok) { done("sum"); fb(card, true); } else fb(card, false, "Is it really in the text? Read paragraph 3 again.", "Est-ce vraiment dans le texte ? Relis le paragraphe 3.");
+    s2(card) {
+      const ok = val("s2") === P2.sum[P2.a]; mark($(`.sw-opts[data-k="s2"]`, card), ok);
+      if (ok) { done("s2"); fb(card, true); } else fb(card, false, "Is it really in paragraphs 4 to 7? Read them again.", "Est-ce vraiment dans les paragraphes 4 à 7 ? Relis-les.");
     },
     lk(card) {
       let all = true;
