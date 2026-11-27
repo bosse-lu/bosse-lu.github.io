@@ -32,6 +32,8 @@
   const CLUES = [["title", "there is a title", /late for school|blame the bus|london school pupils/, "Late for school? Blame the bus!"], ["date", "there is a date", /4 april|april 4|friday|2025/, "Friday 4 April 2025"],
     ["paper", "there is the name of a newspaper", /independent/, "The Independent"], ["journalist", "there is the name of a journalist", /amelia|neath/, "Amelia Neath"], ["photo", "there is a photo", /bus|w12|w14|red|stagecoach/, "two red buses"]];
   const NEED = ["date", "paper", "journalist"];
+  const MODEL2 = ["I can see two red buses: the W12 and the W14. The name of the company is Stagecoach. I think it's in London.",
+    "I can see two red buses: the W12 and the W14 to Whipps Cross. The name of the company is Stagecoach. I think it's in London because London buses are red."];
   const ACT = four ? {
     id: [["school", "Name of the school", /woodbridge/], ["where", "Where is it?", /london|woodford/], ["many", "How many students?", /2 ?000|two thousand/], ["changed", "What has TfL changed?", /route|line|bus|w14|w12/], ["conseq", "What's the consequence for the students?", /late|detention|wait/], ["who", "Who took action? What did he do?", /clifton|deputy/]],
     tf: [["a", "Most students walk to school.", "F", 1], ["b", "There are fewer W14 buses now.", "T", 2], ["c", "When the buses are crowded, they sometimes don't stop.", "T", 3], ["d", "The students think it's their fault.", "F", 4], ["e", "Mr Clifton asked TfL for a special bus.", "T", 5], ["f", "The school still gives detentions for bus lateness.", "F", 6], ["g", "TfL agrees with the school.", "F", 7]],
@@ -60,7 +62,7 @@
   const PP = [["3", /have often been|have been/, "+"], ["4", /haven't done|have not done|haven t done/, "-"], ["4b", /hasn't come|has not come|hasn t come/, "-"], ["6", /has stopped/, "+"]];
 
   /* ---------- items counted in the progress (sequence) ---------- */
-  const ITEMS = ["a1", "a2", "a3", "a5"].concat(["id"], ACT.tf.map(t => "tf" + t[0]), ["sum"], ACT.link.items.map((_, i) => "lk" + i), ACT.pp ? ["pp"] : [], ["ed", "note"]);
+  const ITEMS = ["a1", "a2", "a5"].concat(["id"], ACT.tf.map(t => "tf" + t[0]), ["sum"], ACT.link.items.map((_, i) => "lk" + i), ACT.pp ? ["pp"] : [], ["ed", "note"]);
   window.BUS_SHEET_TOTAL = ITEMS.length;
   function progress() {
     const n = ITEMS.filter(i => SH.done[i]).length;
@@ -85,20 +87,15 @@
       ${box(1, "What is it?", ["Choose the right answer, then the clues that help you.", "Coche la bonne réponse, puis les indices qui t'aident."],
         `<p>${opts("a1", ["a poster", "a newspaper article", "a letter", "an advertisement"])}</p>
          <p class="sw-q">How do you know? <small>${T("Tick the clues, and write the element that proves it.", "Coche les indices et écris à côté l'élément qui le prouve.")}</small></p>
-         <div class="sw-clues">${CLUES.map(([k, en, , ex]) => `<div class="sw-clue">${opts("a1c." + k, [en], true)}${inp("a1j." + k, "e.g. " + (k === "title" ? ex : "…"))}</div>`).join("")}</div>${chk("a1")}`, "a1")}
-      ${box(2, "Look at the picture.", ["What can you see? Where is it?", "Que vois-tu ? Où est-ce ?"],
-        `<p class="sw-q">I can see… <small>${T("Describe the two pictures.", "Décris les deux images.")}</small></p>
-         <div class="sw-rows"><label><span>Red buses: the buses are…</span>${inp("a2.colour", "")}</label>
-           <label><span>Two bus routes: the… and the…</span><span class="sw-two">${inp("a2.r1", "")}${inp("a2.r2", "")}</span></label>
-           <label><span>The name of the company is…</span>${inp("a2.company", "")}</label></div>
-         <p class="sw-q">I think it's in…</p><p>${opts("a2b", ["London", "Paris", "New York", "Sydney"])}</p>${chk("a2")}`, "a2")}
-      ${box(3, "Read the original title.", ["Find in the original title of the article:", "Trouve dans le titre original de l'article :"],
-        `<p class="sw-title sm" lang="en">“${TITLE}” <button type="button" class="sw-say" data-say="${esc(TITLE)}" aria-label="Listen">▶</button></p>
-         <div class="sw-rows">${ANTE.title.map(([k, en, fr]) => `<label><span>${en}${fr ? ` <small>(${fr})</small>` : ""} →</span>${inp("a3." + k, "")}</label>`).join("")}</div>
-         ${four ? `<p class="sw-q">TfL is… <small>${T("Guess!", "Devine !")}</small></p><p>${opts("a3.tfl", ["a school", "a newspaper", "a transport company"])}</p>` : ""}${chk("a3")}`, "a3")}
-      ${box(4, four ? "Trace écrite · my hypotheses" : "Trace écrite · my hypothesis", ["Write your hypothesis, then copy it in your exercise book. Check it after reading the text.", "Écris ton hypothèse, puis recopie-la dans ton cahier. Vérifie-la après la lecture du texte."],
-        `<div class="sw-rows wide"><label><span>It's a newspaper article from <i>The Independent</i>. In the picture, I can see two red buses in London. I think the pupils are late because…</span>${inp("a5", "…the buses…")}</label>
-         ${four ? `<label><span>In my opinion, the detentions are fair / unfair because…</span>${inp("a5b", "")}</label>` : ""}</div>${chk("a5")}`, "a5")}
+         <div class="sw-clues">${CLUES.map(([k, en, , ex]) => `<div class="sw-clue">${opts("a1c." + k, [en], true)}${inp("a1j." + k, four ? "" : "e.g. " + (k === "title" ? ex : "…"))}</div>`).join("")}</div>${chk("a1")}`, "a1")}
+      ${box(2, "Look at the pictures.", four ? ["What can you see? Where is it? How do you know? Write 2 or 3 sentences.", "Que vois-tu ? Où est-ce ? Comment le sais-tu ? Écris 2 ou 3 phrases."] : ["What can you see? Where is it? Write, then check: you get a model.", "Que vois-tu ? Où est-ce ? Écris, puis clique sur Check : tu as un modèle."],
+        `${four ? "" : `<p class="sw-q">Help: <small lang="en">red · buses · two · the W12 · the W14 · the company · Stagecoach · London</small></p>`}
+         <textarea class="sw-ta" data-k="a2.free" rows="4" lang="en" spellcheck="false" placeholder="${four ? "" : "I can see…"}">${esc(val("a2.free"))}</textarea>
+         ${four ? "" : `<p class="sw-q">I think it's in…</p><p>${opts("a2b", ["London", "Paris", "New York", "Sydney"])}</p>`}
+         <div class="sw-model" hidden><p class="sw-k">Model</p><p lang="en">${four ? MODEL2[1] : MODEL2[0]} <button type="button" class="sw-say" data-say="${esc(four ? MODEL2[1] : MODEL2[0])}" aria-label="Listen">▶</button></p></div>${chk("a2")}`, "a2")}
+      ${box(3, "My hypothesis.", four ? ["Why are the pupils late? Is it fair? Write your hypothesis in one or two sentences. Check it after reading the text.", "Pourquoi les élèves sont-ils en retard ? Est-ce juste ? Écris ton hypothèse en une ou deux phrases. Vérifie-la après la lecture du texte."] : ["Complete the sentence. Check it after reading the text.", "Complète la phrase. Vérifie-la après la lecture du texte."],
+        four ? `<textarea class="sw-ta" data-k="a5" rows="3" lang="en" spellcheck="false">${esc(val("a5"))}</textarea>${chk("a5")}`
+             : `<div class="sw-rows wide"><label><span>I think the pupils are late because…</span>${inp("a5", "…the buses…")}</label></div>${chk("a5")}`, "a5")}
       <div class="sw-next"><button type="button" class="btn primary" data-goto="read">${T("Now read the text →", "Maintenant, lis le texte →")}</button></div>`;
   }
 
@@ -154,21 +151,19 @@
         !ok1 ? null : !ok2 ? "Quels indices sont seulement dans un article ? (une affiche peut aussi avoir un titre et une photo)" : "Écris l'élément à côté de chaque indice coché (en rouge) : regarde la carte de l'article.");
     },
     a2(card) {
-      const r = [norm(val("a2.r1")), norm(val("a2.r2"))], okc = /red/.test(norm(val("a2.colour"))), okr = r.includes("w12") && r.includes("w14") || (/w12/.test(r[0]) && /w14/.test(r[1])) || (/w14/.test(r[0]) && /w12/.test(r[1]));
-      const okco = /stagecoach/.test(norm(val("a2.company"))), ok2 = val("a2b") === "London";
-      mark($(`[data-k="a2.colour"]`, card), okc); mark($(`[data-k="a2.r1"]`, card), okr); mark($(`[data-k="a2.r2"]`, card), okr); mark($(`[data-k="a2.company"]`, card), okco); mark($(`.sw-opts[data-k="a2b"]`, card), ok2);
-      if (okc && okr && okco && ok2) { done("a2"); say("I can see red buses: the W12 and the W14. The name of the company is Stagecoach. I think it's in London."); fb(card, true, "Red buses, the W12 and the W14, Stagecoach: it's in London!", "Des bus rouges, le W12 et le W14, Stagecoach : c'est Londres !"); }
-      else fb(card, false, "Look at the pictures again: the colour, the numbers on the buses, the name under the windscreen.", "Regarde encore les images : la couleur, les numéros des bus, le nom sous le pare-brise.");
-    },
-    a3(card) {
-      let all = true;
-      ANTE.title.forEach(([k, , , re]) => { const ok = re.test(norm(val("a3." + k))); mark($(`[data-k="a3.${k}"]`, card), ok); all = all && ok; });
-      if (four) { const ok = val("a3.tfl") === "a transport company"; mark($(`.sw-opts[data-k="a3.tfl"]`, card), ok); all = all && ok; }
-      if (all) { done("a3"); fb(card, true); } else fb(card, false, "Read the title again: the words are there.", "Relis le titre : les mots y sont.");
+      const t = norm(val("a2.free")), n = t ? t.split(" ").length : 0, okc = four ? /london/.test(t) : val("a2b") === "London";
+      const okt = four ? n >= 12 && /because/.test(t) : n >= 4;
+      mark($(`[data-k="a2.free"]`, card), okt); if (!four) mark($(`.sw-opts[data-k="a2b"]`, card), okc);
+      $(".sw-model", card).hidden = !t;
+      if (okt && okc) { done("a2"); fb(card, true, "Compare with the model and improve your text.", "Compare avec le modèle et améliore ton texte."); }
+      else fb(card, false, four ? "Write 2 or 3 sentences: what you can see, where it is, and how you know (because…)." : "Write what you can see (at least one sentence), and choose the city.",
+        four ? "Écris 2 ou 3 phrases : ce que tu vois, où c'est, et comment tu le sais (because…)." : "Écris ce que tu vois (au moins une phrase) et choisis la ville.");
     },
     a5(card) {
-      const ok = norm(val("a5")).split(" ").length >= 3;
-      if (ok) { done("a5"); fb(card, true, "Saved! After reading, check: were you right?", "Enregistré ! Après la lecture, vérifie : avais-tu raison ?"); } else fb(card, false, "Write your idea: …because the bus…", "Écris ton idée : …because the bus…");
+      const t = norm(val("a5")), ok = four ? t.split(" ").length >= 6 && /because/.test(t) : t.split(" ").length >= 2;
+      mark($(`[data-k="a5"]`, card), ok);
+      if (ok) { done("a5"); fb(card, true, "Saved! After reading, check: were you right?", "Enregistré ! Après la lecture, vérifie : avais-tu raison ?"); }
+      else fb(card, false, four ? "Write a full sentence with because: I think the pupils are late because…" : "Complete the sentence: …because the bus…", four ? "Écris une phrase complète avec because." : "Complète la phrase : …because the bus…");
     },
     id(card) {
       let all = true;
@@ -263,6 +258,7 @@
 .sw-clues{display:grid;gap:6px}.sw-clue{display:grid;grid-template-columns:minmax(12em,45%) 1fr;gap:8px;align-items:center}.sw-clue .sw-opts{display:block}.sw-clue .sw-o{width:100%}
 .sw-two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 @media (max-width:520px){.sw-clue{grid-template-columns:1fr}}
+.sw-model{margin-top:10px;border-left:4px solid var(--good);background:var(--good-soft);border-radius:10px;padding:8px 12px}.sw-model p{margin:0}
 .sw-orig{margin:8px 0 0;padding-top:8px;border-top:1px dashed var(--line);font-weight:700}.sw-orig .sw-k{display:block}
 .sw-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 12px}
 .sw-card h3{margin:0 0 6px;font-family:var(--display);font-size:1.08rem;display:flex;align-items:center;gap:8px}
@@ -282,7 +278,7 @@
 @media (max-width:520px){.sw-rows label{grid-template-columns:1fr}.sw-rows label .sw-opts{grid-column:1}}
 .sw-in,.sw-ta{font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:9px;padding:6px 9px;min-width:0;width:100%;box-sizing:border-box}
 .sw-gaps .sw-in{width:auto;padding:3px 6px}
-.sw-in.right,.sw-ta.right{border-color:var(--good);background:var(--good-soft)}.sw-in.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.sw-in.right,.sw-ta.right{border-color:var(--good);background:var(--good-soft)}.sw-in.wrong,.sw-ta.wrong{border-color:var(--bad);background:var(--bad-soft)}
 .sw-gaps{line-height:2.4}
 .sw-tfr{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;padding:6px 0;border-top:1px dashed var(--line)}
 .sw-tfr>span:first-child{flex:1 1 16em}
