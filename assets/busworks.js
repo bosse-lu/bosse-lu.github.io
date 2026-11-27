@@ -28,7 +28,10 @@
       : [["city", "a city", "", /london/], ["problem", "a problem", "", /lateness|late/], ["punish", "a punishment", "une punition", /detention/]],
     source: [["paper", "The newspaper is called…", /independent/], ["journalist", "The journalist is…", /amelia|neath/], ["date", "It was published on…", /4 april|april 4|04 04|4 4 2025|friday/], ["country", "The newspaper is from… (country)", /uk|united kingdom|england|britain|great britain|english|british/]]
   };
-  const SEE = [["red buses", 1], ["two bus routes: the W12 and the W14", 1], ["a bus driver", 1], ["the name of the bus company", 1], ["a train", 0], ["a beach", 0], ["the Eiffel Tower", 0]];
+  // Activity 1 "How do you know?": the clue, then the element that proves it
+  const CLUES = [["title", "there is a title", /late for school|blame the bus|london school pupils/, "Late for school? Blame the bus!"], ["date", "there is a date", /4 april|april 4|friday|2025/, "Friday 4 April 2025"],
+    ["paper", "there is the name of a newspaper", /independent/, "The Independent"], ["journalist", "there is the name of a journalist", /amelia|neath/, "Amelia Neath"], ["photo", "there is a photo", /bus|w12|w14|red|stagecoach/, "two red buses"]];
+  const NEED = ["date", "paper", "journalist"];
   const ACT = four ? {
     id: [["school", "Name of the school", /woodbridge/], ["where", "Where is it?", /london|woodford/], ["many", "How many students?", /2 ?000|two thousand/], ["changed", "What has TfL changed?", /route|line|bus|w14|w12/], ["conseq", "What's the consequence for the students?", /late|detention|wait/], ["who", "Who took action? What did he do?", /clifton|deputy/]],
     tf: [["a", "Most students walk to school.", "F", 1], ["b", "There are fewer W14 buses now.", "T", 2], ["c", "When the buses are crowded, they sometimes don't stop.", "T", 3], ["d", "The students think it's their fault.", "F", 4], ["e", "Mr Clifton asked TfL for a special bus.", "T", 5], ["f", "The school still gives detentions for bus lateness.", "F", 6], ["g", "TfL agrees with the school.", "F", 7]],
@@ -57,7 +60,7 @@
   const PP = [["3", /have often been|have been/, "+"], ["4", /haven't done|have not done|haven t done/, "-"], ["4b", /hasn't come|has not come|hasn t come/, "-"], ["6", /has stopped/, "+"]];
 
   /* ---------- items counted in the progress (sequence) ---------- */
-  const ITEMS = ["a1", "a2", "a3", "a4", "a5"].concat(["id"], ACT.tf.map(t => "tf" + t[0]), ["sum"], ACT.link.items.map((_, i) => "lk" + i), ACT.pp ? ["pp"] : [], ["ed", "note"]);
+  const ITEMS = ["a1", "a2", "a3", "a5"].concat(["id"], ACT.tf.map(t => "tf" + t[0]), ["sum"], ACT.link.items.map((_, i) => "lk" + i), ACT.pp ? ["pp"] : [], ["ed", "note"]);
   window.BUS_SHEET_TOTAL = ITEMS.length;
   function progress() {
     const n = ITEMS.filter(i => SH.done[i]).length;
@@ -81,18 +84,20 @@
         <p class="sw-orig"><span class="sw-k">Original title</span> <span lang="en">“${TITLE}”</span></p></div>
       ${box(1, "What is it?", ["Choose the right answer, then the clues that help you.", "Coche la bonne réponse, puis les indices qui t'aident."],
         `<p>${opts("a1", ["a poster", "a newspaper article", "a letter", "an advertisement"])}</p>
-         <p class="sw-q">How do you know? <small>${T("Tick the clues.", "Coche les indices.")}</small></p>
-         <p>${opts("a1b", ["there is a title", "there is a date", "there is the name of a newspaper", "there is the name of a journalist", "there is a photo"], true)}</p>${chk("a1")}`, "a1")}
+         <p class="sw-q">How do you know? <small>${T("Tick the clues, and write the element that proves it.", "Coche les indices et écris à côté l'élément qui le prouve.")}</small></p>
+         <div class="sw-clues">${CLUES.map(([k, en, , ex]) => `<div class="sw-clue">${opts("a1c." + k, [en], true)}${inp("a1j." + k, "e.g. " + (k === "title" ? ex : "…"))}</div>`).join("")}</div>${chk("a1")}`, "a1")}
       ${box(2, "Look at the picture.", ["What can you see? Where is it?", "Que vois-tu ? Où est-ce ?"],
-        `<p class="sw-q">I can see… <small>${T("Tick what you can see.", "Coche ce que tu vois.")}</small></p><p>${opts("a2", SEE.map(s => s[0]), true)}</p>
-         <p class="sw-q">I think it's in…</p><p>${opts("a2b", ["London", "Paris", "New York", "Cayenne"])}</p>${chk("a2")}`, "a2")}
+        `<p class="sw-q">I can see… <small>${T("Describe the two pictures.", "Décris les deux images.")}</small></p>
+         <div class="sw-rows"><label><span>Red buses: the buses are…</span>${inp("a2.colour", "")}</label>
+           <label><span>Two bus routes: the… and the…</span><span class="sw-two">${inp("a2.r1", "")}${inp("a2.r2", "")}</span></label>
+           <label><span>The name of the company is…</span>${inp("a2.company", "")}</label></div>
+         <p class="sw-q">I think it's in…</p><p>${opts("a2b", ["London", "Paris", "New York", "Sydney"])}</p>${chk("a2")}`, "a2")}
       ${box(3, "Read the original title.", ["Find in the original title of the article:", "Trouve dans le titre original de l'article :"],
         `<p class="sw-title sm" lang="en">“${TITLE}” <button type="button" class="sw-say" data-say="${esc(TITLE)}" aria-label="Listen">▶</button></p>
          <div class="sw-rows">${ANTE.title.map(([k, en, fr]) => `<label><span>${en}${fr ? ` <small>(${fr})</small>` : ""} →</span>${inp("a3." + k, "")}</label>`).join("")}</div>
          ${four ? `<p class="sw-q">TfL is… <small>${T("Guess!", "Devine !")}</small></p><p>${opts("a3.tfl", ["a school", "a newspaper", "a transport company"])}</p>` : ""}${chk("a3")}`, "a3")}
-      ${box(4, "The source.", null, `<div class="sw-rows">${ANTE.source.map(([k, en]) => `<label><span>${en}</span>${inp("a4." + k, "")}</label>`).join("")}</div>${chk("a4")}`, "a4")}
-      ${box(5, four ? "My hypotheses." : "My hypothesis.", ["Write, then check after reading the text.", "Écris, puis vérifie après la lecture du texte."],
-        `<div class="sw-rows wide"><label><span>I think the pupils are late because…</span>${inp("a5", "…the buses…")}</label>
+      ${box(4, four ? "Trace écrite · my hypotheses" : "Trace écrite · my hypothesis", ["Write your hypothesis, then copy it in your exercise book. Check it after reading the text.", "Écris ton hypothèse, puis recopie-la dans ton cahier. Vérifie-la après la lecture du texte."],
+        `<div class="sw-rows wide"><label><span>It's a newspaper article from <i>The Independent</i>. In the picture, I can see two red buses in London. I think the pupils are late because…</span>${inp("a5", "…the buses…")}</label>
          ${four ? `<label><span>In my opinion, the detentions are fair / unfair because…</span>${inp("a5b", "")}</label>` : ""}</div>${chk("a5")}`, "a5")}
       <div class="sw-next"><button type="button" class="btn primary" data-goto="read">${T("Now read the text →", "Maintenant, lis le texte →")}</button></div>`;
   }
@@ -137,29 +142,29 @@
   const optBtn = (k, o) => $(`.sw-opts[data-k="${k}"] .sw-o[data-o="${CSS.escape(o)}"]`);
   const CHECK = {
     a1(card) {
-      const ok1 = val("a1") === "a newspaper article", clues = val("a1b") || [], need = ["there is a date", "there is the name of a newspaper", "there is the name of a journalist"];
-      const ok2 = need.every(c => clues.includes(c));
-      mark($(`.sw-opts[data-k="a1"]`, card), ok1); mark($(`.sw-opts[data-k="a1b"]`, card), ok2);
-      if (ok1 && ok2) { done("a1"); fb(card, true, "Yes! The newspaper, the date and the journalist show it's an article.", "Oui ! Le journal, la date et la journaliste montrent que c'est un article."); }
-      else fb(card, false, ok1 ? "Which clues are only in a newspaper article? (a poster can have a title and a photo too)" : null, ok1 ? "Quels indices sont seulement dans un article ? (une affiche peut aussi avoir un titre et une photo)" : null);
+      const ok1 = val("a1") === "a newspaper article"; mark($(`.sw-opts[data-k="a1"]`, card), ok1);
+      let ok2 = NEED.every(k => (val("a1c." + k) || []).length), ok3 = true;
+      CLUES.forEach(([k, , re]) => {
+        const on = (val("a1c." + k) || []).length > 0, w = norm(val("a1j." + k)), el = $(`[data-k="a1j.${k}"]`, card);
+        if (on) { const ok = re.test(w); mark(el, ok); ok3 = ok3 && ok; } else if (el) el.classList.remove("right", "wrong");
+        const g = $(`.sw-opts[data-k="a1c.${k}"]`, card); if (NEED.includes(k)) mark(g, on); else if (g) g.classList.remove("right", "wrong");
+      });
+      if (ok1 && ok2 && ok3) { done("a1"); fb(card, true, "Yes! The newspaper, the date and the journalist show it's an article.", "Oui ! Le journal, la date et la journaliste montrent que c'est un article."); }
+      else fb(card, false, !ok1 ? null : !ok2 ? "Which clues are only in a newspaper article? (a poster can have a title and a photo too)" : "Write the element next to each clue you ticked (in red): look at the article card.",
+        !ok1 ? null : !ok2 ? "Quels indices sont seulement dans un article ? (une affiche peut aussi avoir un titre et une photo)" : "Écris l'élément à côté de chaque indice coché (en rouge) : regarde la carte de l'article.");
     },
     a2(card) {
-      const sel = val("a2") || [], good = SEE.filter(s => s[1]).map(s => s[0]), bad = SEE.filter(s => !s[1]).map(s => s[0]);
-      const ok1 = sel.length >= 3 && !sel.some(s => bad.includes(s)), ok2 = val("a2b") === "London";
-      mark($(`.sw-opts[data-k="a2"]`, card), ok1); mark($(`.sw-opts[data-k="a2b"]`, card), ok2);
-      if (ok1 && ok2) { done("a2"); say("I can see two red buses, the W12 and the W14. I think it's in London."); fb(card, true, "I can see two red buses, the W12 and the W14: it's in London!", "Deux bus rouges, le W12 et le W14 : c'est Londres !"); }
-      else fb(card, false, !ok1 ? "Look again: tick at least 3 things, and nothing that isn't in the picture." : null, !ok1 ? "Regarde encore : coche au moins 3 choses, et rien qui ne soit pas sur l'image." : null);
+      const r = [norm(val("a2.r1")), norm(val("a2.r2"))], okc = /red/.test(norm(val("a2.colour"))), okr = r.includes("w12") && r.includes("w14") || (/w12/.test(r[0]) && /w14/.test(r[1])) || (/w14/.test(r[0]) && /w12/.test(r[1]));
+      const okco = /stagecoach/.test(norm(val("a2.company"))), ok2 = val("a2b") === "London";
+      mark($(`[data-k="a2.colour"]`, card), okc); mark($(`[data-k="a2.r1"]`, card), okr); mark($(`[data-k="a2.r2"]`, card), okr); mark($(`[data-k="a2.company"]`, card), okco); mark($(`.sw-opts[data-k="a2b"]`, card), ok2);
+      if (okc && okr && okco && ok2) { done("a2"); say("I can see red buses: the W12 and the W14. The name of the company is Stagecoach. I think it's in London."); fb(card, true, "Red buses, the W12 and the W14, Stagecoach: it's in London!", "Des bus rouges, le W12 et le W14, Stagecoach : c'est Londres !"); }
+      else fb(card, false, "Look at the pictures again: the colour, the numbers on the buses, the name under the windscreen.", "Regarde encore les images : la couleur, les numéros des bus, le nom sous le pare-brise.");
     },
     a3(card) {
       let all = true;
       ANTE.title.forEach(([k, , , re]) => { const ok = re.test(norm(val("a3." + k))); mark($(`[data-k="a3.${k}"]`, card), ok); all = all && ok; });
       if (four) { const ok = val("a3.tfl") === "a transport company"; mark($(`.sw-opts[data-k="a3.tfl"]`, card), ok); all = all && ok; }
       if (all) { done("a3"); fb(card, true); } else fb(card, false, "Read the title again: the words are there.", "Relis le titre : les mots y sont.");
-    },
-    a4(card) {
-      let all = true;
-      ANTE.source.forEach(([k, , re]) => { const ok = re.test(norm(val("a4." + k))); mark($(`[data-k="a4.${k}"]`, card), ok); all = all && ok; });
-      if (all) { done("a4"); fb(card, true); } else fb(card, false, "Look at the source under the title of the article.", "Regarde la source sous le titre.");
     },
     a5(card) {
       const ok = norm(val("a5")).split(" ").length >= 3;
@@ -255,6 +260,9 @@
 .sw-k{margin:0;font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .sw-title{font-family:var(--display);font-weight:800;font-size:1.15rem;margin:4px 0}.sw-title.sm{font-size:1rem}
 .sw-src{margin:0;color:var(--muted)}
+.sw-clues{display:grid;gap:6px}.sw-clue{display:grid;grid-template-columns:minmax(12em,45%) 1fr;gap:8px;align-items:center}.sw-clue .sw-opts{display:block}.sw-clue .sw-o{width:100%}
+.sw-two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media (max-width:520px){.sw-clue{grid-template-columns:1fr}}
 .sw-orig{margin:8px 0 0;padding-top:8px;border-top:1px dashed var(--line);font-weight:700}.sw-orig .sw-k{display:block}
 .sw-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 12px}
 .sw-card h3{margin:0 0 6px;font-family:var(--display);font-size:1.08rem;display:flex;align-items:center;gap:8px}
