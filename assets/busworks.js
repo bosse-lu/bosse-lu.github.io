@@ -61,12 +61,14 @@
   };
   // Part 1 (paragraphs 1 to 3): the first five verbs in the past, then the summary. Part 2 (paragraphs 4 to 7): true or false, then the summary.
   const VERBS = [["changed", 2, "change"], ["were", 2, "be"], ["waited", 3, "wait"], ["arrived", 3, "arrive"], ["got", 3, "get"]];
-  const P1 = four ? {sum: ["a. TfL has cancelled the W14, so the students can't go to school any more.",
-      "b. Since TfL changed two bus routes, the buses have often been late or crowded, so many students have arrived late and got detentions.",
-      "c. The buses are crowded because more students take the bus, so the school has given detentions to the bus drivers."], a: 1}
-    : {sum: ["a. Woodbridge High School has a new bus, so the students arrive early.",
-      "b. TfL changed two bus lines. Now the buses are often late or full, so the students arrive late and get detentions.",
-      "c. The students overslept, so they missed the bus and got a detention."], a: 1};
+  const P1 = four ? {sum: ["a. Since TfL changed two bus routes, there have been more W14 buses, but the students have still arrived late and got detentions.",
+      "b. Since TfL changed two bus routes, there has been only one W14 bus an hour. The buses have often been late or crowded, so many students have arrived late and got detentions.",
+      "c. The buses have often been crowded because a lot of students depend on them, so TfL has given detentions to the students who arrived late.",
+      "d. About 2,000 students go to Woodbridge High School, but most of them walk, so only a few students have been late since the change."], a: 1}
+    : {sum: ["a. TfL changed two bus lines, so now there are three W14 buses an hour and the students arrive early.",
+      "b. TfL changed two bus lines. Now there is only one W14 bus an hour, so the buses are often late or full: the students arrive late and get detentions.",
+      "c. The buses are often late because the students wait at the wrong bus stop, so the school gives them detentions.",
+      "d. Woodbridge High School is in London. The students go to school on foot, so they are often late and get detentions."], a: 1};
   const P2 = four ? {tf: [["a", "The students think it's their fault.", "F", 4], ["b", "The students say they haven't done anything wrong.", "T", 4], ["c", "Mr Clifton decided to do nothing.", "F", 5], ["d", "Mr Clifton asked TfL for a special bus.", "T", 5], ["e", "The school still gives detentions for bus lateness.", "F", 6], ["f", "TfL agrees with the school.", "F", 7], ["g", "According to TfL, the new routes help people go to the hospital.", "T", 7]],
       sum: ["a. The students accepted the detentions, and TfL has put the old routes back.",
         "b. The students protested, the deputy headteacher took action and the school has stopped the detentions, but TfL defends its new routes.",
@@ -202,7 +204,7 @@
     },
     s1(card) {
       const ok = val("s1") === P1.sum[P1.a]; mark($(`.sw-opts[data-k="s1"]`, card), ok);
-      if (ok) { done("s1"); fb(card, true); } else fb(card, false, "Is it really in paragraphs 1 to 3? Read them again.", "Est-ce vraiment dans les paragraphes 1 à 3 ? Relis-les.");
+      if (ok) { done("s1"); fb(card, true); } else fb(card, false, "Careful: each wrong summary has one false detail. Check the number of buses, the cause and who gives the detentions in paragraphs 1 to 3.", "Attention : chaque mauvais résumé contient un détail faux. Vérifie le nombre de bus, la cause et qui donne les retenues dans les paragraphes 1 à 3.");
     },
     tf(card) {
       let all = true, paras = true;
